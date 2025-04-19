@@ -79,14 +79,14 @@ export default function ContactPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
+      <section className="nixerly-gradient-bg py-20 md:py-28">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="nixerly-heading text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                 Contact Us
               </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Have questions about Nixerly? We're here to help.
               </p>
             </div>
@@ -98,31 +98,31 @@ export default function ContactPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <Card>
-              <CardHeader>
-                <CardTitle>Get in Touch</CardTitle>
+            <Card className="border-nixerly-lightblue shadow-md">
+              <CardHeader className="bg-nixerly-blue/5 border-b border-nixerly-lightblue">
+                <CardTitle className="nixerly-heading">Get in Touch</CardTitle>
                 <CardDescription>
                   Whether you have questions about our platform, want to partner with us, or are interested in early
                   access, we'd love to hear from you.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div className="flex items-start">
-                  <Mail className="mr-4 h-5 w-5 text-primary" />
+                  <Mail className="mr-4 h-5 w-5 text-nixerly-blue" />
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-muted-foreground">info@nixerly.com</p>
+                    <p className="text-nixerly-coral">info@nixerly.com</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Phone className="mr-4 h-5 w-5 text-primary" />
+                  <Phone className="mr-4 h-5 w-5 text-nixerly-blue" />
                   <div>
                     <h3 className="font-medium">Phone</h3>
                     <p className="text-muted-foreground">+353 (0) 1 234 5678</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <MapPin className="mr-4 h-5 w-5 text-primary" />
+                  <MapPin className="mr-4 h-5 w-5 text-nixerly-blue" />
                   <div>
                     <h3 className="font-medium">Address</h3>
                     <p className="text-muted-foreground">
@@ -137,14 +137,14 @@ export default function ContactPage() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Send us a Message</CardTitle>
+            <Card className="border-nixerly-lightblue shadow-md">
+              <CardHeader className="bg-nixerly-blue/5 border-b border-nixerly-lightblue">
+                <CardTitle className="nixerly-heading">Send us a Message</CardTitle>
                 <CardDescription>
                   Fill out the form and our team will get back to you as soon as possible.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
@@ -155,6 +155,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        className="focus:border-nixerly-blue focus:ring-nixerly-blue"
                       />
                     </div>
                     <div className="space-y-2">
@@ -166,6 +167,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        className="focus:border-nixerly-blue focus:ring-nixerly-blue"
                       />
                     </div>
                   </div>
@@ -177,6 +179,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
+                      className="focus:border-nixerly-blue focus:ring-nixerly-blue"
                     />
                   </div>
                   <div className="space-y-2">
@@ -186,7 +189,7 @@ export default function ContactPage() {
                       placeholder="Your Message"
                       value={formData.message}
                       onChange={handleChange}
-                      className="min-h-[150px]"
+                      className="min-h-[150px] focus:border-nixerly-blue focus:ring-nixerly-blue"
                       required
                     />
                   </div>
@@ -201,14 +204,14 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gray-50 py-16 md:py-24">
+      <section className="bg-nixerly-lightblue/10 py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
             <div className="space-y-2">
               <h2 className="nixerly-heading text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Frequently Asked Questions
               </h2>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Find answers to common questions about Nixerly.
               </p>
             </div>
@@ -216,9 +219,11 @@ export default function ContactPage() {
           <div className="mx-auto max-w-3xl">
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-lg font-medium">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
+                <AccordionItem key={index} value={`item-${index}`} className="border-nixerly-lightblue">
+                  <AccordionTrigger className="text-lg font-medium text-nixerly-blue hover:text-nixerly-blue/90">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

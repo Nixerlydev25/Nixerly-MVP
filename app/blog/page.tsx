@@ -61,12 +61,12 @@ export default function BlogPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
+      <section className="nixerly-gradient-bg py-20 md:py-28">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Construction Insights</h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <h1 className="nixerly-heading text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Construction Insights</h1>
+              <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 The latest news, trends, and insights from the Irish construction industry.
               </p>
             </div>
@@ -75,11 +75,11 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Posts Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-nixerly-lightblue/5">
         <div className="container px-4 md:px-6">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {blogPosts.map((post) => (
-              <div key={post.id} className="flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm">
+              <div key={post.id} className="flex flex-col overflow-hidden rounded-lg border border-nixerly-lightblue bg-white shadow-md hover:shadow-lg transition-shadow">
                 <img
                   src={post.image || "/placeholder.svg"}
                   alt={post.title}
@@ -89,12 +89,12 @@ export default function BlogPage() {
                 />
                 <div className="flex flex-1 flex-col justify-between p-6">
                   <div className="space-y-3">
-                    <h3 className="text-xl font-bold">{post.title}</h3>
-                    <p className="text-gray-500">{post.excerpt}</p>
+                    <h3 className="text-xl font-bold text-nixerly-blue">{post.title}</h3>
+                    <p className="text-gray-600">{post.excerpt}</p>
                   </div>
                   <div className="mt-6 flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
-                      <span className="text-gray-500">By {post.author}</span>
+                      <span className="text-nixerly-coral">By {post.author}</span>
                     </div>
                     <div className="text-gray-500">{post.date}</div>
                   </div>

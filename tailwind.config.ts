@@ -54,8 +54,14 @@ const config: Config = {
         },
         nixerly: {
           blue: "#2962cb",
+          darkblue: "#1e4a9e",
           coral: "#e78267",
+          lightcoral: "#f2a896",
+          darkcoral: "#c96954",
           lightblue: "#a8c0e9",
+          ultralightblue: "#e6eeff",
+          gray: "#f0f2f5",
+          darkgray: "#4a5568",
         },
       },
       borderRadius: {
@@ -72,13 +78,30 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-out",
+        "slide-up": "slide-up 0.5s ease-out",
       },
       backgroundImage: {
-        "nixerly-gradient": "linear-gradient(to bottom, #2962cb, #a8c0e9, #f8f9ff)",
+        "nixerly-gradient": "linear-gradient(135deg, #1e4a9e, #2962cb, #6f94d1)",
+        "nixerly-light-gradient": "linear-gradient(to bottom, #e6eeff, #ffffff)",
+        "nixerly-coral-gradient": "linear-gradient(135deg, #e78267, #f2a896)",
+        "nixerly-blue-overlay": "linear-gradient(135deg, rgba(30, 74, 158, 0.9), rgba(41, 98, 203, 0.85))",
+      },
+      boxShadow: {
+        "nixerly-card": "0 4px 20px rgba(41, 98, 203, 0.08)",
+        "nixerly-button": "0 4px 10px rgba(41, 98, 203, 0.2)",
       },
     },
   },

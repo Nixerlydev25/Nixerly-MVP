@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { Building, HardHat } from "lucide-react"
+import { Building, HardHat, UserPlus } from "lucide-react"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -96,22 +96,27 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-nixerly-light-gradient bg-pattern">
       <Navbar />
 
-      <section className="flex flex-1 items-center justify-center py-12">
-        <div className="container max-w-md px-4 md:px-6">
-          <Card>
-            <CardHeader className="space-y-1">
-              <CardTitle className="nixerly-heading text-2xl font-bold text-center">Create an Account</CardTitle>
-              <CardDescription className="text-center">
+      <section className="flex flex-1 items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md animate-fade-in">
+          <Card className="shadow-nixerly-card border-nixerly-lightblue hover-card-rise">
+            <CardHeader className="space-y-2 pb-6">
+              <div className="flex justify-center mb-2">
+                <div className="bg-nixerly-blue p-3 rounded-full">
+                  <UserPlus className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <CardTitle className="nixerly-heading text-2xl font-bold text-center text-nixerly-darkblue">Create an Account</CardTitle>
+              <CardDescription className="text-center text-nixerly-darkgray">
                 Join Nixerly to connect in the construction industry
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <Label>I am a:</Label>
+                  <Label className="text-nixerly-darkgray font-medium">I am a:</Label>
                   <RadioGroup
                     defaultValue={userType}
                     onValueChange={(value) => handleUserTypeChange(value as "professional" | "business")}
@@ -121,20 +126,20 @@ export default function RegisterPage() {
                       <RadioGroupItem value="professional" id="professional" className="peer sr-only" />
                       <Label
                         htmlFor="professional"
-                        className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-colors peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue [&:has([data-state=checked])]:border-nixerly-blue"
                       >
-                        <HardHat className="mb-3 h-6 w-6" />
-                        Professional
+                        <HardHat className="mb-3 h-6 w-6 text-nixerly-blue" />
+                        <span className="font-medium">Professional</span>
                       </Label>
                     </div>
                     <div>
                       <RadioGroupItem value="business" id="business" className="peer sr-only" />
                       <Label
                         htmlFor="business"
-                        className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-colors peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue [&:has([data-state=checked])]:border-nixerly-blue"
                       >
-                        <Building className="mb-3 h-6 w-6" />
-                        Business
+                        <Building className="mb-3 h-6 w-6 text-nixerly-blue" />
+                        <span className="font-medium">Business</span>
                       </Label>
                     </div>
                   </RadioGroup>
@@ -142,7 +147,7 @@ export default function RegisterPage() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName" className="text-nixerly-darkgray font-medium">First Name</Label>
                     <Input
                       id="firstName"
                       name="firstName"
@@ -150,10 +155,11 @@ export default function RegisterPage() {
                       value={formData.firstName}
                       onChange={handleChange}
                       required
+                      className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName" className="text-nixerly-darkgray font-medium">Last Name</Label>
                     <Input
                       id="lastName"
                       name="lastName"
@@ -161,13 +167,14 @@ export default function RegisterPage() {
                       value={formData.lastName}
                       onChange={handleChange}
                       required
+                      className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                     />
                   </div>
                 </div>
 
                 {userType === "business" && (
                   <div className="space-y-2">
-                    <Label htmlFor="companyName">Company Name</Label>
+                    <Label htmlFor="companyName" className="text-nixerly-darkgray font-medium">Company Name</Label>
                     <Input
                       id="companyName"
                       name="companyName"
@@ -175,13 +182,14 @@ export default function RegisterPage() {
                       value={formData.companyName}
                       onChange={handleChange}
                       required={userType === "business"}
+                      className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                     />
                   </div>
                 )}
 
                 {userType === "professional" && (
                   <div className="space-y-2">
-                    <Label htmlFor="jobTitle">Job Title</Label>
+                    <Label htmlFor="jobTitle" className="text-nixerly-darkgray font-medium">Job Title</Label>
                     <Input
                       id="jobTitle"
                       name="jobTitle"
@@ -189,12 +197,13 @@ export default function RegisterPage() {
                       value={formData.jobTitle}
                       onChange={handleChange}
                       required={userType === "professional"}
+                      className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                     />
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-nixerly-darkgray font-medium">Email</Label>
                   <Input
                     id="email"
                     name="email"
@@ -203,11 +212,12 @@ export default function RegisterPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-nixerly-darkgray font-medium">Password</Label>
                   <Input
                     id="password"
                     name="password"
@@ -216,11 +226,12 @@ export default function RegisterPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword" className="text-nixerly-darkgray font-medium">Confirm Password</Label>
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -229,36 +240,60 @@ export default function RegisterPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                   />
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" onCheckedChange={handleCheckboxChange} />
+                  <Checkbox 
+                    id="terms" 
+                    onCheckedChange={handleCheckboxChange}
+                    className="border-nixerly-lightblue data-[state=checked]:bg-nixerly-blue data-[state=checked]:border-nixerly-blue"
+                  />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none text-nixerly-darkgray"
                   >
                     I agree to the{" "}
-                    <Link href="/terms" className="text-primary hover:underline">
+                    <Link 
+                      href="/terms" 
+                      className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                      tabIndex={0}
+                      aria-label="Terms of Service"
+                    >
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-primary hover:underline">
+                    <Link 
+                      href="/privacy" 
+                      className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                      tabIndex={0}
+                      aria-label="Privacy Policy"
+                    >
                       Privacy Policy
                     </Link>
                   </label>
                 </div>
 
-                <Button type="submit" className="nixerly-button-primary w-full" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-nixerly-gradient hover:opacity-90 text-white font-semibold py-2.5 rounded-md shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]" 
+                  disabled={isLoading}
+                >
                   {isLoading ? "Creating Account..." : "Create Account"}
                 </Button>
               </form>
             </CardContent>
             <CardFooter className="flex flex-col">
-              <Separator className="my-4" />
-              <p className="text-center text-sm text-muted-foreground">
+              <Separator className="my-4 bg-nixerly-lightblue" />
+              <p className="text-center text-sm text-nixerly-darkgray">
                 Already have an account?{" "}
-                <Link href="/login" className="font-medium text-primary hover:underline">
+                <Link 
+                  href="/login" 
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                  tabIndex={0}
+                  aria-label="Sign in to your account"
+                >
                   Sign in
                 </Link>
               </p>

@@ -81,21 +81,21 @@ export default function ProfessionalDashboard() {
 
   return (
     <DashboardLayout userType="professional">
-      <div className="flex-1 space-y-6 p-6 md:p-8 pt-6 bg-gray-50 dark:bg-gray-900">
+      <div className="flex-1 space-y-6 p-6 md:p-8 pt-6 bg-blue-50">
         {/* Welcome Banner */}
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#2962cb] to-[#a8c0e9] p-6 text-white shadow-lg">
-          <div className="absolute inset-0 bg-[url('/collaborative-construction-planning.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-6 text-white shadow-xl animate-fade-in">
+          <div className="absolute inset-0 bg-[url('/collaborative-construction-planning.png')] opacity-15 mix-blend-overlay bg-pattern"></div>
           <div className="relative z-10">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight">Welcome back, John!</h2>
-                <p className="mt-1 text-white/90">Your professional dashboard is ready for you.</p>
+                <p className="mt-1 text-white">Your professional dashboard is ready for you.</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button variant="secondary" className="bg-white text-[#2962cb] hover:bg-gray-100" asChild>
+                <Button variant="secondary" className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg transition-all duration-300 hover:translate-y-[-2px]" asChild>
                   <Link href="/dashboard/professional/profile">Complete Your Profile</Link>
                 </Button>
-                <Button variant="outline" className="bg-white/20 text-white border-white/30 hover:bg-white/30" asChild>
+                <Button variant="outline" className="bg-white/15 text-white border-white/40 hover:bg-white/25 transition-all duration-300" asChild>
                   <Link href="/dashboard/professional/jobs">
                     <Briefcase className="mr-2 h-4 w-4" />
                     Find Jobs
@@ -107,63 +107,63 @@ export default function ProfessionalDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="bg-white dark:bg-gray-800 p-1 shadow-sm border">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-[#2962cb] data-[state=active]:text-white">
+          <TabsList className="bg-white p-1 shadow-md border border-blue-200 rounded-xl">
+            <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300">
               Overview
             </TabsTrigger>
-            <TabsTrigger value="jobs" className="data-[state=active]:bg-[#2962cb] data-[state=active]:text-white">
+            <TabsTrigger value="jobs" className="rounded-lg data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300">
               Jobs
             </TabsTrigger>
             <TabsTrigger
               value="applications"
-              className="data-[state=active]:bg-[#2962cb] data-[state=active]:text-white"
+              className="rounded-lg data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
             >
               Applications
             </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:bg-[#2962cb] data-[state=active]:text-white">
+            <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300">
               Profile
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6 mt-6">
+          <TabsContent value="overview" className="space-y-6 mt-6 animate-fade-in">
             {/* Stats Cards */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="overflow-hidden border-none shadow-md">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-[#2962cb] to-[#a8c0e9] text-white">
+              <Card className="overflow-hidden border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white">
                   <CardTitle className="text-sm font-medium">Profile Completion</CardTitle>
                   <FileText className="h-4 w-4 text-white" />
                 </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">{profileCompletion}%</div>
-                  <Progress value={profileCompletion} className="mt-2 h-2" indicatorClassName="bg-[#2962cb]" />
-                  <p className="text-xs text-muted-foreground mt-2">
+                <CardContent className="pt-6 bg-white">
+                  <div className="text-2xl font-bold text-blue-800">{profileCompletion}%</div>
+                  <Progress value={profileCompletion} className="mt-2 h-2" indicatorClassName="bg-blue-600" />
+                  <p className="text-xs text-blue-800 mt-2">
                     Complete your profile to increase visibility to employers
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="overflow-hidden border-none shadow-md">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-[#e78267] to-[#f3a183] text-white">
+              <Card className="overflow-hidden border-coral-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-coral-600 to-coral-400 text-white">
                   <CardTitle className="text-sm font-medium">Job Matches</CardTitle>
                   <Briefcase className="h-4 w-4 text-white" />
                 </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">12</div>
+                <CardContent className="pt-6 bg-white">
+                  <div className="text-2xl font-bold text-blue-800">12</div>
                   <div className="flex items-center mt-2 text-xs text-green-600">
                     <TrendingUp className="mr-1 h-3 w-3" />
                     <span>3 new matches this week</span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Based on your profile and preferences</p>
+                  <p className="text-xs text-blue-800 mt-1">Based on your profile and preferences</p>
                 </CardContent>
               </Card>
 
-              <Card className="overflow-hidden border-none shadow-md">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white">
+              <Card className="overflow-hidden border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-blue-700 to-blue-500 text-white">
                   <CardTitle className="text-sm font-medium">Applications</CardTitle>
                   <FileText className="h-4 w-4 text-white" />
                 </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">2</div>
+                <CardContent className="pt-6 bg-white">
+                  <div className="text-2xl font-bold text-blue-800">2</div>
                   <div className="flex items-center gap-2 mt-2">
                     {applications[0].status === "Interview" ? (
                       <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0">
@@ -177,22 +177,22 @@ export default function ProfessionalDashboard() {
                       </Badge>
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Active job applications</p>
+                  <p className="text-xs text-blue-800 mt-1">Active job applications</p>
                 </CardContent>
               </Card>
 
-              <Card className="overflow-hidden border-none shadow-md">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-[#0ea5e9] to-[#38bdf8] text-white">
+              <Card className="overflow-hidden border-coral-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gradient-to-r from-coral-600 to-coral-400 text-white">
                   <CardTitle className="text-sm font-medium">Profile Views</CardTitle>
                   <Eye className="h-4 w-4 text-white" />
                 </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">24</div>
+                <CardContent className="pt-6 bg-white">
+                  <div className="text-2xl font-bold text-blue-800">24</div>
                   <div className="flex items-center mt-2 text-xs text-green-600">
                     <TrendingUp className="mr-1 h-3 w-3" />
                     <span>+8 from last week</span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Businesses viewed your profile this week</p>
+                  <p className="text-xs text-blue-800 mt-1">Businesses viewed your profile this week</p>
                 </CardContent>
               </Card>
             </div>
@@ -200,17 +200,17 @@ export default function ProfessionalDashboard() {
             {/* Two Column Layout */}
             <div className="grid gap-6 md:grid-cols-2">
               {/* Recommended Jobs */}
-              <Card className="border-none shadow-md">
+              <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-lg font-bold text-[#2962cb]">Recommended Jobs</CardTitle>
-                      <CardDescription>Jobs matching your skills and experience</CardDescription>
+                      <CardTitle className="text-lg font-bold text-blue-800">Recommended Jobs</CardTitle>
+                      <CardDescription className="text-blue-700">Jobs matching your skills and experience</CardDescription>
                     </div>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-[#2962cb] hover:text-[#2962cb]/80 hover:bg-[#2962cb]/10"
+                      className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-all"
                       asChild
                     >
                       <Link href="/dashboard/professional/jobs">
@@ -225,19 +225,19 @@ export default function ProfessionalDashboard() {
                     {jobListings.slice(0, 2).map((job) => (
                       <div
                         key={job.id}
-                        className="group flex items-start space-x-4 rounded-md border p-3 hover:bg-gray-50 transition-colors"
+                        className="group flex items-start space-x-4 rounded-md border border-blue-200 p-3 hover:bg-blue-50 transition-colors"
                       >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#2962cb]/10 text-[#2962cb] group-hover:bg-[#2962cb] group-hover:text-white transition-colors">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                           <Briefcase className="h-5 w-5" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="font-medium leading-none group-hover:text-[#2962cb] transition-colors">
+                          <p className="font-medium leading-none group-hover:text-blue-600 transition-colors">
                             {job.title}
                           </p>
-                          <p className="text-sm text-muted-foreground">{job.company}</p>
+                          <p className="text-sm text-blue-700">{job.company}</p>
                           <div className="flex items-center pt-2">
-                            <MapPin className="mr-1 h-3 w-3 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">{job.location}</span>
+                            <MapPin className="mr-1 h-3 w-3 text-blue-700" />
+                            <span className="text-xs text-blue-700">{job.location}</span>
                           </div>
                         </div>
                         <div className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
@@ -251,7 +251,7 @@ export default function ProfessionalDashboard() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full border-[#2962cb] text-[#2962cb] hover:bg-[#2962cb] hover:text-white"
+                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
                     asChild
                   >
                     <Link href="/dashboard/professional/jobs">View All Jobs</Link>
@@ -260,83 +260,83 @@ export default function ProfessionalDashboard() {
               </Card>
 
               {/* Profile Completion */}
-              <Card className="border-none shadow-md">
+              <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-lg font-bold text-[#2962cb]">Complete Your Profile</CardTitle>
-                      <CardDescription>Increase your visibility to employers</CardDescription>
+                      <CardTitle className="text-lg font-bold text-blue-800">Complete Your Profile</CardTitle>
+                      <CardDescription className="text-blue-700">Increase your visibility to employers</CardDescription>
                     </div>
                     <div className="flex items-center gap-1 text-sm font-medium">
-                      <span className="text-[#2962cb]">{profileCompletion}%</span>
-                      <Progress value={profileCompletion} className="w-16 h-2" indicatorClassName="bg-[#2962cb]" />
+                      <span className="text-blue-600">{profileCompletion}%</span>
+                      <Progress value={profileCompletion} className="w-16 h-2" indicatorClassName="bg-blue-600" />
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pb-2">
                   <div className="space-y-4">
-                    <div className="group space-y-2 rounded-md border p-3 hover:bg-gray-50 transition-colors">
+                    <div className="group space-y-2 rounded-md border border-blue-200 p-3 hover:bg-blue-50 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e78267]/10 text-[#e78267]">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-coral-100 text-coral-600">
                             <Award className="h-4 w-4" />
                           </div>
-                          <span className="font-medium group-hover:text-[#e78267] transition-colors">
+                          <span className="font-medium group-hover:text-coral-600 transition-colors">
                             Certifications
                           </span>
                         </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-[#e78267] hover:bg-[#e78267]/10 hover:text-[#e78267]"
+                          className="h-8 w-8 p-0 text-coral-600 hover:bg-coral-100 hover:text-coral-800 transition-all"
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
                       </div>
-                      <p className="text-xs text-muted-foreground">Add your certifications and qualifications</p>
+                      <p className="text-xs text-blue-700">Add your certifications and qualifications</p>
                     </div>
 
-                    <div className="group space-y-2 rounded-md border p-3 hover:bg-gray-50 transition-colors">
+                    <div className="group space-y-2 rounded-md border border-blue-200 p-3 hover:bg-blue-50 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#2962cb]/10 text-[#2962cb]">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-blue-100 text-blue-600">
                             <ImageIcon className="h-4 w-4" />
                           </div>
-                          <span className="font-medium group-hover:text-[#2962cb] transition-colors">Portfolio</span>
+                          <span className="font-medium group-hover:text-blue-600 transition-colors">Portfolio</span>
                         </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-[#2962cb] hover:bg-[#2962cb]/10 hover:text-[#2962cb]"
+                          className="h-8 w-8 p-0 text-blue-600 hover:bg-blue-100 hover:text-blue-800 transition-all"
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
                       </div>
-                      <p className="text-xs text-muted-foreground">Add photos of your work to showcase your skills</p>
+                      <p className="text-xs text-blue-700">Add photos of your work to showcase your skills</p>
                     </div>
 
-                    <div className="group space-y-2 rounded-md border p-3 hover:bg-gray-50 transition-colors">
+                    <div className="group space-y-2 rounded-md border border-blue-200 p-3 hover:bg-blue-50 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#6366f1]/10 text-[#6366f1]">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-coral-100 text-coral-600">
                             <Calendar className="h-4 w-4" />
                           </div>
-                          <span className="font-medium group-hover:text-[#6366f1] transition-colors">Experience</span>
+                          <span className="font-medium group-hover:text-coral-600 transition-colors">Experience</span>
                         </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-[#6366f1] hover:bg-[#6366f1]/10 hover:text-[#6366f1]"
+                          className="h-8 w-8 p-0 text-coral-600 hover:bg-coral-100 hover:text-coral-800 transition-all"
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
                       </div>
-                      <p className="text-xs text-muted-foreground">Add your work history and experience</p>
+                      <p className="text-xs text-blue-700">Add your work history and experience</p>
                     </div>
                   </div>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button size="sm" className="w-full bg-[#2962cb] hover:bg-[#2962cb]/90" asChild>
+                  <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-300 hover:translate-y-[-2px]" asChild>
                     <Link href="/dashboard/professional/profile">Complete Profile</Link>
                   </Button>
                 </CardFooter>
@@ -344,14 +344,14 @@ export default function ProfessionalDashboard() {
             </div>
 
             {/* Recent Activity */}
-            <Card className="border-none shadow-md">
+            <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-[#2962cb]">Recent Activity</CardTitle>
-                <CardDescription>Your latest updates and notifications</CardDescription>
+                <CardTitle className="text-lg font-bold text-blue-800">Recent Activity</CardTitle>
+                <CardDescription className="text-blue-700">Your latest updates and notifications</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-4 rounded-md border p-4 bg-green-50 border-green-100">
+                  <div className="flex items-start gap-4 rounded-md border border-green-200 p-4 bg-green-50">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600">
                       <Bell className="h-5 w-5" />
                     </div>
@@ -364,40 +364,40 @@ export default function ProfessionalDashboard() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 rounded-md border p-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2962cb]/10 text-[#2962cb]">
+                  <div className="flex items-start gap-4 rounded-md border border-blue-200 p-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
                       <CheckCircle2 className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium">Application Submitted</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-blue-800">Application Submitted</p>
+                      <p className="text-sm text-blue-700">
                         You've successfully applied for Site Engineer at XYZ Developers.
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">1 day ago</p>
+                      <p className="text-xs text-blue-600 mt-1">1 day ago</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 rounded-md border p-4">
+                  <div className="flex items-start gap-4 rounded-md border border-amber-200 p-4 bg-amber-50">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600">
                       <Clock className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium">Application Under Review</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-amber-800">Application Under Review</p>
+                      <p className="text-sm text-amber-700">
                         Your application for Site Engineer at XYZ Developers is being reviewed.
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">2 days ago</p>
+                      <p className="text-xs text-amber-600 mt-1">2 days ago</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 rounded-md border p-4">
+                  <div className="flex items-start gap-4 rounded-md border border-blue-200 p-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
                       <Users className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium">Profile Viewed</p>
-                      <p className="text-sm text-muted-foreground">Dublin Construction Ltd viewed your profile.</p>
-                      <p className="text-xs text-muted-foreground mt-1">3 days ago</p>
+                      <p className="font-medium text-blue-800">Profile Viewed</p>
+                      <p className="text-sm text-blue-700">Dublin Construction Ltd viewed your profile.</p>
+                      <p className="text-xs text-blue-600 mt-1">3 days ago</p>
                     </div>
                   </div>
                 </div>
@@ -405,247 +405,128 @@ export default function ProfessionalDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="jobs" className="space-y-4 mt-6">
-            <Card className="border-none shadow-md">
+          <TabsContent value="jobs" className="space-y-4 mt-6 animate-fade-in">
+            <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-[#2962cb]">Job Matches</CardTitle>
-                <CardDescription>Jobs that match your skills and experience</CardDescription>
+                <CardTitle className="text-lg font-bold text-blue-800">Job Matches</CardTitle>
+                <CardDescription className="text-blue-700">Jobs that match your skills and experience</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {jobListings.map((job) => (
                     <div
                       key={job.id}
-                      className="group flex flex-col md:flex-row md:items-start gap-4 rounded-md border p-4 hover:bg-gray-50 transition-colors"
+                      className="group flex flex-col md:flex-row md:items-start gap-4 rounded-md border border-blue-200 p-4 hover:bg-blue-50 transition-colors"
                     >
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-[#2962cb]/10 text-[#2962cb] group-hover:bg-[#2962cb] group-hover:text-white transition-colors">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                         <Briefcase className="h-6 w-6" />
                       </div>
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center justify-between">
-                          <p className="font-medium text-lg group-hover:text-[#2962cb] transition-colors">
+                          <p className="font-medium text-lg group-hover:text-blue-600 transition-colors">
                             {job.title}
                           </p>
                           <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
                             {job.matches}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground">{job.company}</p>
+                        <p className="text-sm text-blue-700">{job.company}</p>
                         <div className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
                           <div className="flex items-center">
-                            <MapPin className="mr-1 h-3 w-3 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">{job.location}</span>
+                            <MapPin className="mr-1 h-3 w-3 text-blue-600" />
+                            <span className="text-xs text-blue-700">{job.location}</span>
                           </div>
                           <div className="flex items-center">
-                            <Briefcase className="mr-1 h-3 w-3 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">{job.type}</span>
+                            <Briefcase className="mr-1 h-3 w-3 text-blue-600" />
+                            <span className="text-xs text-blue-700">{job.type}</span>
                           </div>
                           <div className="flex items-center">
-                            <Calendar className="mr-1 h-3 w-3 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">Posted {job.posted}</span>
+                            <Calendar className="mr-1 h-3 w-3 text-blue-600" />
+                            <span className="text-xs text-blue-700">Posted {job.posted}</span>
                           </div>
                         </div>
                       </div>
-                      <Button className="bg-[#2962cb] hover:bg-[#2962cb]/90">Apply</Button>
+                      <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-300 hover:translate-y-[-2px]">Apply</Button>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 text-center">
-                  <Button
-                    variant="outline"
-                    className="border-[#2962cb] text-[#2962cb] hover:bg-[#2962cb] hover:text-white"
-                    asChild
-                  >
-                    <Link href="/dashboard/professional/jobs">View All Jobs</Link>
-                  </Button>
-                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="applications" className="space-y-4 mt-6">
-            <Card className="border-none shadow-md">
+          <TabsContent value="applications" className="space-y-4 mt-6 animate-fade-in">
+            <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-[#2962cb]">Your Applications</CardTitle>
-                <CardDescription>Track the status of your job applications</CardDescription>
+                <CardTitle className="text-lg font-bold text-blue-800">Your Applications</CardTitle>
+                <CardDescription className="text-blue-700">Track the status of your job applications</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {applications.length > 0 ? (
-                    applications.map((app) => (
-                      <div
-                        key={app.id}
-                        className="group flex flex-col md:flex-row md:items-start gap-4 rounded-md border p-4 hover:bg-gray-50 transition-colors"
-                      >
-                        <div
-                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-md 
-                          ${
-                            app.status === "Interview" ? "bg-green-100 text-green-600" : "bg-amber-100 text-amber-600"
-                          }`}
-                        >
-                          <FileText className="h-6 w-6" />
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          <div className="flex items-center justify-between">
-                            <p className="font-medium text-lg group-hover:text-[#2962cb] transition-colors">
-                              {app.title}
-                            </p>
-                            <Badge
-                              className={`${
-                                app.status === "Interview"
-                                  ? "bg-green-100 text-green-700 hover:bg-green-200 border-0"
-                                  : "bg-amber-100 text-amber-700 hover:bg-amber-200 border-0"
-                              }`}
-                            >
-                              {app.status === "Interview" ? (
-                                <Clock className="mr-1 h-3 w-3" />
-                              ) : (
-                                <Clock className="mr-1 h-3 w-3" />
-                              )}
-                              {app.status}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground">{app.company}</p>
-                          <div className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
-                            <div className="flex items-center">
-                              <Calendar className="mr-1 h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs text-muted-foreground">Applied on {app.applied}</span>
-                            </div>
-                          </div>
-                          <p className="text-xs text-muted-foreground pt-2 border-t mt-2">
-                            <strong>Next step:</strong> {app.nextStep}
+                  {applications.map((application) => (
+                    <div
+                      key={application.id}
+                      className="group flex flex-col md:flex-row md:items-start gap-4 rounded-md border border-blue-200 p-4 hover:bg-blue-50 transition-colors"
+                    >
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <Briefcase className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="font-medium text-lg group-hover:text-blue-600 transition-colors">
+                            {application.title}
                           </p>
+                          {application.status === "Interview" ? (
+                            <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0">
+                              <Clock className="mr-1 h-3 w-3" />
+                              Interview
+                            </Badge>
+                          ) : (
+                            <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-200 border-0">
+                              <Clock className="mr-1 h-3 w-3" />
+                              Under Review
+                            </Badge>
+                          )}
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="border-[#2962cb] text-[#2962cb] hover:bg-[#2962cb] hover:text-white"
-                        >
-                          View Details
-                        </Button>
+                        <p className="text-sm text-blue-700">{application.company}</p>
+                        <div className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
+                          <div className="flex items-center">
+                            <Calendar className="mr-1 h-3 w-3 text-blue-600" />
+                            <span className="text-xs text-blue-700">Applied: {application.applied}</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-blue-700 mt-1">{application.nextStep}</p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-8 text-center">
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-                        <FileText className="h-10 w-10 text-muted-foreground opacity-50" />
-                      </div>
-                      <h3 className="mt-4 text-lg font-medium">No Applications Yet</h3>
-                      <p className="mt-2 text-sm text-muted-foreground max-w-md">
-                        You haven't applied to any jobs yet. Browse jobs to get started.
-                      </p>
-                      <Button className="mt-4 bg-[#2962cb] hover:bg-[#2962cb]/90" asChild>
-                        <Link href="/dashboard/professional/jobs">Browse Jobs</Link>
-                      </Button>
+                      <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-300 hover:translate-y-[-2px]">View Details</Button>
                     </div>
-                  )}
-                </div>
-                <div className="mt-4 text-center">
-                  <Button
-                    variant="outline"
-                    className="border-[#2962cb] text-[#2962cb] hover:bg-[#2962cb] hover:text-white"
-                    asChild
-                  >
-                    <Link href="/dashboard/professional/applications">View All Applications</Link>
-                  </Button>
+                  ))}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="profile" className="space-y-4 mt-6">
-            <Card className="border-none shadow-md">
+          <TabsContent value="profile" className="space-y-4 mt-6 animate-fade-in">
+            <Card className="border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-[#2962cb]">Your Profile</CardTitle>
-                <CardDescription>Manage your professional profile</CardDescription>
+                <CardTitle className="text-lg font-bold text-blue-800">Profile Overview</CardTitle>
+                <CardDescription className="text-blue-700">
+                  Your profile is {profileCompletion}% complete
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="flex flex-col items-center sm:flex-row sm:items-start sm:space-x-4">
-                    <div className="relative h-24 w-24 rounded-full bg-[#2962cb]/10 mb-4 sm:mb-0 overflow-hidden border-4 border-white shadow-md">
-                      <img src="/mystical-forest-spirit.png" alt="Profile" className="h-full w-full object-cover" />
-                    </div>
-                    <div className="flex-1 space-y-2 text-center sm:text-left">
-                      <h3 className="text-xl font-bold">John Doe</h3>
-                      <p className="text-[#2962cb]">Project Manager</p>
-                      <div className="flex items-center justify-center sm:justify-start text-sm text-muted-foreground">
-                        <MapPin className="mr-1 h-4 w-4" />
-                        Dublin, Ireland
-                      </div>
-                      <div className="flex flex-wrap justify-center sm:justify-start gap-2 pt-2">
-                        <Button
-                          variant="outline"
-                          className="border-[#2962cb] text-[#2962cb] hover:bg-[#2962cb] hover:text-white"
-                          asChild
-                        >
-                          <Link href="/dashboard/professional/profile">Edit Profile</Link>
-                        </Button>
-                        <Button variant="outline">Preview</Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 space-y-4">
+              <CardContent className="pb-2">
+                <div className="space-y-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-blue-50 rounded-lg">
                     <div>
-                      <h4 className="text-sm font-medium mb-2 text-[#2962cb]">Profile Completion</h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between rounded-md border p-3 bg-green-50 border-green-100">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-green-100 text-green-600">
-                              <FileText className="h-4 w-4" />
-                            </div>
-                            <span>Basic Information</span>
-                          </div>
-                          <Badge variant="outline" className="bg-green-100 text-green-600 border-green-200">
-                            Completed
-                          </Badge>
-                        </div>
-
-                        <div className="flex items-center justify-between rounded-md border p-3 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e78267]/10 text-[#e78267]">
-                              <Award className="h-4 w-4" />
-                            </div>
-                            <span>Skills & Certifications</span>
-                          </div>
-                          <Badge variant="outline" className="bg-amber-100 text-amber-600 border-amber-200">
-                            Incomplete
-                          </Badge>
-                        </div>
-
-                        <div className="flex items-center justify-between rounded-md border p-3 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#2962cb]/10 text-[#2962cb]">
-                              <Briefcase className="h-4 w-4" />
-                            </div>
-                            <span>Work Experience</span>
-                          </div>
-                          <Badge variant="outline" className="bg-amber-100 text-amber-600 border-amber-200">
-                            Incomplete
-                          </Badge>
-                        </div>
-
-                        <div className="flex items-center justify-between rounded-md border p-3 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#6366f1]/10 text-[#6366f1]">
-                              <ImageIcon className="h-4 w-4" />
-                            </div>
-                            <span>Portfolio</span>
-                          </div>
-                          <Badge variant="outline" className="bg-amber-100 text-amber-600 border-amber-200">
-                            Incomplete
-                          </Badge>
-                        </div>
-                      </div>
+                      <h3 className="font-medium text-blue-800">Complete your profile</h3>
+                      <p className="text-sm text-blue-700">
+                        A complete profile increases your chances of getting noticed by employers
+                      </p>
                     </div>
+                    <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-300 hover:translate-y-[-2px]" asChild>
+                      <Link href="/dashboard/professional/profile">Edit Profile</Link>
+                    </Button>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button className="w-full bg-[#2962cb] hover:bg-[#2962cb]/90" asChild>
-                  <Link href="/dashboard/professional/profile">Complete Your Profile</Link>
-                </Button>
-              </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>

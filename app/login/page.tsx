@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { LogIn } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -63,20 +64,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-nixerly-light-gradient bg-pattern">
       <Navbar />
 
-      <section className="flex flex-1 items-center justify-center py-12">
-        <div className="container max-w-md px-4 md:px-6">
-          <Card>
-            <CardHeader className="space-y-1">
-              <CardTitle className="nixerly-heading text-2xl font-bold text-center">Welcome back</CardTitle>
-              <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
+      <section className="flex flex-1 items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md animate-fade-in">
+          <Card className="shadow-nixerly-card border-nixerly-lightblue hover-card-rise">
+            <CardHeader className="space-y-2 pb-6">
+              <div className="flex justify-center mb-2">
+                <div className="bg-nixerly-blue p-3 rounded-full">
+                  <LogIn className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <CardTitle className="nixerly-heading text-2xl font-bold text-center text-nixerly-darkblue">Welcome back</CardTitle>
+              <CardDescription className="text-center text-nixerly-darkgray">
+                Enter your credentials to access your account
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-nixerly-darkgray font-medium">Email</Label>
                   <Input
                     id="email"
                     name="email"
@@ -85,12 +93,18 @@ export default function LoginPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                   />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                    <Label htmlFor="password" className="text-nixerly-darkgray font-medium">Password</Label>
+                    <Link 
+                      href="/forgot-password" 
+                      className="text-sm text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                      tabIndex={0}
+                      aria-label="Forgot password"
+                    >
                       Forgot password?
                     </Link>
                   </div>
@@ -102,28 +116,48 @@ export default function LoginPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
                   />
                 </div>
-                <Button type="submit" className="nixerly-button-primary w-full" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-nixerly-gradient hover:opacity-90 text-white font-semibold py-2.5 rounded-md shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]" 
+                  disabled={isLoading}
+                >
                   {isLoading ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
             </CardContent>
             <CardFooter className="flex flex-col">
-              <Separator className="my-4" />
-              <p className="text-center text-sm text-muted-foreground">
+              <Separator className="my-4 bg-nixerly-lightblue" />
+              <p className="text-center text-sm text-nixerly-darkgray">
                 Don't have an account?{" "}
-                <Link href="/register" className="font-medium text-primary hover:underline">
+                <Link 
+                  href="/register" 
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                  tabIndex={0}
+                  aria-label="Sign up for an account"
+                >
                   Sign up
                 </Link>
               </p>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
+              <p className="mt-2 text-center text-xs text-nixerly-darkgray">
                 By signing in, you agree to our{" "}
-                <Link href="/terms" className="underline">
+                <Link 
+                  href="/terms" 
+                  className="underline hover:text-nixerly-blue transition-colors"
+                  tabIndex={0}
+                  aria-label="Terms of Service"
+                >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
-                <Link href="/privacy" className="underline">
+                <Link 
+                  href="/privacy" 
+                  className="underline hover:text-nixerly-blue transition-colors"
+                  tabIndex={0}
+                  aria-label="Privacy Policy"
+                >
                   Privacy Policy
                 </Link>
                 .

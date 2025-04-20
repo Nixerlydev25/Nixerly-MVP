@@ -112,24 +112,24 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 w-full border-b bg-nixerly-blue text-white supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-40 w-full border-b bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 md:gap-4">
             <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
+                <Button variant="outline" size="icon" className="md:hidden bg-blue-500/20 border-white/20 hover:bg-blue-500/30 hover:text-white">
+                  <Menu className="h-5 w-5 text-white" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <SheetContent side="left" className="w-[300px] sm:w-[400px] border-r-blue-200">
                 <nav className="flex flex-col gap-4 mt-8">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       className={`flex items-center gap-2 text-lg font-medium ${
-                        isActive(link.href) ? "text-primary" : "text-muted-foreground"
+                        isActive(link.href) ? "text-blue-600" : "text-blue-800 hover:text-blue-600"
                       }`}
                       onClick={() => setIsSidebarOpen(false)}
                     >
@@ -138,7 +138,7 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
                     </Link>
                   ))}
                   <div className="flex flex-col gap-2 mt-4">
-                    <Button variant="outline" className="justify-start" asChild>
+                    <Button variant="outline" className="justify-start border-blue-300 text-blue-800 hover:bg-blue-50 hover:text-blue-600" asChild>
                       <Link href="/" onClick={() => setIsSidebarOpen(false)}>
                         <LogOut className="mr-2 h-4 w-4" />
                         Sign Out
@@ -155,18 +155,18 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex">
-              <div className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-white/20 cursor-pointer transition-colors">
-                <Search className="h-5 w-5 text-black" />
+              <div className="flex items-center justify-center h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer transition-colors">
+                <Search className="h-5 w-5 text-white" />
                 <span className="sr-only">Search</span>
               </div>
             </div>
-            <div className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-white/20 cursor-pointer transition-colors">
-              <Bell className="h-5 w-5 text-black" />
+            <div className="flex items-center justify-center h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer transition-colors">
+              <Bell className="h-5 w-5 text-white" />
               <span className="sr-only">Notifications</span>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="rounded-full bg-white/10 hover:bg-white/20">
                   <img
                     src={userInfo.avatar || "/placeholder.svg"}
                     alt="Avatar"
@@ -177,23 +177,23 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
                   <span className="sr-only">User menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="border-blue-200">
                 <DropdownMenuLabel>
                   <div className="flex flex-col">
-                    <span>{userInfo.name}</span>
-                    <span className="text-xs text-muted-foreground">{userInfo.role}</span>
+                    <span className="text-blue-800">{userInfo.name}</span>
+                    <span className="text-xs text-blue-600">{userInfo.role}</span>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-blue-100" />
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/${userType}`}>Dashboard</Link>
+                  <Link href={`/dashboard/${userType}`} className="text-blue-700 hover:text-blue-600 cursor-pointer">Dashboard</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/${userType}/settings`}>Settings</Link>
+                  <Link href={`/dashboard/${userType}/settings`} className="text-blue-700 hover:text-blue-600 cursor-pointer">Settings</Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-blue-100" />
                 <DropdownMenuItem asChild>
-                  <Link href="/">Sign out</Link>
+                  <Link href="/" className="text-blue-700 hover:text-blue-600 cursor-pointer">Sign out</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -202,19 +202,19 @@ export default function DashboardLayout({ children, userType }: DashboardLayoutP
       </header>
 
       <div className="flex flex-1">
-        <aside className="hidden md:flex w-64 flex-col border-r bg-background">
+        <aside className="hidden md:flex w-64 flex-col border-r border-blue-200 bg-white shadow-sm">
           <div className="flex flex-col gap-2 p-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium ${
+                className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-blue-100 text-blue-700"
+                    : "text-blue-700 hover:bg-blue-50 hover:text-blue-600"
                 }`}
               >
-                <link.icon className="h-4 w-4" />
+                <link.icon className={`h-4 w-4 ${isActive(link.href) ? "text-blue-600" : "text-blue-500"}`} />
                 {link.label}
               </Link>
             ))}

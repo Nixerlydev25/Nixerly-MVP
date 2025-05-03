@@ -6,12 +6,17 @@ import { OnboardingStep } from "@/types/onboarding";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { PersonalInfo } from "./_components/PersonalInfo";
 import { ROUTES } from "@/lib/routes";
-import { ProfessionalInfo } from "./_components/ProfessionalInfo";
-import { EducationalInfo } from "./_components/EducationalInfo";
-import { Review } from "./_components/Review";
-import { OnboardingSchema, onboardingSchema } from "@/schema/onboarding/onboarding.schema";
+import {
+  PersonalInfo,
+  ProfessionalInfo,
+  EducationalInfo,
+  Review,
+} from "./worker";
+import {
+  OnboardingSchema,
+  onboardingSchema,
+} from "@/schema/onboarding/onboarding.schema";
 import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
 import { useUpdateUser } from "@/hook/user/user.hooks";
 
@@ -19,10 +24,12 @@ type StepComponents = {
   [key in OnboardingStep]: React.ComponentType;
 };
 
-export default function OnboardingPage() {
+export function WorkerOnboarding() {
   // Create a properly typed resolver to avoid TypeScript errors
-  const typedResolver = zodResolver(onboardingSchema) as Resolver<OnboardingSchema>;
-  
+  const typedResolver = zodResolver(
+    onboardingSchema
+  ) as Resolver<OnboardingSchema>;
+
   const form = useForm<OnboardingSchema>({
     resolver: typedResolver,
     defaultValues: {
@@ -97,21 +104,19 @@ export default function OnboardingPage() {
   const CurrentComponent = AllSteps[currentStep];
 
   return (
-    <div className="container max-w-2xl mx-auto py-10">
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Complete Your Worker Profile</h1>
-          <p className="text-muted-foreground">
-            Please provide the following information to get started
-          </p>
-        </div>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <CurrentComponent />
-          </form>
-        </Form>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">Complete Your Worker Profile</h1>
+        <p className="text-muted-foreground">
+          Please provide the following information to get started
+        </p>
       </div>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <CurrentComponent />
+        </form>
+      </Form>
     </div>
   );
 }

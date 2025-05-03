@@ -5,9 +5,21 @@ import { User, WorkerProfile } from "@/types/auth";
 import { currentUserData } from "@/types/user/user.types";
 import { queryClient } from "@/providers/query.provider";
 
-// Define a type that handles both user and worker profile updates
+// Define the BusinessProfile interface
+export interface BusinessProfile {
+  companyName?: string;
+  description?: string;
+  industry?: string;
+  location?: string;
+  website?: string | null;
+  employeeCount?: number;
+  yearFounded?: number;
+}
+
+// Define a type that handles user, worker profile, and business profile updates
 export interface UserUpdateData extends Partial<User> {
   workerProfile?: Partial<WorkerProfile>;
+  businessProfile?: Partial<BusinessProfile>;
 }
 
 export const useUpdateUser = () => {

@@ -1,8 +1,26 @@
-export interface SignUpRequest {
+import { ProfileType } from "../user/user.types";
+
+// Base interface for common fields
+interface BaseSignUpRequest {
   email: string;
   password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  acceptTerms: boolean;
 }
+
+// Professional interface
+interface ProfessionalSignUpRequest extends BaseSignUpRequest {
+  profileType: ProfileType.WORKER;
+}
+
+// Business interface with additional company field
+interface BusinessSignUpRequest extends BaseSignUpRequest {
+  profileType: ProfileType.BUSINESS;
+}
+
+// Union type to represent both types
+export type SignUpRequest = ProfessionalSignUpRequest | BusinessSignUpRequest;
 
 export interface SignInRequest {
   email: string;
@@ -19,6 +37,8 @@ export interface User {
   experienceLevel?: string;
   educationLevel?: string;
   isOnboardingComplete?: boolean;
+  defaultProfile: string;
+  profileType?: "WORKER" | "BUSINESS";
   workerProfile?: WorkerProfile;
 }
 

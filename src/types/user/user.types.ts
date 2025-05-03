@@ -20,3 +20,8 @@ export interface currentUserData {
     educationalQualification: string;
     teacherLicenseNumber: string;
   }
+
+export enum ProfileType {
+    WORKER = "WORKER",
+    BUSINESS = "BUSINESS"
+}

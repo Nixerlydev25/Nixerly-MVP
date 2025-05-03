@@ -17,7 +17,7 @@ class UserService {
 
   static async getUser(): Promise<User> {
     try {
-      const response = await instance.get(API_ROUTES.USER.GET_USER);
+      const response = await instance.get(API_ROUTES.USER.GET_CURRENT_USER);
       return response.data;
     } catch (error) {
       console.error("Error during getting user:", error);

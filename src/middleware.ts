@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ROUTES } from "./lib/routes";
+import { API_ROUTES } from "./constants/api";
+import { OnboardingStep } from "./types/onboarding";
 
-const API_URL = process.env.API_URL || "http://localhost:4000/v1/user/current-user";
+const API_URL = process.env.API_URL || `http://localhost:4000/v1/${API_ROUTES.USER.GET_CURRENT_USER}`;
 const COOKIE_HEADER = "cookie";
 const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
@@ -53,7 +55,29 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
     }
 
-    if(data.onboardingCompleted && ROUTES.ONBOARDING === request.nextUrl.pathname && request.headers.get('referer')?.includes(ROUTES.ONBOARDING) !== true){
+    // Check onboarding status for worker profiles
+    if (data.workerProfile && data.workerProfile.onboardingStep > 0) {
+      const onboardingSteps = [
+        OnboardingStep.PERSONAL_INFO,
+        OnboardingStep.PROFESSIONAL_INFO, 
+        OnboardingStep.EDUCATIONAL_INFO,
+        OnboardingStep.REVIEW
+      ];
+      
+      const currentStep = onboardingSteps[data.workerProfile.onboardingStep - 1];
+      const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${currentStep}`;
+
+      const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
+
+      // Only redirect to onboarding if not already on an onboarding page
+      if (!isOnOnboarding) {
+        return NextResponse.redirect(new URL(onboardingUrl, request.url));
+      }
+    }
+
+    // Redirect completed users away from onboarding
+    if (!data.workerProfile?.onboardingStep && 
+        request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
       return NextResponse.redirect(new URL(ROUTES.FEED, request.url));
     }
 
@@ -74,6 +98,7 @@ export const config = {
   matcher: [
     // Protect user-related routes
     "/onboarding",
+    "/onboarding/:path*",
 
     "/user/:path*", // e.g., /user/profile, /user/settings
 

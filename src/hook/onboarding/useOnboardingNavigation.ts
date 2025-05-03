@@ -5,12 +5,12 @@ export const useOnboardingNavigation = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const currentStep = searchParams.get("onboardingStep") as OnboardingStep || OnboardingStep.PERSONAL_INFO;
+  const currentStep = searchParams.get("onboarding-step") as OnboardingStep || OnboardingStep.PERSONAL_INFO;
   const currentStepIndex = ONBOARDING_STEPS.indexOf(currentStep);
   
   const navigateToStep = (step: OnboardingStep) => {
     const url = new URL(window.location.href);
-    url.searchParams.set("onboardingStep", step);
+    url.searchParams.set("onboarding-step", step);
     router.push(url.pathname + url.search);
   };
   

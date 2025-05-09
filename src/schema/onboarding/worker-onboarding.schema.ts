@@ -1,5 +1,6 @@
 import { z } from "zod";
 import onboardingData from "@/data/onboarding/worker.json";
+import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 
 // Create enums from onboarding.json data
 const professionValues = onboardingData.professions.map(p => p.value as string);
@@ -7,11 +8,11 @@ const skillValues = Object.values(onboardingData.skills).flat().map(s => s.value
 const languageValues = onboardingData.languages.map(l => l.value as string);
 const proficiencyValues = onboardingData.proficiencyLevels.map(p => p.value as string);
 const experienceLevelValues = onboardingData.experienceLevels.map(e => e.value as string);
-const onboardingStepValues = onboardingData.onboardingSteps.map(s => s.value as string);
 
-// Create type for subcategories
-type SubCategories = {
-  [K in typeof professionValues[number]]?: Array<{ value: string; label: string }>;
+// Create type for skills by category
+export type CategorySkills = {
+  category: string;
+  skills: string[];
 };
 
 export const ProfessionEnum = z.enum(professionValues as [string, ...string[]]);
@@ -19,7 +20,7 @@ export const SkillEnum = z.enum(skillValues as [string, ...string[]]);
 export const LanguageEnum = z.enum(languageValues as [string, ...string[]]);
 export const ProficiencyEnum = z.enum(proficiencyValues as [string, ...string[]]);
 export const ExperienceLevelEnum = z.enum(experienceLevelValues as [string, ...string[]]);
-export const OnboardingStepEnum = z.enum(onboardingStepValues as [string, ...string[]]);
+export const OnboardingStepEnum = z.nativeEnum(OnboardingStepWorkerProfileB);
 
 export const workerOnboardingSchema = z.object({
   // Personal Info
@@ -32,9 +33,10 @@ export const workerOnboardingSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   hourlyRate: z.number().min(0, "Hourly rate must be positive"),
   description: z.string().min(50, "Description must be at least 50 characters"),
-  skills: z.array(SkillEnum).min(1, "Select at least one skill"),
-  category: ProfessionEnum,
-  subCategory: z.string().optional(), // This will be one of the subcategories based on the selected category
+  categorySkills: z.array(z.object({
+    category: ProfessionEnum,
+    skills: z.array(SkillEnum)
+  })).min(1, "Select at least one category with skills").max(4, "Maximum 4 categories allowed"),
   experienceLevel: ExperienceLevelEnum,
   availability: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
@@ -74,17 +76,15 @@ export const workerOnboardingSchema = z.object({
   ),
 
   // Onboarding Progress
-  onboardingStep: OnboardingStepEnum.default("PERSONAL_INFO"),
+  onboardingStep: OnboardingStepEnum.default(OnboardingStepWorkerProfileB.PERSONAL_INFO),
 });
 
 export type WorkerOnboardingSchema = z.infer<typeof workerOnboardingSchema>;
 
 export const onboardingOptions = {
   professions: onboardingData.professions,
-  subCategories: onboardingData.subCategories as SubCategories,
   skills: onboardingData.skills,
   experienceLevels: onboardingData.experienceLevels,
   languages: onboardingData.languages,
   proficiencyLevels: onboardingData.proficiencyLevels,
-  onboardingSteps: onboardingData.onboardingSteps,
 };

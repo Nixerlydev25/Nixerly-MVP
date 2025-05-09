@@ -77,8 +77,8 @@ export function WorkerOnboarding() {
 
   const AllSteps: StepComponents = {
     [OnboardingStepWorker.PERSONAL_INFO]: PersonalInfo,
-    [OnboardingStepWorker.LANGUAGE_INFO]: LanguageInfo,
     [OnboardingStepWorker.SKILLS_INFO]: SkillsInfo,
+    [OnboardingStepWorker.LANGUAGE_INFO]: LanguageInfo,
     [OnboardingStepWorker.HOURLY_RATE_INFO]: HourlyRateInfo,
     [OnboardingStepWorker.PROFESSIONAL_INFO]: ProfessionalInfo,
     [OnboardingStepWorker.AVAILABILITY_INFO]: AvailabilityInfo,

@@ -17,11 +17,12 @@ import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { LocationDetails } from "@/components/location-search";
 import { LocationSearch } from "@/components/location-search";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
+import { ChevronRight } from "lucide-react";
 
 export const PersonalInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
   const { control, watch, trigger, setValue } = useFormContext<WorkerOnboardingSchema>();
-  const { mutateAsync: updateWorker } = useUpdateWorkerProfile();
+  const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
   const formData = watch();
 
   const handleLocationSelect = (locationDetails: LocationDetails) => {
@@ -125,12 +126,14 @@ export const PersonalInfo = () => {
         />
 
         <div className="flex justify-end pt-8">
-          <Button 
-            type="button" 
+        <Button
+            type="button"
             onClick={handleContinue}
+            disabled={isPending}
             className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
           >
-            Next
+            {isPending ? "Saving..." : "Continue"}
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

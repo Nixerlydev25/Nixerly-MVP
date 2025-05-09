@@ -1,3 +1,4 @@
+
 {
   "professions": [
     { "value": "PLUMBING", "label": "Plumbing" },
@@ -13,18 +14,77 @@
     { "value": "MASONRY", "label": "Masonry" },
     { "value": "WELDING", "label": "Welding" },
     { "value": "FLOORING", "label": "Flooring" },
-    { "value": "PEST_CONTROL", "label": "Pest Control" },
     { "value": "APPLIANCE_REPAIR", "label": "Appliance Repair" },
-    { "value": "GENERAL_MAINTENANCE", "label": "General Maintenance" },
     { "value": "MANAGEMENT", "label": "Management" },
-    { "value": "INSPECTION", "label": "Inspection" },
     { "value": "TECHNICIAN", "label": "Technician" },
     { "value": "FABRICATION", "label": "Fabrication" },
     { "value": "MAINTENANCE", "label": "Maintenance" },
     { "value": "GROUNDWORKS", "label": "Groundworks" },
     { "value": "RIGGING", "label": "Rigging" }
   ],
-  "subCategories": {
+  "skills": {
+    "APPLIANCE_REPAIR": [
+      { "value": "REFRIGERATOR_REPAIR", "label": "Refrigerator Repair" },
+      { "value": "WASHER_DRYER_SERVICE", "label": "Washer Dryer Service" },
+      { "value": "DISHWASHER_REPAIR", "label": "Dishwasher Repair" },
+      { "value": "OVEN_REPAIR", "label": "Oven Repair" },
+      { "value": "MICROWAVE_SERVICE", "label": "Microwave Service" }  
+    ],
+    "PAINTING": [
+      { "value": "INTERIOR_PAINTING", "label": "Interior Painting" },
+      { "value": "EXTERIOR_PAINTING", "label": "Exterior Painting" },
+      { "value": "WALLPAPER_INSTALLATION", "label": "Wallpaper Installation" },
+      { "value": "STAINING", "label": "Staining" },
+      { "value": "PAINT_REMOVAL", "label": "Paint Removal" }
+    ],
+    "LANDSCAPING": [
+      { "value": "LAWN_MAINTENANCE", "label": "Lawn Maintenance" },
+      { "value": "TREE_TRIMMING", "label": "Tree Trimming" },
+      { "value": "GARDEN_DESIGN", "label": "Garden Design" },
+      { "value": "IRRIGATION_INSTALLATION", "label": "Irrigation Installation" }
+    ],
+    "CLEANING": [
+      { "value": "DEEP_CLEANING", "label": "Deep Cleaning" },
+      { "value": "WINDOW_CLEANING", "label": "Window Cleaning" },
+      { "value": "CARPET_CLEANING", "label": "Carpet Cleaning" },
+      { "value": "PRESSURE_WASHING", "label": "Pressure Washing" }
+    ],
+    "MOVING": [
+      { "value": "FURNITURE_MOVING", "label": "Furniture Moving" },
+      { "value": "PACKING_SERVICES", "label": "Packing Services" },
+      { "value": "HEAVY_LIFTING", "label": "Heavy Lifting" }
+    ],
+    "AUTOMOTIVE": [
+      { "value": "ENGINE_REPAIR", "label": "Engine Repair" },
+      { "value": "BRAKE_SERVICE", "label": "Brake Service" },
+      { "value": "TRANSMISSION_REPAIR", "label": "Transmission Repair" }
+    ],
+    "ROOFING": [
+      { "value": "ROOF_INSTALLATION", "label": "Roof Installation" },
+      { "value": "SHINGLE_REPAIR", "label": "Shingle Repair" },
+      { "value": "LEAK_DETECTION", "label": "Leak Detection" },
+      { "value": "GUTTER_INSTALLATION", "label": "Gutter Installation" }
+    ],
+    "MASONRY": [
+      { "value": "BRICK_LAYING", "label": "Brick Laying" },
+      { "value": "STONE_WORK", "label": "Stone Work" },
+      { "value": "CONCRETE_POURING", "label": "Concrete Pouring" },
+      { "value": "FOUNDATION_REPAIR", "label": "Foundation Repair" }
+    ],
+    "WELDING": [
+      { "value": "ARC_WELDING", "label": "Arc Welding" },
+      { "value": "MIG_WELDING", "label": "MIG Welding" },
+      { "value": "TIG_WELDING", "label": "TIG Welding" },
+      { "value": "PIPE_WELDING", "label": "Pipe Welding" },
+      { "value": "STRUCTURAL_WELDING", "label": "Structural Welding" }
+    ],
+    "FLOORING": [
+      { "value": "TILE_INSTALLATION", "label": "Tile Installation" },
+      { "value": "HARDWOOD_FLOORING", "label": "Hardwood Flooring" },
+      { "value": "CARPET_INSTALLATION", "label": "Carpet Installation" },
+      { "value": "VINYL_FLOORING", "label": "Vinyl Flooring" },
+      { "value": "FLOOR_REFINISHING", "label": "Floor Refinishing" }
+    ],
     "PLUMBING": [
       { "value": "PIPE_INSTALLATION", "label": "Pipe Installation" },
       { "value": "DRAIN_CLEANING", "label": "Drain Cleaning" },
@@ -95,82 +155,6 @@
       { "value": "SCAFFOLD_RIGGING", "label": "Scaffold Rigging" }
     ]
   },
-  "skills": {
-    "PLUMBING": [
-      { "value": "PIPE_FITTING", "label": "Pipe Fitting" },
-      { "value": "DRAIN_SNAKING", "label": "Drain Snaking" },
-      { "value": "SOLDERING", "label": "Soldering" },
-      { "value": "WATER_PRESSURE_MANAGEMENT", "label": "Water Pressure Management" },
-      { "value": "BACKFLOW_PREVENTION", "label": "Backflow Prevention" }
-    ],
-    "ELECTRICAL": [
-      { "value": "CIRCUIT_TESTING", "label": "Circuit Testing" },
-      { "value": "CONDUIT_BENDING", "label": "Conduit Bending" },
-      { "value": "VOLTAGE_TESTING", "label": "Voltage Testing" },
-      { "value": "TRANSFORMER_INSTALLATION", "label": "Transformer Installation" },
-      { "value": "ELECTRICAL_TROUBLESHOOTING", "label": "Electrical Troubleshooting" }
-    ],
-    "CARPENTRY": [
-      { "value": "WOODWORKING", "label": "Woodworking" },
-      { "value": "BLUEPRINT_READING", "label": "Blueprint Reading" },
-      { "value": "POWER_TOOL_OPERATION", "label": "Power Tool Operation" },
-      { "value": "MEASURING_CUTTING", "label": "Measuring and Cutting" },
-      { "value": "FURNITURE_ASSEMBLY", "label": "Furniture Assembly" }
-    ],
-    "HVAC": [
-      { "value": "REFRIGERANT_HANDLING", "label": "Refrigerant Handling" },
-      { "value": "THERMOSTAT_PROGRAMMING", "label": "Thermostat Programming" },
-      { "value": "DUCTWORK_FABRICATION", "label": "Ductwork Fabrication" },
-      { "value": "HEAT_PUMP_REPAIR", "label": "Heat Pump Repair" },
-      { "value": "FURNACE_MAINTENANCE", "label": "Furnace Maintenance" }
-    ],
-    "MANAGEMENT": [
-      { "value": "TEAM_COORDINATION", "label": "Team Coordination" },
-      { "value": "BUDGET_MANAGEMENT", "label": "Budget Management" },
-      { "value": "SCHEDULE_PLANNING", "label": "Schedule Planning" },
-      { "value": "RISK_ASSESSMENT", "label": "Risk Assessment" },
-      { "value": "SAFETY_COMPLIANCE", "label": "Safety Compliance" },
-      { "value": "QUALITY_AUDITING", "label": "Quality Auditing" },
-      { "value": "STAKEHOLDER_COMMUNICATION", "label": "Stakeholder Communication" }
-    ],
-    "TECHNICIAN": [
-      { "value": "CALIBRATION", "label": "Calibration" },
-      { "value": "TROUBLESHOOTING", "label": "Troubleshooting" },
-      { "value": "PREVENTIVE_MAINTENANCE", "label": "Preventive Maintenance" },
-      { "value": "EQUIPMENT_DIAGNOSTICS", "label": "Equipment Diagnostics" },
-      { "value": "ROOT_CAUSE_ANALYSIS", "label": "Root Cause Analysis" }
-    ],
-    "FABRICATION": [
-      { "value": "FITTING_ALIGNMENT", "label": "Fitting Alignment" },
-      { "value": "METAL_CUTTING", "label": "Metal Cutting" },
-      { "value": "WELD_PARAMETER_SETTING", "label": "Weld Parameter Setting" },
-      { "value": "BLUEPRINT_INTERPRETATION", "label": "Blueprint Interpretation" }
-    ],
-    "MAINTENANCE": [
-      { "value": "LUBRICATION", "label": "Lubrication" },
-      { "value": "BEARING_REPLACEMENT", "label": "Bearing Replacement" },
-      { "value": "HYDRAULIC_DIAGNOSTICS", "label": "Hydraulic Diagnostics" },
-      { "value": "ELECTROMECHANICAL_REPAIRS", "label": "Electromechanical Repairs" }
-    ],
-    "GROUNDWORKS": [
-      { "value": "EXCAVATOR_OPERATION", "label": "Excavator Operation" },
-      { "value": "BULLDOZER_OPERATION", "label": "Bulldozer Operation" },
-      { "value": "GRADER_OPERATION", "label": "Grader Operation" },
-      { "value": "COMPACTION_TESTING", "label": "Compaction Testing" },
-      { "value": "SOIL_SAMPLING", "label": "Soil Sampling" },
-      { "value": "LASER_LEVEL_SURVEY", "label": "Laser Level Survey" },
-      { "value": "SITE_CLEARANCE", "label": "Site Clearance" },
-      { "value": "DEWATERING_SETUP", "label": "Dewatering Setup" }
-    ],
-    "RIGGING": [
-      { "value": "LIFT_PLANNING", "label": "Lift Planning" },
-      { "value": "SIGNAL_MANAGEMENT", "label": "Signal Management" },
-      { "value": "SLING_SELECTION", "label": "Sling Selection" },
-      { "value": "LOAD_CALCULATION", "label": "Load Calculation" },
-      { "value": "RIGGING_INSPECTION", "label": "Rigging Inspection" },
-      { "value": "CRANE_MAINTENANCE", "label": "Crane Maintenance" }
-    ]
-  },
   "experienceLevels": [
     { "value": "0-2", "label": "0-2 years" },
     { "value": "3-5", "label": "3-5 years" },
@@ -190,7 +174,8 @@
     { "value": "JAPANESE", "label": "Japanese" },
     { "value": "ARABIC", "label": "Arabic" },
     { "value": "HINDI", "label": "Hindi" },
-    { "value": "RUSSIAN", "label": "Russian" }
+    { "value": "RUSSIAN", "label": "Russian" },
+    { "value": "OTHER", "label": "Other" }
   ],
   "proficiencyLevels": [
     { "value": "BASIC", "label": "Basic" },
@@ -198,35 +183,28 @@
     { "value": "FLUENT", "label": "Fluent" },
     { "value": "NATIVE", "label": "Native" }
   ],
-  "onboardingSteps": [
-    { "value": "PERSONAL_INFO", "label": "Personal Information" },
-    { "value": "PROFESSIONAL_INFO", "label": "Professional Information" },
-    { "value": "EDUCATIONAL_INFO", "label": "Educational Information" },
-    { "value": "REVIEW", "label": "Review" },
-    { "value": "COMPLETED", "label": "Completed" }
-  ],
   "educationDegrees": [
-    { "value": "HIGH_SCHOOL", "label": "High School Diploma" },
-    { "value": "ASSOCIATE", "label": "Associate's Degree" },
+    { "value": "APPRENTICESHIP", "label": "Apprenticeship Program" },
+    { "value": "VOCATIONAL", "label": "Vocational or Trade School" },
+    { "value": "CERTIFICATION", "label": "Professional Certification" },
+    { "value": "ASSOCIATE", "label": "Associate Degree" },
     { "value": "BACHELOR", "label": "Bachelor's Degree" },
     { "value": "MASTER", "label": "Master's Degree" },
-    { "value": "DOCTORATE", "label": "Doctorate" },
-    { "value": "VOCATIONAL", "label": "Vocational Training" },
-    { "value": "CERTIFICATION", "label": "Professional Certification" },
-    { "value": "APPRENTICESHIP", "label": "Apprenticeship" },
-    { "value": "OTHER", "label": "Other" }
+    { "value": "DOCTORATE", "label": "Doctoral Degree (PhD, etc.)" },
+    { "value": "HIGH_SCHOOL", "label": "High School Diploma or GED" },
+    { "value": "OTHER", "label": "Other or Unlisted Degree" }
   ],
   "fieldsOfStudy": [
-    { "value": "ENGINEERING", "label": "Engineering" },
-    { "value": "CONSTRUCTION", "label": "Construction" },
-    { "value": "MECHANICAL", "label": "Mechanical" },
-    { "value": "ELECTRICAL", "label": "Electrical" },
-    { "value": "PLUMBING", "label": "Plumbing" },
-    { "value": "HVAC", "label": "HVAC" },
-    { "value": "BUSINESS", "label": "Business" },
-    { "value": "MANAGEMENT", "label": "Management" },
-    { "value": "COMPUTER_SCIENCE", "label": "Computer Science" },
-    { "value": "TRADE_SPECIFIC", "label": "Trade Specific" },
-    { "value": "OTHER", "label": "Other" }
+    { "value": "PLUMBING", "label": "Plumbing Technology" },
+    { "value": "ELECTRICAL", "label": "Electrical Systems" },
+    { "value": "HVAC", "label": "Heating, Ventilation & AC (HVAC)" },
+    { "value": "MECHANICAL", "label": "Mechanical Technology" },
+    { "value": "CONSTRUCTION", "label": "Construction Management" },
+    { "value": "TRADE_TECH", "label": "Skilled Trades / Technical Training" },
+    { "value": "ENGINEERING", "label": "Engineering (General)" },
+    { "value": "BUSINESS", "label": "Business Administration" },
+    { "value": "MANAGEMENT", "label": "Project or Operations Management" },
+    { "value": "COMPUTER_SCIENCE", "label": "Computer Science / IT" },
+    { "value": "OTHER", "label": "Other or Multidisciplinary Field" }
   ]
 }

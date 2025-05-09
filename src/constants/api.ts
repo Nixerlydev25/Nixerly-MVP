@@ -17,9 +17,9 @@ export const API_ROUTES = {
   },
   USER: {
     BY_ID: (id: string) => `/user/${id}`,
-    UPDATE_WORKER_PROFILE: '/update-worker-profile',
-    UPDATE_BUSINESS_PROFILE: '/update-business-profile',
-    UPDATE_USER: '/update-user',
+    UPDATE_WORKER_PROFILE: '/user/update-worker-profile',
+    UPDATE_BUSINESS_PROFILE: '/user/update-business-profile',
+    UPDATE_USER: '/user/update-user',
     GET_USER: '/user/me',
     TOGGLE_FIRST_TIME_LOGIN: '/user/toggle-first-time-login',
     GET_CURRENT_USER: '/user/current-user',

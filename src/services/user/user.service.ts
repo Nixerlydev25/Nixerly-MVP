@@ -4,7 +4,7 @@ import { TUser, TWorkerProfile, TBusinessProfile } from "@/types/auth";
 import { API_ROUTES } from "@/constants/api";
 
 class UserService {
-  static async updateUser(data: TUser): Promise<TUser> {
+  static async updateUser(data: Partial<TUser>): Promise<TUser> {
     try {
       console.log(data,'data is here')
       const response = await instance.patch(API_ROUTES.USER.UPDATE_USER, data);

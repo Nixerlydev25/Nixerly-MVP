@@ -9,10 +9,10 @@ export enum OnboardingStepWorker {
 
 export const ONBOARDING_STEPS_WORKER = [
   OnboardingStepWorker.PERSONAL_INFO,
-  OnboardingStepWorker.LANGUAGE_INFO,
   OnboardingStepWorker.SKILLS_INFO,
   OnboardingStepWorker.HOURLY_RATE_INFO,
   OnboardingStepWorker.PROFESSIONAL_INFO,
+  OnboardingStepWorker.LANGUAGE_INFO,
   OnboardingStepWorker.AVAILABILITY_INFO,
 ]; 
 
@@ -33,9 +33,11 @@ export const ONBOARDING_STEPS_BUSINESS = [
 
 export enum OnboardingStepWorkerProfileB {
   PERSONAL_INFO="PERSONAL_INFO",
+  LANGUAGE_INFO="LANGUAGE_INFO",
+  SKILLS_INFO="SKILLS_INFO",
+  HOURLY_RATE_INFO="HOURLY_RATE_INFO",
   PROFESSIONAL_INFO="PROFESSIONAL_INFO",
   EDUCATIONAL_INFO="EDUCATIONAL_INFO",
-  REVIEW="REVIEW",
   COMPLETED="COMPLETED"
 }
 

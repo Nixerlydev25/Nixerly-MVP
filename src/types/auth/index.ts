@@ -1,3 +1,4 @@
+import { OnboardingStepWorkerProfileB } from "../onboarding";
 import { ProfileType } from "../user/user.types";
 
 // Base interface for common fields
@@ -59,7 +60,7 @@ export interface TWorkerProfile {
   totalEarnings?: number;
   completedJobs?: number;
   avgRating?: number;
-  onboardingStep?: OnboardingStepWorkerProfile;
+  onboardingStep?: OnboardingStepWorkerProfileB;
 }
 
 // Business Profile type

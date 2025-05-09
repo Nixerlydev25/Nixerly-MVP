@@ -20,7 +20,7 @@ export interface BusinessProfile {
 export const useUpdateUser = () => {
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_USER],
-    mutationFn: (data: TUser) => UserService.updateUser(data),
+    mutationFn: (data: Partial<TUser>) => UserService.updateUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
     },

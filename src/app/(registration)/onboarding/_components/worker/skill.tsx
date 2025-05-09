@@ -1,10 +1,7 @@
 import React from 'react'
 
-
-function SkillsInfo() {
+export function SkillsInfo() {
   return (
     <div>SkillsInfo</div>
   )
 }
-
-export default SkillsInfo

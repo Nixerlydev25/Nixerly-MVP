@@ -2,7 +2,10 @@
 
 import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { OnboardingStepWorker } from "@/types/onboarding";
+import {
+  OnboardingStepWorker,
+  OnboardingStepWorkerProfileB,
+} from "@/types/onboarding";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
@@ -10,6 +13,9 @@ import { ROUTES } from "@/lib/routes";
 import {
   PersonalInfo,
   ProfessionalInfo,
+  SkillsInfo,
+  HourlyRateInfo,
+  AvailabilityInfo,
 } from "./worker";
 import {
   WorkerOnboardingSchema,
@@ -19,9 +25,6 @@ import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigati
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { TWorkerProfile } from "@/types/auth";
 import LanguageInfo from "./worker/languages";
-import SkillsInfo from "./worker/skill";
-import HourlyRateInfo from "./worker/hourlyRate";
-import AvailabilityInfo from "./worker/availibility";
 
 type StepComponents = {
   [key in OnboardingStepWorker]: React.ComponentType;
@@ -36,35 +39,23 @@ export function WorkerOnboarding() {
   const form = useForm<WorkerOnboardingSchema>({
     resolver: typedResolver,
     defaultValues: {
-      location: "",
-      title: "",
-      hourlyRate: 0,
-      category: "PLUMBING",
-      skills: [],
-      description: "",
-      languages: [],
-      availability: true,
-      experience: [],
-      education: [],
-    },
+      title: 'Experienced Plumber for Residential and Commercial Services',
+      description: "Need reliable plumbing help? I'm a licensed plumber with over 5 years of experience handling everything from leak repairs and pipe installations to bathroom remodeling and emergency services. Whether it's a clogged drain or a full repiping job, I deliver fast, affordable, and high-quality work. Available for both residential and commercial projects. Satisfaction guaranteed."
+    }
   });
 
-  const { currentStep } = useOnboardingNavigation(); // professional-info
-  const { mutateAsync: updateWorkerProfile } = useUpdateWorkerProfile();
+  console.log('formdata',form.watch())
+
+  const { currentStep } = useOnboardingNavigation();
   const router = useRouter();
+  const { mutateAsync: updateWorkerProfile } = useUpdateWorkerProfile();
 
   const onSubmit: SubmitHandler<WorkerOnboardingSchema> = async (data) => {
     try {
       // Create worker profile data
       const workerProfileData = {
-        title: data.title,
-        hourlyRate: Number(data.hourlyRate),
-        description: data.description,
-        categoryId: data.category,
-        skills: data.skills,
-        location: data.location,
-        languages: data.languages,
         availability: data.availability,
+        onboardingStep: OnboardingStepWorkerProfileB.COMPLETED,
       } as Partial<TWorkerProfile>;
 
       // Update worker profile
@@ -74,6 +65,7 @@ export function WorkerOnboarding() {
         router.replace(ROUTES.FEED);
         toast.success("Onboarding completed successfully!");
       }
+
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -89,7 +81,7 @@ export function WorkerOnboarding() {
     [OnboardingStepWorker.SKILLS_INFO]: SkillsInfo,
     [OnboardingStepWorker.HOURLY_RATE_INFO]: HourlyRateInfo,
     [OnboardingStepWorker.PROFESSIONAL_INFO]: ProfessionalInfo,
-    [OnboardingStepWorker.AVAILABILITY_INFO] : AvailabilityInfo
+    [OnboardingStepWorker.AVAILABILITY_INFO]: AvailabilityInfo,
   };
 
   const CurrentComponent = AllSteps[currentStep];

@@ -1,9 +1,7 @@
 import React from 'react'
 
-function AvailabilityInfo() {
+export function AvailabilityInfo() {
   return (
     <div>AvailabilityInfo</div>
   )
 }
-
-export default AvailabilityInfo

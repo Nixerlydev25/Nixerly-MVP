@@ -10,6 +10,7 @@ interface UserState {
   
   // Actions
   fetchUser: () => Promise<void>;
+  revalidateUser: () => Promise<void>;
 }
 
 export const useUserStore = create<UserState>()(
@@ -19,6 +20,19 @@ export const useUserStore = create<UserState>()(
       isLoading: false,
       error: null,
       fetchUser: async () => {
+        try {
+          set({ isLoading: true, error: null });
+          const user = await UserService.getUser();
+          set({ user, isLoading: false });
+        } catch (error) {
+          set({ 
+            isLoading: false, 
+            error: error instanceof Error ? error.message : 'Failed to fetch user'
+          });
+        }
+      },
+      revalidateUser: async () => {
+        set({ user: null }); // Clear existing user data
         try {
           set({ isLoading: true, error: null });
           const user = await UserService.getUser();

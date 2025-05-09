@@ -43,7 +43,7 @@ export default function RegisterPage() {
                       <RadioGroupItem value="professional" id="professional" className="peer sr-only" />
                       <Label
                         htmlFor="professional"
-                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-colors peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue [&:has([data-state=checked])]:border-nixerly-blue"
+                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-all duration-200 peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-nixerly-blue/20 [&:has([data-state=checked])]:border-nixerly-blue [&:has([data-state=checked])]:ring-2 [&:has([data-state=checked])]:ring-nixerly-blue/20"
                       >
                         <HardHat className="mb-3 h-6 w-6 text-nixerly-blue" />
                         <span className="font-medium">Professional</span>
@@ -53,7 +53,7 @@ export default function RegisterPage() {
                       <RadioGroupItem value="business" id="business" className="peer sr-only" />
                       <Label
                         htmlFor="business"
-                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-colors peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue [&:has([data-state=checked])]:border-nixerly-blue"
+                        className="flex flex-col items-center justify-between rounded-md border-2 border-nixerly-lightblue bg-white p-4 hover:bg-nixerly-ultralightblue hover:border-nixerly-blue transition-all duration-200 peer-data-[state=checked]:border-nixerly-blue peer-data-[state=checked]:bg-nixerly-ultralightblue peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-nixerly-blue/20 [&:has([data-state=checked])]:border-nixerly-blue [&:has([data-state=checked])]:ring-2 [&:has([data-state=checked])]:ring-nixerly-blue/20"
                       >
                         <Building className="mb-3 h-6 w-6 text-nixerly-blue" />
                         <span className="font-medium">Business</span>

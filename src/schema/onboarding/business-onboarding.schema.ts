@@ -1,11 +1,5 @@
 import * as z from "zod";
 
-export enum BusinessOnboardingStep {
-  COMPANY_INFO = "COMPANY_INFO",
-  BUSINESS_DETAILS = "BUSINESS_DETAILS",
-  REVIEW = "REVIEW",
-}
-
 export const businessOnboardingSchema = z.object({
   // Company Info
   companyName: z.string().min(2, "Company name must be at least 2 characters"),

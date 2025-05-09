@@ -8,4 +8,6 @@ export enum QueryKeys {
   UPDATE_USER = "update-user",
   GET_USER = "get-user",
   USER = "user",
+  UPDATE_WORKER_PROFILE = "update-worker-profile",
+  UPDATE_BUSINESS_PROFILE = "update-business-profile",
 }

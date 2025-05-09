@@ -1,23 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ROUTES } from "./lib/routes";
 import { API_ROUTES } from "./constants/api";
-import { OnboardingStep } from "./types/onboarding";
+import { OnboardingStepWorker, OnboardingStepBusiness } from "./types/onboarding";
+import { parseCookies } from "./lib/utils";
 
-const API_URL = process.env.API_URL || `http://localhost:4000/v1/${API_ROUTES.USER.GET_CURRENT_USER}`;
+const API_URL = `${process.env.API_URL}${API_ROUTES.USER.GET_CURRENT_USER}`;
+
 const COOKIE_HEADER = "cookie";
 const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 
-function parseCookies(cookieHeader: string): Record<string, string> {
-  const cookies: Record<string, string> = {};
-  if (cookieHeader) {
-    const items = cookieHeader.split(";");
-    items.forEach((item: string) => {
-      const [key, value] = item.split("=");
-      cookies[key.trim()] = value?.trim();
-    });
+const ONBOARDING_STEP_MAP: Record<string, string | null> = {
+  PERSONAL_INFO: OnboardingStepWorker.PERSONAL_INFO,
+  LANGUAGE_INFO: OnboardingStepWorker.LANGUAGE_INFO,
+  SKILLS_INFO: OnboardingStepWorker.SKILLS_INFO,
+  HOURLY_RATE_INFO: OnboardingStepWorker.HOURLY_RATE_INFO,
+  PROFESSIONAL_INFO: OnboardingStepWorker.PROFESSIONAL_INFO,
+  AVAILABILITY_INFO: OnboardingStepWorker.AVAILABILITY_INFO,
+  COMPLETED: null,
+};
+
+function handleOnboardingRedirectWorkerProfile(
+  request: NextRequest,
+  workerProfile: { onboardingStep: string }
+) {
+  if (workerProfile.onboardingStep === "COMPLETED") {
+    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
+      return NextResponse.redirect(new URL(ROUTES.FEED, request.url));
+    }
+  } else {
+    console.log("workerProfile2", workerProfile);
+    const mappedStep = ONBOARDING_STEP_MAP[workerProfile.onboardingStep];
+    const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${mappedStep}`;
+    const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
+    const currentStep = request.nextUrl.searchParams.get("onboarding-step");
+
+    if (!isOnOnboarding || (isOnOnboarding && currentStep !== mappedStep)) {
+      return NextResponse.redirect(new URL(onboardingUrl, request.url));
+    }
   }
-  return cookies;
+  return null;
+}
+
+const BUSINESS_ONBOARDING_STEP_MAP: Record<string, string | null> = {
+  COMPANY_INFO: OnboardingStepBusiness.COMPANY_INFO,
+  BUSINESS_DETAILS: OnboardingStepBusiness.BUSINESS_DETAILS,
+  REVIEW: OnboardingStepBusiness.REVIEW,
+  COMPLETED: null,
+};
+
+function handleOnboardingRedirectBusinessProfile(
+  request: NextRequest,
+  businessProfile: { onboardingStep: string }
+) {
+  if (businessProfile.onboardingStep === "COMPLETED") {
+    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
+      return NextResponse.redirect(new URL(ROUTES.FEED, request.url));
+    }
+  } else {
+    const mappedStep = BUSINESS_ONBOARDING_STEP_MAP[businessProfile.onboardingStep];
+    const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${mappedStep}`;
+    const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
+    const currentStep = request.nextUrl.searchParams.get("onboarding-step");
+
+    if (!isOnOnboarding || (isOnOnboarding && currentStep !== mappedStep)) {
+      return NextResponse.redirect(new URL(onboardingUrl, request.url));
+    }
+  }
+  return null;
 }
 
 export async function middleware(request: NextRequest) {
@@ -27,10 +77,10 @@ export async function middleware(request: NextRequest) {
 
     const accessToken = cookies[ACCESS_TOKEN];
     const refreshToken = cookies[REFRESH_TOKEN];
-    
+
     console.log({
       accessToken,
-      refreshToken
+      refreshToken,
     });
 
     // If no tokens are found, redirect to sign-in
@@ -56,29 +106,22 @@ export async function middleware(request: NextRequest) {
     }
 
     // Check onboarding status for worker profiles
-    if (data.workerProfile && data.workerProfile.onboardingStep > 0) {
-      const onboardingSteps = [
-        OnboardingStep.PERSONAL_INFO,
-        OnboardingStep.PROFESSIONAL_INFO, 
-        OnboardingStep.EDUCATIONAL_INFO,
-        OnboardingStep.REVIEW
-      ];
-      
-      const currentStep = onboardingSteps[data.workerProfile.onboardingStep - 1];
-      const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${currentStep}`;
-
-      const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
-
-      // Only redirect to onboarding if not already on an onboarding page
-      if (!isOnOnboarding) {
-        return NextResponse.redirect(new URL(onboardingUrl, request.url));
-      }
+    if (data.workerProfile?.onboardingStep) {
+      console.log("workerProfilea", data.workerProfile);
+      const redirectResponse = handleOnboardingRedirectWorkerProfile(
+        request,
+        data.workerProfile
+      );
+      if (redirectResponse) return redirectResponse;
     }
 
-    // Redirect completed users away from onboarding
-    if (!data.workerProfile?.onboardingStep && 
-        request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
-      return NextResponse.redirect(new URL(ROUTES.FEED, request.url));
+    // Check onboarding status for business profiles
+    if (data.businessProfile?.onboardingStep) {
+      const redirectResponse = handleOnboardingRedirectBusinessProfile(
+        request,
+        data.businessProfile
+      );
+      if (redirectResponse) return redirectResponse;
     }
 
     // Proceed if validation passes
@@ -107,6 +150,6 @@ export const config = {
     "/feed/:path*", // e.g., /dashboard/overview, /dashboard/stats
 
     // Protect settings-related routes
-    "/settings/:path*" // e.g., /settings/account, /settings/privacy
+    "/settings/:path*", // e.g., /settings/account, /settings/privacy
   ],
 };

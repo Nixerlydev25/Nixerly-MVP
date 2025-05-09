@@ -8,6 +8,8 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescripti
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { BusinessOnboardingSchema } from "@/schema/onboarding/business-onboarding.schema";
+import { useUpdateUser } from "@/hook/user/user.hooks";
+import { OnboardingStepBusinessProfileB } from "@/types/onboarding";
 
 const industries = [
   { value: "construction", label: "Construction" },
@@ -23,8 +25,31 @@ const industries = [
 ];
 
 export function CompanyInfo() {
-  const { control } = useFormContext<BusinessOnboardingSchema>();
+  const { control, trigger, watch } = useFormContext<BusinessOnboardingSchema>();
   const { nextStep } = useBusinessOnboardingNavigation();
+  const { mutateAsync: updateUser } = useUpdateUser();
+  const formData = watch();
+
+  const handleContinue = async () => {
+    const fieldsToValidate = [
+      "companyName",
+      "description",
+      "industry"
+    ] as const;
+
+    const isValid = await trigger(fieldsToValidate);
+    if (isValid) {
+      await updateUser({
+        onboardingStep : OnboardingStepBusinessProfileB.BUSINESS_DETAILS,
+        businessProfile: {
+          companyName: formData.companyName,
+          description: formData.description,
+          industry: formData.industry
+        }
+      });
+      nextStep();
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -102,7 +127,7 @@ export function CompanyInfo() {
       />
 
       <div className="flex justify-end">
-        <Button type="button" onClick={nextStep}>
+        <Button type="button" onClick={handleContinue}>
           Next Step
         </Button>
       </div>

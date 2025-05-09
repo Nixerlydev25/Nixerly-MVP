@@ -20,8 +20,8 @@ export default function OnboardingPage() {
 
   // Default to worker onboarding if profileType is not specified
   // This maintains backward compatibility with existing user accounts
-  const isBusinessProfile = user?.profileType === ProfileType.BUSINESS;
-
+  const isBusinessProfile = user?.defaultProfile === ProfileType.BUSINESS;
+  
   return (
     <div className="container max-w-2xl mx-auto py-10">
       {isBusinessProfile ? <BusinessOnboarding /> : <WorkerOnboarding />}

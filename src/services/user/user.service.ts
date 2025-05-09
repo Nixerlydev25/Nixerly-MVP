@@ -1,12 +1,12 @@
 import instance from "../api";
 import { currentUserData } from "@/types/user/user.types";
-import { User } from "@/types/auth";
+import { TUser, TWorkerProfile, TBusinessProfile } from "@/types/auth";
 import { API_ROUTES } from "@/constants/api";
-import { UserUpdateData } from "@/hook/user/user.hooks";
 
 class UserService {
-  static async updateUser(data: UserUpdateData): Promise<User> {
+  static async updateUser(data: TUser): Promise<TUser> {
     try {
+      console.log(data,'data is here')
       const response = await instance.patch(API_ROUTES.USER.UPDATE_USER, data);
       return response.data;
     } catch (error) {
@@ -15,7 +15,27 @@ class UserService {
     }
   }
 
-  static async getUser(): Promise<User> {
+  static async updateWorkerProfile(data: TWorkerProfile): Promise<TWorkerProfile> {
+    try {
+      const response = await instance.patch(API_ROUTES.USER.UPDATE_WORKER_PROFILE, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during updating worker profile:", error);
+      throw error;
+    }
+  }
+
+  static async updateBusinessProfile(data: TBusinessProfile): Promise<TBusinessProfile> {
+    try {
+      const response = await instance.patch(API_ROUTES.USER.UPDATE_BUSINESS_PROFILE, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during updating business profile:", error);
+      throw error;
+    }
+  }
+
+  static async getUser(): Promise<TUser> {
     try {
       const response = await instance.get(API_ROUTES.USER.GET_CURRENT_USER);
       return response.data;

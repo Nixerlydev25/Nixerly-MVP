@@ -1,7 +1,7 @@
 import { QueryKeys } from "@/querykey";
 import UserService from "@/services/user/user.service";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { User, WorkerProfile } from "@/types/auth";
+import { TBusinessProfile, TUser, TWorkerProfile } from "@/types/auth";
 import { currentUserData } from "@/types/user/user.types";
 import { queryClient } from "@/providers/query.provider";
 
@@ -14,23 +14,47 @@ export interface BusinessProfile {
   website?: string | null;
   employeeCount?: number;
   yearFounded?: number;
-}
-
-// Define a type that handles user, worker profile, and business profile updates
-export interface UserUpdateData extends Partial<User> {
-  workerProfile?: Partial<WorkerProfile>;
-  businessProfile?: Partial<BusinessProfile>;
+  onboardingStep?: string;
 }
 
 export const useUpdateUser = () => {
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_USER],
-    mutationFn: (data: UserUpdateData) => UserService.updateUser(data),
+    mutationFn: (data: TUser) => UserService.updateUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
     },
     onError: (error: unknown) => {
       console.error("Error during updating user:", error);
+      throw error;
+    },
+  });
+};
+
+export const useUpdateWorkerProfile = () => {
+  return useMutation({
+    mutationKey: [QueryKeys.UPDATE_WORKER_PROFILE],
+    mutationFn: (data: TWorkerProfile) => UserService.updateWorkerProfile(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
+    },
+    onError: (error: unknown) => {
+      console.error("Error during updating worker profile:", error);
+      throw error;
+    },
+  });
+};
+
+export const useUpdateBusinessProfile = () => {
+  return useMutation({
+    mutationKey: [QueryKeys.UPDATE_BUSINESS_PROFILE],
+    mutationFn: (data: TBusinessProfile) =>
+      UserService.updateBusinessProfile(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
+    },
+    onError: (error: unknown) => {
+      console.error("Error during updating business profile:", error);
       throw error;
     },
   });

@@ -8,15 +8,15 @@ import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/routes";
 import { useUpdateUser } from "@/hook/user/user.hooks";
 import { 
-  BusinessOnboardingStep,
   BusinessOnboardingSchema, 
   businessOnboardingSchema 
 } from "@/schema/onboarding/business-onboarding.schema";
 import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { CompanyInfo, BusinessDetails, Review } from "./business";
+import { OnboardingStepBusiness } from "@/types/onboarding";
 
 type StepComponents = {
-  [key in BusinessOnboardingStep]: React.ComponentType;
+  [key in OnboardingStepBusiness]: React.ComponentType;
 };
 
 export function BusinessOnboarding() {
@@ -75,9 +75,9 @@ export function BusinessOnboarding() {
   };
 
   const AllSteps: StepComponents = {
-    [BusinessOnboardingStep.COMPANY_INFO]: CompanyInfo,
-    [BusinessOnboardingStep.BUSINESS_DETAILS]: BusinessDetails,
-    [BusinessOnboardingStep.REVIEW]: Review,
+    [OnboardingStepBusiness.COMPANY_INFO]: CompanyInfo,
+    [OnboardingStepBusiness.BUSINESS_DETAILS]: BusinessDetails,
+    [OnboardingStepBusiness.REVIEW]: Review,
   };
 
   const CurrentComponent = AllSteps[currentStep];

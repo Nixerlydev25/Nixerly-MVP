@@ -13,11 +13,36 @@ import {
 } from "@/components/ui/form";
 import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { BusinessOnboardingSchema } from "@/schema/onboarding/business-onboarding.schema";
+import { useUpdateUser } from "@/hook/user/user.hooks";
 
 export function BusinessDetails() {
-  const { control } = useFormContext<BusinessOnboardingSchema>();
+  const { control, trigger, watch } = useFormContext<BusinessOnboardingSchema>();
   const { nextStep, prevStep } = useBusinessOnboardingNavigation();
+  const { mutateAsync: updateUser } = useUpdateUser();
   const currentYear = new Date().getFullYear();
+  const formData = watch();
+
+  const handleContinue = async () => {
+    const fieldsToValidate = [
+      "location",
+      "website",
+      "employeeCount",
+      "yearFounded"
+    ] as const;
+
+    const isValid = await trigger(fieldsToValidate);
+    if (isValid) {
+      await updateUser({
+        businessProfile: {
+          location: formData.location,
+          website: formData.website || undefined,
+          employeeCount: formData.employeeCount,
+          yearFounded: formData.yearFounded
+        }
+      });
+      nextStep();
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -119,7 +144,7 @@ export function BusinessDetails() {
         <Button type="button" variant="outline" onClick={prevStep}>
           Previous Step
         </Button>
-        <Button type="button" onClick={nextStep}>
+        <Button type="button" onClick={handleContinue}>
           Next Step
         </Button>
       </div>

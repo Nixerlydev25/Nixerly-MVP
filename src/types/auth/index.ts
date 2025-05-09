@@ -27,38 +27,95 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface User {
+// Core User type without profiles
+export interface TUser {
   id: string;
   email: string;
-  name?: string;
-  createdAt: string;
-  updatedAt: string;
-  howDidYouHearAboutUs?: string;
-  experienceLevel?: string;
-  educationLevel?: string;
-  isOnboardingComplete?: boolean;
-  defaultProfile: string;
-  profileType?: "WORKER" | "BUSINESS";
-  workerProfile?: WorkerProfile;
+  password: string;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isVerified: boolean;
+  isDeleted: boolean;
+  isSuspended: boolean;
+  role: Role;
+  provider: OAuthProvider;
+  defaultProfile: ProfileType;
+  firstTimeLogin: boolean;
 }
 
-export interface WorkerProfile {
-  title?: string;
-  hourlyRate?: number;
-  description?: string;
-  categoryId?: string;
-  skills?: string[] | string;
-  location?: string;
-  languages?: LanguageProficiency[] | string;
+// Worker Profile type
+export interface TWorkerProfile {
+  title?: string | null;
+  hourlyRate?: number | null;
+  description?: string | null;
+  categoryId?: string | null;
+  location?: string | null;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
   availability?: boolean;
+  totalEarnings?: number;
+  completedJobs?: number;
+  avgRating?: number;
+  onboardingStep?: OnboardingStepWorkerProfile;
 }
 
-export interface LanguageProficiency {
-  language: string;
-  proficiency: string;
+// Business Profile type
+export interface TBusinessProfile {
+  id: string;
+  userId: string;
+  companyName: string | null;
+  description: string | null;
+  industry: string | null;
+  location: string | null;
+  website: string | null;
+  employeeCount: number | null;
+  yearFounded: number | null;
+  totalSpent: number;
+  postedJobs: number;
+  onboardingStep: OnboardingStepBusinessProfile;
+}
+
+// Complete User type with profiles
+export interface CompleteUser extends TUser {
+  workerProfile?: TWorkerProfile;
+  businessProfile?: TBusinessProfile;
+}
+
+export enum OnboardingStepWorkerProfile {
+  PERSONAL_INFO = "PERSONAL_INFO",
+  PROFESSIONAL_INFO = "PROFESSIONAL_INFO",
+  EDUCATIONAL_INFO = "EDUCATIONAL_INFO",
+  REVIEW = "REVIEW",
+  COMPLETED = "COMPLETED"
+}
+
+export enum OnboardingStepBusinessProfile {
+  COMPANY_INFO = "COMPANY_INFO",
+  BUSINESS_DETAILS = "BUSINESS_DETAILS",
+  REVIEW = "REVIEW",
+  COMPLETED = "COMPLETED"
+}
+
+export enum Role {
+  WORKER = "WORKER",
+  BUSINESS = "BUSINESS", 
+  ADMIN = "ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
+  DEVELOPER = "DEVELOPER"
+}
+
+export enum OAuthProvider {
+  GOOGLE = "GOOGLE",
+  OUTLOOK = "OUTLOOK",
+  FACEBOOK = "FACEBOOK",
+  GITHUB = "GITHUB",
+  EMAIL_PASSWORD = "EMAIL_PASSWORD"
 }
 
 export interface AuthResponse {
-  user: User;
+  user: CompleteUser;
   token: string;
 }

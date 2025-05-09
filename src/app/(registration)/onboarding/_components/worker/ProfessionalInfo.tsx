@@ -13,54 +13,54 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
-import { OnboardingSchema, onboardingOptions, Profession } from "@/schema/onboarding/onboarding.schema";
-import { useUpdateUser } from "@/hook/user/user.hooks";
+import { WorkerOnboardingSchema, onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
+import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { TWorkerProfile } from "@/types/auth";
 
 export const ProfessionalInfo = () => {
-  const { control, watch, trigger } = useFormContext<OnboardingSchema>();
+  const { control, watch, trigger } = useFormContext<WorkerOnboardingSchema>();
   const { goToNextStep, goToPreviousStep } = useOnboardingNavigation();
-  const { mutateAsync: updateUser } = useUpdateUser();
-  const [selectedCategory, setSelectedCategory] = useState<Profession | null>(null);
+  const { mutateAsync: updateUserWorkerProfile } = useUpdateWorkerProfile();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const skills = watch("skills") || [];
   const formData = watch();
   
   const handleContinue = async () => {
     const fieldsToValidate = [
-      "title",
+      "category",
       "hourlyRate",
-      "categoryId",
       "skills",
-      "experienceLevel",
-      "description"
+      "availability",
     ] as const;
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      await updateUser({
-        experienceLevel: formData.experienceLevel,
-        workerProfile: {
-          title: formData.title,
-          hourlyRate: formData.hourlyRate,
-          categoryId: formData.categoryId,
-          skills: formData.skills,
-          description: formData.description
-        }
-      });
+      const { category, hourlyRate, skills, availability } = formData;
+      
+      const workerProfileData = {
+        categoryId: category || null,
+        hourlyRate: hourlyRate || null,
+        skills: skills || [],
+        availability: availability || false,
+      } as Partial<TWorkerProfile>;
+      
+      await updateUserWorkerProfile(workerProfileData);
       goToNextStep();
     }
   };
 
   // Helper function to find a skill label from value
   const findSkillLabel = (skillValue: string): string => {
-    // Iterate through all skill categories
-    for (const categorySkills of Object.values(onboardingOptions.skills)) {
+    if (selectedCategory && selectedCategory in onboardingOptions.skills) {
+      const categorySkills = onboardingOptions.skills[selectedCategory as keyof typeof onboardingOptions.skills];
       const skill = categorySkills.find(s => s.value === skillValue);
       if (skill) {
         return skill.label;
@@ -75,17 +75,33 @@ export const ProfessionalInfo = () => {
       <div className="space-y-7">
         <FormField
           control={control}
-          name="title"
+          name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-nixerly-darkgray font-medium">Professional Title</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-medium">Category</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="e.g. Senior Plumber, Electrician, etc." 
-                  {...field}
-                  className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20" 
-                />
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setSelectedCategory(value);
+                  }}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20">
+                    <SelectValue placeholder="Select your category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {onboardingOptions.professions.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
+              <FormDescription className="text-sm text-nixerly-darkgray/50">
+                Choose the main category that best describes your work
+              </FormDescription>
               <FormMessage className="text-nixerly-coral" />
             </FormItem>
           )}
@@ -107,48 +123,13 @@ export const ProfessionalInfo = () => {
                   className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20"
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (value === "") {
-                      field.onChange("");
-                    } else {
-                      const num = parseFloat(value);
-                      if (!isNaN(num)) {
-                        field.onChange(num);
-                      }
-                    }
+                    field.onChange(value === "" ? "" : Number(value));
                   }}
                 />
               </FormControl>
-              <FormMessage className="text-nixerly-coral" />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-nixerly-darkgray font-medium">Category</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    setSelectedCategory(value as Profession);
-                  }}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20">
-                    <SelectValue placeholder="Select your category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {onboardingOptions.professions.map((category) => (
-                      <SelectItem key={category.value} value={category.value}>
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
+              <FormDescription className="text-sm text-nixerly-darkgray/50">
+                Set your hourly rate between $5 and $500
+              </FormDescription>
               <FormMessage className="text-nixerly-coral" />
             </FormItem>
           )}
@@ -186,7 +167,7 @@ export const ProfessionalInfo = () => {
               </FormControl>
               {skills.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {skills.map((skillValue, index) => (
+                  {skills.map((skillValue: string, index: number) => (
                     <div 
                       key={index} 
                       className="bg-nixerly-ultralightblue border border-nixerly-lightblue text-nixerly-darkblue px-3 py-1.5 rounded-md flex items-center gap-2"
@@ -207,6 +188,9 @@ export const ProfessionalInfo = () => {
                   ))}
                 </div>
               )}
+              <FormDescription className="text-sm text-nixerly-darkgray/50">
+                Select all relevant skills for your category
+              </FormDescription>
               <FormMessage className="text-nixerly-coral" />
             </FormItem>
           )}
@@ -214,43 +198,22 @@ export const ProfessionalInfo = () => {
 
         <FormField
           control={control}
-          name="experienceLevel"
+          name="availability"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-nixerly-darkgray font-medium">Experience Level</FormLabel>
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-nixerly-lightblue p-4">
+              <div className="space-y-0.5">
+                <FormLabel className="text-nixerly-darkgray font-medium">Available for Work</FormLabel>
+                <FormDescription className="text-sm text-nixerly-darkgray/50">
+                  Show that you&apos;re available to take on new projects
+                </FormDescription>
+              </div>
               <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <SelectTrigger className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20">
-                    <SelectValue placeholder="Select your experience level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {onboardingOptions.experienceLevels.map((level) => (
-                      <SelectItem key={level.value} value={level.value}>
-                        {level.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage className="text-nixerly-coral" />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-nixerly-darkgray font-medium">Professional Description</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="Describe your experience, expertise, and the services you offer..." 
-                  className="min-h-[120px] py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20" 
-                  {...field} 
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="data-[state=checked]:bg-nixerly-blue"
                 />
               </FormControl>
-              <FormMessage className="text-nixerly-coral" />
             </FormItem>
           )}
         />

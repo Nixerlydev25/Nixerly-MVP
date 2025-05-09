@@ -1,44 +1,41 @@
-import { create } from "zustand";
-import { BusinessOnboardingStep } from "@/schema/onboarding/business-onboarding.schema";
-
-type BusinessOnboardingStore = {
-  currentStep: BusinessOnboardingStep;
-  setStep: (step: BusinessOnboardingStep) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-};
-
-const getNextStep = (currentStep: BusinessOnboardingStep): BusinessOnboardingStep => {
-  switch (currentStep) {
-    case BusinessOnboardingStep.COMPANY_INFO:
-      return BusinessOnboardingStep.BUSINESS_DETAILS;
-    case BusinessOnboardingStep.BUSINESS_DETAILS:
-      return BusinessOnboardingStep.REVIEW;
-    default:
-      return currentStep;
-  }
-};
-
-const getPrevStep = (currentStep: BusinessOnboardingStep): BusinessOnboardingStep => {
-  switch (currentStep) {
-    case BusinessOnboardingStep.BUSINESS_DETAILS:
-      return BusinessOnboardingStep.COMPANY_INFO;
-    case BusinessOnboardingStep.REVIEW:
-      return BusinessOnboardingStep.BUSINESS_DETAILS;
-    default:
-      return currentStep;
-  }
-};
-
-const useBusinessOnboardingNavigationStore = create<BusinessOnboardingStore>((set) => ({
-  currentStep: BusinessOnboardingStep.COMPANY_INFO,
-  setStep: (step) => set({ currentStep: step }),
-  nextStep: () =>
-    set((state) => ({ currentStep: getNextStep(state.currentStep) })),
-  prevStep: () =>
-    set((state) => ({ currentStep: getPrevStep(state.currentStep) })),
-}));
+import { ONBOARDING_STEPS_BUSINESS, OnboardingStepBusiness } from "@/types/onboarding";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const useBusinessOnboardingNavigation = () => {
-  return useBusinessOnboardingNavigationStore();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const currentStep = searchParams.get("onboarding-step") as OnboardingStepBusiness || OnboardingStepBusiness.COMPANY_INFO;
+  const currentStepIndex = ONBOARDING_STEPS_BUSINESS.indexOf(currentStep);
+  
+  const navigateToStep = (step: OnboardingStepBusiness) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("onboarding-step", step);
+    router.push(url.pathname + url.search);
+  };
+  
+  const nextStep = () => {
+    if (currentStepIndex < ONBOARDING_STEPS_BUSINESS.length - 1) {
+      navigateToStep(ONBOARDING_STEPS_BUSINESS[currentStepIndex + 1]);
+    }
+  };
+  
+  const prevStep = () => {
+    if (currentStepIndex > 0) {
+      navigateToStep(ONBOARDING_STEPS_BUSINESS[currentStepIndex - 1]);
+    }
+  };
+  
+  const isFirstStep = currentStepIndex === 0;
+  const isLastStep = currentStepIndex === ONBOARDING_STEPS_BUSINESS.length - 1;
+  
+  return {
+    currentStep,
+    currentStepIndex,
+    navigateToStep,
+    nextStep,
+    prevStep,
+    isFirstStep,
+    isLastStep,
+  };
 }; 

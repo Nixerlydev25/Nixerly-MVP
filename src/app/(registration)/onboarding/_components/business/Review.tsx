@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { BusinessOnboardingSchema } from "@/schema/onboarding/business-onboarding.schema";
+import { useUpdateUser } from "@/hook/user/user.hooks";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/routes";
 
 const industries = {
   construction: "Construction",
@@ -20,9 +23,24 @@ const industries = {
 };
 
 export function Review() {
-  const { getValues } = useFormContext<BusinessOnboardingSchema>();
+  const { getValues, trigger } = useFormContext<BusinessOnboardingSchema>();
   const { prevStep } = useBusinessOnboardingNavigation();
+  const { mutateAsync: updateUser } = useUpdateUser();
+  const router = useRouter();
   const values = getValues();
+
+  const handleComplete = async () => {
+    const isValid = await trigger();
+    if (isValid) {
+      await updateUser({
+        businessProfile: {
+          ...values,
+          onboardingStep: "COMPLETED"
+        }
+      });
+      router.push(ROUTES.FEED);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -87,7 +105,7 @@ export function Review() {
         <Button type="button" variant="outline" onClick={prevStep}>
           Previous Step
         </Button>
-        <Button type="submit">
+        <Button type="button" onClick={handleComplete}>
           Complete Onboarding
         </Button>
       </div>

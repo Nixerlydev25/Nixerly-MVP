@@ -92,14 +92,9 @@ export function SkillsInfo() {
   const handleContinue = async () => {
     const isValid = await trigger("categorySkills");
     if (isValid) {
-      const workerProfileData = {
-        categorySkills,
-        onboardingStep: OnboardingStepWorkerProfileB.HOURLY_RATE_INFO,
-      };
-
-      await updateWorker(workerProfileData);
+      //update skills here
       await updateWorker({
-        onboardingStep: OnboardingStepWorkerProfileB.HOURLY_RATE_INFO
+        onboardingStep: OnboardingStepWorkerProfileB.PROFESSIONAL_INFO
       });
       goToNextStep();
     }

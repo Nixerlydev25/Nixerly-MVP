@@ -50,7 +50,7 @@ export const PersonalInfo = () => {
         city,
         state,
         country,
-        onboardingStep : OnboardingStepWorkerProfileB.SKILLS_INFO
+        onboardingStep : OnboardingStepWorkerProfileB.SKILLS_HOURLY_RATE_INFO
       };
 
       await updateWorker(workerProfileData);

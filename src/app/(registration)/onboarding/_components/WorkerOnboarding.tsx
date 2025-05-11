@@ -14,7 +14,6 @@ import {
   PersonalInfo,
   ProfessionalInfo,
   SkillsInfo,
-  HourlyRateInfo,
   AvailabilityInfo,
 } from "./worker";
 import {
@@ -77,9 +76,8 @@ export function WorkerOnboarding() {
 
   const AllSteps: StepComponents = {
     [OnboardingStepWorker.PERSONAL_INFO]: PersonalInfo,
-    [OnboardingStepWorker.SKILLS_INFO]: SkillsInfo,
+    [OnboardingStepWorker.SKILLS_HOURLY_RATE_INFO]: SkillsInfo,
     [OnboardingStepWorker.LANGUAGE_INFO]: LanguageInfo,
-    [OnboardingStepWorker.HOURLY_RATE_INFO]: HourlyRateInfo,
     [OnboardingStepWorker.PROFESSIONAL_INFO]: ProfessionalInfo,
     [OnboardingStepWorker.AVAILABILITY_INFO]: AvailabilityInfo,
   };

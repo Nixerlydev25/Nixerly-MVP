@@ -40,5 +40,29 @@ export const API_ROUTES = {
     USER_RESTRICTIONS: (userId: string) => `/restrictions/${userId}`
   },
   HEALTH: '/health',
-  SUBSCRIPTION: '/subscription'
+  SUBSCRIPTION: '/subscription',
+  SKILLS: {
+    ROOT: '/skills',
+    BY_ID: (id: string) => `/skills/${id}`,
+    CREATE: '/skills',
+    UPDATE: (id: string) => `/skills/${id}`,
+    DELETE: (id: string) => `/skills/${id}`,
+    LIST: '/skills',
+  },
+  EXPERIENCE: {
+    ROOT: '/experiences',
+    BY_ID: (id: string) => `/experiences/${id}`,
+    CREATE: '/experiences',
+    UPDATE: (id: string) => `/experiences/${id}`,
+    DELETE: (id: string) => `/experiences/${id}`,
+    LIST: '/experiences',
+  },
+  EDUCATIONS: {
+    ROOT: '/educations',
+    BY_ID: (id: string) => `/educations/${id}`,
+    CREATE: '/educations',
+    UPDATE: (id: string) => `/educations/${id}`,
+    DELETE: (id: string) => `/educations/${id}`,
+    LIST: '/educations',
+  }
 };

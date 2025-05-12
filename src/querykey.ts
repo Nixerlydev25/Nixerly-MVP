@@ -10,4 +10,7 @@ export enum QueryKeys {
   USER = "user",
   UPDATE_WORKER_PROFILE = "update-worker-profile",
   UPDATE_BUSINESS_PROFILE = "update-business-profile",
+  GET_SKILLS = "get-skills",
+  GET_EXPERIENCE = "get-experience",
+  GET_EDUCATIONS = "educations",
 }

@@ -1,152 +1,160 @@
-"use client";
+"use client"
 
-import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
-import type { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
-import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
-import { Badge } from "@/components/ui/badge";
-import { ChevronRight, X } from "lucide-react";
-import { useState } from "react";
-import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
-import { Input } from "@/components/ui/input";
+import { useFormContext } from "react-hook-form"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+// import { useOnboardingNavigation } from "@/hooks/onboarding/useOnboardingNavigation"
+import { onboardingOptions, type WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema"
+// import { useUpdateWorkerProfile } from "@/hooks/user/user.hooks"
+import { Badge } from "@/components/ui/badge"
+import { ChevronRight, X } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { OnboardingStepWorkerProfileB } from "@/types/onboarding"
+import { Input } from "@/components/ui/input"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation"
+import { useUpdateWorkerProfile } from "@/hook/user/user.hooks"
+import { useCreateSkills } from "@/hook/skills/skills.hook"
 
 export function SkillsInfo() {
-  const { goToNextStep } = useOnboardingNavigation();
-  const { control, watch, trigger, setValue } = useFormContext<
-    WorkerOnboardingSchema
-  >();
-  const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
-  const skills: string[] = [...(watch("skills") || [])] as string[];
-  const [hourlyRate, setHourlyRate] = useState<string>("");
-  const [skillInputError, setSkillInputError] = useState<string | null>(null);
-  const [skillInputValue, setSkillInputValue] = useState<string>(""); // <-- add this
+  const { goToNextStep } = useOnboardingNavigation()
+  const { control, watch, trigger, setValue } = useFormContext<WorkerOnboardingSchema>()
+  const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile()
+  const { mutateAsync: createSkills } = useCreateSkills()
+  const skills: string[] = [...(watch("skills") || [])] as string[]
+  const [hourlyRate, setHourlyRate] = useState<string>("")
+  const [skillInputError, setSkillInputError] = useState<string | null>(null)
+  const [isFocused, setIsFocused] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const commandRef = useRef<HTMLDivElement>(null)
+
+  // Filter out already selected skills and filter by search query
+  const availableSkills = onboardingOptions.skills
+    .filter((skill) => !skills.includes(skill.value))
+    .filter((skill) => skill.label.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const handleAddSkill = (skill: string) => {
-    const newSkill = skill.trim();
-    if (!newSkill) {
-      setSkillInputError("Skill cannot be empty.");
-      return;
-    }
     if (skills.length >= 8) {
-      setSkillInputError("You can add up to 8 skills only.");
-      return;
+      setSkillInputError("Maximum of 8 skills allowed")
+      return
     }
-    if (skills.some((s) => s.toLowerCase() === newSkill.toLowerCase())) {
-      setSkillInputError("Skill already added.");
-      return;
+
+    if (skills.includes(skill)) {
+      setSkillInputError("Skill already added")
+      return
     }
-    setValue("skills", [...skills, newSkill]);
-    setSkillInputError(null);
-    setSkillInputValue(""); // <-- clear input only after successful add
-  };
+
+    setValue("skills", [...skills, skill])
+    setSkillInputError(null)
+    setSearchQuery("")
+  }
 
   const handleRemoveSkill = (skillToRemove: string) => {
     setValue(
       "skills",
-      skills.filter((skill) => skill !== skillToRemove)
-    );
-    setSkillInputError(null);
-  };
+      skills.filter((skill) => skill !== skillToRemove),
+    )
+    setSkillInputError(null)
+  }
 
   const handleContinue = async () => {
-    const isValid = await trigger("skills");
-    console.log("skills", isValid);
+    const isValid = await trigger("skills")
+    console.log("skills", isValid)
     if (isValid) {
-      await updateWorker({
-        onboardingStep: OnboardingStepWorkerProfileB.PROFESSIONAL_INFO,
-        hourlyRate: Number.parseFloat(hourlyRate) || 0,
-        skills: skills,
-      });
-      goToNextStep();
+      await createSkills({skills}, {
+        onSuccess: async () => {
+          await updateWorker({
+            onboardingStep: OnboardingStepWorkerProfileB.PROFESSIONAL_INFO,
+            hourlyRate: Number(hourlyRate),
+          })
+        }
+      })
+      goToNextStep()
     }
-  };
+  }
+
+  // Close the command list when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (commandRef.current && !commandRef.current.contains(event.target as Node)) {
+        setIsFocused(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
     <Card className="p-10 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
-      <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">
-        Professional Skills
-      </h2>
+      <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">Professional Skills</h2>
       <div className="space-y-8">
         <FormField
           control={control}
           name="skills"
           render={() => (
             <FormItem className="space-y-4">
-              <FormLabel className="text-lg text-nixerly-darkgray font-medium">
-                Skills (Max 8)
-              </FormLabel>
+              <FormLabel className="text-lg text-nixerly-darkgray font-medium">Skills (Max 8)</FormLabel>
               <FormControl>
                 <div className="space-y-4">
-                  <div className="relative">
-                    <div
-                      className={`flex flex-wrap gap-2  min-h-[38px] rounded-md`}
-                    >
-                      <Input
-                        type="text"
-                        placeholder={
-                          skills.length >= 8
-                            ? "Maximum skills reached"
-                            : "Type skill and press Tab or Enter to add"
-                        }
-                        disabled={skills.length >= 8}
-                        value={skillInputValue} // <-- controlled input
-                        onChange={(e) => setSkillInputValue(e.target.value)} // <-- update local state
-                        onKeyDown={(e) => {
-                          if (
-                            (e.key === "Tab" || e.key === "Enter") &&
-                            skillInputValue.trim()
-                          ) {
-                            e.preventDefault();
-                            handleAddSkill(skillInputValue);
-                          } else if (e.key === "Enter") {
-                            // Prevent form submission on Enter even if input is empty
-                            e.preventDefault();
-                          }
-                        }}
-                        onFocus={() => setSkillInputError(null)}
-                        // Prevent browser autocomplete from interfering
-                        autoComplete="off"
-                        // Make sure this input does not submit the form
-                        formNoValidate
-                      />
-                      {skills.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="flex items-center gap-1 my-0.5"
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {skills.map((skill) => (
+                        <Badge key={skill} variant="secondary" className="flex items-center gap-1 my-0.5">
+                        {skill
+                          .replace(/_/g, " ")
+                          .toLowerCase()
+                          .replace(/\b\w/g, (c) => c.toUpperCase())}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-4 w-4 p-0 hover:bg-transparent"
+                          onClick={() => handleRemoveSkill(skill)}
                         >
-                          {skill}
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-4 w-4 p-0 hover:bg-transparent"
-                            onClick={() => handleRemoveSkill(skill)}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
+                          <X className="h-3 w-3" />
+                        </Button>
                         </Badge>
-                      ))}
-                    </div>
+                    ))}
                   </div>
-                  {skillInputError && (
-                    <div className="text-sm text-nixerly-coral mt-1">
-                      {skillInputError}
-                    </div>
-                  )}
+
+                  <div className="relative" ref={commandRef}>
+                    <Command className="rounded-lg border shadow-sm">
+                      <CommandInput
+                        placeholder={skills.length >= 8 ? "Maximum skills reached" : "Search skills..."}
+                        disabled={skills.length >= 8}
+                        value={searchQuery}
+                        onValueChange={setSearchQuery}
+                        onFocus={() => setIsFocused(true)}
+                        className="ring-0 focus:ring-0 focus:outline-none"
+                      />
+                      {isFocused && availableSkills.length > 0 && (
+                        <div className="border-t border-gray-200">
+                          <CommandList className="max-h-64 overflow-auto">
+                            <CommandEmpty>No skills found.</CommandEmpty>
+                            <CommandGroup>
+                              {availableSkills.map((skill) => (
+                                <CommandItem
+                                  key={skill.id}
+                                  value={skill.value}
+                                  onSelect={() => handleAddSkill(skill.value)}
+                                  className="cursor-pointer hover:bg-gray-100"
+                                >
+                                  {skill.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </div>
+                      )}
+                    </Command>
+                  </div>
+
+                  {skillInputError && <div className="text-sm text-nixerly-coral mt-1">{skillInputError}</div>}
 
                   <div className="mt-4">
-                    <FormLabel className="text-sm text-nixerly-darkgray font-medium">
-                      Hourly Rate (USD)
-                    </FormLabel>
+                    <FormLabel className="text-sm text-nixerly-darkgray font-medium">Hourly Rate (USD)</FormLabel>
                     <Input
                       type="number"
                       placeholder="Enter your hourly rate"
@@ -175,5 +183,5 @@ export function SkillsInfo() {
         </div>
       </div>
     </Card>
-  );
+  )
 }

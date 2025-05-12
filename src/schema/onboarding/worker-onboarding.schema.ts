@@ -3,8 +3,7 @@ import onboardingData from "@/data/onboarding/worker.json";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 
 // Create enums from onboarding.json data
-const professionValues = onboardingData.professions.map(p => p.value as string);
-const skillValues = Object.values(onboardingData.skills).flat().map(s => s.value as string);
+const skillValues = onboardingData.skills.map(s => s.value as string);
 const languageValues = onboardingData.languages.map(l => l.value as string);
 const proficiencyValues = onboardingData.proficiencyLevels.map(p => p.value as string);
 const experienceLevelValues = onboardingData.experienceLevels.map(e => e.value as string);
@@ -15,7 +14,6 @@ export type CategorySkills = {
   skills: string[];
 };
 
-export const ProfessionEnum = z.enum(professionValues as [string, ...string[]]);
 export const SkillEnum = z.enum(skillValues as [string, ...string[]]);
 export const LanguageEnum = z.enum(languageValues as [string, ...string[]]);
 export const ProficiencyEnum = z.enum(proficiencyValues as [string, ...string[]]);
@@ -33,7 +31,7 @@ export const workerOnboardingSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   hourlyRate: z.number().min(0, "Hourly rate must be positive"),
   description: z.string().min(50, "Description must be at least 50 characters"),
-  skills: z.array(z.string()).min(1, "At least one skill is required").max(8, "Maximum of 8 skills allowed"),
+  skills: z.array(SkillEnum).min(1, "At least one skill is required").max(8, "Maximum of 8 skills allowed"),
   experienceLevel: ExperienceLevelEnum,
   availability: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
@@ -50,12 +48,12 @@ export const workerOnboardingSchema = z.object({
   // Experience
   experience: z.array(
     z.object({
-      title: z.string(),
-      company: z.string(),
-      location: z.string(),
-      startDate: z.date(),
+      title: z.string().min(1, "Job title is required"),
+      company: z.string().min(1, "Company is required"),
+      location: z.string().min(1, "Location is required"),
+      startDate: z.date({ required_error: "Start date is required" }),
       endDate: z.date().optional(),
-      description: z.string(),
+      description: z.string().min(1, "Description is required"),
       current: z.boolean().default(false),
     })
   ),
@@ -63,10 +61,10 @@ export const workerOnboardingSchema = z.object({
   // Education
   education: z.array(
     z.object({
-      school: z.string(),
-      degree: z.string(),
-      fieldOfStudy: z.string(),
-      startDate: z.date(),
+      school: z.string().min(1, "School is required"),
+      degree: z.string().min(1, "Degree is required"),
+      fieldOfStudy: z.string().min(1, "Field of study is required"),
+      startDate: z.date({ required_error: "Start date is required" }),
       endDate: z.date().optional(),
       description: z.string().optional(),
     })
@@ -79,7 +77,6 @@ export const workerOnboardingSchema = z.object({
 export type WorkerOnboardingSchema = z.infer<typeof workerOnboardingSchema>;
 
 export const onboardingOptions = {
-  professions: onboardingData.professions,
   skills: onboardingData.skills,
   experienceLevels: onboardingData.experienceLevels,
   languages: onboardingData.languages,

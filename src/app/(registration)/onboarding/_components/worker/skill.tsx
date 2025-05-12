@@ -1,3 +1,5 @@
+"use client";
+
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -9,92 +11,60 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
-import {
-  WorkerOnboardingSchema,
-  onboardingOptions,
-} from "@/schema/onboarding/worker-onboarding.schema";
+import type { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, X } from "lucide-react";
 import { useState } from "react";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
+import { Input } from "@/components/ui/input";
 
 export function SkillsInfo() {
   const { goToNextStep } = useOnboardingNavigation();
-  const { control, watch, trigger, setValue } =
-    useFormContext<WorkerOnboardingSchema>();
+  const { control, watch, trigger, setValue } = useFormContext<
+    WorkerOnboardingSchema
+  >();
   const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const categorySkills = watch("categorySkills") || [];
-
-  const handleAddCategory = (category: string) => {
-    if (categorySkills.length >= 4) {
-      return; // Maximum 4 categories allowed
-    }
-    if (!categorySkills.find((cs) => cs.category === category)) {
-      setValue("categorySkills", [...categorySkills, { category, skills: [] }]);
-    }
-    setSelectedCategory(category);
-  };
-
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const getAvailableSkills = (category: string) => {
-    const skills = onboardingOptions.skills[category as keyof typeof onboardingOptions.skills];
-    return skills || [];
-  };
-
-  const handleRemoveCategory = (category: string) => {
-    setValue(
-      "categorySkills",
-      categorySkills.filter((cs) => cs.category !== category)
-    );
-    if (selectedCategory === category) {
-      setSelectedCategory("");
-    }
-  };
+  const skills: string[] = [...(watch("skills") || [])] as string[];
+  const [hourlyRate, setHourlyRate] = useState<string>("");
+  const [skillInputError, setSkillInputError] = useState<string | null>(null);
+  const [skillInputValue, setSkillInputValue] = useState<string>(""); // <-- add this
 
   const handleAddSkill = (skill: string) => {
-    const categoryIndex = categorySkills.findIndex(
-      (cs) => cs.category === selectedCategory
-    );
-    if (categoryIndex === -1) return;
-
-    const updatedCategorySkills = [...categorySkills];
-    if (!updatedCategorySkills[categoryIndex].skills.includes(skill)) {
-      updatedCategorySkills[categoryIndex].skills.push(skill);
-      setValue("categorySkills", updatedCategorySkills);
+    const newSkill = skill.trim();
+    if (!newSkill) {
+      setSkillInputError("Skill cannot be empty.");
+      return;
     }
+    if (skills.length >= 8) {
+      setSkillInputError("You can add up to 8 skills only.");
+      return;
+    }
+    if (skills.some((s) => s.toLowerCase() === newSkill.toLowerCase())) {
+      setSkillInputError("Skill already added.");
+      return;
+    }
+    setValue("skills", [...skills, newSkill]);
+    setSkillInputError(null);
+    setSkillInputValue(""); // <-- clear input only after successful add
   };
 
-  const handleRemoveSkill = (category: string, skill: string) => {
-    const categoryIndex = categorySkills.findIndex(
-      (cs) => cs.category === category
+  const handleRemoveSkill = (skillToRemove: string) => {
+    setValue(
+      "skills",
+      skills.filter((skill) => skill !== skillToRemove)
     );
-    if (categoryIndex === -1) return;
-
-    const updatedCategorySkills = [...categorySkills];
-    updatedCategorySkills[categoryIndex].skills = updatedCategorySkills[
-      categoryIndex
-    ].skills.filter((s) => s !== skill);
-    setValue("categorySkills", updatedCategorySkills);
+    setSkillInputError(null);
   };
 
   const handleContinue = async () => {
-    const isValid = await trigger("categorySkills");
+    const isValid = await trigger("skills");
+    console.log("skills", isValid);
     if (isValid) {
-      //update skills here
       await updateWorker({
-        onboardingStep: OnboardingStepWorkerProfileB.PROFESSIONAL_INFO
+        onboardingStep: OnboardingStepWorkerProfileB.PROFESSIONAL_INFO,
+        hourlyRate: Number.parseFloat(hourlyRate) || 0,
+        skills: skills,
       });
       goToNextStep();
     }
@@ -108,124 +78,82 @@ export function SkillsInfo() {
       <div className="space-y-8">
         <FormField
           control={control}
-          name="categorySkills"
+          name="skills"
           render={() => (
             <FormItem className="space-y-4">
               <FormLabel className="text-lg text-nixerly-darkgray font-medium">
-                Select Categories (Max 4)
+                Skills (Max 8)
               </FormLabel>
               <FormControl>
                 <div className="space-y-4">
-                  <Select
-                    disabled={categorySkills.length >= 4}
-                    value={selectedCategory}
-                    onValueChange={handleAddCategory}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {onboardingOptions.professions.map((profession) => (
-                        <SelectItem
-                          key={profession.value}
-                          value={profession.value}
-                          disabled={categorySkills.some(
-                            (cs) => cs.category === profession.value
-                          )}
+                  <div className="relative">
+                    <div
+                      className={`flex flex-wrap gap-2  min-h-[38px] rounded-md`}
+                    >
+                      <Input
+                        type="text"
+                        placeholder={
+                          skills.length >= 8
+                            ? "Maximum skills reached"
+                            : "Type skill and press Tab or Enter to add"
+                        }
+                        disabled={skills.length >= 8}
+                        value={skillInputValue} // <-- controlled input
+                        onChange={(e) => setSkillInputValue(e.target.value)} // <-- update local state
+                        onKeyDown={(e) => {
+                          if (
+                            (e.key === "Tab" || e.key === "Enter") &&
+                            skillInputValue.trim()
+                          ) {
+                            e.preventDefault();
+                            handleAddSkill(skillInputValue);
+                          } else if (e.key === "Enter") {
+                            // Prevent form submission on Enter even if input is empty
+                            e.preventDefault();
+                          }
+                        }}
+                        onFocus={() => setSkillInputError(null)}
+                        // Prevent browser autocomplete from interfering
+                        autoComplete="off"
+                        // Make sure this input does not submit the form
+                        formNoValidate
+                      />
+                      {skills.map((skill) => (
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="flex items-center gap-1 my-0.5"
                         >
-                          {profession.label}
-                        </SelectItem>
+                          {skill}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-4 w-4 p-0 hover:bg-transparent"
+                            onClick={() => handleRemoveSkill(skill)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Badge>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </div>
+                  </div>
+                  {skillInputError && (
+                    <div className="text-sm text-nixerly-coral mt-1">
+                      {skillInputError}
+                    </div>
+                  )}
 
-                  <div className="space-y-4">
-                    {categorySkills.map((cs) => {
-                      const availableSkills = getAvailableSkills(cs.category);
-                      const isSelected = selectedCategory === cs.category;
-                      
-                      return (
-                        <div
-                          key={cs.category}
-                          className={`border rounded-lg p-4 space-y-3 cursor-pointer transition-colors ${
-                            isSelected ? 'border-nixerly-blue' : 'hover:border-nixerly-blue/50'
-                          }`}
-                          onClick={() => handleCategoryClick(cs.category)}
-                        >
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-medium">
-                              {
-                                onboardingOptions.professions.find(
-                                  (p) => p.value === cs.category
-                                )?.label
-                              }
-                            </h3>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleRemoveCategory(cs.category);
-                              }}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </div>
-
-                          <div className="space-y-2">
-                            {isSelected && availableSkills.length > 0 && (
-                              <Select onValueChange={handleAddSkill}>
-                                <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="Add skills" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {availableSkills.map((skill) => (
-                                    <SelectItem
-                                      key={skill.value}
-                                      value={skill.value}
-                                      disabled={cs.skills.includes(skill.value)}
-                                    >
-                                      {skill.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            )}
-                            {availableSkills.length === 0 && (
-                              <p className="text-sm text-nixerly-darkgray/70">
-                                No specific skills available for this category
-                              </p>
-                            )}
-
-                            <div className="flex flex-wrap gap-2">
-                              {cs.skills.map((skill) => (
-                                <Badge
-                                  key={skill}
-                                  variant="secondary"
-                                  className="flex items-center gap-1"
-                                >
-                                  {
-                                    availableSkills.find((s) => s.value === skill)
-                                      ?.label
-                                  }
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-4 w-4 p-0 hover:bg-transparent"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleRemoveSkill(cs.category, skill);
-                                    }}
-                                  >
-                                    <X className="h-3 w-3" />
-                                  </Button>
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <div className="mt-4">
+                    <FormLabel className="text-sm text-nixerly-darkgray font-medium">
+                      Hourly Rate (USD)
+                    </FormLabel>
+                    <Input
+                      type="number"
+                      placeholder="Enter your hourly rate"
+                      value={hourlyRate}
+                      onChange={(e) => setHourlyRate(e.target.value)}
+                      className="mt-1"
+                    />
                   </div>
                 </div>
               </FormControl>
@@ -235,10 +163,10 @@ export function SkillsInfo() {
         />
 
         <div className="flex justify-end pt-8">
-        <Button
+          <Button
             type="button"
             onClick={handleContinue}
-            disabled={isPending || categorySkills.length === 0}
+            disabled={isPending || skills.length === 0}
             className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
           >
             {isPending ? "Saving..." : "Continue"}

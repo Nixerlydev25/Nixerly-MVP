@@ -13,6 +13,7 @@ export const useGetSkills = () => {
 export const useCreateSkills = () => {
   const queryClient = useQueryClient();
   return useMutation({
+    mutationKey: [QueryKeys.CREATE_SKILLS],
     mutationFn: (data: {skills: WorkerOnboardingSchema['skills']}) => SkillsService.createSkill(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_SKILLS] });

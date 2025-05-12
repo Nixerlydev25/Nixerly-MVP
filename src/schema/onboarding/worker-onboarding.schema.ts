@@ -29,7 +29,7 @@ export const workerOnboardingSchema = z.object({
 
   // Professional Info
   title: z.string().min(2, "Title must be at least 2 characters"),
-  hourlyRate: z.number().min(0, "Hourly rate must be positive"),
+  hourlyRate: z.number().min(14, "Hourly rate must be at least $14"),
   description: z.string().min(50, "Description must be at least 50 characters"),
   skills: z.array(SkillEnum).min(1, "At least one skill is required").max(8, "Maximum of 8 skills allowed"),
   experienceLevel: ExperienceLevelEnum,

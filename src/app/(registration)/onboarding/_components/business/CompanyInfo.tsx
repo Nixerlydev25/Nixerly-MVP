@@ -1,136 +1,215 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { BusinessOnboardingSchema } from "@/schema/onboarding/business-onboarding.schema";
-import { useUpdateUser } from "@/hook/user/user.hooks";
-import { OnboardingStepBusinessProfileB } from "@/types/onboarding";
+import { Button } from "@/components/ui/button";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { LocationSearch, LocationDetails } from "@/components/location-search";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const industries = [
-  { value: "construction", label: "Construction" },
-  { value: "manufacturing", label: "Manufacturing" },
-  { value: "engineering", label: "Engineering" },
-  { value: "maintenance", label: "Maintenance & Repairs" },
-  { value: "facility_management", label: "Facility Management" },
-  { value: "renovation", label: "Renovation & Remodeling" },
-  { value: "development", label: "Real Estate Development" },
-  { value: "procurement", label: "Equipment & Materials Procurement" },
-  { value: "consultant", label: "Consulting Services" },
-  { value: "other", label: "Other" },
-];
+interface BusinessData {
+  employeeRanges: Array<{ value: string; label: string }>;
+  industryOptions: Array<{ value: string; label: string }>;
+}
 
-export function CompanyInfo() {
-  const { control, trigger, watch } = useFormContext<BusinessOnboardingSchema>();
-  const { nextStep } = useBusinessOnboardingNavigation();
-  const { mutateAsync: updateUser } = useUpdateUser();
-  const formData = watch();
+import data from '@/data/onboarding/business.json' assert { type: "json" };
 
-  const handleContinue = async () => {
-    const fieldsToValidate = [
-      "companyName",
-      "description",
-      "industry"
-    ] as const;
+export function BusinessProfileForm() {
+  const form = useFormContext<BusinessOnboardingSchema>();
 
-    const isValid = await trigger(fieldsToValidate);
-    if (isValid) {
-      await updateUser({
-        onboardingStep : OnboardingStepBusinessProfileB.BUSINESS_DETAILS,
-        businessProfile: {
-          companyName: formData.companyName,
-          description: formData.description,
-          industry: formData.industry
-        }
-      });
-      nextStep();
-    }
+  const handleLocationSelect = (location: LocationDetails) => {
+    form.setValue("city", location.city, { shouldValidate: true });
+    form.setValue("state", location.state, { shouldValidate: true });
+    form.setValue("country", location.country, { shouldValidate: true });
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Company Information</h2>
-        <p className="text-muted-foreground">
-          Tell us about your company
-        </p>
-      </div>
-
-      <FormField
-        control={control}
-        name="companyName"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Company Name</FormLabel>
-            <FormControl>
-              <Input placeholder="Enter your company name" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={control}
-        name="industry"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Industry</FormLabel>
-            <Select 
-              onValueChange={field.onChange} 
-              defaultValue={field.value}
-            >
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader>
+        <CardTitle>Business Profile</CardTitle>
+        <CardDescription>
+          Enter your business information to complete your profile.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <FormField
+          control={form.control}
+          name="companyName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company Name</FormLabel>
               <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your industry" />
-                </SelectTrigger>
+                <Input placeholder="Acme Inc." {...field} />
               </FormControl>
-              <SelectContent>
-                {industries.map((industry) => (
-                  <SelectItem key={industry.value} value={industry.value}>
-                    {industry.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormDescription>
-              Select the industry that best describes your business
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={control}
-        name="description"
-        render={({ field }) => (
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us about your business..."
+                  className="min-h-[120px]"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                A brief description of your company and what you do.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="industry"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Industry</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an industry" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {(data as BusinessData).industryOptions.map((industry) => (
+                      <SelectItem key={industry.value} value={industry.value}>
+                        {industry.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="employeeCount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Number of Employees</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select employee range" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {(data as BusinessData).employeeRanges.map((range) => (
+                      <SelectItem key={range.value} value={range.value}>
+                        {range.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="space-y-6">
           <FormItem>
-            <FormLabel>Company Description</FormLabel>
+            <FormLabel>Location</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Describe what your company does" 
-                className="min-h-[120px]"
-                {...field} 
+              <LocationSearch
+                onLocationSelect={handleLocationSelect}
+                defaultValue=""
               />
             </FormControl>
-            <FormDescription>
-              Provide a brief description of your company and the services you offer
-            </FormDescription>
-            <FormMessage />
+            <div className="space-y-1">
+              {(form.formState.errors.city || form.formState.errors.country) && (
+                <FormMessage>Location is required</FormMessage>
+              )}
+              {/* {form.formState.errors.state && (
+                <FormMessage>{form.formState.errors.state.message}</FormMessage>
+              )}
+              {form.formState.errors.country && (
+                <FormMessage>{form.formState.errors.country.message}</FormMessage>
+              )} */}
+            </div>
           </FormItem>
-        )}
-      />
+        </div>
 
-      <div className="flex justify-end">
-        <Button type="button" onClick={handleContinue}>
-          Next Step
-        </Button>
-      </div>
-    </div>
+        <FormField
+          control={form.control}
+          name="website"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Website</FormLabel>
+              <FormControl>
+                <Input placeholder="https://example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="yearFounded"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Year Founded</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="2010"
+                  {...field}
+                  onChange={(e) => {
+                    const value =
+                      e.target.value === ""
+                        ? undefined
+                        : Number.parseInt(e.target.value, 10);
+                    field.onChange(value);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <CardFooter className="px-0 pt-6">
+          <Button type="submit" className="ml-auto" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Saving..." : "Go To Feed"}
+          </Button>
+        </CardFooter>
+      </CardContent>
+    </Card>
   );
-} 
+}

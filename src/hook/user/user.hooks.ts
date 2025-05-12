@@ -4,6 +4,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { TBusinessProfile, TUser, TWorkerProfile } from "@/types/auth";
 import { currentUserData } from "@/types/user/user.types";
 import { queryClient } from "@/providers/query.provider";
+import { ROUTES } from "@/lib/routes";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 // Define the BusinessProfile interface
 export interface BusinessProfile {
@@ -46,11 +49,14 @@ export const useUpdateWorkerProfile = () => {
 };
 
 export const useUpdateBusinessProfile = () => {
+  const router = useRouter();
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_BUSINESS_PROFILE],
     mutationFn: (data: TBusinessProfile) =>
       UserService.updateBusinessProfile(data),
     onSuccess: () => {
+      router.replace(ROUTES.FEED);
+      toast.success("Business onboarding completed successfully!");
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
     },
     onError: (error: unknown) => {

@@ -1,12 +1,11 @@
 import instance from "../api";
-import { SignUpRequest, SignInRequest, AuthResponse, User } from "../../types/auth";
+import { SignUpRequest, SignInRequest, AuthResponse, TUser } from "../../types/auth";
 import { API_ROUTES } from "../../constants/api";
 
 class AuthService {
   static async signUp(data: SignUpRequest): Promise<AuthResponse> {
     try {
-      const response = await instance.post(API_ROUTES.AUTH.SIGN_UP, data);
-      return response.data;
+      return instance.post(API_ROUTES.AUTH.SIGN_UP, data);
     } catch (error) {
       console.error("Error during sign up:", error);
       throw error;
@@ -15,8 +14,7 @@ class AuthService {
 
   static async signIn(data: SignInRequest): Promise<AuthResponse> {
     try{
-      const response = await instance.post(API_ROUTES.AUTH.SIGN_IN, data);
-      return response.data; 
+      return instance.post(API_ROUTES.AUTH.SIGN_IN, data);
     } catch (error) {
       console.error("Error during sign in:", error);
       throw error;
@@ -32,10 +30,9 @@ class AuthService {
     }
   }
 
-  static async getCurrentUser(): Promise<User> {
+  static async getCurrentUser(): Promise<TUser> {
     try {
-      const response = await instance.get(API_ROUTES.AUTH.CURRENT_USER);
-      return response.data;
+      return instance.get(API_ROUTES.AUTH.CURRENT_USER);
     } catch (error) {
       console.error("Error during getting current user:", error);
       throw error;

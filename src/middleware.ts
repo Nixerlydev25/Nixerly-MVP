@@ -43,8 +43,8 @@ function handleOnboardingRedirectWorkerProfile(
 
 const BUSINESS_ONBOARDING_STEP_MAP: Record<string, string | null> = {
   COMPANY_INFO: OnboardingStepBusiness.COMPANY_INFO,
-  BUSINESS_DETAILS: OnboardingStepBusiness.BUSINESS_DETAILS,
-  REVIEW: OnboardingStepBusiness.REVIEW,
+  // BUSINESS_DETAILS: OnboardingStepBusiness.BUSINESS_DETAILS,
+  // REVIEW: OnboardingStepBusiness.REVIEW,
   COMPLETED: null,
 };
 

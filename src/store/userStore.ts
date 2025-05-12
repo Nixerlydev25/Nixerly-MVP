@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import UserService from '@/services/user/user.service';
-import { User } from '@/types/auth';
+import { TUser } from '@/types/auth';
 
 interface UserState {
-  user: User | null;
+  user: TUser | null;
   isLoading: boolean;
   error: string | null;
   

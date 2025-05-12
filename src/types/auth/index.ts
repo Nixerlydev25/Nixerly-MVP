@@ -1,4 +1,4 @@
-import { OnboardingStepWorkerProfileB } from "../onboarding";
+import { OnboardingStepBusinessProfileB, OnboardingStepWorkerProfileB } from "../onboarding";
 import { ProfileType } from "../user/user.types";
 
 // Base interface for common fields
@@ -52,7 +52,6 @@ export interface TWorkerProfile {
   hourlyRate?: number | null;
   description?: string | null;
   categoryId?: string | null;
-  location?: string | null;
   city?: string | null;
   state?: string | null;
   country?: string | null;
@@ -65,18 +64,16 @@ export interface TWorkerProfile {
 
 // Business Profile type
 export interface TBusinessProfile {
-  id: string;
-  userId: string;
   companyName: string | null;
   description: string | null;
   industry: string | null;
-  location: string | null;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
   website: string | null;
   employeeCount: number | null;
   yearFounded: number | null;
-  totalSpent: number;
-  postedJobs: number;
-  onboardingStep: OnboardingStepBusinessProfile;
+  onboardingStep: OnboardingStepBusinessProfileB;
 }
 
 // Complete User type with profiles

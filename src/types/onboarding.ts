@@ -26,22 +26,22 @@ export enum OnboardingStepWorkerProfileB {
 
 export enum OnboardingStepBusiness {
   COMPANY_INFO = "company-info",
-  BUSINESS_DETAILS = "business-details",
-  REVIEW = "review",
-  COMPLETED = "completed",
+  // BUSINESS_DETAILS = "business-details",
+  // REVIEW = "review",
+  // COMPLETED = "completed"
 }
 
 export const ONBOARDING_STEPS_BUSINESS = [
   OnboardingStepBusiness.COMPANY_INFO,
-  OnboardingStepBusiness.BUSINESS_DETAILS,
-  OnboardingStepBusiness.REVIEW,
-  OnboardingStepBusiness.COMPLETED,
+  // OnboardingStepBusiness.BUSINESS_DETAILS,
+  // OnboardingStepBusiness.REVIEW,
+  // OnboardingStepBusiness.COMPLETED,
 ];
 
 
 export enum OnboardingStepBusinessProfileB {
   COMPANY_INFO="COMPANY_INFO",
-  BUSINESS_DETAILS="BUSINESS_DETAILS",
-  REVIEW="REVIEW",
+  // BUSINESS_DETAILS="BUSINESS_DETAILS",
+  // REVIEW="REVIEW",
   COMPLETED="COMPLETED"
 }

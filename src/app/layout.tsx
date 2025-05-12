@@ -5,6 +5,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/query.provider";
 import Navbar from "@/components/common/navbar";
 import Footer from "@/components/common/footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
               </main>
               <Footer />
             </div>
+            <Toaster/>
           </QueryProvider>
         </ThemeProvider>
       </body>

@@ -2,14 +2,16 @@ export enum OnboardingStepWorker {
   PERSONAL_INFO = "personal-info",
   LANGUAGE_INFO = "language-info",
   SKILLS_HOURLY_RATE_INFO = "skills-hourly-rate-info",
-  PROFESSIONAL_INFO = "professional-info",
+  EDUCATION_INFO = "educational-info",
+  EXPERIENCE_INFO = "experience-info",
   AVAILABILITY_INFO = "availability-info",
 }
 
 export const ONBOARDING_STEPS_WORKER = [
   OnboardingStepWorker.PERSONAL_INFO,
   OnboardingStepWorker.SKILLS_HOURLY_RATE_INFO,
-  OnboardingStepWorker.PROFESSIONAL_INFO,
+  OnboardingStepWorker.EXPERIENCE_INFO,
+  OnboardingStepWorker.EDUCATION_INFO,
   OnboardingStepWorker.LANGUAGE_INFO,
   OnboardingStepWorker.AVAILABILITY_INFO,
 ]; 
@@ -18,8 +20,9 @@ export enum OnboardingStepWorkerProfileB {
   PERSONAL_INFO="PERSONAL_INFO",
   LANGUAGE_INFO="LANGUAGE_INFO",
   SKILLS_HOURLY_RATE_INFO="SKILLS_HOURLY_RATE_INFO",
-  PROFESSIONAL_INFO="PROFESSIONAL_INFO",
-  EDUCATIONAL_INFO="EDUCATIONAL_INFO",
+  EDUCATIONAL_INFO="EDUCATION_INFO",
+  EXPERIENCE_INFO="EXPERIENCE_INFO",
+  AVAILABILITY_INFO="AVAILABILITY_INFO",
   COMPLETED="COMPLETED"
 }
 

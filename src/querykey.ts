@@ -14,4 +14,8 @@ export enum QueryKeys {
   GET_EXPERIENCE = "get-experience",
   GET_EDUCATIONS = "educations",
   CREATE_SKILLS = "create-skills",
+  CREATE_LANGUAGES = "create-languages",
+  CREATE_EDUCATIONS = "create-educations",
+  UPDATE_EDUCATIONS = "update-educations",
+  DELETE_EDUCATIONS = "delete-educations",
 }

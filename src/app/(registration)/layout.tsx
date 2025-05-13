@@ -1,9 +1,9 @@
 import type React from "react";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme.provider";
-import "./globals.css";
+import "../globals.css";
 import QueryProvider from "@/providers/query.provider";
-import DashboardNav from "@/components/common/dashboardNav";
+import Navbar from "@/components/common/navbar";
 import Footer from "@/components/common/footer";
 import { Toaster } from "sonner";
 
@@ -16,7 +16,7 @@ export const metadata = {
   generator: "v0.dev",
 };
 
-export default function RootLayout({
+export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           <QueryProvider>
             <div className="flex min-h-screen flex-col">
-              <DashboardNav />
+              <Navbar />
               <main>
                 {children}
               </main>

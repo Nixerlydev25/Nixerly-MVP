@@ -21,7 +21,7 @@ import { ChevronRight } from "lucide-react";
 
 export const PersonalInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
-  const { control, watch, trigger, setValue } = useFormContext<WorkerOnboardingSchema>();
+  const { control, watch, trigger, setValue, formState: { errors } } = useFormContext<WorkerOnboardingSchema>();
   const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
   const formData = watch();
 
@@ -75,7 +75,7 @@ export const PersonalInfo = () => {
                   className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20" 
                 />
               </FormControl>
-              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+              <FormDescription>
                 Enter your professional title that best describes your role
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
@@ -96,7 +96,7 @@ export const PersonalInfo = () => {
                   {...field} 
                 />
               </FormControl>
-              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+              <FormDescription>
                 Provide a detailed description of your professional background and services
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
@@ -117,10 +117,14 @@ export const PersonalInfo = () => {
                   className="w-full"
                 />
               </FormControl>
-              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+              <FormDescription>
                 Search and select your location
               </FormDescription>
-              <FormMessage className="text-nixerly-coral mt-1" />
+              {(errors.city || errors.country) && (
+                <p className="text-nixerly-coral mt-1 text-sm">
+                  Location is required
+                </p>
+              )}
             </FormItem>
           )}
         />
@@ -130,7 +134,7 @@ export const PersonalInfo = () => {
             type="button"
             onClick={handleContinue}
             disabled={isPending}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
             {isPending ? "Saving..." : "Continue"}
             <ChevronRight className="ml-2 h-4 w-4" />

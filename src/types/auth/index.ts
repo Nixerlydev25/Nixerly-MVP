@@ -51,7 +51,7 @@ export interface TWorkerProfile {
   title?: string | null;
   hourlyRate?: number | null;
   description?: string | null;
-  categoryId?: string | null;
+  skills?: string[] | null;
   city?: string | null;
   state?: string | null;
   country?: string | null;

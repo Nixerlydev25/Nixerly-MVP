@@ -1,160 +1,484 @@
-
 {
-  "professions": [
-    { "value": "PLUMBING", "label": "Plumbing" },
-    { "value": "ELECTRICAL", "label": "Electrical" },
-    { "value": "CARPENTRY", "label": "Carpentry" },
-    { "value": "HVAC", "label": "HVAC" },
-    { "value": "PAINTING", "label": "Painting" },
-    { "value": "LANDSCAPING", "label": "Landscaping" },
-    { "value": "CLEANING", "label": "Cleaning" },
-    { "value": "MOVING", "label": "Moving" },
-    { "value": "AUTOMOTIVE", "label": "Automotive" },
-    { "value": "ROOFING", "label": "Roofing" },
-    { "value": "MASONRY", "label": "Masonry" },
-    { "value": "WELDING", "label": "Welding" },
-    { "value": "FLOORING", "label": "Flooring" },
-    { "value": "APPLIANCE_REPAIR", "label": "Appliance Repair" },
-    { "value": "MANAGEMENT", "label": "Management" },
-    { "value": "TECHNICIAN", "label": "Technician" },
-    { "value": "FABRICATION", "label": "Fabrication" },
-    { "value": "MAINTENANCE", "label": "Maintenance" },
-    { "value": "GROUNDWORKS", "label": "Groundworks" },
-    { "value": "RIGGING", "label": "Rigging" }
+  "skills": [
+    {
+      "label": "Pipe Installation",
+      "id": "PIPE_INSTALLATION",
+      "value": "PIPE_INSTALLATION"
+    },
+    {
+      "label": "Drain Cleaning",
+      "id": "DRAIN_CLEANING",
+      "value": "DRAIN_CLEANING"
+    },
+    {
+      "label": "Fixture Installation",
+      "id": "FIXTURE_INSTALLATION",
+      "value": "FIXTURE_INSTALLATION"
+    },
+    {
+      "label": "Water Heater Service",
+      "id": "WATER_HEATER_SERVICE",
+      "value": "WATER_HEATER_SERVICE"
+    },
+    { "label": "Leak Repair", "id": "LEAK_REPAIR", "value": "LEAK_REPAIR" },
+    {
+      "label": "Wiring Installation",
+      "id": "WIRING_INSTALLATION",
+      "value": "WIRING_INSTALLATION"
+    },
+    {
+      "label": "Lighting Installation",
+      "id": "LIGHTING_INSTALLATION",
+      "value": "LIGHTING_INSTALLATION"
+    },
+    {
+      "label": "Electrical Repair",
+      "id": "ELECTRICAL_REPAIR",
+      "value": "ELECTRICAL_REPAIR"
+    },
+    {
+      "label": "Panel Upgrades",
+      "id": "PANEL_UPGRADES",
+      "value": "PANEL_UPGRADES"
+    },
+    {
+      "label": "Generator Installation",
+      "id": "GENERATOR_INSTALLATION",
+      "value": "GENERATOR_INSTALLATION"
+    },
+    {
+      "label": "Cabinet Making",
+      "id": "CABINET_MAKING",
+      "value": "CABINET_MAKING"
+    },
+    { "label": "Framing", "id": "FRAMING", "value": "FRAMING" },
+    {
+      "label": "Finish Carpentry",
+      "id": "FINISH_CARPENTRY",
+      "value": "FINISH_CARPENTRY"
+    },
+    {
+      "label": "Door Installation",
+      "id": "DOOR_INSTALLATION",
+      "value": "DOOR_INSTALLATION"
+    },
+    {
+      "label": "Window Installation",
+      "id": "WINDOW_INSTALLATION",
+      "value": "WINDOW_INSTALLATION"
+    },
+    {
+      "label": "AC Installation",
+      "id": "AC_INSTALLATION",
+      "value": "AC_INSTALLATION"
+    },
+    {
+      "label": "Heating Repair",
+      "id": "HEATING_REPAIR",
+      "value": "HEATING_REPAIR"
+    },
+    {
+      "label": "Ventilation Work",
+      "id": "VENTILATION_WORK",
+      "value": "VENTILATION_WORK"
+    },
+    {
+      "label": "Duct Cleaning",
+      "id": "DUCT_CLEANING",
+      "value": "DUCT_CLEANING"
+    },
+    {
+      "label": "System Maintenance",
+      "id": "SYSTEM_MAINTENANCE",
+      "value": "SYSTEM_MAINTENANCE"
+    },
+    {
+      "label": "Interior Painting",
+      "id": "INTERIOR_PAINTING",
+      "value": "INTERIOR_PAINTING"
+    },
+    {
+      "label": "Exterior Painting",
+      "id": "EXTERIOR_PAINTING",
+      "value": "EXTERIOR_PAINTING"
+    },
+    {
+      "label": "Wallpaper Installation",
+      "id": "WALLPAPER_INSTALLATION",
+      "value": "WALLPAPER_INSTALLATION"
+    },
+    { "label": "Staining", "id": "STAINING", "value": "STAINING" },
+    {
+      "label": "Paint Removal",
+      "id": "PAINT_REMOVAL",
+      "value": "PAINT_REMOVAL"
+    },
+    {
+      "label": "Lawn Maintenance",
+      "id": "LAWN_MAINTENANCE",
+      "value": "LAWN_MAINTENANCE"
+    },
+    {
+      "label": "Tree Trimming",
+      "id": "TREE_TRIMMING",
+      "value": "TREE_TRIMMING"
+    },
+    {
+      "label": "Garden Design",
+      "id": "GARDEN_DESIGN",
+      "value": "GARDEN_DESIGN"
+    },
+    {
+      "label": "Irrigation Installation",
+      "id": "IRRIGATION_INSTALLATION",
+      "value": "IRRIGATION_INSTALLATION"
+    },
+    { "label": "Hardscaping", "id": "HARDSCAPING", "value": "HARDSCAPING" },
+    {
+      "label": "Deep Cleaning",
+      "id": "DEEP_CLEANING",
+      "value": "DEEP_CLEANING"
+    },
+    {
+      "label": "Window Cleaning",
+      "id": "WINDOW_CLEANING",
+      "value": "WINDOW_CLEANING"
+    },
+    {
+      "label": "Carpet Cleaning",
+      "id": "CARPET_CLEANING",
+      "value": "CARPET_CLEANING"
+    },
+    {
+      "label": "Pressure Washing",
+      "id": "PRESSURE_WASHING",
+      "value": "PRESSURE_WASHING"
+    },
+    { "label": "Sanitization", "id": "SANITIZATION", "value": "SANITIZATION" },
+    {
+      "label": "Furniture Moving",
+      "id": "FURNITURE_MOVING",
+      "value": "FURNITURE_MOVING"
+    },
+    {
+      "label": "Packing Services",
+      "id": "PACKING_SERVICES",
+      "value": "PACKING_SERVICES"
+    },
+    {
+      "label": "Heavy Lifting",
+      "id": "HEAVY_LIFTING",
+      "value": "HEAVY_LIFTING"
+    },
+    {
+      "label": "Equipment Transportation",
+      "id": "EQUIPMENT_TRANSPORTATION",
+      "value": "EQUIPMENT_TRANSPORTATION"
+    },
+    {
+      "label": "Logistics Planning",
+      "id": "LOGISTICS_PLANNING",
+      "value": "LOGISTICS_PLANNING"
+    },
+    {
+      "label": "Engine Repair",
+      "id": "ENGINE_REPAIR",
+      "value": "ENGINE_REPAIR"
+    },
+    {
+      "label": "Brake Service",
+      "id": "BRAKE_SERVICE",
+      "value": "BRAKE_SERVICE"
+    },
+    {
+      "label": "Transmission Repair",
+      "id": "TRANSMISSION_REPAIR",
+      "value": "TRANSMISSION_REPAIR"
+    },
+    {
+      "label": "Auto Electrical",
+      "id": "AUTO_ELECTRICAL",
+      "value": "AUTO_ELECTRICAL"
+    },
+    { "label": "Body Work", "id": "BODY_WORK", "value": "BODY_WORK" },
+    {
+      "label": "Roof Installation",
+      "id": "ROOF_INSTALLATION",
+      "value": "ROOF_INSTALLATION"
+    },
+    {
+      "label": "Shingle Repair",
+      "id": "SHINGLE_REPAIR",
+      "value": "SHINGLE_REPAIR"
+    },
+    {
+      "label": "Leak Detection",
+      "id": "LEAK_DETECTION",
+      "value": "LEAK_DETECTION"
+    },
+    {
+      "label": "Gutter Installation",
+      "id": "GUTTER_INSTALLATION",
+      "value": "GUTTER_INSTALLATION"
+    },
+    {
+      "label": "Roof Inspection",
+      "id": "ROOF_INSPECTION",
+      "value": "ROOF_INSPECTION"
+    },
+    { "label": "Brick Laying", "id": "BRICK_LAYING", "value": "BRICK_LAYING" },
+    { "label": "Stone Work", "id": "STONE_WORK", "value": "STONE_WORK" },
+    {
+      "label": "Concrete Pouring",
+      "id": "CONCRETE_POURING",
+      "value": "CONCRETE_POURING"
+    },
+    {
+      "label": "Foundation Repair",
+      "id": "FOUNDATION_REPAIR",
+      "value": "FOUNDATION_REPAIR"
+    },
+    { "label": "Tuckpointing", "id": "TUCKPOINTING", "value": "TUCKPOINTING" },
+    { "label": "Arc Welding", "id": "ARC_WELDING", "value": "ARC_WELDING" },
+    { "label": "MIG Welding", "id": "MIG_WELDING", "value": "MIG_WELDING" },
+    { "label": "TIG Welding", "id": "TIG_WELDING", "value": "TIG_WELDING" },
+    { "label": "Pipe Welding", "id": "PIPE_WELDING", "value": "PIPE_WELDING" },
+    {
+      "label": "Structural Welding",
+      "id": "STRUCTURAL_WELDING",
+      "value": "STRUCTURAL_WELDING"
+    },
+    {
+      "label": "Tile Installation",
+      "id": "TILE_INSTALLATION",
+      "value": "TILE_INSTALLATION"
+    },
+    {
+      "label": "Hardwood Flooring",
+      "id": "HARDWOOD_FLOORING",
+      "value": "HARDWOOD_FLOORING"
+    },
+    {
+      "label": "Carpet Installation",
+      "id": "CARPET_INSTALLATION",
+      "value": "CARPET_INSTALLATION"
+    },
+    {
+      "label": "Vinyl Flooring",
+      "id": "VINYL_FLOORING",
+      "value": "VINYL_FLOORING"
+    },
+    {
+      "label": "Floor Refinishing",
+      "id": "FLOOR_REFINISHING",
+      "value": "FLOOR_REFINISHING"
+    },
+    {
+      "label": "Insect Extermination",
+      "id": "INSECT_EXTERMINATION",
+      "value": "INSECT_EXTERMINATION"
+    },
+    {
+      "label": "Rodent Control",
+      "id": "RODENT_CONTROL",
+      "value": "RODENT_CONTROL"
+    },
+    {
+      "label": "Termite Treatment",
+      "id": "TERMITE_TREATMENT",
+      "value": "TERMITE_TREATMENT"
+    },
+    {
+      "label": "Wildlife Removal",
+      "id": "WILDLIFE_REMOVAL",
+      "value": "WILDLIFE_REMOVAL"
+    },
+    {
+      "label": "Preventative Treatments",
+      "id": "PREVENTATIVE_TREATMENTS",
+      "value": "PREVENTATIVE_TREATMENTS"
+    },
+    {
+      "label": "Refrigerator Repair",
+      "id": "REFRIGERATOR_REPAIR",
+      "value": "REFRIGERATOR_REPAIR"
+    },
+    {
+      "label": "Washer Dryer Service",
+      "id": "WASHER_DRYER_SERVICE",
+      "value": "WASHER_DRYER_SERVICE"
+    },
+    {
+      "label": "Dishwasher Repair",
+      "id": "DISHWASHER_REPAIR",
+      "value": "DISHWASHER_REPAIR"
+    },
+    { "label": "Oven Repair", "id": "OVEN_REPAIR", "value": "OVEN_REPAIR" },
+    {
+      "label": "Microwave Service",
+      "id": "MICROWAVE_SERVICE",
+      "value": "MICROWAVE_SERVICE"
+    },
+    {
+      "label": "Handyman Services",
+      "id": "HANDYMAN_SERVICES",
+      "value": "HANDYMAN_SERVICES"
+    },
+    {
+      "label": "Property Maintenance",
+      "id": "PROPERTY_MAINTENANCE",
+      "value": "PROPERTY_MAINTENANCE"
+    },
+    {
+      "label": "Preventative Maintenance",
+      "id": "PREVENTATIVE_MAINTENANCE",
+      "value": "PREVENTATIVE_MAINTENANCE"
+    },
+    {
+      "label": "Equipment Servicing",
+      "id": "EQUIPMENT_SERVICING",
+      "value": "EQUIPMENT_SERVICING"
+    },
+    {
+      "label": "Facility Upkeep",
+      "id": "FACILITY_UPKEEP",
+      "value": "FACILITY_UPKEEP"
+    },
+    { "label": "Supervisor", "id": "SUPERVISOR", "value": "SUPERVISOR" },
+    {
+      "label": "Construction Manager",
+      "id": "CONSTRUCTION_MANAGER",
+      "value": "CONSTRUCTION_MANAGER"
+    },
+    {
+      "label": "Project Management",
+      "id": "PROJECT_MANAGEMENT",
+      "value": "PROJECT_MANAGEMENT"
+    },
+    {
+      "label": "Team Leadership",
+      "id": "TEAM_LEADERSHIP",
+      "value": "TEAM_LEADERSHIP"
+    },
+    {
+      "label": "Resource Planning",
+      "id": "RESOURCE_PLANNING",
+      "value": "RESOURCE_PLANNING"
+    },
+    {
+      "label": "Building Inspection",
+      "id": "BUILDING_INSPECTION",
+      "value": "BUILDING_INSPECTION"
+    },
+    {
+      "label": "Safety Inspection",
+      "id": "SAFETY_INSPECTION",
+      "value": "SAFETY_INSPECTION"
+    },
+    {
+      "label": "Quality Control",
+      "id": "QUALITY_CONTROL",
+      "value": "QUALITY_CONTROL"
+    },
+    {
+      "label": "Code Compliance",
+      "id": "CODE_COMPLIANCE",
+      "value": "CODE_COMPLIANCE"
+    },
+    {
+      "label": "Structural Assessment",
+      "id": "STRUCTURAL_ASSESSMENT",
+      "value": "STRUCTURAL_ASSESSMENT"
+    },
+    {
+      "label": "Instrument Technician",
+      "id": "INSTRUMENT_TECHNICIAN",
+      "value": "INSTRUMENT_TECHNICIAN"
+    },
+    {
+      "label": "Maintenance Technician",
+      "id": "MAINTENANCE_TECHNICIAN",
+      "value": "MAINTENANCE_TECHNICIAN"
+    },
+    {
+      "label": "Electronics Technician",
+      "id": "ELECTRONICS_TECHNICIAN",
+      "value": "ELECTRONICS_TECHNICIAN"
+    },
+    {
+      "label": "Calibration Specialist",
+      "id": "CALIBRATION_SPECIALIST",
+      "value": "CALIBRATION_SPECIALIST"
+    },
+    {
+      "label": "Equipment Diagnostics",
+      "id": "EQUIPMENT_DIAGNOSTICS",
+      "value": "EQUIPMENT_DIAGNOSTICS"
+    },
+    { "label": "Pipefitting", "id": "PIPEFITTING", "value": "PIPEFITTING" },
+    {
+      "label": "Metal Fabrication",
+      "id": "METAL_FABRICATION",
+      "value": "METAL_FABRICATION"
+    },
+    {
+      "label": "Welding Assembly",
+      "id": "WELDING_ASSEMBLY",
+      "value": "WELDING_ASSEMBLY"
+    },
+    {
+      "label": "Structural Fabrication",
+      "id": "STRUCTURAL_FABRICATION",
+      "value": "STRUCTURAL_FABRICATION"
+    },
+    {
+      "label": "Custom Fabrication",
+      "id": "CUSTOM_FABRICATION",
+      "value": "CUSTOM_FABRICATION"
+    },
+    {
+      "label": "Equipment Repair",
+      "id": "EQUIPMENT_REPAIR",
+      "value": "EQUIPMENT_REPAIR"
+    },
+    {
+      "label": "Mechanical Overhaul",
+      "id": "MECHANICAL_OVERHAUL",
+      "value": "MECHANICAL_OVERHAUL"
+    },
+    {
+      "label": "Plant Maintenance",
+      "id": "PLANT_MAINTENANCE",
+      "value": "PLANT_MAINTENANCE"
+    },
+    {
+      "label": "Preventive Maintenance",
+      "id": "PREVENTIVE_MAINTENANCE",
+      "value": "PREVENTIVE_MAINTENANCE"
+    },
+    { "label": "Excavation", "id": "EXCAVATION", "value": "EXCAVATION" },
+    { "label": "Trenching", "id": "TRENCHING", "value": "TRENCHING" },
+    {
+      "label": "Site Clearance",
+      "id": "SITE_CLEARANCE",
+      "value": "SITE_CLEARANCE"
+    },
+    { "label": "Land Grading", "id": "LAND_GRADING", "value": "LAND_GRADING" },
+    { "label": "Dewatering", "id": "DEWATERING", "value": "DEWATERING" },
+    {
+      "label": "Crane Operation",
+      "id": "CRANE_OPERATION",
+      "value": "CRANE_OPERATION"
+    },
+    { "label": "Slinging", "id": "SLINGING", "value": "SLINGING" },
+    { "label": "Winching", "id": "WINCHING", "value": "WINCHING" },
+    { "label": "Hoisting", "id": "HOISTING", "value": "HOISTING" },
+    {
+      "label": "Scaffold Rigging",
+      "id": "SCAFFOLD_RIGGING",
+      "value": "SCAFFOLD_RIGGING"
+    }
   ],
-  "skills": {
-    "APPLIANCE_REPAIR": [
-      { "value": "REFRIGERATOR_REPAIR", "label": "Refrigerator Repair" },
-      { "value": "WASHER_DRYER_SERVICE", "label": "Washer Dryer Service" },
-      { "value": "DISHWASHER_REPAIR", "label": "Dishwasher Repair" },
-      { "value": "OVEN_REPAIR", "label": "Oven Repair" },
-      { "value": "MICROWAVE_SERVICE", "label": "Microwave Service" }  
-    ],
-    "PAINTING": [
-      { "value": "INTERIOR_PAINTING", "label": "Interior Painting" },
-      { "value": "EXTERIOR_PAINTING", "label": "Exterior Painting" },
-      { "value": "WALLPAPER_INSTALLATION", "label": "Wallpaper Installation" },
-      { "value": "STAINING", "label": "Staining" },
-      { "value": "PAINT_REMOVAL", "label": "Paint Removal" }
-    ],
-    "LANDSCAPING": [
-      { "value": "LAWN_MAINTENANCE", "label": "Lawn Maintenance" },
-      { "value": "TREE_TRIMMING", "label": "Tree Trimming" },
-      { "value": "GARDEN_DESIGN", "label": "Garden Design" },
-      { "value": "IRRIGATION_INSTALLATION", "label": "Irrigation Installation" }
-    ],
-    "CLEANING": [
-      { "value": "DEEP_CLEANING", "label": "Deep Cleaning" },
-      { "value": "WINDOW_CLEANING", "label": "Window Cleaning" },
-      { "value": "CARPET_CLEANING", "label": "Carpet Cleaning" },
-      { "value": "PRESSURE_WASHING", "label": "Pressure Washing" }
-    ],
-    "MOVING": [
-      { "value": "FURNITURE_MOVING", "label": "Furniture Moving" },
-      { "value": "PACKING_SERVICES", "label": "Packing Services" },
-      { "value": "HEAVY_LIFTING", "label": "Heavy Lifting" }
-    ],
-    "AUTOMOTIVE": [
-      { "value": "ENGINE_REPAIR", "label": "Engine Repair" },
-      { "value": "BRAKE_SERVICE", "label": "Brake Service" },
-      { "value": "TRANSMISSION_REPAIR", "label": "Transmission Repair" }
-    ],
-    "ROOFING": [
-      { "value": "ROOF_INSTALLATION", "label": "Roof Installation" },
-      { "value": "SHINGLE_REPAIR", "label": "Shingle Repair" },
-      { "value": "LEAK_DETECTION", "label": "Leak Detection" },
-      { "value": "GUTTER_INSTALLATION", "label": "Gutter Installation" }
-    ],
-    "MASONRY": [
-      { "value": "BRICK_LAYING", "label": "Brick Laying" },
-      { "value": "STONE_WORK", "label": "Stone Work" },
-      { "value": "CONCRETE_POURING", "label": "Concrete Pouring" },
-      { "value": "FOUNDATION_REPAIR", "label": "Foundation Repair" }
-    ],
-    "WELDING": [
-      { "value": "ARC_WELDING", "label": "Arc Welding" },
-      { "value": "MIG_WELDING", "label": "MIG Welding" },
-      { "value": "TIG_WELDING", "label": "TIG Welding" },
-      { "value": "PIPE_WELDING", "label": "Pipe Welding" },
-      { "value": "STRUCTURAL_WELDING", "label": "Structural Welding" }
-    ],
-    "FLOORING": [
-      { "value": "TILE_INSTALLATION", "label": "Tile Installation" },
-      { "value": "HARDWOOD_FLOORING", "label": "Hardwood Flooring" },
-      { "value": "CARPET_INSTALLATION", "label": "Carpet Installation" },
-      { "value": "VINYL_FLOORING", "label": "Vinyl Flooring" },
-      { "value": "FLOOR_REFINISHING", "label": "Floor Refinishing" }
-    ],
-    "PLUMBING": [
-      { "value": "PIPE_INSTALLATION", "label": "Pipe Installation" },
-      { "value": "DRAIN_CLEANING", "label": "Drain Cleaning" },
-      { "value": "FIXTURE_INSTALLATION", "label": "Fixture Installation" },
-      { "value": "WATER_HEATER_SERVICE", "label": "Water Heater Service" },
-      { "value": "LEAK_REPAIR", "label": "Leak Repair" }
-    ],
-    "ELECTRICAL": [
-      { "value": "WIRING_INSTALLATION", "label": "Wiring Installation" },
-      { "value": "LIGHTING_INSTALLATION", "label": "Lighting Installation" },
-      { "value": "ELECTRICAL_REPAIR", "label": "Electrical Repair" },
-      { "value": "PANEL_UPGRADES", "label": "Panel Upgrades" },
-      { "value": "GENERATOR_INSTALLATION", "label": "Generator Installation" }
-    ],
-    "CARPENTRY": [
-      { "value": "CABINET_MAKING", "label": "Cabinet Making" },
-      { "value": "FRAMING", "label": "Framing" },
-      { "value": "FINISH_CARPENTRY", "label": "Finish Carpentry" },
-      { "value": "DOOR_INSTALLATION", "label": "Door Installation" },
-      { "value": "WINDOW_INSTALLATION", "label": "Window Installation" }
-    ],
-    "HVAC": [
-      { "value": "AC_INSTALLATION", "label": "AC Installation" },
-      { "value": "HEATING_REPAIR", "label": "Heating Repair" },
-      { "value": "VENTILATION_WORK", "label": "Ventilation Work" },
-      { "value": "DUCT_CLEANING", "label": "Duct Cleaning" },
-      { "value": "SYSTEM_MAINTENANCE", "label": "System Maintenance" }
-    ],
-    "MANAGEMENT": [
-      { "value": "SUPERVISOR", "label": "Supervisor" },
-      { "value": "CONSTRUCTION_MANAGER", "label": "Construction Manager" },
-      { "value": "QAQC_ENGINEER", "label": "QAQC Engineer" },
-      { "value": "HSA_ADVISOR", "label": "HSA Advisor" },
-      { "value": "SITE_INSPECTOR", "label": "Site Inspector" },
-      { "value": "PROJECT_COORDINATOR", "label": "Project Coordinator" }
-    ],
-    "TECHNICIAN": [
-      { "value": "INSTRUMENT_TECHNICIAN", "label": "Instrument Technician" },
-      { "value": "MAINTENANCE_TECHNICIAN", "label": "Maintenance Technician" },
-      { "value": "MECHANIC", "label": "Mechanic" }
-    ],
-    "FABRICATION": [
-      { "value": "PIPEFITTING", "label": "Pipefitting" },
-      { "value": "METAL_FABRICATION", "label": "Metal Fabrication" },
-      { "value": "WELDING_ASSEMBLY", "label": "Welding Assembly" },
-      { "value": "STRUCTURAL_FABRICATION", "label": "Structural Fabrication" }
-    ],
-    "MAINTENANCE": [
-      { "value": "EQUIPMENT_REPAIR", "label": "Equipment Repair" },
-      { "value": "FACILITY_UPKEEP", "label": "Facility Upkeep" },
-      { "value": "MECHANICAL_OVERHAUL", "label": "Mechanical Overhaul" },
-      { "value": "PLANT_MAINTENANCE", "label": "Plant Maintenance" }
-    ],
-    "GROUNDWORKS": [
-      { "value": "EXCAVATION", "label": "Excavation" },
-      { "value": "TRENCHING", "label": "Trenching" },
-      { "value": "SITE_CLEARANCE", "label": "Site Clearance" },
-      { "value": "LAND_GRADING", "label": "Land Grading" },
-      { "value": "DEWATERING", "label": "Dewatering" },
-      { "value": "SOIL_STABILISATION", "label": "Soil Stabilisation" },
-      { "value": "COMPACTION", "label": "Compaction" }
-    ],
-    "RIGGING": [
-      { "value": "CRANE_OPERATION", "label": "Crane Operation" },
-      { "value": "SLINGING", "label": "Slinging" },
-      { "value": "WINCHING", "label": "Winching" },
-      { "value": "HOISTING", "label": "Hoisting" },
-      { "value": "SCAFFOLD_RIGGING", "label": "Scaffold Rigging" }
-    ]
-  },
   "experienceLevels": [
     { "value": "0-2", "label": "0-2 years" },
     { "value": "3-5", "label": "3-5 years" },
@@ -162,20 +486,6 @@
     { "value": "11-15", "label": "11-15 years" },
     { "value": "16-20", "label": "16-20 years" },
     { "value": "20+", "label": "20+ years" }
-  ],
-  "languages": [
-    { "value": "ENGLISH", "label": "English" },
-    { "value": "SPANISH", "label": "Spanish" },
-    { "value": "FRENCH", "label": "French" },
-    { "value": "GERMAN", "label": "German" },
-    { "value": "ITALIAN", "label": "Italian" },
-    { "value": "PORTUGUESE", "label": "Portuguese" },
-    { "value": "CHINESE", "label": "Chinese" },
-    { "value": "JAPANESE", "label": "Japanese" },
-    { "value": "ARABIC", "label": "Arabic" },
-    { "value": "HINDI", "label": "Hindi" },
-    { "value": "RUSSIAN", "label": "Russian" },
-    { "value": "OTHER", "label": "Other" }
   ],
   "proficiencyLevels": [
     { "value": "BASIC", "label": "Basic" },
@@ -206,5 +516,40 @@
     { "value": "MANAGEMENT", "label": "Project or Operations Management" },
     { "value": "COMPUTER_SCIENCE", "label": "Computer Science / IT" },
     { "value": "OTHER", "label": "Other or Multidisciplinary Field" }
+  ],
+  "languages": [
+    { "value": "ENGLISH", "label": "English" },
+    { "value": "SPANISH", "label": "Spanish" },
+    { "value": "FRENCH", "label": "French" },
+    { "value": "GERMAN", "label": "German" },
+    { "value": "CHINESE", "label": "Chinese" },
+    { "value": "JAPANESE", "label": "Japanese" },
+    { "value": "ARABIC", "label": "Arabic" },
+    { "value": "RUSSIAN", "label": "Russian" },
+    { "value": "PORTUGUESE", "label": "Portuguese" },
+    { "value": "HINDI", "label": "Hindi" },
+    { "value": "ITALIAN", "label": "Italian" },
+    { "value": "DUTCH", "label": "Dutch" },
+    { "value": "KOREAN", "label": "Korean" },
+    { "value": "TURKISH", "label": "Turkish" },
+    { "value": "SWEDISH", "label": "Swedish" },
+    { "value": "POLISH", "label": "Polish" },
+    { "value": "TAMIL", "label": "Tamil" },
+    { "value": "URDU", "label": "Urdu" },
+    { "value": "BENGALI", "label": "Bengali" },
+    { "value": "MARATHI", "label": "Marathi" },
+    { "value": "KANNADA", "label": "Kannada" },
+    { "value": "TELUGU", "label": "Telugu" },
+    { "value": "MALAYALAM", "label": "Malayalam" },
+    { "value": "GUJARATI", "label": "Gujarati" },
+    { "value": "PUNJABI", "label": "Punjabi" },
+    { "value": "HARYANVI", "label": "Haryanvi" },
+    { "value": "KURDISH", "label": "Kurdish" },
+    { "value": "AFRIKAANS", "label": "Afrikaans" },
+    { "value": "AZERBAIJANI", "label": "Azerbaijani" },
+    { "value": "BULGARIAN", "label": "Bulgarian" },
+    { "value": "CROATIAN", "label": "Croatian" },
+    { "value": "CZECH", "label": "Czech" },
+    { "value": "DANISH", "label": "Danish" }
   ]
 }

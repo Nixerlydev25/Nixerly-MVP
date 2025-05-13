@@ -13,7 +13,8 @@ const REFRESH_TOKEN = "refresh_token";
 const ONBOARDING_STEP_MAP: Record<string, string | null> = {
   PERSONAL_INFO: OnboardingStepWorker.PERSONAL_INFO,
   SKILLS_HOURLY_RATE_INFO: OnboardingStepWorker.SKILLS_HOURLY_RATE_INFO,
-  PROFESSIONAL_INFO: OnboardingStepWorker.PROFESSIONAL_INFO,
+  EXPERIENCE_INFO: OnboardingStepWorker.EXPERIENCE_INFO,
+  EDUCATION_INFO: OnboardingStepWorker.EDUCATION_INFO,
   LANGUAGE_INFO: OnboardingStepWorker.LANGUAGE_INFO,
   AVAILABILITY_INFO: OnboardingStepWorker.AVAILABILITY_INFO,
   COMPLETED: null,

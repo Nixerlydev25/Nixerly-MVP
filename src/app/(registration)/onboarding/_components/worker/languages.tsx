@@ -1,16 +1,20 @@
-"use client";
-
-import { useForm, FormProvider } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, Trash2, Languages } from "lucide-react";
+import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
+import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
+import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
+import { ChevronRight, Plus, X } from "lucide-react";
+import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
+import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
 import {
   Select,
   SelectContent,
@@ -18,244 +22,201 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
-import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
-import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
-import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
+import { useCreateLanguage } from "@/hook/langauge/language.hook";
 
-// Define the language and proficiency enums based on the provided values
-const languageValues = [
-  "ENGLISH",
-  "SPANISH",
-  "FRENCH",
-  "GERMAN",
-  "ITALIAN",
-  "PORTUGUESE",
-  "CHINESE",
-  "JAPANESE",
-  "ARABIC",
-  "HINDI",
-  "RUSSIAN",
-  "OTHER",
-];
-
-const proficiencyValues = ["BASIC", "CONVERSATIONAL", "FLUENT", "NATIVE"];
-
-const LanguageEnum = z.enum(languageValues as [string, ...string[]]);
-const ProficiencyEnum = z.enum(proficiencyValues as [string, ...string[]]);
-
-// Define the schema for the form
-const formSchema = z.object({
-  languages: z
-    .array(
-      z.object({
-        name: LanguageEnum,
-        proficiency: ProficiencyEnum,
-      })
-    )
-    .min(1, "Add at least one language"),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-export default function LanguageInfo() {
-  const methods = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      languages: [],
-    },
-  });
-
-  const { control, watch, trigger, setValue } = methods;
-  const { goToNextStep, goToPreviousStep } = useOnboardingNavigation();
+export const LanguagesInfo = () => {
+  const { goToNextStep } = useOnboardingNavigation();
   const {
-    mutateAsync: updateWorkerProfile,
-    isPending,
-  } = useUpdateWorkerProfile();
-
-  const languages = watch("languages") || [];
+    control,
+    watch,
+    trigger,
+    setValue,
+    formState: { errors },
+  } = useFormContext<WorkerOnboardingSchema>();
+  const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
+  const { mutateAsync: updateLanguage } = useCreateLanguage();
+  const formData = watch();
 
   const handleContinue = async () => {
-    const isValid = await trigger("languages");
+    const fieldsToValidate = ["languages"] as const;
+    const isValid = await trigger(fieldsToValidate);
+
     if (isValid) {
-      await updateWorkerProfile({
-        onboardingStep: OnboardingStepWorkerProfileB.COMPLETED,
-        // languages: languages,
+      const { languages } = formData;
+
+      const workerProfileData = {
+        onboardingStep: OnboardingStepWorkerProfileB.EXPERIENCE_INFO,
+      };
+      const workerProfileLanguageData = {
+        languages,
+      };
+
+      await updateLanguage(workerProfileLanguageData, {
+        async onSuccess() {
+          await updateWorker(workerProfileData);
+        },
       });
+      await updateWorker(workerProfileData);
       goToNextStep();
     }
   };
 
-  const addLanguage = () => {
-    setValue("languages", [
-      ...languages,
-      {
-        name: "",
-        proficiency: "",
-      },
-    ]);
+  const handleAddLanguage = () => {
+    const currentLanguages = formData.languages || [];
+    if (currentLanguages.length < 4) {
+      setValue("languages", [
+        ...currentLanguages,
+        { name: "", proficiency: "BASIC" },
+      ]);
+    }
   };
 
-  const removeLanguage = (index: number) => {
-    const newLanguages = [...languages];
-    newLanguages.splice(index, 1);
-    setValue("languages", newLanguages);
+  const handleRemoveLanguage = (index: number) => {
+    const currentLanguages = formData.languages || [];
+    setValue(
+      "languages",
+      currentLanguages.filter((_, i) => i !== index)
+    );
   };
 
   return (
-    <FormProvider {...methods}>
-      <Card className="p-8 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-6 text-nixerly-darkblue">
-          Language Proficiency
-        </h2>
-
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-nixerly-darkblue flex items-center gap-2">
-              <Languages className="h-5 w-5" />
-              Languages
-            </h3>
-            {languages.length !== 0 && (
-              <Button
-                type="button"
-                onClick={addLanguage}
-                variant="outline"
-                className="border-nixerly-lightblue hover:bg-nixerly-ultralightblue text-nixerly-darkblue"
-              >
-                <Plus className="h-4 w-4 mr-2" /> Add Language
-              </Button>
-            )}
-          </div>
-
-          {languages.length === 0 ? (
-            <div className="text-center py-8 border border-dashed border-nixerly-lightblue rounded-lg bg-nixerly-ultralightblue/50">
-              <p className="text-nixerly-darkgray">No languages added yet</p>
-              <Button
-                type="button"
-                onClick={addLanguage}
-                variant="outline"
-                className="mt-4 border-nixerly-lightblue hover:bg-nixerly-ultralightblue text-nixerly-darkblue"
-              >
-                <Plus className="h-4 w-4 mr-2" /> Add Language
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {languages.map((_, index) => (
-                <Card
-                  key={index}
-                  className="p-5 border border-nixerly-lightblue"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <h4 className="font-medium text-nixerly-darkblue">
-                      Language {index + 1}
-                    </h4>
+    <Card className="p-10 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
+      <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">
+        Languages
+      </h2>
+      <div className="space-y-8">
+        <FormField
+          control={control}
+          name="languages"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="text-lg text-nixerly-darkgray font-medium">
+                All a language
+              </FormLabel>
+              <FormControl>
+                <div className="space-y-4">
+                  {field.value?.map((language, index) => {
+                    // Filter out languages already selected in other rows
+                    const selectedLanguages = field.value
+                      .map((l, i) => (i !== index ? l.name : null))
+                      .filter(Boolean);
+                    const availableLanguages =
+                      onboardingOptions.languages.filter(
+                        (lang) =>
+                          !selectedLanguages.includes(lang.value) ||
+                          lang.value === language.name
+                      );
+                    return (
+                      <div key={index}>
+                        <div className="w-full flex gap-4">
+                          <div className="flex-1">
+                            <Select
+                              value={language.name}
+                              onValueChange={(value) => {
+                                const newLanguages = [...field.value];
+                                newLanguages[index] = {
+                                  ...newLanguages[index],
+                                  name: value,
+                                };
+                                field.onChange(newLanguages);
+                              }}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select language" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {availableLanguages.map((lang) => (
+                                  <SelectItem
+                                    key={lang.value}
+                                    value={lang.value}
+                                  >
+                                    {lang.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="flex-1">
+                            <Select
+                              value={language.proficiency}
+                              onValueChange={(value) => {
+                                const newLanguages = [...field.value];
+                                newLanguages[index] = {
+                                  ...newLanguages[index],
+                                  proficiency: value,
+                                };
+                                field.onChange(newLanguages);
+                              }}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select proficiency" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {onboardingOptions.proficiencyLevels.map(
+                                  (level) => (
+                                    <SelectItem
+                                      key={level.value}
+                                      value={level.value}
+                                    >
+                                      {level.label}
+                                    </SelectItem>
+                                  )
+                                )}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleRemoveLanguage(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        {errors?.languages &&
+                          errors.languages[index] &&
+                          "name" in errors.languages[index] && (
+                            <p className="text-nixerly-coral mt-1 text-sm">
+                              Required
+                            </p>
+                          )}
+                      </div>
+                    );
+                  })}
+                  {field.value?.length < 4 && (
                     <Button
                       type="button"
-                      variant="ghost"
-                      onClick={() => removeLanguage(index)}
-                      className="h-8 w-8 p-0 text-nixerly-coral hover:text-nixerly-coral/80 hover:bg-nixerly-coral/10"
+                      variant="outline"
+                      onClick={handleAddLanguage}
+                      className="w-full"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Language
                     </Button>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={control}
-                      name={`languages.${index}.name`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-nixerly-darkgray font-medium">
-                            Language
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20">
-                                <SelectValue placeholder="Select a language" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {onboardingOptions.languages.map((option) => (
-                                <SelectItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-nixerly-coral" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={control}
-                      name={`languages.${index}.proficiency`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-nixerly-darkgray font-medium">
-                            Proficiency Level
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20">
-                                <SelectValue placeholder="Select proficiency level" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {onboardingOptions.proficiencyLevels.map(
-                                (option) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                )
-                              )}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-nixerly-coral" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </Card>
-              ))}
-            </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+                Add up to 4 languages you are proficient in
+              </FormDescription>
+              <FormMessage className="text-nixerly-coral mt-1" />
+            </FormItem>
           )}
-        </div>
+        />
 
-        <div className="flex justify-between pt-6 mt-6 border-t border-nixerly-lightblue">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={goToPreviousStep}
-            className="border-nixerly-lightblue hover:bg-nixerly-ultralightblue text-nixerly-darkblue transition-colors"
-          >
-            Previous
-          </Button>
+        <div className="flex justify-end pt-8">
           <Button
             type="button"
             onClick={handleContinue}
-            disabled={isPending || languages.length === 0}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-2.5 shadow-nixerly-button transition-all duration-200"
+            disabled={isPending}
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
           >
-            Next
+            {isPending ? "Saving..." : "Continue"}
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
-      </Card>
-    </FormProvider>
+      </div>
+    </Card>
   );
-}
+};

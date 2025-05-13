@@ -79,6 +79,7 @@ export const SkillsInfo = () => {
     if (currentSkills.length < 8 && !currentSkills.includes(value)) {
       setValue("skills", [...currentSkills, value]);
     }
+    // Removed setIsOpen(false) to keep dropdown open after selection
   };
 
   const handleSkillRemove = (skillToRemove: string) => {
@@ -105,22 +106,25 @@ export const SkillsInfo = () => {
               </FormLabel>
               <FormControl>
                 <div ref={commandRef}>
-                  <Command className="border rounded-md">
+                  <Command className="border rounded-md py-1">
                     <CommandInput 
                       placeholder="Search skills..." 
                       onFocus={() => setIsOpen(true)}
+                      className=""
                     />
                     {isOpen && (
                       <>
                         <CommandEmpty>No skills found.</CommandEmpty>
-                        <CommandGroup className="max-h-[200px] overflow-auto">
+                        <CommandGroup className="max-h-[200px] overflow-auto border-t">
                           {onboardingOptions.skills.map((skill) => (
                             <CommandItem
                               key={skill.value}
                               value={skill.value}
                               onSelect={() => {
                                 handleSkillSelect(skill.value);
-                                setIsOpen(false);
+                                if(formData.skills?.length === 8){
+                                  setIsOpen(false)
+                                }
                               }}
                               className="flex items-center justify-between"
                             >
@@ -141,7 +145,7 @@ export const SkillsInfo = () => {
                   <Badge
                     key={skill}
                     variant="secondary"
-                    className="bg-nixerly-lightblue text-nixerly-darkblue px-3 py-1"
+                    className="px-3 py-2"
                   >
                     {
                       onboardingOptions.skills.find((s) => s.value === skill)
@@ -150,14 +154,14 @@ export const SkillsInfo = () => {
                     <button
                       type="button"
                       onClick={() => handleSkillRemove(skill)}
-                      className="ml-2 hover:text-nixerly-coral"
+                      className="ml-2 hover:text-nixerly-coral cursor-pointer"
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-3 w-3"/>
                     </button>
                   </Badge>
                 ))}
               </div>
-              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+              <FormDescription>
                 Select up to 8 skills that best represent your expertise
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
@@ -183,7 +187,7 @@ export const SkillsInfo = () => {
                   className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20"
                 />
               </FormControl>
-              <FormDescription className="text-sm text-nixerly-darkgray/50 mt-2">
+              <FormDescription>
                 Specify your hourly rate in your local currency (minimum $14)
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
@@ -196,7 +200,7 @@ export const SkillsInfo = () => {
             type="button"
             onClick={handleContinue}
             disabled={isPending || skillPending}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
             {isPending || skillPending ? "Saving..." : "Continue"}
             <ChevronRight className="ml-2 h-4 w-4" />

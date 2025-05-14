@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import { useFormContext } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useFormContext } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
-import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
-import { Switch } from "@/components/ui/switch";
-import { Plus, Trash2, Briefcase, Calendar } from "lucide-react";
-import { DatePicker } from "@/components/ui/date-picker";
-import { useCreateExperience } from "@/hook/experiences/experiences.hook";
-import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
-import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
+} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { useOnboardingNavigation } from '@/hook/onboarding/useOnboardingNavigation';
+import { WorkerOnboardingSchema } from '@/schema/onboarding/worker-onboarding.schema';
+import { Switch } from '@/components/ui/switch';
+import { Plus, Trash2, Briefcase, Calendar } from 'lucide-react';
+import { DatePicker } from '@/components/ui/date-picker';
+import { useCreateExperience } from '@/hook/experiences/experiences.hook';
+import { useUpdateWorkerProfile } from '@/hook/user/user.hooks';
+import { OnboardingStepWorkerProfileB } from '@/types/onboarding';
+import { LocationDetails, LocationSearch } from '@/components/location-search';
 
 export const ExperienceInfo = () => {
   const {
@@ -34,17 +35,17 @@ export const ExperienceInfo = () => {
   const { mutateAsync: updateWorkerProfile, isPending } =
     useUpdateWorkerProfile();
   // const skills = watch("skills") || [];
-  const experience = watch("experience") || [];
+  const experience = watch('experience') || [];
   const formData = watch();
 
   const handleContinue = async () => {
-    const fieldsToValidate = ["experience"] as const;
+    const fieldsToValidate = ['experience'] as const;
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
       const { experience } = formData;
-      console.log(experience,"experience");
-      await createExperience(experience,{
+      console.log(experience, 'experience');
+      await createExperience(experience, {
         onSuccess: async () => {
           await updateWorkerProfile({
             onboardingStep: OnboardingStepWorkerProfileB.EDUCATIONAL_INFO,
@@ -58,15 +59,18 @@ export const ExperienceInfo = () => {
   // Helper function to find a skill label from value
 
   const addExperience = () => {
-    setValue("experience", [
+    setValue('experience', [
       ...(experience || []),
       {
-        title: "",
-        company: "",
-        location: "",
+        title: '',
+        company: '',
+        location: '',
+        city: '',
+        country: '',
+        state: '',
         startDate: new Date(),
         endDate: undefined,
-        description: "",
+        description: '',
         current: false,
       },
     ]);
@@ -75,7 +79,7 @@ export const ExperienceInfo = () => {
   const removeExperience = (index: number) => {
     const newExperience = [...experience];
     newExperience.splice(index, 1);
-    setValue("experience", newExperience);
+    setValue('experience', newExperience);
   };
 
   const handleCurrentPositionChange = (index: number, checked: boolean) => {
@@ -89,10 +93,10 @@ export const ExperienceInfo = () => {
       });
     }
     newExperience[index].current = checked;
-    setValue("experience", newExperience);
+    setValue('experience', newExperience);
   };
 
-  console.log(errors, "errors");
+  console.log(errors, 'errors');
 
   return (
     <Card className="p-8 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
@@ -200,10 +204,29 @@ export const ExperienceInfo = () => {
                           Location
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="e.g. New York, NY"
-                            {...field}
-                            className="py-2.5 focus:border-nixerly-blue focus:ring-nixerly-blue/20"
+                          <LocationSearch
+                            onLocationSelect={(
+                              locationDetails: LocationDetails
+                            ) => {
+                              setValue(
+                                `experience.${index}.location`,
+                                locationDetails.formattedAddress
+                              );
+                              setValue(
+                                `experience.${index}.city`,
+                                locationDetails.city
+                              );
+                              setValue(
+                                `experience.${index}.state`,
+                                locationDetails.state
+                              );
+                              setValue(
+                                `experience.${index}.country`,
+                                locationDetails.country
+                              );
+                            }}
+                            defaultValue={field.value}
+                            className="w-full"
                           />
                         </FormControl>
                         <FormMessage className="text-nixerly-coral" />
@@ -228,7 +251,9 @@ export const ExperienceInfo = () => {
                               field.onChange(checked);
                               handleCurrentPositionChange(index, checked);
                             }}
-                            disabled={experience.some((exp, i) => i !== index && exp.current)}
+                            disabled={experience.some(
+                              (exp, i) => i !== index && exp.current
+                            )}
                             className="data-[state=checked]:bg-nixerly-blue"
                           />
                         </FormControl>
@@ -318,9 +343,7 @@ export const ExperienceInfo = () => {
         <Button
           type="button"
           onClick={handleContinue}
-          disabled={
-            isPending || experience.length === 0
-          }
+          disabled={isPending || experience.length === 0}
           className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-2.5 shadow-nixerly-button transition-all duration-200"
         >
           Next

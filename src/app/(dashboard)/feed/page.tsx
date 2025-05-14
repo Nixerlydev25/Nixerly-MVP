@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,37 +24,17 @@ export default function Dashboard() {
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  // Memoize filters from URL query params, default page=1, limit=15
-  const filters = useMemo(() => {
-    const params: Record<string, unknown> = { page: 1, limit: 15 };
-    searchParams.forEach((value, key) => {
-      if (!isNaN(Number(value))) {
-        params[key] = Number(value);
-      } else if (key === 'skills') {
-        if (!params.skills) params.skills = [] as string[];
-        (params.skills as string[]).push(value);
-      } else {
-        params[key] = value;
-      }
-    });
-    return params;
-  }, [searchParams]);
-
-  const currentPage = useMemo(() => {
-    const pageParam = searchParams.get('page');
-    return pageParam ? Number(pageParam) : 1;
-  }, [searchParams]);
-
-  const { data: freelancers, isLoading } = useGetWorkers(filters);
+  
+  // Hook now handles all filter processing and provides currentPage
+  const { data: freelancers, isLoading, currentPage } = useGetWorkers();
 
   return (
     <div>
       {isLoading ? (
         <SkeletonFeed />
       ) : (
-        <div className="flex min-h-screen flex-col">
-          <div className="container px-4 py-6 md:py-8">
+        <div className="flex min-h-screen flex-col py-10">
+          <div className="container mx-auto px-4 py-6 md:py-8">
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
                 Find Top Talent

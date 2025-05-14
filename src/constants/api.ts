@@ -10,6 +10,7 @@ export const API_ROUTES = {
     DELETE_ACCOUNT: "/auth/delete-account",
     PASSWORD_RECOVERY: "/auth/password-recovery",
     IS_AUTHENTICATED: "/auth/is-authenticated",
+    LOGOUT: "/auth/logout",
     OAUTH: {
       GOOGLE: "/auth/google",
       GOOGLE_CALLBACK: "/auth/google/callback",
@@ -68,4 +69,9 @@ export const API_ROUTES = {
     UPDATE: "/language/update",
     DELETE: "/language/delete",
   },
+  WORKER: {
+    ROOT: "/worker",
+    BY_ID: (id: string) => `/worker/${id}`,
+    LIST: "/worker/get-all-workers-profiles",
+  }
 };

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "./globals.css";
 import QueryProvider from "@/providers/query.provider";
-import DashboardNav from "@/components/common/dashboardNav";
+
 import Footer from "@/components/common/footer";
 import { Toaster } from "sonner";
 import { Modals } from "@/components/models";
@@ -28,14 +28,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           <QueryProvider>
             <div className="flex min-h-screen flex-col">
-              <DashboardNav />
-              <main>
-                {children}
-              </main>
+              <main>{children}</main>
               <Footer />
             </div>
-            <Toaster/>
-            <Modals/>
+            <Toaster />
+            <Modals />
           </QueryProvider>
         </ThemeProvider>
       </body>

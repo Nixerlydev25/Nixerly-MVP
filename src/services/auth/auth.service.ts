@@ -38,6 +38,15 @@ class AuthService {
       throw error;
     }
   }
+
+  static async logout(): Promise<void> {
+    try {
+      await instance.get(API_ROUTES.AUTH.LOGOUT);
+    } catch (error) {
+      console.error("Error during logout:", error);
+      throw error;
+    }
+  }
 }
 
 export default AuthService;

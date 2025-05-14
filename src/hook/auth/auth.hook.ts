@@ -73,7 +73,7 @@ export const useSignIn = () => {
       router.push(ROUTES.FEED);
     },
     onError: (error: unknown) => {
-      console.log(error.response.data.message,"message", error instanceof AxiosError);
+      console.log(error?.response?.data?.message,"message", error instanceof AxiosError);
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Failed to sign in");
       } else {
@@ -95,6 +95,25 @@ export const useSignOut = () => {
     onError: (error: unknown) => {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Failed to sign out");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    },
+  });
+};
+
+export const useLogout = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationKey: [QueryKeys.AUTH, QueryKeys.LOGOUT],
+    mutationFn: () => authService.logout(),
+    onSuccess: () => {
+      toast.success("Logged out successfully!");
+      router.replace(ROUTES.HOME);
+    },
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Failed to logout");
       } else {
         toast.error("An unexpected error occurred");
       }

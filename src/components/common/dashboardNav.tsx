@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -18,8 +20,15 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useLogout } from "@/hook/auth/auth.hook";
 
-function dashboardNav() {
+function DashboardNav() {
+  const { mutate: logout } = useLogout(); 
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
@@ -80,7 +89,7 @@ function dashboardNav() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -89,4 +98,4 @@ function dashboardNav() {
   );
 }
 
-export default dashboardNav;
+export default DashboardNav;

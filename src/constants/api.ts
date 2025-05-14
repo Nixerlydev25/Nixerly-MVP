@@ -10,6 +10,7 @@ export const API_ROUTES = {
     DELETE_ACCOUNT: "/auth/delete-account",
     PASSWORD_RECOVERY: "/auth/password-recovery",
     IS_AUTHENTICATED: "/auth/is-authenticated",
+    LOGOUT: "/auth/logout",
     OAUTH: {
       GOOGLE: "/auth/google",
       GOOGLE_CALLBACK: "/auth/google/callback",

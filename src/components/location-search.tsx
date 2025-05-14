@@ -11,6 +11,7 @@ export interface LocationDetails {
   city: string
   state: string
   country: string
+  formattedAddress: string
 }
 
 interface LocationSearchProps {

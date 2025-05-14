@@ -68,4 +68,9 @@ export const API_ROUTES = {
     UPDATE: "/language/update",
     DELETE: "/language/delete",
   },
+  WORKER: {
+    ROOT: "/worker",
+    BY_ID: (id: string) => `/worker/${id}`,
+    LIST: "/worker/get-all-workers-profiles",
+  }
 };

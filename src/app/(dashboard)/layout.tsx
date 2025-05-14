@@ -1,7 +1,7 @@
 import type React from "react";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme.provider";
-import "./globals.css";
+import "../globals.css";
 import QueryProvider from "@/providers/query.provider";
 import DashboardNav from "@/components/common/dashboardNav";
 import Footer from "@/components/common/footer";

@@ -26,7 +26,7 @@ function handleOnboardingRedirectWorkerProfile(
 ) {
   if (workerProfile.onboardingStep === "COMPLETED") {
     if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
-      return NextResponse.redirect(new URL(ROUTES.FEED_WORKER, request.url));
+      return NextResponse.redirect(new URL(ROUTES.WORKER_FEED, request.url));
     }
   } else {
     console.log("workerProfile2", workerProfile);
@@ -55,7 +55,7 @@ function handleOnboardingRedirectBusinessProfile(
 ) {
   if (businessProfile.onboardingStep === "COMPLETED") {
     if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
-      return NextResponse.redirect(new URL(ROUTES.FEED_BUSINESS, request.url));
+      return NextResponse.redirect(new URL(ROUTES.BUSINESS_FEED, request.url));
     }
   } else {
     const mappedStep = BUSINESS_ONBOARDING_STEP_MAP[businessProfile.onboardingStep];

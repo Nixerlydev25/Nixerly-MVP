@@ -9,7 +9,7 @@ class WorkerService {
       const params = new URLSearchParams();
       
       const filterConfig: {
-        [key in keyof FeedsFilter]?: 'array' | 'number'
+        [key in keyof FeedsFilter]?: 'array' | 'number' | string
       } = {
         page: 'number',
         limit: 'number',
@@ -19,7 +19,8 @@ class WorkerService {
         minTotalEarnings: 'number',
         maxTotalEarnings: 'number',
         minAvgRating: 'number',
-        maxAvgRating: 'number'
+        maxAvgRating: 'number',
+        sort: 'string'
       };
 
       (Object.keys(filterConfig) as Array<keyof FeedsFilter>).forEach((key) => {
@@ -34,7 +35,13 @@ class WorkerService {
         else if (configType === 'number' && typeof value === 'number') {
           params.append(key, value.toString());
         }
+        else if (configType === 'string' && typeof value === 'string') {
+          console.log('string', value, key);
+          params.append(key, value);
+        }
       });
+
+      console.log(params , 'params');
 
       const response = await instance.get(`${API_ROUTES.WORKER.LIST}?${params}`);
       return response.data;

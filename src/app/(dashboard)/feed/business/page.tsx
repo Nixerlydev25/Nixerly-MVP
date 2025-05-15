@@ -3,13 +3,6 @@
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import GridIcon from '@/components/Icons/GridIcon';
 import ListIcon from '@/components/Icons/ListIcon';
 import { useGetWorkers } from '@/hook/worker/worker.hook';
@@ -19,13 +12,12 @@ import FiltersFeeds from './_components/FiltersFeeds';
 import CardFeeds from './_components/GridCardFeeds';
 import ListCardFeeds from './_components/ListCardFeeds';
 import FeedsPagination from './_components/FeedsPagination';
+import SortFeeds from './_components/SortFeeds';
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const searchParams = useSearchParams();
   const router = useRouter();
-  
-  // Hook now handles all filter processing and provides currentPage
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
 
   return (
@@ -79,21 +71,7 @@ export default function Dashboard() {
                         List
                       </Button>
                     </div>
-                    <Select defaultValue="relevance">
-                      <SelectTrigger className="w-[220px]">
-                        <SelectValue placeholder="Sort by" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="relevance">Relevance</SelectItem>
-                        <SelectItem value="rating">Rating</SelectItem>
-                        <SelectItem value="hourly-asc">
-                          Hourly Rate: Low to High
-                        </SelectItem>
-                        <SelectItem value="hourly-desc">
-                          Hourly Rate: High to Low
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <SortFeeds />
                   </div>
                 </div>
 

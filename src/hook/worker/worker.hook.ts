@@ -25,12 +25,15 @@ export const useGetWorkers = (enabled?: boolean) => {
         case "maxAvgRating":
           const numValue = Number(value);
           if (!isNaN(numValue)) {
-            params[key] = numValue;
+            (params as any)[key] = numValue;
           }
           break;
         case "skills":
           if (!params.skills) params.skills = [];
           params.skills.push(value);
+          break;
+        case "sort":
+          (params as any)[key] = value;
           break;
         default:
           // For other potential string fields like location, search, etc.

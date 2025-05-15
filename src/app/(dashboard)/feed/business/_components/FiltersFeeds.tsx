@@ -4,16 +4,11 @@ import { Label } from "@/components/ui/label";
 import { ChevronDownIcon, FilterIcon, ListIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
 import GridIcon from "@/components/Icons/GridIcon";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import SortFeeds from "./SortFeeds";
 
 interface FiltersFeedsProps {
   viewMode: "card" | "list";
@@ -220,7 +215,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Hourly Rate</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -228,7 +223,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   onChange={(e) => setMinHourlyRate(e.target.value)}
                   min={0}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -243,7 +238,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -251,7 +246,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   onChange={(e) => setMinTotalEarnings(e.target.value)}
                   min={0}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -266,7 +261,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Average Rating</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -276,7 +271,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   max={5}
                   step={0.1}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -329,17 +324,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
               <ListIcon />
             </Button>
           </div>
-          <Select defaultValue="relevance">
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="relevance">Relevance</SelectItem>
-              <SelectItem value="rating">Rating</SelectItem>
-              <SelectItem value="hourly-asc">Low to High</SelectItem>
-              <SelectItem value="hourly-desc">High to Low</SelectItem>
-            </SelectContent>
-          </Select>
+          <SortFeeds />
         </div>
       </div>
 
@@ -351,7 +336,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Hourly Rate</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -359,7 +344,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   onChange={(e) => setMinHourlyRate(e.target.value)}
                   min={0}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -373,7 +358,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -381,7 +366,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   onChange={(e) => setMinTotalEarnings(e.target.value)}
                   min={0}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -395,7 +380,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div>
               <h3 className="mb-2 font-medium">Average Rating</h3>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="number"
                   placeholder="Min"
                   className="w-1/2 rounded border px-2 py-1 text-sm"
@@ -405,7 +390,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   max={5}
                   step={0.1}
                 />
-                <input
+                <Input
                   type="number"
                   placeholder="Max"
                   className="w-1/2 rounded border px-2 py-1 text-sm"

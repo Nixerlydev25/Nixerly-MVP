@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hook/user/useUser";
 import { ProfileType } from "@/types/user/user.types";
-import SkeletonFeed from "./business/_components/SkeletonFeed";
+import SkeletonFeed from "../business/feed/_components/SkeletonFeed";
+import { ROUTES } from "@/lib/routes";
 
 function Page() {
   const { user, isLoading } = useUser();
@@ -13,9 +14,9 @@ function Page() {
   useEffect(() => {
     if (!isLoading && user) {
       if (user.defaultProfile === ProfileType.BUSINESS) {
-        router.push("/feed/business");
+        router.push(ROUTES.BUSINESS_FEED);
       } else if (user.defaultProfile === ProfileType.WORKER) {
-        router.push("/feed/worker");
+        router.push(ROUTES.WORKER_FEED);
       }
     }
   }, [user, isLoading, router]);

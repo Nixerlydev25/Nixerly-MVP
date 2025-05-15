@@ -2,7 +2,7 @@ import { QueryKeys } from "@/querykey";
 import WorkerService from "@/services/worker/worker.service";
 import { useQuery } from "@tanstack/react-query";
 import { FeedsFilter } from "@/types/feed/feed.types";
-import { WorkerListResponse } from "@/types/worker.types";
+import { WorkerListResponse, WorkerProfileResponse } from "@/types/worker.types";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
@@ -11,7 +11,7 @@ export const useGetWorkers = (enabled?: boolean) => {
 
   // Process URL params and set defaults in the hook
   const filters = useMemo(() => {
-    const params: FeedsFilter = { page: 1, limit: 15 };
+    const params: FeedsFilter & Record<string, string | number | string[]> = { page: 1, limit: 15 };
 
     searchParams.forEach((value, key) => {
       switch (key) {
@@ -38,7 +38,7 @@ export const useGetWorkers = (enabled?: boolean) => {
         default:
           // For other potential string fields like location, search, etc.
           if (value) {
-            (params as any)[key] = value;
+            params[key] = value;
           }
           break;
       }
@@ -63,4 +63,12 @@ export const useGetWorkers = (enabled?: boolean) => {
     currentPage,
     filters,
   };
+};
+
+export const useGetWorkerById = (id: string) => {
+  return useQuery<WorkerProfileResponse>({
+    queryKey: [QueryKeys.GET_WORKER_BY_ID, id],
+    queryFn: () => WorkerService.getWorkerById(id),
+    enabled: !!id,
+  });
 };

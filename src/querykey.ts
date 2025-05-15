@@ -20,5 +20,6 @@ export enum QueryKeys {
   DELETE_EDUCATIONS = "delete-educations",
   GET_WORKERS = "get-workers",
   GET_WORKER_PROFILE = "get-worker-profile",
+  GET_WORKER_BY_ID = "get-worker-by-id",
   LOGOUT = "logout",
 }

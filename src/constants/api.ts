@@ -18,7 +18,6 @@ export const API_ROUTES = {
   },
   USER: {
     BY_ID: (id: string) => `/user/${id}`,
-    UPDATE_WORKER_PROFILE: "/user/update-worker-profile",
     UPDATE_BUSINESS_PROFILE: "/user/update-business-profile",
     UPDATE_USER: "/user/update-user",
     GET_USER: "/user/me",
@@ -70,6 +69,7 @@ export const API_ROUTES = {
     DELETE: "/language/delete",
   },
   WORKER: {
+    UPDATE_WORKER_PROFILE: "/worker/update-worker-profile",
     ROOT: "/worker",
     BY_ID: (id: string) => `/worker/${id}`,
     LIST: "/worker/get-all-workers-profiles",

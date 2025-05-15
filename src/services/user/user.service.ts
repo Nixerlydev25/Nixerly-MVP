@@ -17,7 +17,7 @@ class UserService {
 
   static async updateWorkerProfile(data: TWorkerProfile): Promise<TWorkerProfile> {
     try {
-      const response = await instance.patch(API_ROUTES.USER.UPDATE_WORKER_PROFILE, data);
+      const response = await instance.patch(API_ROUTES.WORKER.UPDATE_WORKER_PROFILE, data);
       return response.data;
     } catch (error) {
       console.error("Error during updating worker profile:", error);

@@ -21,7 +21,7 @@ interface FiltersFeedsProps {
 }
 function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [visibleSkillsCount, setVisibleSkillsCount] = useState(10);
+  const [visibleSkillsCount, setVisibleSkillsCount] = useState(20);
 
   // Filter state
   const searchParams = useSearchParams();
@@ -52,13 +52,13 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
 
   const visibleSkills = onboardingOptions.skills.slice(0, visibleSkillsCount);
 
-  const handleShowMoreSkills = () => {
-    setVisibleSkillsCount((prevCount) => prevCount + 10);
-  };
+  // const handleShowMoreSkills = () => {
+  //   setVisibleSkillsCount((prevCount) => prevCount + 10);
+  // };
 
-  const handleShowLessSkills = () => {
-    setVisibleSkillsCount(10);
-  };
+  // const handleShowLessSkills = () => {
+  //   setVisibleSkillsCount(10);
+  // };
 
   // Update URL when filters change
   const updateFilters = () => {
@@ -192,7 +192,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   </div>
                 ))}
                 <div className="flex gap-2">
-                  {visibleSkillsCount < onboardingOptions.skills.length && (
+                  {/* {visibleSkillsCount < onboardingOptions.skills.length && (
                     <Button
                       variant="link"
                       size="sm"
@@ -211,7 +211,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                     >
                       Show less
                     </Button>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

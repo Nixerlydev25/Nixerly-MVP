@@ -5,6 +5,6 @@ export enum ROUTES {
     SIGNUP = "/signup",
     ONBOARDING = "/onboarding",
     FEED = "/feed",
-    FEED_WORKER = "/feed/worker",
     FEED_BUSINESS = "/feed/business",
+    WORKER_PROFILE = "/feed/worker",
   }

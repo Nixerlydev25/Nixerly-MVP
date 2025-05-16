@@ -18,6 +18,9 @@ export interface WorkerUser {
 }
 
 export interface WorkerExperience {
+  country: string;
+  state: string;
+  city: string;
   id: string;
   workerId: string;
   title: string;
@@ -52,6 +55,7 @@ export interface WorkerProfileResponse {
   id: string;
   userId: string;
   title: string;
+  avatar?: string;
   description: string;
   city: string;
   state: string;
@@ -61,6 +65,9 @@ export interface WorkerProfileResponse {
   totalEarnings: number;
   completedJobs: number;
   avgRating: number;
+  successRate?: number;
+  responseTime?: string;
+  lastActive?: string;
   onboardingStep: OnboardingStepWorkerProfileB | string;
   user: WorkerUser;
   skills: string[];

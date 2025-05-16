@@ -22,7 +22,7 @@ export default function Dashboard() {
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
 
   const handleWorkerClick = (workerId: string) => {
-    router.push(`${ROUTES.WORKER_PROFILE}/${workerId}`);
+    router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
   };
 
   return (

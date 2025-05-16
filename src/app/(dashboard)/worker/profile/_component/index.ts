@@ -1,0 +1,11 @@
+export { default as ProfileHeader } from './ProfileHeader';
+export { default as AboutSection } from './AboutSection';
+export { default as SkillsSection } from './SkillsSection';
+export { default as ExperienceSection } from './ExperienceSection';
+export { default as EducationSection } from './EducationSection';
+export { default as CertificationsSection } from './CertificationsSection';
+export { default as LanguagesSection } from './LanguagesSection';
+export { default as WorkHistoryTab } from './WorkHistoryTab';
+export { default as ReviewsTab } from './ReviewsTab';
+export { default as HireCard } from './HireCard';
+export { default as ProfileStats } from './ProfileStats';

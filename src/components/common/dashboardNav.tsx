@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,12 +22,32 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useLogout } from "@/hook/auth/auth.hook";
+import SkeletonFeed from "@/app/(dashboard)/business/feed/_components/SkeletonFeed";
+import { useUser } from "@/hook/user/useUser";
+import { ProfileType } from "@/types/user/user.types";
+import { ROUTES } from "@/lib/routes";
 
 function DashboardNav() {
-  const { mutate: logout } = useLogout(); 
+  const { mutate: logout } = useLogout();
+  const { user, isLoading } = useUser();
+  const router = useRouter();
+
+  if (isLoading || !user) {
+    return <SkeletonFeed />;
+  }
 
   const handleLogout = () => {
     logout();
+  };
+
+  const isBusinessProfile = user.defaultProfile === ProfileType.BUSINESS;
+
+  const handleProfileClick = () => {
+    if (isBusinessProfile) {
+      router.push(ROUTES.MY_BUSINESS_PROFILE);
+    } else {
+      router.push(ROUTES.MY_WORKER_PROFILE);
+    }
   };
 
   return (
@@ -85,11 +106,15 @@ function DashboardNav() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleProfileClick}>
+                Profile
+              </DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                Log out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

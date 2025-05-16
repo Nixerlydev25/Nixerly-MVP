@@ -7,6 +7,8 @@ export enum ROUTES {
     FEED = "/feed",
     BUSINESS_FEED = "/business/feed",
     WORKER_FEED = "/worker/feed",
-    WORKER_PROFILE = "/profile/worker",
-    BUSINESS_PROFILE = "/profile/business",
+    OTHER_WORKER_PROFILE = "/profile/worker",
+    OTHER_BUSINESS_PROFILE = "/profile/business",
+    MY_WORKER_PROFILE = "/worker/profile",
+    MY_BUSINESS_PROFILE = "/business/profile",
   }

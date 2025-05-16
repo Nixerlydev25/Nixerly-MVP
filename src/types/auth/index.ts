@@ -1,5 +1,6 @@
 import { OnboardingStepBusinessProfileB, OnboardingStepWorkerProfileB } from "../onboarding";
 import { ProfileType } from "../user/user.types";
+import { WorkerEducation, WorkerExperience, WorkerLanguage } from "../worker.types";
 
 // Base interface for common fields
 interface BaseSignUpRequest {
@@ -48,6 +49,7 @@ export interface TUser {
 
 // Worker Profile type
 export interface TWorkerProfile {
+  id?: string;
   title?: string | null;
   hourlyRate?: number | null;
   description?: string | null;
@@ -59,6 +61,11 @@ export interface TWorkerProfile {
   totalEarnings?: number;
   completedJobs?: number;
   avgRating?: number;
+  user: TUser
+  languages?: WorkerLanguage[] | null;
+  profilePicture?: string | null;
+  education?: WorkerEducation[] | null;
+  experience?: WorkerExperience[] | null;
   onboardingStep?: OnboardingStepWorkerProfileB;
 }
 

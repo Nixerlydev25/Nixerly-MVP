@@ -79,3 +79,10 @@ export const useGetCurrentUser = () => {
     queryFn: UserService.getCurrentUser,
   });
 };
+
+export const useGetCurrentWorkerProfileDetails = () => {
+  return useQuery<TWorkerProfile>({
+    queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
+    queryFn: UserService.getCurrentWorkerProfileDetails,
+  });
+};

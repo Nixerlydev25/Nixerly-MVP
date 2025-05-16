@@ -7,176 +7,91 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Award,
-  BarChart3,
   ChevronLeft,
   FileEdit,
-  Globe,
-  LineChart,
   PencilIcon,
   PlusCircle,
   Settings,
   ShieldCheck,
-  StarIcon,
-  ThumbsUp,
   TrendingUp,
-  UserIcon,
-} from 'lucide-react';
-import {
-  AboutSection,
-  CertificationsSection,
-  EducationSection,
-  ExperienceSection,
-  LanguagesSection,
-  ProfileHeader,
-} from './_component';
+} from "lucide-react"
+import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
+import { AboutSection, CertificationsSection, EducationSection, LanguagesSection, ProfileHeader } from './_component';
 import ProfileCompleteness from './_component/ProfileCompleteness';
 import ExperienceTab from './_component/ExperienceTab';
 
-// Sample freelancer data
-const freelancer = {
-  id: 1,
-  name: 'Alex Johnson',
-  title: 'Full Stack Developer',
-  tagline: 'Delivering high-quality web applications with modern technologies',
-  rating: 4.9,
-  hourlyRate: 45,
-  totalEarned: 87500,
-  skills: [
-    'React',
-    'Node.js',
-    'MongoDB',
-    'TypeScript',
-    'Express',
-    'Next.js',
-    'GraphQL',
-    'AWS',
-    'Docker',
-  ],
-  jobsCompleted: 127,
-  successRate: 98,
-  location: 'San Francisco, CA',
-  memberSince: 'June 2019',
-  lastActive: '2 hours ago',
-  responseTime: '< 1 hour',
-  languages: [
-    { name: 'English', proficiency: 'Native' },
-    { name: 'Spanish', proficiency: 'Conversational' },
-  ],
-  avatar: '/placeholder.svg?height=200&width=200',
-  bio: "I'm a passionate full-stack developer with over 8 years of experience building web applications. I specialize in React, Node.js, and modern JavaScript frameworks. My approach focuses on creating clean, maintainable code that delivers exceptional user experiences.\n\nI've worked with startups and enterprise clients across various industries including fintech, e-commerce, and SaaS. My goal is to understand your business needs and deliver solutions that help you achieve your objectives efficiently.",
-  education: [
-    {
-      institution: 'University of California, Berkeley',
-      degree: 'Bachelor of Science in Computer Science',
-      year: '2015',
-    },
-    {
-      institution: 'Stanford University',
-      degree: "Master's in Software Engineering",
-      year: '2017',
-    },
-  ],
-  certifications: [
-    {
-      name: 'AWS Certified Solutions Architect',
-      issuer: 'Amazon Web Services',
-      year: '2020',
-    },
-    {
-      name: 'MongoDB Certified Developer',
-      issuer: 'MongoDB, Inc.',
-      year: '2019',
-    },
-  ],
-  workHistory: [
-    {
-      title: 'E-commerce Platform Redesign',
-      client: 'Fashion Retailer',
-      completedDate: 'March 2023',
-      rating: 5.0,
-      hours: 160,
-      description:
-        "Completely redesigned and rebuilt the client's e-commerce platform using React, Next.js, and Node.js. Implemented a headless CMS, optimized performance, and integrated with payment gateways.",
-    },
-    {
-      title: 'Real-time Analytics Dashboard',
-      client: 'SaaS Company',
-      completedDate: 'November 2022',
-      rating: 4.9,
-      hours: 120,
-      description:
-        'Developed a real-time analytics dashboard using React, D3.js, and WebSockets. The dashboard provides insights into user behavior and system performance.',
-    },
-    {
-      title: 'Mobile App Backend',
-      client: 'Health Tech Startup',
-      completedDate: 'July 2022',
-      rating: 5.0,
-      hours: 80,
-      description:
-        'Built a scalable backend for a health tracking mobile app using Node.js, Express, and MongoDB. Implemented authentication, data storage, and RESTful APIs.',
-    },
-  ],
-  reviews: [
-    {
-      client: 'Sarah M.',
-      company: 'Fashion Retailer',
-      rating: 5.0,
-      date: 'March 15, 2023',
-      content:
-        'Alex was exceptional to work with. He understood our requirements perfectly and delivered a solution that exceeded our expectations. His communication was clear and timely, and he was proactive in suggesting improvements to our initial design. Would definitely hire again!',
-    },
-    {
-      client: 'Michael T.',
-      company: 'SaaS Company',
-      rating: 4.9,
-      date: 'November 22, 2022',
-      content:
-        "Working with Alex was a great experience. He's technically skilled and also understands business requirements well. The dashboard he built has become an essential tool for our team and customers. Highly recommended.",
-    },
-    {
-      client: 'Jennifer K.',
-      company: 'Health Tech Startup',
-      rating: 5.0,
-      date: 'July 30, 2022',
-      content:
-        "Alex delivered our backend ahead of schedule and with all requirements met. He's a clear communicator and was able to explain complex technical concepts to our non-technical team members. His work is clean, well-documented, and easy to maintain.",
-    },
-  ],
-  availability: 'Full-time (40+ hrs/week)',
-  preferredProjectLength: '3+ months',
-  profileStats: {
-    views: 342,
-    viewsChange: '+28%',
-    proposals: 15,
-    proposalsChange: '+5%',
-    invitations: 8,
-    invitationsChange: '+33%',
-    profileCompleteness: 95,
-    searchAppearances: 178,
-    searchAppearancesChange: '+12%',
-  },
-  earnings: {
-    thisMonth: 4250,
-    lastMonth: 3800,
-    thisYear: 42500,
-    pending: 1200,
-  },
-  activeProposals: 5,
-  savedJobs: 12,
-  activeContracts: 3,
-};
-
 export default function FreelancerProfileSelfView() {
   const [isPublic, setIsPublic] = useState(true);
+
+  const {data: workerDetail} = useGetCurrentWorkerProfileDetails();
+
+  console.log({workerDetail})
+
+  // Transform API data to match the UI structure
+  const freelancer = {
+    id: workerDetail?.id || "",
+    name: `${workerDetail?.user?.firstName || ""} ${workerDetail?.user?.lastName || ""}`,
+    title: workerDetail?.title || "",
+    tagline: workerDetail?.description || "",
+    rating: workerDetail?.avgRating || 0,
+    hourlyRate: workerDetail?.hourlyRate || 0,
+    totalEarned: workerDetail?.totalEarnings || 0,
+    skills: workerDetail?.skills || [],
+    jobsCompleted: workerDetail?.completedJobs || 0,
+    successRate: 98, // Static data
+    location: `${workerDetail?.city || ""}, ${workerDetail?.state || ""}`,
+    memberSince: new Date(workerDetail?.user?.createdAt || "").toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    lastActive: "2 hours ago", // Static data
+    responseTime: "< 1 hour", // Static data
+    languages: workerDetail?.languages?.map((lang: any) => ({
+      name: lang.language,
+      proficiency: lang.proficiency
+    })) || [],
+    avatar: workerDetail?.profilePicture || "/placeholder.svg?height=200&width=200",
+    bio: workerDetail?.description || "",
+    education: workerDetail?.education?.map((edu: any) => ({
+      institution: edu.school,
+      degree: edu.degree,
+      year: new Date(edu.endDate).getFullYear().toString()
+    })) || [],
+    certifications: [], // Static data
+    workHistory: workerDetail?.experience?.map((exp: any) => ({
+      title: exp.title,
+      client: exp.company,
+      completedDate: new Date(exp.endDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      rating: 5.0, // Static data
+      hours: 160, // Static data
+      description: exp.description
+    })) || [],
+    availability: workerDetail?.availability ? "Full-time (40+ hrs/week)" : "Not Available",
+    preferredProjectLength: "3+ months", // Static data
+    profileStats: {
+      views: 342, // Static data
+      viewsChange: "+28%", // Static data
+      proposals: 15, // Static data
+      proposalsChange: "+5%", // Static data
+      invitations: 8, // Static data
+      invitationsChange: "+33%", // Static data
+      profileCompleteness: 95, // Static data
+      searchAppearances: 178, // Static data
+      searchAppearancesChange: "+12%", // Static data
+    },
+    earnings: {
+      thisMonth: 4250, // Static data
+      lastMonth: 3800, // Static data
+      thisYear: 42500, // Static data
+      pending: 1200, // Static data
+    },
+    activeProposals: 5, // Static data
+    savedJobs: 12, // Static data
+    activeContracts: 3, // Static data
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -211,12 +126,6 @@ export default function FreelancerProfileSelfView() {
                   className="rounded-none border-b-2 border-transparent px-4 py-2 text-gray-600 transition-colors hover:text-blue-600 data-[state=active]:border-blue-600 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                 >
                   Work History
-                </TabsTrigger>
-                <TabsTrigger
-                  value="reviews"
-                  className="rounded-none border-b-2 border-transparent px-4 py-2 text-gray-600 transition-colors hover:text-blue-600 data-[state=active]:border-blue-600 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
-                >
-                  Reviews
                 </TabsTrigger>
                 <TabsTrigger
                   value="analytics"

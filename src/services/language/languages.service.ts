@@ -1,6 +1,6 @@
 import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
 import instance from "../api";
-import { API_ROUTES } from "@/constants/api";
+import { API_ROUTES } from "@/constants/routes";
 
 export interface Language {
   id: string;

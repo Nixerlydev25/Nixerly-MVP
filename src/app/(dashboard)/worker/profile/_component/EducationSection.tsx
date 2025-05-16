@@ -11,16 +11,21 @@ interface EducationSectionProps {
 }
 
 const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
-  const { openModal } = useModalStore()
+  const { openModal } = useModalStore();
   return (
-    <Card>
-      <CardHeader className="bg-gradient-to-r from-cyan-50 to-cyan-100/50 pb-3">
+    <Card className='pt-0 overflow-hidden'>
+      <CardHeader className="bg-gradient-to-r pt-3 from-cyan-50 to-cyan-100/50 pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center">
             <GraduationCap className="mr-2 h-5 w-5 text-cyan-600" />
             Education
           </CardTitle>
-          <Button size="sm" variant="ghost" className="h-8 gap-1" onClick={() => openModal(ModalType.EDIT_EDUCATION, { education })}>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-8 gap-1"
+            onClick={() => openModal(ModalType.EDIT_EDUCATION, { education })}
+          >
             <PencilIcon className="h-3 w-3" />
             Edit
           </Button>
@@ -35,7 +40,12 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
               <p className="text-sm text-gray-500">{edu.year}</p>
             </div>
           ))}
-          <Button variant="outline" size="sm" className="w-full mt-2 gap-1">
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full mt-2 gap-1"
+            onClick={() => openModal(ModalType.EDIT_EDUCATION, { education })}
+          >
             <PlusCircle className="h-4 w-4" />
             Add Education
           </Button>

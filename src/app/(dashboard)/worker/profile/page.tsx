@@ -29,8 +29,16 @@ import {
   TrendingUp,
   UserIcon,
 } from 'lucide-react';
-import { AboutSection, EducationSection, ProfileHeader } from './_component';
+import {
+  AboutSection,
+  CertificationsSection,
+  EducationSection,
+  ExperienceSection,
+  LanguagesSection,
+  ProfileHeader,
+} from './_component';
 import ProfileCompleteness from './_component/ProfileCompleteness';
+import ExperienceTab from './_component/ExperienceTab';
 
 // Sample freelancer data
 const freelancer = {
@@ -277,159 +285,26 @@ export default function FreelancerProfileSelfView() {
                   </CardContent>
                 </Card>
 
-                {/* Education & Certifications */}
                 <div className="grid gap-6 md:grid-cols-2">
-                  {/* Education */}
                   <EducationSection education={freelancer.education} />
-
-                  {/* Certifications */}
-                  <Card>
-                    <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100/50 pb-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center">
-                          <Award className="mr-2 h-5 w-5 text-purple-600" />
-                          Certifications
-                        </CardTitle>
-                        <Button size="sm" variant="ghost" className="h-8 gap-1">
-                          <PencilIcon className="h-3 w-3" />
-                          Edit
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {freelancer.certifications.map((cert, index) => (
-                          <div
-                            key={index}
-                            className={index > 0 ? 'border-t pt-4' : ''}
-                          >
-                            <h4 className="font-medium">{cert.name}</h4>
-                            <p className="text-gray-600">{cert.issuer}</p>
-                            <p className="text-sm text-gray-500">{cert.year}</p>
-                          </div>
-                        ))}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full mt-2 gap-1"
-                        >
-                          <PlusCircle className="h-4 w-4" />
-                          Add Certification
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <CertificationsSection
+                    certifications={freelancer.certifications}
+                  />
                 </div>
-
-                {/* Languages */}
-                <Card>
-                  <CardHeader className="bg-gradient-to-r from-green-50 to-green-100/50 pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="flex items-center">
-                        <Globe className="mr-2 h-5 w-5 text-green-600" />
-                        Languages
-                      </CardTitle>
-                      <Button size="sm" variant="ghost" className="h-8 gap-1">
-                        <PencilIcon className="h-3 w-3" />
-                        Edit
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {freelancer.languages.map((language, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between"
-                        >
-                          <div>
-                            <span className="font-medium">
-                              {language.name}:
-                            </span>
-                            <span className="ml-2 text-gray-600">
-                              {language.proficiency}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="mt-2 gap-1"
-                      >
-                        <PlusCircle className="h-4 w-4" />
-                        Add Language
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <LanguagesSection languages={freelancer.languages} />
               </TabsContent>
 
               {/* Work History Tab */}
-              <TabsContent value="work" className="mt-6 space-y-6">
-                <Card>
-                  <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100/50 pb-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle>Work History</CardTitle>
-                        <CardDescription>
-                          Completed {freelancer.jobsCompleted} jobs with{' '}
-                          {freelancer.successRate}% success rate
-                        </CardDescription>
-                      </div>
-                      <Button size="sm" variant="outline" className="gap-1">
-                        <PlusCircle className="h-4 w-4" />
-                        Add Portfolio Item
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-8">
-                      {freelancer.workHistory.map((work, index) => (
-                        <div
-                          key={index}
-                          className={index > 0 ? 'border-t pt-6' : ''}
-                        >
-                          <div className="flex flex-wrap items-start justify-between gap-2">
-                            <div>
-                              <h3 className="text-lg font-semibold">
-                                {work.title}
-                              </h3>
-                              <p className="text-gray-600">{work.client}</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="text-right">
-                                <div className="flex items-center">
-                                  <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                  <span className="font-medium">
-                                    {work.rating.toFixed(1)}
-                                  </span>
-                                </div>
-                                <p className="text-sm text-gray-500">
-                                  {work.completedDate}
-                                </p>
-                              </div>
-                              <Button size="sm" variant="ghost" className="h-8">
-                                <PencilIcon className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-gray-700">
-                            {work.description}
-                          </p>
-                          <div className="mt-2 text-sm text-gray-500">
-                            {work.hours} hours worked
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+              <TabsContent value="experience" className="mt-6 space-y-6">
+                <ExperienceTab freelancer={freelancer} />
               </TabsContent>
 
               {/* Reviews Tab */}
               <TabsContent value="reviews" className="mt-6 space-y-6">
-                <Card>
+                <div className="text-2xl flex items-center justify-center">
+                  Coming Soon
+                </div>
+                {/* <Card>
                   <CardHeader className="bg-gradient-to-r from-yellow-50 to-yellow-100/50 pb-3">
                     <div className="flex items-center justify-between">
                       <div>
@@ -495,12 +370,9 @@ export default function FreelancerProfileSelfView() {
                       ))}
                     </div>
                   </CardContent>
-                </Card>
+                </Card> */}
               </TabsContent>
-
-              {/* Analytics Tab (New) */}
-              <TabsContent value="analytics" className="mt-6 space-y-6">
-                {/* Profile Performance */}
+              {/* <TabsContent value="analytics" className="mt-6 space-y-6">
                 <Card>
                   <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100/50 pb-3">
                     <CardTitle>Profile Performance</CardTitle>
@@ -583,8 +455,6 @@ export default function FreelancerProfileSelfView() {
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Earnings Overview */}
                 <Card>
                   <CardHeader className="bg-gradient-to-r from-green-50 to-green-100/50 pb-3">
                     <CardTitle>Earnings Overview</CardTitle>
@@ -644,7 +514,7 @@ export default function FreelancerProfileSelfView() {
                     </div>
                   </CardContent>
                 </Card>
-              </TabsContent>
+              </TabsContent> */}
             </Tabs>
           </div>
 

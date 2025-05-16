@@ -5,7 +5,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useUpdateWorkerProfile } from '@/hook/user/user.hooks';
+import { useModalStore } from '@/store/model.store';
+import { ModalType } from '@/types/model';
 import { WorkerProfileResponse } from '@/types/worker.types';
 import {
   BookmarkIcon,
@@ -28,6 +29,7 @@ interface ProfileHeaderProps {
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ freelancer }) => {
   const [isPublic, setIsPublic] = React.useState(true);
+  const { openModal} = useModalStore()
   const fullName = `${freelancer.user?.firstName || ''} ${
     freelancer.user?.lastName || ''
   }`.trim();
@@ -102,7 +104,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ freelancer }) => {
                         </>
                       )}
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>  openModal(ModalType.EDIT_PROFILE, freelancer )} >
                       <FileEdit className="mr-2 h-4 w-4" />
                       Edit profile
                     </DropdownMenuItem>

@@ -1,6 +1,6 @@
 import instance from "../api";
 import { SignUpRequest, SignInRequest, AuthResponse, TUser } from "../../types/auth";
-import { API_ROUTES } from "../../constants/api";
+import { API_ROUTES } from "../../constants/routes";
 
 class AuthService {
   static async signUp(data: SignUpRequest): Promise<AuthResponse> {

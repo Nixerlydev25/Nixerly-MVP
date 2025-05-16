@@ -22,4 +22,5 @@ export enum QueryKeys {
   GET_WORKER_PROFILE = "get-worker-profile",
   GET_WORKER_BY_ID = "get-worker-by-id",
   LOGOUT = "logout",
+  WORKER_PROFILE_DETAILS = "worker-profile-details",
 }

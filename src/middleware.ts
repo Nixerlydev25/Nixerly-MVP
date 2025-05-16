@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ROUTES } from "./lib/routes";
-import { API_ROUTES } from "./constants/api";
+import { API_ROUTES } from "./constants/routes";
 import { OnboardingStepWorker, OnboardingStepBusiness } from "./types/onboarding";
 import { parseCookies } from "./lib/utils";
 

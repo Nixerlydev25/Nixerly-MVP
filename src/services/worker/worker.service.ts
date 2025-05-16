@@ -1,5 +1,5 @@
 import instance from "../api";
-import { API_ROUTES } from "@/constants/api";
+import { API_ROUTES } from "@/constants/routes";
 import { FeedsFilter } from "@/types/feed/feed.types";
 import { WorkerListResponse, WorkerProfileResponse } from "@/types/worker.types";
 

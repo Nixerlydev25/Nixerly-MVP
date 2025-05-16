@@ -27,6 +27,8 @@ export const API_ROUTES = {
     FORGOT_PASSWORD: "/user/forgot-password",
     VERIFY_OTP: "/user/verify-otp",
     RESET_PASSWORD: "/user/reset-password",
+    WORKER_PROFILE_DETAILS: "/user/worker-profile-details",
+    
   },
   OTP: {
     SEND: "/otp/send-otp",

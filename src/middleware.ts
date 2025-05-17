@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ROUTES } from "./lib/routes";
 import { API_ROUTES } from "./constants/routes";
-import { OnboardingStepWorker, OnboardingStepBusiness } from "./types/onboarding";
+import {
+  OnboardingStepWorker,
+  OnboardingStepBusiness,
+} from "./types/onboarding";
 import { parseCookies } from "./lib/utils";
 
 const API_URL = `${process.env.API_URL}${API_ROUTES.USER.GET_CURRENT_USER}`;
@@ -24,21 +27,30 @@ function handleOnboardingRedirectWorkerProfile(
   request: NextRequest,
   workerProfile: { onboardingStep: string }
 ) {
-  if (workerProfile.onboardingStep === "COMPLETED") {
-    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
-      return NextResponse.redirect(new URL(ROUTES.WORKER_FEED, request.url));
-    }
-  } else {
-    console.log("workerProfile2", workerProfile);
+  if (workerProfile.onboardingStep !== "COMPLETED") {
     const mappedStep = ONBOARDING_STEP_MAP[workerProfile.onboardingStep];
     const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${mappedStep}`;
-    const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
+    const isOnOnboarding = request.nextUrl.pathname.startsWith(
+      ROUTES.ONBOARDING
+    );
     const currentStep = request.nextUrl.searchParams.get("onboarding-step");
 
     if (!isOnOnboarding || (isOnOnboarding && currentStep !== mappedStep)) {
       return NextResponse.redirect(new URL(onboardingUrl, request.url));
     }
+    return null;
   }
+
+  if (workerProfile.onboardingStep === "COMPLETED") {
+    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
+      return NextResponse.redirect(new URL(ROUTES.WORKER_FEED, request.url));
+    }
+  }
+
+  if(request.nextUrl.pathname.startsWith("/business")){
+    return NextResponse.redirect(new URL(ROUTES.WORKER_FEED, request.url));
+  }
+
   return null;
 }
 
@@ -53,20 +65,31 @@ function handleOnboardingRedirectBusinessProfile(
   request: NextRequest,
   businessProfile: { onboardingStep: string }
 ) {
-  if (businessProfile.onboardingStep === "COMPLETED") {
-    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
-      return NextResponse.redirect(new URL(ROUTES.BUSINESS_FEED, request.url));
-    }
-  } else {
-    const mappedStep = BUSINESS_ONBOARDING_STEP_MAP[businessProfile.onboardingStep];
+  if (businessProfile.onboardingStep !== "COMPLETED") {
+    const mappedStep =
+      BUSINESS_ONBOARDING_STEP_MAP[businessProfile.onboardingStep];
     const onboardingUrl = `${ROUTES.ONBOARDING}?onboarding-step=${mappedStep}`;
-    const isOnOnboarding = request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING);
+    const isOnOnboarding = request.nextUrl.pathname.startsWith(
+      ROUTES.ONBOARDING
+    );
     const currentStep = request.nextUrl.searchParams.get("onboarding-step");
 
     if (!isOnOnboarding || (isOnOnboarding && currentStep !== mappedStep)) {
       return NextResponse.redirect(new URL(onboardingUrl, request.url));
     }
+    return null;
   }
+
+  if (businessProfile.onboardingStep === "COMPLETED") {
+    if (request.nextUrl.pathname.startsWith(ROUTES.ONBOARDING)) {
+      return NextResponse.redirect(new URL(ROUTES.BUSINESS_FEED, request.url));
+    }
+  }
+
+  if(request.nextUrl.pathname.startsWith("/worker")){
+    return NextResponse.redirect(new URL(ROUTES.BUSINESS_FEED, request.url));
+  }
+
   return null;
 }
 
@@ -151,5 +174,8 @@ export const config = {
 
     // Protect settings-related routes
     "/settings/:path*", // e.g., /settings/account, /settings/privacy
+
+    "/worker/:path*",
+    "/business/:path*",
   ],
 };

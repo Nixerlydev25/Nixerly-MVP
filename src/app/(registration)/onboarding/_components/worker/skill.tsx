@@ -40,22 +40,25 @@ export const SkillsInfo = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (commandRef.current && !commandRef.current.contains(event.target as Node)) {
+      if (
+        commandRef.current &&
+        !commandRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleContinue = async () => {
     const fieldsToValidate = ["skills", "hourlyRate"] as const;
     const isValid = await trigger(fieldsToValidate);
-    
+
     if (isValid) {
       const { skills, hourlyRate } = formData;
-      
+
       const workerProfileData = {
         skills,
         hourlyRate,
@@ -107,8 +110,8 @@ export const SkillsInfo = () => {
               <FormControl>
                 <div ref={commandRef}>
                   <Command className="border rounded-md py-1">
-                    <CommandInput 
-                      placeholder="Search skills..." 
+                    <CommandInput
+                      placeholder="Search skills..."
                       onFocus={() => setIsOpen(true)}
                       className=""
                     />
@@ -122,8 +125,8 @@ export const SkillsInfo = () => {
                               value={skill.value}
                               onSelect={() => {
                                 handleSkillSelect(skill.value);
-                                if(formData.skills?.length === 8){
-                                  setIsOpen(false)
+                                if (formData.skills?.length === 8) {
+                                  setIsOpen(false);
                                 }
                               }}
                               className="flex items-center justify-between"
@@ -142,11 +145,7 @@ export const SkillsInfo = () => {
               </FormControl>
               <div className="flex flex-wrap gap-2 mt-2">
                 {field.value?.map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="secondary"
-                    className="px-3 py-2"
-                  >
+                  <Badge key={skill} variant="secondary" className="px-3 py-2">
                     {
                       onboardingOptions.skills.find((s) => s.value === skill)
                         ?.label
@@ -156,7 +155,7 @@ export const SkillsInfo = () => {
                       onClick={() => handleSkillRemove(skill)}
                       className="ml-2 hover:text-nixerly-coral cursor-pointer"
                     >
-                      <X className="h-3 w-3"/>
+                      <X className="h-3 w-3" />
                     </button>
                   </Badge>
                 ))}

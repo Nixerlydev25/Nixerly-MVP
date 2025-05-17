@@ -32,6 +32,11 @@ class EducationsService {
     return response.data;
   }
 
+  static async updateAllEducations(data: WorkerOnboardingSchema['education']): Promise<Education[]> {
+    const response = await instance.put(API_ROUTES.EDUCATION.UPDATE_ALL, data);
+    return response.data;
+  }
+
   static async deleteEducation(id: string): Promise<void> {
     await instance.delete(API_ROUTES.EDUCATION.DELETE(id));
   }

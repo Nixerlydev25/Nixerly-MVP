@@ -32,6 +32,18 @@ export const useUpdateUpdateExperience = () => {
   });
 };
 
+export const useUpdateAllExperience = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: WorkerOnboardingSchema['experience']) =>
+      ExperienceService.updateAllExperience(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EXPERIENCE] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.WORKER_PROFILE_DETAILS] });
+    },
+  });
+};
+
 export const useDeleteExperience = () => {
   const queryClient = useQueryClient();
   return useMutation({

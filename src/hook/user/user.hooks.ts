@@ -7,6 +7,7 @@ import { queryClient } from "@/providers/query.provider";
 import { ROUTES } from "@/lib/routes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { OnboardingStepBusinessProfileB, OnboardingStepWorkerProfileB } from "@/types/onboarding";
 
 // Define the BusinessProfile interface
 export interface BusinessProfile {
@@ -37,9 +38,19 @@ export const useUpdateUser = () => {
 export const useUpdateWorkerProfile = () => {
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_WORKER_PROFILE],
-    mutationFn: (data: TWorkerProfile) => UserService.updateWorkerProfile(data),
+    mutationFn: (data: {
+      title?: string;
+      description?: string;
+      city?: string;
+      state?: string;
+      country?: string;
+      hourlyRate?: number;
+      availability?: boolean;
+      onboardingStep?: OnboardingStepWorkerProfileB;
+    }) => UserService.updateWorkerProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.WORKER_PROFILE_DETAILS] });
     },
     onError: (error: unknown) => {
       console.error("Error during updating worker profile:", error);

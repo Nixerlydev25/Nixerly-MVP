@@ -30,6 +30,11 @@ class ExperiencesService {
     return response.data;
   }
 
+  static async updateAllExperience(data: WorkerOnboardingSchema['experience']): Promise<Experience> {
+    const response = await instance.put(API_ROUTES.EXPERIENCE.UPDATE_ALL, data);
+    return response.data;
+  }
+
   static async deleteExperience(id: string): Promise<void> {
     await instance.delete(API_ROUTES.EXPERIENCE.DELETE(id));
   }

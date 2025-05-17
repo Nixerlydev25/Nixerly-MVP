@@ -23,8 +23,8 @@ class SkillsService {
     return response.data;
   }
 
-  static async updateSkill(id: string, data: { name: string }): Promise<Skill> {
-    const response = await instance.patch(API_ROUTES.SKILLS.UPDATE(id), data);
+  static async updateSkill(data: { skills: string[] }): Promise<Skill> {
+    const response = await instance.patch(API_ROUTES.SKILLS.UPDATE, data);
     return response.data;
   }
 

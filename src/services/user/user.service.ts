@@ -6,7 +6,7 @@ import { API_ROUTES } from "@/constants/routes";
 class UserService {
   static async updateUser(data: Partial<TUser>): Promise<TUser> {
     try {
-      console.log(data,'data is here')
+      console.log(data, "data is here");
       const response = await instance.patch(API_ROUTES.USER.UPDATE_USER, data);
       return response.data;
     } catch (error) {
@@ -15,9 +15,20 @@ class UserService {
     }
   }
 
-  static async updateWorkerProfile(data: TWorkerProfile): Promise<TWorkerProfile> {
+  static async updateWorkerProfile(data: {
+    title?: string;
+    description?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    hourlyRate?: number;
+    availability?: boolean;
+  }): Promise<TWorkerProfile> {
     try {
-      const response = await instance.patch(API_ROUTES.WORKER.UPDATE_WORKER_PROFILE, data);
+      const response = await instance.patch(
+        API_ROUTES.WORKER.UPDATE_WORKER_PROFILE,
+        data
+      );
       return response.data;
     } catch (error) {
       console.error("Error during updating worker profile:", error);
@@ -25,9 +36,14 @@ class UserService {
     }
   }
 
-  static async updateBusinessProfile(data: TBusinessProfile): Promise<TBusinessProfile> {
+  static async updateBusinessProfile(
+    data: TBusinessProfile
+  ): Promise<TBusinessProfile> {
     try {
-      const response = await instance.patch(API_ROUTES.USER.UPDATE_BUSINESS_PROFILE, data);
+      const response = await instance.patch(
+        API_ROUTES.USER.UPDATE_BUSINESS_PROFILE,
+        data
+      );
       return response.data;
     } catch (error) {
       console.error("Error during updating business profile:", error);
@@ -56,7 +72,9 @@ class UserService {
 
   static async getCurrentWorkerProfileDetails(): Promise<TWorkerProfile> {
     try {
-      const response = await instance.get(API_ROUTES.USER.WORKER_PROFILE_DETAILS);
+      const response = await instance.get(
+        API_ROUTES.USER.WORKER_PROFILE_DETAILS
+      );
       return response.data;
     } catch (error) {
       console.error("Error during getting worker profile details:", error);

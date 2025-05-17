@@ -47,13 +47,14 @@ export const API_ROUTES = {
     ROOT: "/skills",
     BY_ID: (id: string) => `/skills/${id}`,
     CREATE: "/skills",
-    UPDATE: (id: string) => `/skills/${id}`,
+    UPDATE: "/skills",
     DELETE: (id: string) => `/skills/${id}`,
     LIST: "/skills",
   },
   EXPERIENCE: {
     BY_ID: (id: string) => `/experience/${id}`,
     CREATE: "/experience",
+    UPDATE_ALL: "/experience/update-all",
     UPDATE: (id: string) => `/experience/${id}`,
     DELETE: (id: string) => `/experience/${id}`,
     LIST: "/experience",
@@ -64,6 +65,7 @@ export const API_ROUTES = {
     UPDATE: (id: string) => `/education/${id}`,
     DELETE: (id: string) => `/education/${id}`,
     LIST: "/education",
+    UPDATE_ALL: "/education/update-all",
   },
   LANGUAGE: {
     CREATE: "/language/create",

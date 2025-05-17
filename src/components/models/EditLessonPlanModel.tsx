@@ -32,7 +32,7 @@ import {
   Save,
 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useModalStore } from "@/store/model.store";
+import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 
 const formSchema = z.object({

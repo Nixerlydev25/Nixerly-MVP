@@ -49,6 +49,8 @@ export interface TUser {
 // Worker Profile type
 export interface TWorkerProfile {
   title?: string | null;
+  createdAt: string;
+  updatedAt: string;
   hourlyRate?: number | null;
   description?: string | null;
   skills?: string[] | null;

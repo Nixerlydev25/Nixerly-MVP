@@ -1,72 +1,79 @@
-import { OnboardingStepWorkerProfileB } from "./onboarding";
-
 export interface WorkerUser {
   id: string;
   email: string;
-  password: string;
   firstName: string;
   lastName: string;
-  createdAt: string;
-  updatedAt: string;
-  isVerified: boolean;
-  isDeleted: boolean;
-  isSuspended: boolean;
-  role: string;
-  provider: string;
-  defaultProfile: string;
-  firstTimeLogin: boolean;
+  role: "WORKER";
+  workerProfile: WorkerProfile;
 }
 
 export interface WorkerExperience {
   id: string;
-  workerId: string;
   title: string;
   company: string;
-  location: string;
+  description: string;
   startDate: string;
   endDate: string;
   currentlyWorking: boolean;
-  description: string;
+  city: string;
+  state: string;
+  country: string;
 }
 
 export interface WorkerEducation {
   id: string;
-  workerId: string;
   school: string;
   degree: string;
   fieldOfStudy: string;
-  startDate: string;
-  currentlyStudying: boolean;
-  endDate: string;
   description: string;
+  startDate: string;
+  endDate: string;
+  currentlyStudying: boolean;
+  city: string;
+  state: string;
+  country: string;
 }
 
 export interface WorkerLanguage {
   id: string;
-  workerId: string;
   language: string;
   proficiency: string;
 }
 
-export interface WorkerProfileResponse {
+export interface WorkerProfile {
   id: string;
-  userId: string;
   title: string;
   description: string;
+  hourlyRate: number;
+  availability: boolean;
   city: string;
   state: string;
   country: string;
-  hourlyRate: number;
-  availability: boolean;
-  totalEarnings: number;
-  completedJobs: number;
+  profilePicture: string;
   avgRating: number;
-  onboardingStep: OnboardingStepWorkerProfileB | string;
-  user: WorkerUser;
+  completedJobs: number;
+  createdAt: string;
+  updatedAt: string;
+  totalEarnings: number;
+  onboardingStep: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
   skills: string[];
   experience: WorkerExperience[];
   education: WorkerEducation[];
   languages: WorkerLanguage[];
+  certificates: Record<string, unknown>;
+  portfolio: Record<string, unknown>;
+  isVerified: boolean;
+}
+
+export interface WorkerProfileResponse {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: "WORKER";
+  workerProfile: WorkerProfile;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface WorkerListResponse {

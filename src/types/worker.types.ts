@@ -67,20 +67,45 @@ export interface WorkerProfile {
 
 export interface WorkerProfileResponse {
   id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: "WORKER";
-  workerProfile: WorkerProfile;
-  createdAt: string;
-  updatedAt: string;
+  userId: string;
+  title: string;
+  description: string;
+  hourlyRate: number;
+  availability: boolean;
+  city: string;
+  state: string;
+  country: string;
+  totalEarnings: number;
+  completedJobs: number;
+  avgRating: number;
+  onboardingStep: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
+  skills: string[];
+  experience: WorkerExperience[];
+  education: WorkerEducation[];
+  languages: WorkerLanguage[];
+  user: {
+    id: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    createdAt: string;
+    updatedAt: string;
+    isVerified: boolean;
+    isDeleted: boolean;
+    isSuspended: boolean;
+    role: "WORKER";
+    provider: string;
+    defaultProfile: string;
+    firstTimeLogin: boolean;
+  };
 }
 
 export interface WorkerListResponse {
   data: WorkerProfileResponse[];
   totalCount: number;
   totalPages: number;
-  currentPage: string;
+  currentPage: number;
   hasMore: boolean;
   filters: {
     applied: Record<string, unknown>;

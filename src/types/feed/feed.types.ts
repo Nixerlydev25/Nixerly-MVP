@@ -21,4 +21,5 @@ export interface FeedsFilter {
   maxTotalEarnings?: number;
   minAvgRating?: number;
   maxAvgRating?: number;
+  sort?: 'rating' | 'price_low_to_high' | 'price_high_to_low';
 }

@@ -11,7 +11,7 @@ class WorkerService {
       const params = new URLSearchParams();
 
       const filterConfig: {
-        [key in keyof FeedsFilter]?: "array" | "number";
+        [key in keyof FeedsFilter]?: "array" | "number" | "string";
       } = {
         page: "number",
         limit: "number",
@@ -22,6 +22,7 @@ class WorkerService {
         maxTotalEarnings: "number",
         minAvgRating: "number",
         maxAvgRating: "number",
+        sort: "string",
       };
 
       (Object.keys(filterConfig) as Array<keyof FeedsFilter>).forEach((key) => {
@@ -34,6 +35,8 @@ class WorkerService {
           value.forEach((item) => params.append(key, item.toString()));
         } else if (configType === "number" && typeof value === "number") {
           params.append(key, value.toString());
+        } else if (configType === "string" && typeof value === "string") {
+          params.append(key, value);
         }
       });
 

@@ -85,5 +85,6 @@ export const API_ROUTES = {
     UPDATE: "/jobs/update",
     DELETE: "/jobs/delete",
     LIST: "/jobs/get-all-jobs",
+    GET_DETAILS : (id?:string)=> `/jobs/${id}` 
   },
 };

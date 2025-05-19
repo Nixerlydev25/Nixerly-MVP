@@ -16,12 +16,9 @@ export default function JobsPage() {
   const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('list');
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  // Set initial search value from params, but only once on mount
   const initialSearch = searchParams.get('search') || '';
   const [searchValue, setSearchValue] = React.useState(initialSearch);
 
-  // Only update the URL when the user stops typing (onBlur or Enter), input updates immediately
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };

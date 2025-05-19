@@ -27,4 +27,5 @@ export enum QueryKeys {
   UPDATE_LANGUAGES = "update-languages",
   JOB_CREATE = "job-create",
   JOB_GET_ALL = "job-get-all",
+  JOB_DETAILS = 'job-details'
 }

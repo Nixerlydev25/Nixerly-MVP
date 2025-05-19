@@ -32,6 +32,11 @@ class JobsService {
     const response = await instance.get(API_ROUTES.JOB.LIST, { params });
     return response.data as JobsResponse;
   }
+
+  static async getJobDetails (param?:string){
+    const response = await instance.get(API_ROUTES.JOB.GET_DETAILS(param));
+    return response.data
+  }
 }
 
 export default JobsService;

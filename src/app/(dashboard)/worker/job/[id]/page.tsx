@@ -249,16 +249,29 @@ export default function JobPostDetail() {
                     service. We value reliability, integrity, and craftsmanship
                     in everything we do.
                   </p>
+                  {/* <div className="flex items-center gap-2 mt-4">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className="h-5 w-5 fill-primary text-primary"
+                        />
+                      ))}
+                    </div>
+                    <span className="font-medium text-foreground">4.8/5</span>
+                    <span>(124 reviews)</span>
+                  </div>
                   <div className="mt-4">
                     <Link href="#" className="text-primary hover:underline">
                       View company profile
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </TabsContent>
           </Tabs>
 
+          {/* Similar Jobs */}
           {/* <div className="space-y-4">
             <h2 className="text-xl font-semibold">Similar Jobs</h2>
             <div className="grid gap-4">
@@ -347,11 +360,11 @@ export default function JobPostDetail() {
           <Card>
             <CardContent className="p-6 space-y-4">
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Job Details</h3>
                   <Badge variant="secondary">Verified</Badge>
-                </div>
-                <Separator />
+                </div> */}
+                {/* <Separator /> */}
                 <div className="grid gap-3">
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
@@ -381,9 +394,9 @@ export default function JobPostDetail() {
                   <div className="flex items-center gap-2">
                     <User className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="font-medium">10 applicants</p>
+                      <p className="font-medium">Professionals</p>
                       <p className="text-sm text-muted-foreground">
-                        Apply soon
+                        10 Required
                       </p>
                     </div>
                   </div>
@@ -417,6 +430,38 @@ export default function JobPostDetail() {
                   </p>
                 </div>
               </div>
+              {/* <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span>Response rate</span>
+                  <span className="font-medium">95%</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Average response time</span>
+                  <span className="font-medium">2 hours</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Jobs posted</span>
+                  <span className="font-medium">27</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Hire rate</span>
+                  <span className="font-medium">87%</span>
+                </div>
+              </div> */}
+              {/* <div className="flex items-center gap-2">
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className="h-4 w-4 fill-primary text-primary"
+                    />
+                  ))}
+                </div>
+                <span className="text-sm font-medium">4.8</span>
+                <span className="text-sm text-muted-foreground">
+                  (124 reviews)
+                </span>
+              </div> */}
             </CardContent>
           </Card>
 

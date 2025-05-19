@@ -95,7 +95,7 @@ export function JobListItem({ job }: JobListItemProps) {
           </div>
           
           <div className="flex md:flex-col gap-2 justify-end items-end">
-            <Button className="w-full md:w-auto">
+            <Button className="w-full md:w-auto bg-blue-600 ">
               Apply Now
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>

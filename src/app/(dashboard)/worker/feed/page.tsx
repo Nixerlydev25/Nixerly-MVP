@@ -1,7 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Grid3x3, List, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import {
+  Grid3x3,
+  List,
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  X,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { FilterSidebar } from './_components/filter-sidebar';
@@ -31,7 +38,8 @@ export default function JobsPage() {
 
   function updateSearchParam(value: string) {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    let query = params.toString()
+    let query = params
+      .toString()
       .replace(/(^|&)skills=[^&]*/g, '')
       .replace(/(^|&)search=[^&]*/g, '');
     const skills = searchParams.get('skills');
@@ -95,7 +103,9 @@ export default function JobsPage() {
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
-                className="rounded-none"
+                className={`rounded-none ${
+                  viewMode === 'grid' ? 'bg-blue-600' : ''
+                }`}
                 onClick={() => setViewMode('grid')}
               >
                 <Grid3x3 className="h-4 w-4 mr-2" />
@@ -105,7 +115,9 @@ export default function JobsPage() {
               <Button
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
-                className="rounded-none"
+                className={`rounded-none ${
+                  viewMode === 'list' ? 'bg-blue-600' : ''
+                }`}
                 onClick={() => setViewMode('list')}
               >
                 <List className="h-4 w-4 mr-2" />

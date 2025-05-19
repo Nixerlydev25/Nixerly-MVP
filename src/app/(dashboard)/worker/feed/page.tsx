@@ -172,7 +172,7 @@ export default function JobsPage() {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
                   {jobs.map((job: Job) => (
                     <JobListItem key={job.id} job={job} />
                   ))}

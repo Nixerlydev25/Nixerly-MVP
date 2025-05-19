@@ -150,7 +150,7 @@ export function FilterSidebar() {
   };
 
   return (
-    <Card className="sticky top-4">
+    <Card className="sticky top-4 rounded-md">
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
@@ -283,7 +283,7 @@ export function FilterSidebar() {
                     onChange={handleSkillSearchChange}
                   />
                 </div>
-                <div className="max-h-[200px] overflow-y-auto">
+                <div className="max-h-[400px] overflow-y-auto">
                   <div className="flex flex-col space-y-2">
                     {filteredSkills.map((skill, index) => (
                       <div key={index} className="flex items-center space-x-2">

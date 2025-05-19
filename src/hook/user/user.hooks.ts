@@ -7,7 +7,7 @@ import { queryClient } from "@/providers/query.provider";
 import { ROUTES } from "@/lib/routes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { OnboardingStepBusinessProfileB, OnboardingStepWorkerProfileB } from "@/types/onboarding";
+import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 
 // Define the BusinessProfile interface
 export interface BusinessProfile {

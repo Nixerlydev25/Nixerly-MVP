@@ -41,7 +41,7 @@ class UserService {
   ): Promise<TBusinessProfile> {
     try {
       const response = await instance.patch(
-        API_ROUTES.USER.UPDATE_BUSINESS_PROFILE,
+        API_ROUTES.BUSINESS.UPDATE_BUSINESS_PROFILE,
         data
       );
       return response.data;

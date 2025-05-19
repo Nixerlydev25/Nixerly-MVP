@@ -23,10 +23,6 @@ export default function JobsPage() {
     setSearchValue(e.target.value);
   };
 
-  const handleInputBlur = () => {
-    updateSearchParam(searchValue);
-  };
-
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       updateSearchParam(searchValue);
@@ -34,19 +30,15 @@ export default function JobsPage() {
   };
 
   function updateSearchParam(value: string) {
-    // Build query string manually to avoid encoding skills/search
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     let query = params.toString()
       .replace(/(^|&)skills=[^&]*/g, '')
       .replace(/(^|&)search=[^&]*/g, '');
-
-    // Append skills as literal (not encoded)
     const skills = searchParams.get('skills');
     if (skills) {
       if (query && !query.endsWith('&')) query += '&';
       query += `skills=${skills}`;
     }
-    // Append search as literal (not encoded)
     if (value) {
       if (query && !query.endsWith('&')) query += '&';
       query += `search=${value}`;
@@ -54,13 +46,11 @@ export default function JobsPage() {
     router.push(query ? `?${query}` : '?');
   }
 
-  // Keep input in sync with URL if user navigates with browser buttons
   React.useEffect(() => {
     setSearchValue(initialSearch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialSearch]);
 
-  // useGetAllJobs now extracts params directly from the URL
   const { data: jobsData, isLoading } = useGetAllJobs();
 
   const jobs = jobsData?.jobs || [];
@@ -87,7 +77,6 @@ export default function JobsPage() {
               className="pl-8"
               value={searchValue}
               onChange={handleInputChange}
-              onBlur={handleInputBlur}
               onKeyDown={handleInputKeyDown}
             />
             {searchParams.get('search') && (

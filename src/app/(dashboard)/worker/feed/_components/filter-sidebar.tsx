@@ -1,271 +1,232 @@
-import { useState } from "react"
-import { Search, X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Slider } from "@/components/ui/slider"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Card, CardContent } from "@/components/ui/card"
-import { JobStatus, allSkills } from "./types"
-import { formatCurrency } from "./utils"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from 'react';
+import { Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Slider } from '@/components/ui/slider';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Card, CardContent } from '@/components/ui/card';
+import { JobStatus } from './types';
+import { formatCurrency } from './utils';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { onboardingOptions } from '@/schema/onboarding/worker-onboarding.schema';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { LocationSearch } from '@/components/location-search';
 
 export function FilterSidebar() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filteredSkills, setFilteredSkills] = useState(allSkills)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredSkills, setFilteredSkills] = useState(
+    onboardingOptions.skills
+  );
 
   // Derive filters from URL
   const filters = {
-    status: searchParams.getAll("status"),
-    skills: searchParams.get("skills")?.split(",") ?? [],
-    minBudget: Number(searchParams.get("minBudget")) || 0,
-    maxBudget: Number(searchParams.get("maxBudget")) || 10000,
-    minHourlyRate: Number(searchParams.get("minHourlyRate")) || 0,
-    maxHourlyRate: Number(searchParams.get("maxHourlyRate")) || 100,
-    location: searchParams.get("location") || "",
-    search: searchParams.get("search") || "",
-    page: Number(searchParams.get("page")) || 1,
-    limit: Number(searchParams.get("limit")) || 20,
-    sortBy: (searchParams.get("sortBy") as "createdAt") || "createdAt",
-    sortOrder: (searchParams.get("sortOrder") as "desc") || "desc",
+    status: searchParams.getAll('status'),
+    skills: searchParams.get('skills')?.split(',') ?? [],
+    minBudget: Number(searchParams.get('minBudget')) || 0,
+    maxBudget: Number(searchParams.get('maxBudget')) || 10000,
+    minHourlyRate: Number(searchParams.get('minHourlyRate')) || 0,
+    maxHourlyRate: Number(searchParams.get('maxHourlyRate')) || 100,
+    city: searchParams.get('city') || '',
+    state: searchParams.get('state') || '',
+    country: searchParams.get('country') || '',
+    search: searchParams.get('search') || '',
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 20,
+    sortBy: (searchParams.get('sortBy') as 'createdAt') || 'createdAt',
+    sortOrder: (searchParams.get('sortOrder') as 'desc') || 'desc',
   };
 
   const updateFilters = (newFilters: typeof filters) => {
     const params = new URLSearchParams();
-    if (newFilters.status.length > 0) newFilters.status.forEach(s => params.append("status", s));
-    if (newFilters.skills.length > 0) params.set("skills", newFilters.skills.join(","));
-    if (newFilters.minBudget > 0) params.set("minBudget", String(newFilters.minBudget));
-    if (newFilters.maxBudget < 10000) params.set("maxBudget", String(newFilters.maxBudget));
-    if (newFilters.minHourlyRate > 0) params.set("minHourlyRate", String(newFilters.minHourlyRate));
-    if (newFilters.maxHourlyRate < 100) params.set("maxHourlyRate", String(newFilters.maxHourlyRate));
-    if (newFilters.location) params.set("location", newFilters.location);
-    if (newFilters.search) params.set("search", newFilters.search);
-    if (newFilters.page !== 1) params.set("page", String(newFilters.page));
-    if (newFilters.limit !== 20) params.set("limit", String(newFilters.limit));
-    if (newFilters.sortBy !== "createdAt") params.set("sortBy", newFilters.sortBy);
-    if (newFilters.sortOrder !== "desc") params.set("sortOrder", newFilters.sortOrder);
-    router.push(`?${params.toString()}`);
+    if (newFilters.status.length > 0)
+      newFilters.status.forEach((s) => params.append('status', s));
+    // Do NOT set skills or search here, always handle them manually below!
+    if (newFilters.minBudget > 0)
+      params.set('minBudget', String(newFilters.minBudget));
+    if (newFilters.maxBudget < 10000)
+      params.set('maxBudget', String(newFilters.maxBudget));
+    if (newFilters.minHourlyRate > 0)
+      params.set('minHourlyRate', String(newFilters.minHourlyRate));
+    if (newFilters.maxHourlyRate < 100)
+      params.set('maxHourlyRate', String(newFilters.maxHourlyRate));
+    if (newFilters.city) params.set('city', newFilters.city);
+    if (newFilters.state) params.set('state', newFilters.state);
+    if (newFilters.country) params.set('country', newFilters.country);
+    if (newFilters.page !== 1) params.set('page', String(newFilters.page));
+    if (newFilters.limit !== 20) params.set('limit', String(newFilters.limit));
+    if (newFilters.sortBy !== 'createdAt')
+      params.set('sortBy', newFilters.sortBy);
+    if (newFilters.sortOrder !== 'desc')
+      params.set('sortOrder', newFilters.sortOrder);
+
+    // Always remove any skills/search param that might have been added by URLSearchParams
+    let query = params.toString()
+      .replace(/(^|&)skills=[^&]*/g, '')
+      .replace(/(^|&)search=[^&]*/g, '');
+
+    // Append skills with literal comma if present (and do NOT encode)
+    if (newFilters.skills.length > 0) {
+      if (query && !query.endsWith('&')) query += '&';
+      query += `skills=${newFilters.skills.join(',')}`;
+    }
+    // Append search as literal (not encoded)
+    if (newFilters.search) {
+      if (query && !query.endsWith('&')) query += '&';
+      query += `search=${newFilters.search}`;
+    }
+    // Remove any trailing & or ? if query is empty
+    router.push(query ? `?${query}` : '?');
   };
 
-  const handleStatusChange = (status: string) => {
-    const newStatuses = filters.status.includes(status)
-      ? filters.status.filter(s => s !== status)
-      : [...filters.status, status]
-    updateFilters({ ...filters, status: newStatuses })
-  }
-  
   const handleSkillChange = (skill: string) => {
     const newSkills = filters.skills.includes(skill)
-      ? filters.skills.filter(s => s !== skill)
-      : [...filters.skills, skill]
-    updateFilters({ ...filters, skills: newSkills })
-  }
-  
-  const handleBudgetChange = (value: number[]) => {
-    updateFilters({ ...filters, minBudget: value[0], maxBudget: value[1] })
-  }
-  
-  const handleHourlyRateChange = (value: number[]) => {
-    updateFilters({ ...filters, minHourlyRate: value[0], maxHourlyRate: value[1] })
-  }
-  
-  const handleLocationChange = (value: string) => {
-    updateFilters({ ...filters, location: value })
-  }
+      ? filters.skills.filter((s) => s !== skill)
+      : [...filters.skills, skill];
+    updateFilters({ ...filters, skills: newSkills });
+  };
 
-  const handleSearchChange = (value: string) => {
-    updateFilters({ ...filters, search: value })
-  }
-  
+  const handleBudgetChange = (value: number[]) => {
+    updateFilters({ ...filters, minBudget: value[0], maxBudget: value[1] });
+  };
+
+  const handleHourlyRateChange = (value: number[]) => {
+    updateFilters({
+      ...filters,
+      minHourlyRate: value[0],
+      maxHourlyRate: value[1],
+    });
+  };
   const handleSkillSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchTerm(value)
+    const value = e.target.value;
+    setSearchTerm(value);
     if (value) {
-      const filtered = allSkills.filter(skill => 
-        skill.toLowerCase().includes(value.toLowerCase())
-      )
-      setFilteredSkills(filtered)
+      const filtered = onboardingOptions.skills.filter((skill) =>
+        skill.label.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredSkills(filtered);
     } else {
-      setFilteredSkills(allSkills)
+      setFilteredSkills(onboardingOptions.skills);
     }
-  }
-  
-  const removeSkill = (skill: string) => {
-    updateFilters({ ...filters, skills: filters.skills.filter(s => s !== skill) })
-  }
-  
-  const removeStatus = (status: string) => {
-    updateFilters({ ...filters, status: filters.status.filter(s => s !== status) })
-  }
-  
+  };
+
+
   const clearFilters = () => {
-    router.push("?");
-  }
-  
-  const hasActiveFilters = 
-    filters.status.length > 0 || 
-    filters.skills.length > 0 || 
-    filters.minBudget > 0 || 
-    filters.maxBudget < 10000 || 
-    filters.minHourlyRate > 0 || 
+    router.push('?');
+  };
+
+  const hasActiveFilters =
+    filters.status.length > 0 ||
+    filters.skills.length > 0 ||
+    filters.minBudget > 0 ||
+    filters.maxBudget < 10000 ||
+    filters.minHourlyRate > 0 ||
     filters.maxHourlyRate < 100 ||
-    filters.location !== "" ||
-    filters.search !== ""
-  
+    filters.city !== '' ||
+    filters.state !== '' ||
+    filters.country !== '' ||
+    filters.search !== '';
+
+  // Handle location selection from LocationSearch
+  const handleLocationSelect = (data: {
+    city?: string;
+    state?: string;
+    country?: string;
+  }) => {
+    updateFilters({
+      ...filters,
+      city: data.city || '',
+      state: data.state || '',
+      country: data.country || '',
+    });
+  };
+
   return (
     <Card className="sticky top-4">
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
           {hasActiveFilters && (
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8 px-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearFilters}
+              className="h-8 px-2"
+            >
               Clear all
             </Button>
           )}
         </div>
-        
-        {/* Search */}
-        <div className="mb-4">
-          <Label htmlFor="search" className="text-sm font-medium mb-2 block">
-            Search Jobs
-          </Label>
-          <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              id="search"
-              placeholder="Search jobs..."
-              className="pl-8"
-              value={filters.search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-            />
-            {filters.search && (
-              <X
-                className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
-                onClick={() => handleSearchChange("")}
-              />
-            )}
-          </div>
-        </div>
-        
-        {/* Active filters */}
-        {hasActiveFilters && (
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1 mb-2">
-              {filters.status.map(status => (
-                <Badge key={status} variant="secondary" className="flex items-center gap-1">
-                  {status}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeStatus(status)}
-                  />
-                </Badge>
-              ))}
-              {filters.skills.map(skill => (
-                <Badge key={skill} variant="secondary" className="flex items-center gap-1">
-                  {skill.replace(/_/g, " ")}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeSkill(skill)}
-                  />
-                </Badge>
-              ))}
-              {(filters.minBudget > 0 || filters.maxBudget < 10000) && (
-                <Badge variant="secondary">
-                  Budget: {formatCurrency(filters.minBudget)} - {formatCurrency(filters.maxBudget)}
-                </Badge>
-              )}
-              {(filters.minHourlyRate > 0 || filters.maxHourlyRate < 100) && (
-                <Badge variant="secondary">
-                  Rate: {formatCurrency(filters.minHourlyRate)} - {formatCurrency(filters.maxHourlyRate)}/hr
-                </Badge>
-              )}
-              {filters.location && (
-                <Badge 
-                  variant="secondary" 
-                  className="flex items-center gap-1"
-                >
-                  {filters.location}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => handleLocationChange("")}
-                  />
-                </Badge>
-              )}
-              {filters.search && (
-                <Badge 
-                  variant="secondary" 
-                  className="flex items-center gap-1"
-                >
-                  Search: {filters.search}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => handleSearchChange("")}
-                  />
-                </Badge>
-              )}
-            </div>
-            <Separator className="my-4" />
-          </div>
-        )}
-        
+
         {/* Location filter */}
         <div className="mb-4">
           <Label htmlFor="location" className="text-sm font-medium mb-2 block">
             Location
           </Label>
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              id="location"
-              placeholder="City, state, or country"
-              className="pl-8"
-              value={filters.location}
-              onChange={(e) => handleLocationChange(e.target.value)}
+            <LocationSearch
+              onLocationSelect={handleLocationSelect}
+              className="w-full"
+              defaultValue={filters.city || filters.state || filters.country || ''}
             />
-            {filters.location && (
-              <X
-                className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
-                onClick={() => handleLocationChange("")}
-              />
-            )}
           </div>
         </div>
-        
-        <Accordion type="multiple" defaultValue={["status", "budget", "hourlyRate", "skills"]} className="w-full">
+
+        <Accordion
+          type="multiple"
+          defaultValue={['status', 'budget', 'hourlyRate', 'skills']}
+          className="w-full"
+        >
           {/* Job Status filter */}
           <AccordionItem value="status">
-            <AccordionTrigger className="text-sm font-medium py-2">Job Status</AccordionTrigger>
+            <AccordionTrigger className="text-sm font-medium py-2">
+              Job Status
+            </AccordionTrigger>
             <AccordionContent>
-              <div className="flex flex-col space-y-2">
+              <RadioGroup
+                value={filters.status[0] || ''}
+                onValueChange={(value) =>
+                  updateFilters({ ...filters, status: value ? [value] : [] })
+                }
+                className="flex flex-col space-y-2"
+              >
                 {Object.entries(JobStatus).map(([key, label]) => (
                   <div key={key} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`status-${key}`}
-                      checked={filters.status.includes(key)}
-                      onCheckedChange={() => handleStatusChange(key)}
-                    />
-                    <Label htmlFor={`status-${key}`} className="text-sm font-normal cursor-pointer">
+                    <RadioGroupItem value={key} id={`status-${key}`} />
+                    <Label
+                      htmlFor={`status-${key}`}
+                      className="text-sm font-normal cursor-pointer"
+                    >
                       {label}
                     </Label>
                   </div>
                 ))}
-              </div>
+              </RadioGroup>
             </AccordionContent>
           </AccordionItem>
-          
+
           {/* Budget Range filter */}
           <AccordionItem value="budget">
-            <AccordionTrigger className="text-sm font-medium py-2">Budget Range</AccordionTrigger>
+            <AccordionTrigger className="text-sm font-medium py-2">
+              Budget Range
+            </AccordionTrigger>
             <AccordionContent>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-sm">{formatCurrency(filters.minBudget)}</span>
-                  <span className="text-sm">{formatCurrency(filters.maxBudget)}</span>
+                  <span className="text-sm">
+                    {formatCurrency(filters.minBudget)}
+                  </span>
+                  <span className="text-sm">
+                    {formatCurrency(filters.maxBudget)}
+                  </span>
                 </div>
                 <Slider
                   defaultValue={[filters.minBudget, filters.maxBudget]}
@@ -278,15 +239,21 @@ export function FilterSidebar() {
               </div>
             </AccordionContent>
           </AccordionItem>
-          
+
           {/* Hourly Rate filter */}
           <AccordionItem value="hourlyRate">
-            <AccordionTrigger className="text-sm font-medium py-2">Hourly Rate</AccordionTrigger>
+            <AccordionTrigger className="text-sm font-medium py-2">
+              Hourly Rate
+            </AccordionTrigger>
             <AccordionContent>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-sm">{formatCurrency(filters.minHourlyRate)}/hr</span>
-                  <span className="text-sm">{formatCurrency(filters.maxHourlyRate)}/hr</span>
+                  <span className="text-sm">
+                    {formatCurrency(filters.minHourlyRate)}/hr
+                  </span>
+                  <span className="text-sm">
+                    {formatCurrency(filters.maxHourlyRate)}/hr
+                  </span>
                 </div>
                 <Slider
                   defaultValue={[filters.minHourlyRate, filters.maxHourlyRate]}
@@ -299,10 +266,12 @@ export function FilterSidebar() {
               </div>
             </AccordionContent>
           </AccordionItem>
-          
+
           {/* Skills filter */}
           <AccordionItem value="skills">
-            <AccordionTrigger className="text-sm font-medium py-2">Skills</AccordionTrigger>
+            <AccordionTrigger className="text-sm font-medium py-2">
+              Skills
+            </AccordionTrigger>
             <AccordionContent>
               <div className="space-y-4">
                 <div className="relative">
@@ -316,15 +285,18 @@ export function FilterSidebar() {
                 </div>
                 <div className="max-h-[200px] overflow-y-auto">
                   <div className="flex flex-col space-y-2">
-                    {filteredSkills.map(skill => (
-                      <div key={skill} className="flex items-center space-x-2">
+                    {filteredSkills.map((skill, index) => (
+                      <div key={index} className="flex items-center space-x-2">
                         <Checkbox
-                          id={`skill-${skill}`}
-                          checked={filters.skills.includes(skill)}
-                          onCheckedChange={() => handleSkillChange(skill)}
+                          id={`skill-${skill.value}`}
+                          checked={filters.skills.includes(skill.value)}
+                          onCheckedChange={() => handleSkillChange(skill.value)}
                         />
-                        <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">
-                          {skill.replace(/_/g, " ")}
+                        <Label
+                          htmlFor={`skill-${skill}`}
+                          className="text-sm font-normal cursor-pointer"
+                        >
+                          {skill.label}
                         </Label>
                       </div>
                     ))}
@@ -336,5 +308,5 @@ export function FilterSidebar() {
         </Accordion>
       </CardContent>
     </Card>
-  )
+  );
 }

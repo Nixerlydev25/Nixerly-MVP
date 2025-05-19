@@ -3,21 +3,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Building2,
   Calendar,
   Clock,
+  Edit,
+  FileText,
   Globe,
   Mail,
   MapPin,
+  Pencil,
   Phone,
-  Share2,
   Users,
   Briefcase,
-  FileText,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -74,7 +74,7 @@ export default function BusinessProfilePage() {
             />
           </div>
           <div className="flex-1">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
                 <h1 className="text-3xl font-bold">{businessProfile.companyName}</h1>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-muted-foreground">
@@ -95,15 +95,20 @@ export default function BusinessProfilePage() {
                     <span>Est. {businessProfile.yearFounded}</span>
                   </span>
                 </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">Licensed Plumber</Badge>
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Certified Contractor</Badge>
+                  <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">Insured Business</Badge>
+                </div>
               </div>
               <div className="flex gap-2">
+                <Button variant="outline">
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit Profile
+                </Button>
                 <Button>
                   <Mail className="mr-2 h-4 w-4" />
                   Contact
-                </Button>
-                <Button variant="outline">
-                  <Share2 className="h-4 w-4" />
-                  <span className="sr-only">Share</span>
                 </Button>
               </div>
             </div>
@@ -111,89 +116,13 @@ export default function BusinessProfilePage() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {/* Main Content */}
-        <div className="md:col-span-2 space-y-6">
-          {/* About */}
-          <Card>
-            <CardHeader>
-              <CardTitle>About</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{businessProfile.description}</p>
-            </CardContent>
-          </Card>
-
-          {/* Tabs for different sections */}
-          <Tabs defaultValue="services" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="services">Services</TabsTrigger>
-              <TabsTrigger value="projects">Projects</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            </TabsList>
-            <TabsContent value="services" className="space-y-4 pt-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">Plumbing Installation</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      Complete installation services for residential and commercial properties, including pipes,
-                      fixtures, and appliances.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">Leak Repairs</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      Fast and reliable leak detection and repair services to prevent water damage and conserve water.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">Bathroom Remodeling</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      Complete bathroom renovation services, from fixture replacement to full remodels.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">Emergency Services</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-            <TabsContent value="projects" className="space-y-4 pt-4">
-              <p className="text-muted-foreground">No projects to display at this time.</p>
-            </TabsContent>
-            <TabsContent value="reviews" className="space-y-4 pt-4">
-              <p className="text-muted-foreground">No reviews to display at this time.</p>
-            </TabsContent>
-          </Tabs>
-        </div>
-
+      <div className="grid gap-8 md:grid-cols-3">
         {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Business Info Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Business Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
+        <div className="space-y-6 md:order-2">
+          <div className="rounded-lg border bg-card p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold">Business Information</h2>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-muted-foreground" />
                   <div>
@@ -228,9 +157,11 @@ export default function BusinessProfilePage() {
                   </div>
                 </div>
               </div>
-              <Separator />
-              <div className="space-y-2">
-                <h3 className="font-medium">Contact Information</h3>
+
+              <Separator className="my-4" />
+
+              <div>
+                <h3 className="mb-3 font-medium">Contact Information</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-muted-foreground" />
@@ -250,75 +181,161 @@ export default function BusinessProfilePage() {
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Owner Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Business Owner</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-4">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src="/placeholder.svg?height=48&width=48" alt={`${firstName} ${lastName}`} />
-                  <AvatarFallback>{`${firstName.charAt(0)}${lastName.charAt(0)}`}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium">
-                    {firstName} {lastName}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{role.charAt(0) + role.slice(1).toLowerCase()} Owner</p>
+              <Separator className="my-4" />
+
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <h3 className="font-medium">Business Owner</h3>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-12 w-12">
+                    <AvatarImage src="/placeholder.svg?height=48&width=48" alt={`${firstName} ${lastName}`} />
+                    <AvatarFallback>{`${firstName.charAt(0)}${lastName.charAt(0)}`}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-medium">
+                      {firstName} {lastName}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {role.charAt(0) + role.slice(1).toLowerCase()} Owner
+                    </p>
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+        </div>
 
-          {/* Certifications Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Certifications</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">Licensed Plumber</Badge>
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Certified Contractor</Badge>
-                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">Insured Business</Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Recent Jobs Card */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Recent Job Postings</CardTitle>
-              <Button variant="ghost" size="sm" className="text-xs">
-                View All
+        {/* Main Content */}
+        <div className="space-y-8 md:col-span-2 md:order-1">
+          {/* About */}
+          <section>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">About</h2>
+              <Button variant="ghost" size="sm">
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
               </Button>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <p className="text-muted-foreground">{businessProfile.description}</p>
+          </section>
+
+          <Separator />
+
+          {/* Tabs for different sections */}
+          <Tabs defaultValue="services" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="services">Services</TabsTrigger>
+              <TabsTrigger value="jobs">Job Postings</TabsTrigger>
+              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            </TabsList>
+            <TabsContent value="services" className="space-y-6 pt-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium">Services Offered</h3>
+                <Button variant="outline" size="sm">
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Edit Services
+                </Button>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="rounded-lg border p-4">
+                  <h4 className="mb-2 font-medium">Plumbing Installation</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Complete installation services for residential and commercial properties, including pipes, fixtures,
+                    and appliances.
+                  </p>
+                </div>
+                <div className="rounded-lg border p-4">
+                  <h4 className="mb-2 font-medium">Leak Repairs</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Fast and reliable leak detection and repair services to prevent water damage and conserve water.
+                  </p>
+                </div>
+                <div className="rounded-lg border p-4">
+                  <h4 className="mb-2 font-medium">Bathroom Remodeling</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Complete bathroom renovation services, from fixture replacement to full remodels.
+                  </p>
+                </div>
+                <div className="rounded-lg border p-4">
+                  <h4 className="mb-2 font-medium">Emergency Services</h4>
+                  <p className="text-sm text-muted-foreground">
+                    24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.
+                  </p>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="jobs" className="pt-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-medium">Recent Job Postings</h3>
+                <Button>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Post New Job
+                </Button>
+              </div>
+
               {businessProfile.postedJobs > 0 ? (
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">Experienced Electrician Needed</p>
-                      <p className="text-sm text-muted-foreground">Posted 2 days ago</p>
+                  <div className="rounded-lg border p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-3">
+                        <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
+                        <div>
+                          <h4 className="font-medium">Experienced Electrician Needed</h4>
+                          <p className="text-sm text-muted-foreground">Posted 2 days ago</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <Badge variant="outline">Full-time</Badge>
+                            <Badge variant="outline">$25-40/hr</Badge>
+                            <Badge variant="outline">Miami, FL</Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">Plumbing Assistant Required</p>
-                      <p className="text-sm text-muted-foreground">Posted 1 week ago</p>
+
+                  <div className="rounded-lg border p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-3">
+                        <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
+                        <div>
+                          <h4 className="font-medium">Plumbing Assistant Required</h4>
+                          <p className="text-sm text-muted-foreground">Posted 1 week ago</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <Badge variant="outline">Part-time</Badge>
+                            <Badge variant="outline">$18-22/hr</Badge>
+                            <Badge variant="outline">Miami, FL</Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
                     </div>
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No job postings yet.</p>
+                <p className="text-muted-foreground">No job postings yet.</p>
               )}
-            </CardContent>
-          </Card>
+            </TabsContent>
+
+            <TabsContent value="reviews" className="pt-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-medium">Customer Reviews</h3>
+              </div>
+              <div className="rounded-lg border p-6 text-center">
+                <p className="text-muted-foreground">No reviews yet.</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Reviews from your customers will appear here once they're submitted.
+                </p>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

@@ -13,9 +13,9 @@ import {
   HardHat,
   Heart,
   MapPin,
-  MessageSquare,
+  // MessageSquare,
   Share2,
-  Star,
+  // Star,
   PenToolIcon as Tool,
   Truck,
   User,
@@ -249,18 +249,6 @@ export default function JobPostDetail() {
                     service. We value reliability, integrity, and craftsmanship
                     in everything we do.
                   </p>
-                  <div className="flex items-center gap-2 mt-4">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className="h-5 w-5 fill-primary text-primary"
-                        />
-                      ))}
-                    </div>
-                    <span className="font-medium text-foreground">4.8/5</span>
-                    <span>(124 reviews)</span>
-                  </div>
                   <div className="mt-4">
                     <Link href="#" className="text-primary hover:underline">
                       View company profile
@@ -271,8 +259,7 @@ export default function JobPostDetail() {
             </TabsContent>
           </Tabs>
 
-          {/* Similar Jobs */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h2 className="text-xl font-semibold">Similar Jobs</h2>
             <div className="grid gap-4">
               {[1, 2, 3].map((job) => (
@@ -351,7 +338,7 @@ export default function JobPostDetail() {
                 </Card>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Sidebar */}
@@ -403,10 +390,10 @@ export default function JobPostDetail() {
                 </div>
               </div>
               <Button className="w-full">Apply Now</Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Contact Employer
-              </Button>
+              </Button> */}
             </CardContent>
           </Card>
 
@@ -429,38 +416,6 @@ export default function JobPostDetail() {
                     Member since 2018
                   </p>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span>Response rate</span>
-                  <span className="font-medium">95%</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span>Average response time</span>
-                  <span className="font-medium">2 hours</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span>Jobs posted</span>
-                  <span className="font-medium">27</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span>Hire rate</span>
-                  <span className="font-medium">87%</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className="h-4 w-4 fill-primary text-primary"
-                    />
-                  ))}
-                </div>
-                <span className="text-sm font-medium">4.8</span>
-                <span className="text-sm text-muted-foreground">
-                  (124 reviews)
-                </span>
               </div>
             </CardContent>
           </Card>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,41 +12,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
-import { Badge } from "@/components/ui/badge";
-import { useState, useRef, useEffect } from "react";
-import { Check, X } from "lucide-react";
-import workerData from "@/data/onboarding/worker.json";
-import { useCreateJob } from "@/hook/jobs/jobs.hooks";
+} from '@/components/ui/command';
+import { Badge } from '@/components/ui/badge';
+import { useState, useRef, useEffect } from 'react';
+import { Check, X } from 'lucide-react';
+import workerData from '@/data/onboarding/worker.json';
+import { useCreateJob } from '@/hook/jobs/jobs.hooks';
+import { DatePicker } from '@/components/ui/date-picker';
 
 export const JobStatus = {
-  OPEN: "Open",
-  CLOSED: "Closed",
-  FILLED: "Filled",
-  EXPIRED: "Expired",
+  OPEN: 'Open',
+  CLOSED: 'Closed',
+  FILLED: 'Filled',
+  EXPIRED: 'Expired',
 };
 
 // Define the form schema with Zod
@@ -54,29 +55,38 @@ const formSchema = z
   .object({
     title: z
       .string()
-      .min(5, { message: "Title must be at least 5 characters" })
-      .max(100, { message: "Title must be less than 100 characters" }),
+      .min(5, { message: 'Title must be at least 5 characters' })
+      .max(100, { message: 'Title must be less than 100 characters' }),
     description: z
       .string()
-      .min(20, { message: "Description must be at least 20 characters" }),
+      .min(20, { message: 'Description must be at least 20 characters' }),
     requirements: z
       .string()
-      .min(20, { message: "Requirements must be at least 20 characters" }),
+      .min(20, { message: 'Requirements must be at least 20 characters' }),
     budget: z
       .number()
-      .positive({ message: "Budget must be a positive number" }),
+      .positive({ message: 'Budget must be a positive number' }),
     hourlyRateMin: z
       .number()
-      .positive({ message: "Minimum hourly rate must be a positive number" }),
+      .positive({ message: 'Minimum hourly rate must be a positive number' }),
     hourlyRateMax: z
       .number()
-      .positive({ message: "Maximum hourly rate must be a positive number" }),
-    status: z.enum(["OPEN", "CLOSED", "FILLED", "EXPIRED"], {
-      required_error: "Please select a job status",
+      .positive({ message: 'Maximum hourly rate must be a positive number' }),
+    status: z.enum(['OPEN', 'CLOSED', 'FILLED', 'EXPIRED'], {
+      required_error: 'Please select a job status',
     }),
     skills: z
       .array(z.string())
-      .min(1, { message: "Please select at least one skill" }),
+      .min(1, { message: 'Please select at least one skill' }),
+    jobType: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'TEMPORARY', 'INTERNSHIP'], {
+      required_error: 'Please select a job type',
+    }),
+    startDate: z.date({
+      required_error: 'Please select a start date',
+    }),
+    numberOfWorkersRequired: z.number().int().positive({
+      message: 'Number of professionals must be a positive integer',
+    }),
   })
   .refine(
     (data) => {
@@ -91,8 +101,8 @@ const formSchema = z
     },
     {
       message:
-        "Maximum hourly rate must be greater than or equal to minimum hourly rate",
-      path: ["hourlyRateMax"],
+        'Maximum hourly rate must be greater than or equal to minimum hourly rate',
+      path: ['hourlyRateMax'],
     }
   );
 
@@ -110,31 +120,35 @@ export default function PostJobPage() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Initialize the form with React Hook Form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "Experienced Electrician Needed for Residential Wiring",
+      title: 'Experienced Electrician Needed for Residential Wiring',
       description:
-        "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
-      requirements: "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
+        'Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.',
+      requirements:
+        '- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes',
       budget: 1500,
       hourlyRateMin: 25,
       hourlyRateMax: 40,
-      status: "OPEN",
+      status: 'OPEN',
       skills: [
-        "QUALITY_CONTROL",
-        "CODE_COMPLIANCE",
-        "STRUCTURAL_ASSESSMENT",
-        "INSTRUMENT_TECHNICIAN",
-        "MAINTENANCE_TECHNICIAN",
-        "ELECTRONICS_TECHNICIAN",
-        "CALIBRATION_SPECIALIST",
+        'QUALITY_CONTROL',
+        'CODE_COMPLIANCE',
+        'STRUCTURAL_ASSESSMENT',
+        'INSTRUMENT_TECHNICIAN',
+        'MAINTENANCE_TECHNICIAN',
+        'ELECTRONICS_TECHNICIAN',
+        'CALIBRATION_SPECIALIST',
       ],
+      jobType: 'FULL_TIME',
+      startDate: new Date(),
+      numberOfWorkersRequired: 1,
     },
   });
 
@@ -148,16 +162,16 @@ export default function PostJobPage() {
   }
 
   const handleSkillSelect = (value: string) => {
-    const currentSkills = form.getValues("skills") || [];
+    const currentSkills = form.getValues('skills') || [];
     if (currentSkills.length < 8 && !currentSkills.includes(value)) {
-      form.setValue("skills", [...currentSkills, value]);
+      form.setValue('skills', [...currentSkills, value]);
     }
   };
 
   const handleSkillRemove = (skillToRemove: string) => {
-    const currentSkills = form.getValues("skills") || [];
+    const currentSkills = form.getValues('skills') || [];
     form.setValue(
-      "skills",
+      'skills',
       currentSkills.filter((skill) => skill !== skillToRemove)
     );
   };
@@ -231,7 +245,8 @@ export default function PostJobPage() {
                       />
                     </FormControl>
                     <FormDescription>
-                      List all mandatory and preferred requirements for the position.
+                      List all mandatory and preferred requirements for the
+                      position.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -415,7 +430,87 @@ export default function PostJobPage() {
                 )}
               />
 
-              <Button type="submit" className="w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="jobType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Job Type</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl className="w-full">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select job type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="FULL_TIME">
+                            Full-time (40 hours per week)
+                          </SelectItem>
+                          <SelectItem value="PART_TIME">Part-time</SelectItem>
+                          <SelectItem value="CONTRACT">Contract</SelectItem>
+                          <SelectItem value="TEMPORARY">Temporary</SelectItem>
+                          <SelectItem value="INTERNSHIP">Internship</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        The type of employment for this position.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Start Date</FormLabel>
+                      <div className="flex items-center border rounded-md focus-within:border-nixerly-blue focus-within:ring-2 focus-within:ring-nixerly-blue/20">
+                        <DatePicker
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                        />
+                      </div>
+                      <FormDescription>
+                        When the job should start. Select &quot;today&quot; for
+                        immediate start.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="numberOfWorkersRequired"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Number of Professionals Required</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        placeholder="e.g. 1"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      How many professionals do you need for this job?
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" className="w-full bg-blue-600">
                 Post Job
               </Button>
             </form>

@@ -15,7 +15,7 @@ import {
   MapPin,
   // MessageSquare,
   Share2,
-  Star,
+  // Star,
   PenToolIcon as Tool,
   Truck,
   User,

@@ -50,6 +50,10 @@ function DashboardNav() {
     }
   };
 
+  const handlePostAJob = () => {
+      router.push(ROUTES.POST_A_JOB)
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
@@ -72,7 +76,7 @@ function DashboardNav() {
               href="#"
               className="text-sm font-medium text-gray-600 hover:text-blue-600"
             >
-              Why WorkHub
+              My Jobs
             </Link>
           </nav>
         </div>
@@ -109,7 +113,7 @@ function DashboardNav() {
               <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={handlePostAJob}>Post A Job</DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>

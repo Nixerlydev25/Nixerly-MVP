@@ -6,6 +6,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Button } from "@/components/ui/button"
 import { type Job } from "./types"
 import { formatCurrency } from "./utils"
+import { useRouter } from "next/navigation"
+import { ROUTES } from "@/lib/routes"
 
 interface JobListItemProps {
   job: Job
@@ -19,8 +21,14 @@ export function JobListItem({ job }: JobListItemProps) {
   const displaySkills = job.skills.slice(0, 5)
   const extraSkillsCount = job.skills.length - 5
   
+  const router = useRouter()
+
+  const handleJobClick = ()=>{
+    router.push(`${ROUTES.WORKER_JOB}/${job.id}`)  
+  }
+  
   return (
-    <Card>
+    <Card onClick={handleJobClick}>
       <CardContent className="p-4">
         <div className="flex flex-col md:flex-row md:items-start gap-4">
           <div className="flex-grow">

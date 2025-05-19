@@ -32,6 +32,11 @@ export const useGetWorkers = (enabled?: boolean) => {
           if (!params.skills) params.skills = [];
           params.skills.push(value);
           break;
+        case "sort":
+          if (value === "rating" || value === "price_low_to_high" || value === "price_high_to_low") {
+            params[key] = value;
+          }
+          break;
         default:
           // For other potential string fields like location, search, etc.
           if (value) {

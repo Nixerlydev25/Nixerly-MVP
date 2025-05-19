@@ -1,13 +1,157 @@
-import React from 'react';
+"use client"
 
-const WorkerFeed = () => {
+import React from "react";
+import { Grid3x3, List, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { FilterSidebar } from "./_components/filter-sidebar"
+import { JobCard } from "./_components/job-card"
+import { JobListItem } from "./_components/job-list-item"
+import { type Job } from "./_components/types"
+import { useGetAllJobs } from "@/hook/jobs/jobs.hooks"
+import { useSearchParams, useRouter } from "next/navigation"
+
+export default function JobsPage() {
+  const [viewMode, setViewMode] = React.useState<"grid" | "list">("list");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // useGetAllJobs now extracts params directly from the URL
+  const { data: jobsData, isLoading } = useGetAllJobs();
+
+  const jobs = jobsData?.jobs || [];
+  const totalJobs = jobsData?.totalCount || 0;
+  const totalPages = jobsData?.totalPages || 1;
+  const currentPage = jobsData?.currentPage || 1;
+  const hasMore = jobsData?.hasMore || false;
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   return (
-    <div>
-      {/* Worker-specific feed content goes here */}
-      <h2 className="text-xl font-bold mb-4">Worker Feed</h2>
-      <p>This is the feed for worker profiles.</p>
-    </div>
-  );
-};
+    <div className="container mx-auto py-6">
+      <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
+        <h1 className="text-3xl font-bold">Available Jobs</h1>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-muted-foreground">View:</span>
+          <div className="flex border rounded-md overflow-hidden">
+            <Button
+              variant={viewMode === "grid" ? "default" : "ghost"}
+              size="sm"
+              className="rounded-none"
+              onClick={() => setViewMode("grid")}
+            >
+              <Grid3x3 className="h-4 w-4 mr-2" />
+              Grid
+            </Button>
+            <Separator orientation="vertical" className="h-8" />
+            <Button
+              variant={viewMode === "list" ? "default" : "ghost"}
+              size="sm"
+              className="rounded-none"
+              onClick={() => setViewMode("list")}
+            >
+              <List className="h-4 w-4 mr-2" />
+              List
+            </Button>
+          </div>
+        </div>
+      </div>
 
-export default WorkerFeed; 
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="w-full lg:w-1/4">
+          <FilterSidebar />
+        </div>
+        
+        <div className="w-full lg:w-3/4">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center h-64 bg-muted rounded-lg">
+              <h3 className="text-xl font-medium mb-2">Loading jobs...</h3>
+            </div>
+          ) : jobs.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-64 bg-muted rounded-lg">
+              <h3 className="text-xl font-medium mb-2">No jobs found</h3>
+              <p className="text-muted-foreground mb-4">Try adjusting your filters to find more jobs</p>
+              <Button onClick={() => window.location.href = "?"}>Clear all filters</Button>
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-muted-foreground">
+                  Total <span className="font-medium">{totalJobs}</span> jobs
+                </p>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => window.location.href = "?"}>
+                    Clear filters
+                  </Button>
+                </div>
+              </div>
+              
+              {viewMode === "grid" ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {jobs.map((job: Job) => (
+                    <JobCard key={job.id} job={job} />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  {jobs.map((job: Job) => (
+                    <JobListItem key={job.id} job={job} />
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+                    
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                        <Button
+                          key={pageNum}
+                          variant={pageNum === currentPage ? "default" : "outline"}
+                          size="sm"
+                          className="w-8 h-8 p-0"
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </Button>
+                      ))}
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={!hasMore}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Page {currentPage} of {totalPages} • {totalJobs} total jobs
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

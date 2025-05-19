@@ -13,7 +13,7 @@ import {
   HardHat,
   Heart,
   MapPin,
-  MessageSquare,
+  // MessageSquare,
   Share2,
   Star,
   PenToolIcon as Tool,
@@ -249,7 +249,7 @@ export default function JobPostDetail() {
                     service. We value reliability, integrity, and craftsmanship
                     in everything we do.
                   </p>
-                  <div className="flex items-center gap-2 mt-4">
+                  {/* <div className="flex items-center gap-2 mt-4">
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
@@ -265,14 +265,14 @@ export default function JobPostDetail() {
                     <Link href="#" className="text-primary hover:underline">
                       View company profile
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </TabsContent>
           </Tabs>
 
           {/* Similar Jobs */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h2 className="text-xl font-semibold">Similar Jobs</h2>
             <div className="grid gap-4">
               {[1, 2, 3].map((job) => (
@@ -351,7 +351,7 @@ export default function JobPostDetail() {
                 </Card>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Sidebar */}
@@ -360,11 +360,11 @@ export default function JobPostDetail() {
           <Card>
             <CardContent className="p-6 space-y-4">
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Job Details</h3>
                   <Badge variant="secondary">Verified</Badge>
-                </div>
-                <Separator />
+                </div> */}
+                {/* <Separator /> */}
                 <div className="grid gap-3">
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
@@ -394,19 +394,19 @@ export default function JobPostDetail() {
                   <div className="flex items-center gap-2">
                     <User className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="font-medium">10 applicants</p>
+                      <p className="font-medium">Professionals</p>
                       <p className="text-sm text-muted-foreground">
-                        Apply soon
+                        10 Required
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
               <Button className="w-full">Apply Now</Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Contact Employer
-              </Button>
+              </Button> */}
             </CardContent>
           </Card>
 
@@ -430,7 +430,7 @@ export default function JobPostDetail() {
                   </p>
                 </div>
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span>Response rate</span>
                   <span className="font-medium">95%</span>
@@ -447,8 +447,8 @@ export default function JobPostDetail() {
                   <span>Hire rate</span>
                   <span className="font-medium">87%</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
+              </div> */}
+              {/* <div className="flex items-center gap-2">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
@@ -461,7 +461,7 @@ export default function JobPostDetail() {
                 <span className="text-sm text-muted-foreground">
                   (124 reviews)
                 </span>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 

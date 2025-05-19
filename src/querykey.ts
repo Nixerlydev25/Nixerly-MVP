@@ -24,4 +24,7 @@ export enum QueryKeys {
   LOGOUT = "logout",
   WORKER_PROFILE_DETAILS = "worker-profile-details",
   UPDATE_SKILLS = "update-skills",
+  UPDATE_LANGUAGES = "update-languages",
+  JOB_CREATE = "job-create",
+  JOB_GET_ALL = "job-get-all",
 }

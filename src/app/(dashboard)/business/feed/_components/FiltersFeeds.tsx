@@ -125,6 +125,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
     // Remove all filter params
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     params.delete("minHourlyRate");
+    // params.delete("sort");
     params.delete("maxHourlyRate");
     params.delete("minTotalEarnings");
     params.delete("maxTotalEarnings");

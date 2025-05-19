@@ -1,36 +1,48 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import GridIcon from '@/components/Icons/GridIcon';
-import ListIcon from '@/components/Icons/ListIcon';
-import { useGetWorkers } from '@/hook/worker/worker.hook';
-import { WorkerProfileResponse } from '@/types/worker.types';
-import SkeletonFeed from './_components/SkeletonFeed';
-import FiltersFeeds from './_components/FiltersFeeds';
-import CardFeeds from './_components/GridCardFeeds';
-import ListCardFeeds from './_components/ListCardFeeds';
-import FeedsPagination from './_components/FeedsPagination';
-import { ROUTES } from '@/lib/routes';
+} from "@/components/ui/select";
+import GridIcon from "@/components/Icons/GridIcon";
+import ListIcon from "@/components/Icons/ListIcon";
+import { useGetWorkers } from "@/hook/worker/worker.hook";
+import { WorkerProfileResponse } from "@/types/worker.types";
+import SkeletonFeed from "./_components/SkeletonFeed";
+import FiltersFeeds from "./_components/FiltersFeeds";
+import CardFeeds from "./_components/GridCardFeeds";
+import ListCardFeeds from "./_components/ListCardFeeds";
+import FeedsPagination from "./_components/FeedsPagination";
+import { ROUTES } from "@/lib/routes";
+
+enum SortOption {
+  RATING = "rating",
+  PRICE_LOW_TO_HIGH = "price_low_to_high",
+  PRICE_HIGH_TO_LOW = "price_high_to_low",
+}
 
 export default function Dashboard() {
-  const [viewMode, setViewMode] = useState<'card' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<"card" | "list">("list");
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   // Hook now handles all filter processing and provides currentPage
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
-
+  console.log(freelancers);
   const handleWorkerClick = (workerId: string) => {
     router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
+  };
+
+  const handleSortChange = (value: string) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.set("sort", value);
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -56,45 +68,55 @@ export default function Dashboard() {
                 <div className="mb-6 hidden items-center justify-between lg:flex">
                   <div>
                     <p className="text-sm text-gray-600">
-                      Showing <span className="font-medium">{freelancers?.totalCount}</span> results
+                      Showing{" "}
+                      <span className="font-medium">
+                        {freelancers?.totalCount}
+                      </span>{" "}
+                      results
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center rounded-md border bg-white p-1">
                       <Button
-                        variant={viewMode === 'card' ? 'default' : 'ghost'}
+                        variant={viewMode === "card" ? "default" : "ghost"}
                         size="sm"
                         className={`h-8 px-3 ${
-                          viewMode === 'card' ? 'bg-blue-600' : ''
+                          viewMode === "card" ? "bg-blue-600" : ""
                         }`}
-                        onClick={() => setViewMode('card')}
+                        onClick={() => setViewMode("card")}
                       >
                         <GridIcon />
                         Grid
                       </Button>
                       <Button
-                        variant={viewMode === 'list' ? 'default' : 'ghost'}
+                        variant={viewMode === "list" ? "default" : "ghost"}
                         size="sm"
                         className={`h-8 px-3 ${
-                          viewMode === 'list' ? 'bg-blue-600' : ''
+                          viewMode === "list" ? "bg-blue-600" : ""
                         }`}
-                        onClick={() => setViewMode('list')}
+                        onClick={() => setViewMode("list")}
                       >
                         <ListIcon />
                         List
                       </Button>
                     </div>
-                    <Select defaultValue="relevance">
+                    <Select
+                      defaultValue={
+                        searchParams.get("sort") || SortOption.RATING
+                      }
+                      onValueChange={handleSortChange}
+                    >
                       <SelectTrigger className="w-[220px]">
                         <SelectValue placeholder="Sort by" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="relevance">Relevance</SelectItem>
-                        <SelectItem value="rating">Rating</SelectItem>
-                        <SelectItem value="hourly-asc">
+                        <SelectItem value={SortOption.RATING}>
+                          Rating
+                        </SelectItem>
+                        <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
                           Hourly Rate: Low to High
                         </SelectItem>
-                        <SelectItem value="hourly-desc">
+                        <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>
                           Hourly Rate: High to Low
                         </SelectItem>
                       </SelectContent>
@@ -102,28 +124,24 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {viewMode === 'card' ? (
+                {viewMode === "card" ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div 
-                          key={freelancer.id} 
+                        <div
+                          key={freelancer.id}
                           onClick={() => handleWorkerClick(freelancer.id)}
                           className="cursor-pointer"
                         >
                           <CardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={''}
+                            avatar={""}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
-                            name={
-                              freelancer.user.firstName +
-                              ' ' +
-                              freelancer.user.lastName
-                            }
-                            location={freelancer.city + ', ' + freelancer.country}
+                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
+                            location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
                           />
@@ -135,24 +153,20 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div 
-                          key={freelancer.id} 
+                        <div
+                          key={freelancer.id}
                           onClick={() => handleWorkerClick(freelancer.id)}
                           className="cursor-pointer"
                         >
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={''}
+                            avatar={""}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
-                            name={
-                              freelancer.user.firstName +
-                              ' ' +
-                              freelancer.user.lastName
-                            }
-                            location={freelancer.city + ', ' + freelancer.country}
+                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
+                            location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
                           />
@@ -168,7 +182,7 @@ export default function Dashboard() {
                     const params = new URLSearchParams(
                       Array.from(searchParams.entries())
                     );
-                    params.set('page', page.toString());
+                    params.set("page", page.toString());
                     router.replace(`?${params.toString()}`, { scroll: false });
                   }}
                 />

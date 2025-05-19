@@ -1,8 +1,10 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+"use client"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useGetSingleJob } from "@/hook/jobs/jobs.hooks"
 import {
   Briefcase,
   Building2,
@@ -10,20 +12,21 @@ import {
   Clock,
   DollarSign,
   Flag,
-  HardHat,
   Heart,
   MapPin,
-  // MessageSquare,
   Share2,
-  // Star,
   PenToolIcon as Tool,
-  Truck,
   User,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+} from "lucide-react"
+import Image from "next/image"
+import { useParams } from "next/navigation"
 
 export default function JobPostDetail() {
+  const { id } = useParams<{ id: string }>()
+
+  const { data: jobDetails } = useGetSingleJob(id)
+  console.log({ jobDetails })
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-6 md:grid-cols-3">
@@ -43,23 +46,23 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">
-                    Experienced Plumber Needed for Residential Project
-                  </h1>
+                  <h1 className="text-2xl font-bold">{jobDetails?.title || "Job Title"}</h1>
                   <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Building2 className="h-4 w-4" />
-                      <span>Reliable Plumbing Co.</span>
+                      <span>{jobDetails?.businessProfile?.companyName || "Company Name"}</span>
                     </span>
                     <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
-                      <span>San Diego, CA</span>
+                      <span>
+                        {jobDetails?.businessProfile?.city || ""}, {jobDetails?.businessProfile?.state || ""}
+                      </span>
                     </span>
                     <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>Posted 2 days ago</span>
+                      <span>Posted {jobDetails ? new Date(jobDetails.createdAt).toLocaleDateString() : ""}</span>
                     </span>
                   </div>
                 </div>
@@ -80,30 +83,9 @@ export default function JobPostDetail() {
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Badge className="flex items-center gap-1 text-sm">
-                <HardHat className="h-3.5 w-3.5" />
-                Plumbing
-              </Badge>
-              <Badge
-                className="flex items-center gap-1 text-sm"
-                variant="outline"
-              >
+              <Badge className="flex items-center gap-1 text-sm" variant="outline">
                 <Clock className="h-3.5 w-3.5" />
-                Full-time
-              </Badge>
-              <Badge
-                className="flex items-center gap-1 text-sm"
-                variant="outline"
-              >
-                <Tool className="h-3.5 w-3.5" />
-                5+ years experience
-              </Badge>
-              <Badge
-                className="flex items-center gap-1 text-sm"
-                variant="outline"
-              >
-                <Truck className="h-3.5 w-3.5" />
-                Vehicle required
+                {jobDetails?.employmentType || "Full-time"}
               </Badge>
             </div>
             <div className="flex md:hidden gap-2">
@@ -133,56 +115,7 @@ export default function JobPostDetail() {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Job Description</h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <p>
-                    We are seeking an experienced plumber to join our team for a
-                    large residential project in San Diego. This project
-                    involves installing new plumbing systems in a 20-unit
-                    apartment complex, including water supply lines, drainage
-                    systems, and fixture installation.
-                  </p>
-                  <p>
-                    The ideal candidate will have extensive experience in
-                    residential plumbing, be familiar with local building codes,
-                    and be able to work efficiently while maintaining
-                    high-quality standards.
-                  </p>
-                  <h3 className="text-base font-medium text-foreground mt-4 mb-2">
-                    Responsibilities:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>
-                      Install, repair, and maintain plumbing systems and
-                      fixtures
-                    </li>
-                    <li>
-                      Read and interpret blueprints and building specifications
-                    </li>
-                    <li>
-                      Troubleshoot and resolve plumbing issues efficiently
-                    </li>
-                    <li>
-                      Ensure all work complies with relevant codes and
-                      regulations
-                    </li>
-                    <li>
-                      Coordinate with other construction professionals on site
-                    </li>
-                    <li>Maintain a clean and safe work environment</li>
-                  </ul>
-                  <h3 className="text-base font-medium text-foreground mt-4 mb-2">
-                    Benefits:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Competitive pay based on experience ($35-45/hour)</li>
-                    <li>
-                      Consistent work schedule with potential for overtime
-                    </li>
-                    <li>
-                      Opportunity for long-term employment after project
-                      completion
-                    </li>
-                    <li>Tools and equipment provided</li>
-                  </ul>
+                  <p>{jobDetails?.description || "No description available."}</p>
                 </div>
               </div>
             </TabsContent>
@@ -190,82 +123,36 @@ export default function JobPostDetail() {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Job Requirements</h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <h3 className="text-base font-medium text-foreground mb-2">
-                    Qualifications:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>5+ years of experience in residential plumbing</li>
-                    <li>Valid plumbing license for the state of California</li>
-                    <li>Knowledge of local building codes and regulations</li>
-                    <li>
-                      Ability to read and interpret blueprints and
-                      specifications
-                    </li>
-                    <li>Experience with PEX, copper, and PVC piping systems</li>
-                    <li>
-                      Strong problem-solving skills and attention to detail
-                    </li>
-                  </ul>
-                  <h3 className="text-base font-medium text-foreground mt-4 mb-2">
-                    Physical Requirements:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Ability to lift and carry up to 50 pounds</li>
-                    <li>Comfortable working in confined spaces</li>
-                    <li>
-                      Capable of standing, kneeling, and bending for extended
-                      periods
-                    </li>
-                    <li>Good hand-eye coordination and manual dexterity</li>
-                  </ul>
-                  <h3 className="text-base font-medium text-foreground mt-4 mb-2">
-                    Other Requirements:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Reliable transportation to job sites</li>
-                    <li>Clean driving record</li>
-                    <li>Must pass background check</li>
-                    <li>Availability to work Monday-Friday, 7am-4pm</li>
-                    <li>Occasional weekend work may be required</li>
-                  </ul>
+                  <h3 className="text-base font-medium text-foreground mb-2">Requirements:</h3>
+                  <div className="whitespace-pre-line">{jobDetails?.requirements || "No requirements specified."}</div>
                 </div>
               </div>
             </TabsContent>
             <TabsContent value="company" className="space-y-4 pt-4">
               <div>
-                <h2 className="text-xl font-semibold mb-2">
-                  About Reliable Plumbing Co.
-                </h2>
+                <h2 className="text-xl font-semibold mb-2">About Reliable Plumbing Co.</h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <p>
-                    Reliable Plumbing Co. has been serving the San Diego area
-                    for over 15 years. We specialize in residential and
-                    commercial plumbing services, with a focus on new
-                    construction and renovation projects.
-                  </p>
-                  <p>
-                    Our team consists of licensed professionals who take pride
-                    in their work and are committed to providing high-quality
-                    service. We value reliability, integrity, and craftsmanship
-                    in everything we do.
-                  </p>
-                  {/* <div className="flex items-center gap-2 mt-4">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className="h-5 w-5 fill-primary text-primary"
-                        />
-                      ))}
-                    </div>
-                    <span className="font-medium text-foreground">4.8/5</span>
-                    <span>(124 reviews)</span>
-                  </div>
+                  <p>{jobDetails?.businessProfile?.description || "No company description available."}</p>
                   <div className="mt-4">
-                    <Link href="#" className="text-primary hover:underline">
-                      View company profile
-                    </Link>
-                  </div> */}
+                    <p>
+                      <strong>Industry:</strong> {jobDetails?.businessProfile?.industry || "Not specified"}
+                    </p>
+                    <p>
+                      <strong>Location:</strong> {jobDetails?.businessProfile?.city || ""},{" "}
+                      {jobDetails?.businessProfile?.state || ""}, {jobDetails?.businessProfile?.country || ""}
+                    </p>
+                    <p>
+                      <strong>Employee Count:</strong> {jobDetails?.businessProfile?.employeeCount || "Not specified"}
+                    </p>
+                    <p>
+                      <strong>Year Founded:</strong> {jobDetails?.businessProfile?.yearFounded || "Not specified"}
+                    </p>
+                    {jobDetails?.businessProfile?.website && (
+                      <p>
+                        <strong>Website:</strong> {jobDetails?.businessProfile?.website}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -369,26 +256,29 @@ export default function JobPostDetail() {
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="font-medium">$35-45 per hour</p>
-                      <p className="text-sm text-muted-foreground">
-                        Based on experience
+                      <p className="font-medium">
+                        {jobDetails?.budget ? `$${jobDetails.budget}` : ""}
+                        {jobDetails?.hourlyRateMin && jobDetails?.hourlyRateMax
+                          ? ` ($${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr)`
+                          : ""}
                       </p>
+                      <p className="text-sm text-muted-foreground">Based on experience</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Briefcase className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="font-medium">Full-time</p>
-                      <p className="text-sm text-muted-foreground">
-                        40 hours per week
-                      </p>
+                      <p className="font-medium">{jobDetails?.employmentType || "Full-time"}</p>
+                      <p className="text-sm text-muted-foreground">{jobDetails?.jobType || ""}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">Start date</p>
-                      <p className="text-sm text-muted-foreground">Immediate</p>
+                      <p className="text-sm text-muted-foreground">
+                        {jobDetails?.startDate ? new Date(jobDetails.startDate).toLocaleDateString() : "Immediate"}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -396,10 +286,23 @@ export default function JobPostDetail() {
                     <div>
                       <p className="font-medium">Professionals</p>
                       <p className="text-sm text-muted-foreground">
-                        10 Required
+                        {jobDetails?.numberOfWorkersRequired || jobDetails?.numberOfPositions || 1} Required
                       </p>
                     </div>
                   </div>
+                  {jobDetails?.skills && jobDetails.skills.length > 0 && (
+                    <div>
+                      <h3 className="font-medium mb-2">Required Skills</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {jobDetails.skills.map((skill, index) => (
+                          <Badge key={index} className="flex items-center gap-1 text-sm">
+                            <Tool className="h-3.5 w-3.5" />
+                            {skill.replace(/_/g, " ")}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <Button className="w-full">Apply Now</Button>
@@ -424,9 +327,9 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Reliable Plumbing Co.</h3>
+                  <h3 className="font-semibold">{jobDetails?.businessProfile?.companyName || "Company Name"}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Member since 2018
+                    Member since {jobDetails?.businessProfile?.yearFounded || "N/A"}
                   </p>
                 </div>
               </div>
@@ -479,7 +382,8 @@ export default function JobPostDetail() {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                Mission Valley area, San Diego, CA 92108
+                {jobDetails?.businessProfile?.city || ""}, {jobDetails?.businessProfile?.state || ""},{" "}
+                {jobDetails?.businessProfile?.country || ""}
                 <br />
                 Exact address provided after application
               </p>
@@ -488,5 +392,5 @@ export default function JobPostDetail() {
         </div>
       </div>
     </div>
-  );
+  )
 }

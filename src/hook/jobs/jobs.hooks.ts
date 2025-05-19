@@ -35,3 +35,10 @@ export const useGetAllJobs = () => {
     queryFn: () => JobsService.getAlljobs(params),
   });
 };
+
+export const useGetSingleJob = (param?:string)=>{
+  return useQuery<JobsResponse>({
+    queryKey: [QueryKeys.JOB_DETAILS, param],
+    queryFn: () => JobsService.getJobDetails(param),
+  });
+}

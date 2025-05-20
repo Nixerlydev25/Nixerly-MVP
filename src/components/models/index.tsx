@@ -4,6 +4,7 @@ import { EditSkillsModal } from "@/components/modals/edit-skills-modal"
 import { EditExperienceModal } from "@/components/modals/edit-experience-modal"
 import { EditEducationModal } from "@/components/modals/edit-education-modal"
 import { EditLanguagesModal } from "../modals/edit-languages-modal"
+import { ChangeWorkerProfilePictureModal } from "../modals/change-worker-profile-picture"
 
 export function Modals() {
   return (
@@ -14,6 +15,7 @@ export function Modals() {
       <EditExperienceModal />
       <EditEducationModal />
       <EditLanguagesModal/>
+      <ChangeWorkerProfilePictureModal/>
     </>
   )
 } 

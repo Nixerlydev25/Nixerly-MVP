@@ -30,6 +30,9 @@ export enum QueryKeys {
   JOB_CREATE = "job-create",
   JOB_GET_ALL = "job-get-all",
   JOB_DETAILS = 'job-details',
+  GET_PROFILE_PICTURE_UPLOAD_URL = "get-profile-picture-upload-url",
+  UPDATE_PROFILE_PICTURE = "update-profile-picture",
+  UPDATE_PROFILE_PICTURE_S3 = "update-profile-picture-s3",
   GET_BUSINESS = "get-business",  
   BUSINESS_PROFILE_DETAILS = "business-profile-details",
 }

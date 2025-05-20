@@ -1,7 +1,10 @@
 import instance from "../api";
 import { API_ROUTES } from "@/constants/routes";
 import { FeedsFilter } from "@/types/feed/feed.types";
-import { WorkerListResponse, WorkerProfileResponse } from "@/types/worker.types";
+import {
+  WorkerListResponse,
+  WorkerProfileResponse,
+} from "@/types/worker.types";
 
 class WorkerService {
   static async getWorkers(
@@ -56,6 +59,23 @@ class WorkerService {
       return response.data;
     } catch (error) {
       console.error("Error fetching worker by ID:", error);
+      throw error;
+    }
+  }
+
+  static async updateProfilePicture(
+    s3Key: string
+  ): Promise<{ profilePictureUrl: string }> {
+    try {
+      const response = await instance.put(
+        API_ROUTES.WORKER.UPDATE_PROFILE_PICTURE,
+        {
+          s3Key,
+        }
+      );
+      return response.data.file;
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
       throw error;
     }
   }

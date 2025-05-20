@@ -1,17 +1,27 @@
 import { QueryKeys } from "@/querykey";
 import WorkerService from "@/services/worker/worker.service";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FeedsFilter } from "@/types/feed/feed.types";
-import { WorkerListResponse, WorkerProfileResponse } from "@/types/worker.types";
+import {
+  WorkerListResponse,
+  WorkerProfileResponse,
+} from "@/types/worker.types";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+import { toast } from "sonner";
+import S3Service from "@/services/s3/s3.service";
+import { z } from "zod";
+import { queryClient } from "@/providers/query.provider";
 
 export const useGetWorkers = (enabled?: boolean) => {
   const searchParams = useSearchParams();
 
   // Process URL params and set defaults in the hook
   const filters = useMemo(() => {
-    const params: FeedsFilter & Record<string, string | number | string[]> = { page: 1, limit: 15 };
+    const params: FeedsFilter & Record<string, string | number | string[]> = {
+      page: 1,
+      limit: 15,
+    };
 
     searchParams.forEach((value, key) => {
       switch (key) {
@@ -33,7 +43,11 @@ export const useGetWorkers = (enabled?: boolean) => {
           params.skills.push(value);
           break;
         case "sort":
-          if (value === "rating" || value === "price_low_to_high" || value === "price_high_to_low") {
+          if (
+            value === "rating" ||
+            value === "price_low_to_high" ||
+            value === "price_high_to_low"
+          ) {
             params[key] = value;
           }
           break;
@@ -73,4 +87,90 @@ export const useGetWorkerById = (id: string) => {
     queryFn: () => WorkerService.getWorkerById(id),
     enabled: !!id,
   });
+};
+const getProfilePictureUploadUrlSchema = z.object({
+  contentType: z
+    .string()
+    .regex(/^image\/(jpeg|png|gif|webp)$/, "Invalid image format"),
+  fileName: z.string().min(1, "File name is required"),
+});
+
+type PresignedUrlResponse = {
+  presignedUrl: string;
+  s3Key: string;
+};
+
+export const useWorkerProfilePicture = () => {
+  const getPresignedUrlMutation = useMutation<
+    PresignedUrlResponse,
+    Error,
+    File
+  >({
+    mutationKey: [QueryKeys.GET_PROFILE_PICTURE_UPLOAD_URL],
+    mutationFn: async (file: File) => {
+      if (!file) throw new Error("No file provided");
+
+      // Validate file
+      try {
+        getProfilePictureUploadUrlSchema.parse({
+          contentType: file.type,
+          fileName: file.name,
+        });
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          toast.error(error.errors[0].message);
+          throw new Error(error.errors[0].message);
+        }
+        throw error;
+      }
+
+      return await S3Service.getPresignedUrl(file.name, file.type);
+    },
+  });
+
+  const uploadToS3Mutation = useMutation<
+    void,
+    Error,
+    { presignedUrl: string; file: File; s3Key: string }
+  >({
+    mutationKey: [QueryKeys.UPDATE_PROFILE_PICTURE_S3],
+    mutationFn: async ({ presignedUrl, file }) => {
+      await S3Service.uploadToS3(presignedUrl, file, file.type);
+    },
+  });
+
+  const updateProfilePictureMutation = useMutation({
+    mutationKey: [QueryKeys.UPDATE_PROFILE_PICTURE],
+    mutationFn: async (key: string) => {
+      await WorkerService.updateProfilePicture(key);
+    },
+    onSuccess: () => {
+      toast.success("Profile picture updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
+      });
+    },
+  });
+
+  const uploadProfilePicture = async (file: File, onClose: () => void) => {
+    try {
+      const { presignedUrl, s3Key } = await getPresignedUrlMutation.mutateAsync(
+        file
+      );
+      await uploadToS3Mutation.mutateAsync({ presignedUrl, file, s3Key });
+      await updateProfilePictureMutation.mutateAsync(s3Key);
+      onClose();
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      toast.error("There was an error uploading your profile picture");
+    }
+  };
+
+  return {
+    uploadProfilePicture,
+    isPending:
+      getPresignedUrlMutation.isPending ||
+      uploadToS3Mutation.isPending ||
+      updateProfilePictureMutation.isPending,
+  };
 };

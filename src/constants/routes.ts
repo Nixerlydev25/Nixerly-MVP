@@ -75,10 +75,12 @@ export const API_ROUTES = {
     UPDATE_ALL: "/language/update-all",
   },
   WORKER: {
-    UPDATE_WORKER_PROFILE: "/worker/update-worker-profile",
     ROOT: "/worker",
-    BY_ID: (id: string) => `/worker/${id}`,
     LIST: "/worker/get-all-workers-profiles",
+    BY_ID: (id: string) => `/worker/${id}`,
+    UPDATE_WORKER_PROFILE: "/worker/profile",
+    PROFILE_PICTURE_UPLOAD_URL: "/worker/profile-picture-upload-url",
+    UPDATE_PROFILE_PICTURE: "/worker/save-profile-picture",
   },
   JOB: {
     ROOT: "/jobs",

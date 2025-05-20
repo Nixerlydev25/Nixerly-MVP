@@ -7,5 +7,6 @@ export enum ModalType {
     EDIT_EXPERIENCE = "EDIT_EXPERIENCE",
     EDIT_EDUCATION = "EDIT_EDUCATION",
     EDIT_LANGUAGES = "EDIT_LANGUAGES",
+    CHANGE_PROFILE_PICTURE = "CHANGE_PROFILE_PICTURE",
     // Add more modal types here as needed
   } 

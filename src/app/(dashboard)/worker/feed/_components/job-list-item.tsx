@@ -103,7 +103,7 @@ export function JobListItem({ job }: JobListItemProps) {
           </div>
         </div>
 
-        <div className="flex md:flex-col gap-2 justify-end items-end">
+        {/* <div className="flex md:flex-col gap-2 justify-end items-end">
           <Button className="w-full md:w-auto bg-blue-600">
             Apply Now
             <ChevronRight className="h-4 w-4 ml-1" />
@@ -111,7 +111,7 @@ export function JobListItem({ job }: JobListItemProps) {
           <Button variant="outline" className="w-full md:w-auto">
             View Details
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,22 +10,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
   BellIcon,
   BriefcaseIcon,
   MailIcon,
   MenuIcon,
   SearchIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { useLogout } from "@/hook/auth/auth.hook";
-import SkeletonFeed from "@/app/(dashboard)/business/feed/_components/SkeletonFeed";
-import { useUser } from "@/hook/user/useUser";
-import { ProfileType } from "@/types/user/user.types";
-import { ROUTES } from "@/lib/routes";
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { useLogout } from '@/hook/auth/auth.hook';
+import { useUser } from '@/hook/user/useUser';
+import { ProfileType } from '@/types/user/user.types';
+import { ROUTES } from '@/lib/routes';
 
 function DashboardNav() {
   const { mutate: logout } = useLogout();
@@ -33,7 +32,7 @@ function DashboardNav() {
   const router = useRouter();
 
   if (isLoading || !user) {
-    return <SkeletonFeed />;
+    return <div></div>;
   }
 
   const handleLogout = () => {
@@ -51,7 +50,7 @@ function DashboardNav() {
   };
 
   const handlePostAJob = () => {
-      router.push(ROUTES.POST_A_JOB)
+    router.push(ROUTES.POST_A_JOB);
   };
 
   return (
@@ -113,7 +112,9 @@ function DashboardNav() {
               <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handlePostAJob}>Post A Job</DropdownMenuItem>
+              <DropdownMenuItem onClick={handlePostAJob}>
+                Post A Job
+              </DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>

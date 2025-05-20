@@ -1,3 +1,5 @@
+import { GET } from "./app/api/geolocation/suggestions/route";
+
 export enum QueryKeys {
   AUTH = "auth",
   SIGN_UP = "sign-up",
@@ -31,4 +33,6 @@ export enum QueryKeys {
   GET_PROFILE_PICTURE_UPLOAD_URL = "get-profile-picture-upload-url",
   UPDATE_PROFILE_PICTURE = "update-profile-picture",
   UPDATE_PROFILE_PICTURE_S3 = "update-profile-picture-s3",
+  GET_BUSINESS = "get-business",  
+  BUSINESS_PROFILE_DETAILS = "business-profile-details",
 }

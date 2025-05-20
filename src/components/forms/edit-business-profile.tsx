@@ -118,12 +118,14 @@ export function EditBusinessProfileForm({
           <FormField
             control={form.control}
             name="location"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
                   <LocationSearch
-                    defaultValue={field.value}
+                    defaultValue={`${form.getValues("city")}, ${form.getValues(
+                      "state"
+                    )}, ${form.getValues("country")}`}
                     onLocationSelect={handleLocationSelect}
                     className="w-full"
                   />

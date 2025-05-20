@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Building2,
   Calendar,
@@ -20,18 +20,17 @@ import {
   Briefcase,
   Camera,
   Eye,
-} from 'lucide-react';
-import Image from 'next/image';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
-import { useGetCurrentBusinessProfileDetails } from '@/hook/user/user.hooks';
-import { BusinessProfileSkeleton } from './_components/business-profile-skeleton';
+} from "lucide-react";
+import Image from "next/image";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
+import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
+import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
 
 export default function BusinessProfilePage() {
   const { data: businessProfileData, isLoading } =
     useGetCurrentBusinessProfileDetails();
   const { openModal } = useModalStore();
-  console.log(businessProfileData);
 
   if (isLoading && !businessProfileData) {
     return <BusinessProfileSkeleton />;
@@ -50,16 +49,16 @@ export default function BusinessProfilePage() {
                   <Image
                     src={
                       businessProfileData?.businessProfile?.logoUrl ||
-                      '/placeholder.svg'
+                      "/placeholder.svg"
                     }
-                    alt={businessProfileData?.businessProfile.companyName || ''}
+                    alt={businessProfileData?.businessProfile.companyName || ""}
                     fill
                     className="object-cover"
                   />
                 ) : (
                   <Image
                     src="/placeholder.svg?height=128&width=128"
-                    alt={businessProfileData?.businessProfile.companyName || ''}
+                    alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
                     height={128}
                     className="object-cover"
@@ -83,8 +82,8 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         <span>
-                          {businessProfileData?.businessProfile.city},{' '}
-                          {businessProfileData?.businessProfile.state},{' '}
+                          {businessProfileData?.businessProfile.city},{" "}
+                          {businessProfileData?.businessProfile.state},{" "}
                           {businessProfileData?.businessProfile.country}
                         </span>
                       </span>
@@ -99,7 +98,7 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          Est.{' '}
+                          Est.{" "}
                           {businessProfileData?.businessProfile.yearFounded}
                         </span>
                       </span>
@@ -181,27 +180,27 @@ export default function BusinessProfilePage() {
                       services: [
                         {
                           id: 1,
-                          title: 'Plumbing Installation',
+                          title: "Plumbing Installation",
                           description:
-                            'Complete installation services for residential and commercial properties, including pipes, fixtures, and appliances.',
+                            "Complete installation services for residential and commercial properties, including pipes, fixtures, and appliances.",
                         },
                         {
                           id: 2,
-                          title: 'Leak Repairs',
+                          title: "Leak Repairs",
                           description:
-                            'Fast and reliable leak detection and repair services to prevent water damage and conserve water.',
+                            "Fast and reliable leak detection and repair services to prevent water damage and conserve water.",
                         },
                         {
                           id: 3,
-                          title: 'Bathroom Remodeling',
+                          title: "Bathroom Remodeling",
                           description:
-                            'Complete bathroom renovation services, from fixture replacement to full remodels.',
+                            "Complete bathroom renovation services, from fixture replacement to full remodels.",
                         },
                         {
                           id: 4,
-                          title: 'Emergency Services',
+                          title: "Emergency Services",
                           description:
-                            '24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.',
+                            "24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.",
                         },
                       ],
                     })
@@ -334,7 +333,8 @@ export default function BusinessProfilePage() {
                   <div>
                     <p className="font-medium">Company Size</p>
                     <p className="text-sm text-muted-foreground">
-                      {businessProfileData?.businessProfile.employeeCount} employees
+                      {businessProfileData?.businessProfile.employeeCount}{" "}
+                      employees
                     </p>
                   </div>
                 </div>
@@ -361,9 +361,11 @@ export default function BusinessProfilePage() {
                   <div>
                     <p className="font-medium">Member Since</p>
                     <p className="text-sm text-muted-foreground">
-                      {new Date(businessProfileData?.createdAt ?? '').toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'long',
+                      {new Date(
+                        businessProfileData?.createdAt ?? ""
+                      ).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
                       })}
                     </p>
                   </div>
@@ -417,14 +419,14 @@ export default function BusinessProfilePage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">
-                      {businessProfileData?.firstName}{' '}
+                      {businessProfileData?.firstName}{" "}
                       {businessProfileData?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {(businessProfileData?.role
+                      {businessProfileData?.role
                         ? businessProfileData.role.charAt(0) +
                           businessProfileData.role.slice(1).toLowerCase()
-                        : 'Owner')}{' '}
+                        : "Owner"}{" "}
                       Owner
                     </p>
                   </div>

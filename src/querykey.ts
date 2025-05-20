@@ -1,3 +1,5 @@
+import { GET } from "./app/api/geolocation/suggestions/route";
+
 export enum QueryKeys {
   AUTH = "auth",
   SIGN_UP = "sign-up",
@@ -27,5 +29,7 @@ export enum QueryKeys {
   UPDATE_LANGUAGES = "update-languages",
   JOB_CREATE = "job-create",
   JOB_GET_ALL = "job-get-all",
-  JOB_DETAILS = 'job-details'
+  JOB_DETAILS = 'job-details',
+  GET_BUSINESS = "get-business",  
+  BUSINESS_PROFILE_DETAILS = "business-profile-details",
 }

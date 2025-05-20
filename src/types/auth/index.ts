@@ -1,5 +1,8 @@
-import { OnboardingStepBusinessProfileB, OnboardingStepWorkerProfileB } from "../onboarding";
-import { ProfileType } from "../user/user.types";
+import {
+  OnboardingStepBusinessProfileB,
+  OnboardingStepWorkerProfileB,
+} from '../onboarding';
+import { ProfileType } from '../user/user.types';
 
 // Base interface for common fields
 interface BaseSignUpRequest {
@@ -66,53 +69,63 @@ export interface TWorkerProfile {
 
 // Business Profile type
 export interface TBusinessProfile {
-  companyName: string | null;
-  description: string | null;
-  industry: string | null;
+  companyName?: string | null;
+  description?: string | null;
+  industry?: string | null;
   city?: string | null;
   state?: string | null;
   country?: string | null;
-  website: string | null;
-  employeeCount: number | null;
-  yearFounded: number | null;
-  onboardingStep: OnboardingStepBusinessProfileB;
+  website?: string | null;
+  employeeCount?: number | null;
+  yearFounded?: number | null;
+  postedJobs?: number;
+  logoUrl?: string | null;
+  onboardingStep?: OnboardingStepBusinessProfileB;
 }
 
-// Complete User type with profiles
+export interface TBusinessProfileResponse {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  businessProfile: TBusinessProfile;
+}
+
 export interface CompleteUser extends TUser {
   workerProfile?: TWorkerProfile;
   businessProfile?: TBusinessProfile;
 }
 
 export enum OnboardingStepWorkerProfile {
-  PERSONAL_INFO = "PERSONAL_INFO",
-  PROFESSIONAL_INFO = "PROFESSIONAL_INFO",
-  EDUCATIONAL_INFO = "EDUCATIONAL_INFO",
-  REVIEW = "REVIEW",
-  COMPLETED = "COMPLETED"
+  PERSONAL_INFO = 'PERSONAL_INFO',
+  PROFESSIONAL_INFO = 'PROFESSIONAL_INFO',
+  EDUCATIONAL_INFO = 'EDUCATIONAL_INFO',
+  REVIEW = 'REVIEW',
+  COMPLETED = 'COMPLETED',
 }
 
 export enum OnboardingStepBusinessProfile {
-  COMPANY_INFO = "COMPANY_INFO",
-  BUSINESS_DETAILS = "BUSINESS_DETAILS",
-  REVIEW = "REVIEW",
-  COMPLETED = "COMPLETED"
+  COMPANY_INFO = 'COMPANY_INFO',
+  BUSINESS_DETAILS = 'BUSINESS_DETAILS',
+  REVIEW = 'REVIEW',
+  COMPLETED = 'COMPLETED',
 }
 
 export enum Role {
-  WORKER = "WORKER",
-  BUSINESS = "BUSINESS", 
-  ADMIN = "ADMIN",
-  SUPER_ADMIN = "SUPER_ADMIN",
-  DEVELOPER = "DEVELOPER"
+  WORKER = 'WORKER',
+  BUSINESS = 'BUSINESS',
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  DEVELOPER = 'DEVELOPER',
 }
 
 export enum OAuthProvider {
-  GOOGLE = "GOOGLE",
-  OUTLOOK = "OUTLOOK",
-  FACEBOOK = "FACEBOOK",
-  GITHUB = "GITHUB",
-  EMAIL_PASSWORD = "EMAIL_PASSWORD"
+  GOOGLE = 'GOOGLE',
+  OUTLOOK = 'OUTLOOK',
+  FACEBOOK = 'FACEBOOK',
+  GITHUB = 'GITHUB',
+  EMAIL_PASSWORD = 'EMAIL_PASSWORD',
 }
 
 export interface AuthResponse {

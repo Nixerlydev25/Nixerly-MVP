@@ -1,6 +1,6 @@
 import instance from "../api";
 import { currentUserData } from "@/types/user/user.types";
-import { TUser, TWorkerProfile, TBusinessProfile } from "@/types/auth";
+import { TUser, TWorkerProfile, TBusinessProfile, TBusinessProfileResponse } from "@/types/auth";
 import { API_ROUTES } from "@/constants/routes";
 
 class UserService {
@@ -78,6 +78,18 @@ class UserService {
       return response.data;
     } catch (error) {
       console.error("Error during getting worker profile details:", error);
+      throw error;
+    }
+  }
+
+  static async getCurrentBusinessProfileDetails(): Promise<TBusinessProfileResponse> {
+    try {
+      const response = await instance.get(
+        API_ROUTES.USER.BUSINESS_PROFILE_DETAILS
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error during getting business profile details:", error);
       throw error;
     }
   }

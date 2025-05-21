@@ -309,7 +309,7 @@ export default function JobPostDetail() {
                         {jobDetails?.employmentType || 'Full-time'}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {jobDetails?.jobType || ''}
+                        {jobDetails?.jobType || '.'}
                       </p>
                     </div>
                   </div>

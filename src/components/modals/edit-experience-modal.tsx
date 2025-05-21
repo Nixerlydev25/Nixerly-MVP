@@ -30,14 +30,13 @@ export function EditExperienceModal() {
 
   const handleSubmit = async (values: FormValues) => {
     try {
-      console.log({values})
       await updateExperience(values.experience)
       closeModal()
     } catch (error) {
       console.error("Error updating experience:", error)
     }
   }
-  console.log(profile?.experience,"asdf")
+
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-hidden flex flex-col">

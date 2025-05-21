@@ -181,7 +181,7 @@ export default function BusinessProfilePage() {
               </div>
 
               {(businessProfileData?.jobs?.length ?? 0) > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-[500px] overflow-y-auto">
                   {businessProfileData?.jobs.map((job: TJob) => (
                     <div key={job.id} className="rounded-lg border p-4">
                       <div className="flex items-start justify-between">

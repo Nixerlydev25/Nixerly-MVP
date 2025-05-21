@@ -83,7 +83,7 @@ export default function FreelancerProfileSelfView() {
                     width={120}
                     height={120}
                     alt={fullName}
-                    className="rounded-full border-2 border-white shadow-sm"
+                    className="rounded-full border-2 border-white shadow-sm h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 rounded-full flex items-center justify-center opacity-0 group-hover:bg-opacity-30 group-hover:opacity-100 transition-all duration-200">
                     <Button size="icon" variant="ghost" className="h-10 w-10 text-white">

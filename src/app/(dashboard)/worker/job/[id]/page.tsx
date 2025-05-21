@@ -1,10 +1,11 @@
-"use client"
+'use client';
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useGetSingleJob } from "@/hook/jobs/jobs.hooks"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useGetSingleJob } from '@/hook/jobs/jobs.hooks';
+import { ROUTES } from '@/lib/routes';
 import {
   Briefcase,
   Building2,
@@ -17,15 +18,16 @@ import {
   Share2,
   PenToolIcon as Tool,
   User,
-} from "lucide-react"
-import Image from "next/image"
-import { useParams } from "next/navigation"
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function JobPostDetail() {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useParams<{ id: string }>();
 
-  const { data: jobDetails } = useGetSingleJob(id)
-  console.log({ jobDetails })
+  const { data: jobDetails } = useGetSingleJob(id);
+  console.log({ jobDetails });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -46,23 +48,34 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">{jobDetails?.title || "Job Title"}</h1>
+                  <h1 className="text-2xl font-bold">
+                    {jobDetails?.title || 'Job Title'}
+                  </h1>
                   <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Building2 className="h-4 w-4" />
-                      <span>{jobDetails?.businessProfile?.companyName || "Company Name"}</span>
+                      <span>
+                        {jobDetails?.businessProfile?.companyName ||
+                          'Company Name'}
+                      </span>
                     </span>
                     <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
                       <span>
-                        {jobDetails?.businessProfile?.city || ""}, {jobDetails?.businessProfile?.state || ""}
+                        {jobDetails?.businessProfile?.city || ''},{' '}
+                        {jobDetails?.businessProfile?.state || ''}
                       </span>
                     </span>
                     <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>Posted {jobDetails ? new Date(jobDetails.createdAt).toLocaleDateString() : ""}</span>
+                      <span>
+                        Posted{' '}
+                        {jobDetails
+                          ? new Date(jobDetails.createdAt).toLocaleDateString()
+                          : ''}
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -83,9 +96,12 @@ export default function JobPostDetail() {
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Badge className="flex items-center gap-1 text-sm" variant="outline">
+              <Badge
+                className="flex items-center gap-1 text-sm"
+                variant="outline"
+              >
                 <Clock className="h-3.5 w-3.5" />
-                {jobDetails?.employmentType || "Full-time"}
+                {jobDetails?.employmentType || 'Full-time'}
               </Badge>
             </div>
             <div className="flex md:hidden gap-2">
@@ -115,7 +131,9 @@ export default function JobPostDetail() {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Job Description</h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <p>{jobDetails?.description || "No description available."}</p>
+                  <p>
+                    {jobDetails?.description || 'No description available.'}
+                  </p>
                 </div>
               </div>
             </TabsContent>
@@ -123,33 +141,50 @@ export default function JobPostDetail() {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Job Requirements</h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <h3 className="text-base font-medium text-foreground mb-2">Requirements:</h3>
-                  <div className="whitespace-pre-line">{jobDetails?.requirements || "No requirements specified."}</div>
+                  <h3 className="text-base font-medium text-foreground mb-2">
+                    Requirements:
+                  </h3>
+                  <div className="whitespace-pre-line">
+                    {jobDetails?.requirements || 'No requirements specified.'}
+                  </div>
                 </div>
               </div>
             </TabsContent>
             <TabsContent value="company" className="space-y-4 pt-4">
               <div>
-                <h2 className="text-xl font-semibold mb-2">About Reliable Plumbing Co.</h2>
+                <h2 className="text-xl font-semibold mb-2">
+                  About Reliable Plumbing Co.
+                </h2>
                 <div className="space-y-3 text-muted-foreground">
-                  <p>{jobDetails?.businessProfile?.description || "No company description available."}</p>
+                  <p>
+                    {jobDetails?.businessProfile?.description ||
+                      'No company description available.'}
+                  </p>
                   <div className="mt-4">
                     <p>
-                      <strong>Industry:</strong> {jobDetails?.businessProfile?.industry || "Not specified"}
+                      <strong>Industry:</strong>{' '}
+                      {jobDetails?.businessProfile?.industry || 'Not specified'}
                     </p>
                     <p>
-                      <strong>Location:</strong> {jobDetails?.businessProfile?.city || ""},{" "}
-                      {jobDetails?.businessProfile?.state || ""}, {jobDetails?.businessProfile?.country || ""}
+                      <strong>Location:</strong>{' '}
+                      {jobDetails?.businessProfile?.city || ''},{' '}
+                      {jobDetails?.businessProfile?.state || ''},{' '}
+                      {jobDetails?.businessProfile?.country || ''}
                     </p>
                     <p>
-                      <strong>Employee Count:</strong> {jobDetails?.businessProfile?.employeeCount || "Not specified"}
+                      <strong>Employee Count:</strong>{' '}
+                      {jobDetails?.businessProfile?.employeeCount ||
+                        'Not specified'}
                     </p>
                     <p>
-                      <strong>Year Founded:</strong> {jobDetails?.businessProfile?.yearFounded || "Not specified"}
+                      <strong>Year Founded:</strong>{' '}
+                      {jobDetails?.businessProfile?.yearFounded ||
+                        'Not specified'}
                     </p>
                     {jobDetails?.businessProfile?.website && (
                       <p>
-                        <strong>Website:</strong> {jobDetails?.businessProfile?.website}
+                        <strong>Website:</strong>{' '}
+                        {jobDetails?.businessProfile?.website}
                       </p>
                     )}
                   </div>
@@ -257,19 +292,25 @@ export default function JobPostDetail() {
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">
-                        {jobDetails?.budget ? `$${jobDetails.budget}` : ""}
+                        {jobDetails?.budget ? `$${jobDetails.budget}` : ''}
                         {jobDetails?.hourlyRateMin && jobDetails?.hourlyRateMax
                           ? ` ($${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr)`
-                          : ""}
+                          : ''}
                       </p>
-                      <p className="text-sm text-muted-foreground">Based on experience</p>
+                      <p className="text-sm text-muted-foreground">
+                        Based on experience
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Briefcase className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="font-medium">{jobDetails?.employmentType || "Full-time"}</p>
-                      <p className="text-sm text-muted-foreground">{jobDetails?.jobType || ""}</p>
+                      <p className="font-medium">
+                        {jobDetails?.employmentType || 'Full-time'}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {jobDetails?.jobType || ''}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -277,7 +318,9 @@ export default function JobPostDetail() {
                     <div>
                       <p className="font-medium">Start date</p>
                       <p className="text-sm text-muted-foreground">
-                        {jobDetails?.startDate ? new Date(jobDetails.startDate).toLocaleDateString() : "Immediate"}
+                        {jobDetails?.startDate
+                          ? new Date(jobDetails.startDate).toLocaleDateString()
+                          : 'Immediate'}
                       </p>
                     </div>
                   </div>
@@ -286,7 +329,10 @@ export default function JobPostDetail() {
                     <div>
                       <p className="font-medium">Professionals</p>
                       <p className="text-sm text-muted-foreground">
-                        {jobDetails?.numberOfWorkersRequired || jobDetails?.numberOfPositions || 1} Required
+                        {jobDetails?.numberOfWorkersRequired ||
+                          jobDetails?.numberOfPositions ||
+                          1}{' '}
+                        Required
                       </p>
                     </div>
                   </div>
@@ -295,9 +341,12 @@ export default function JobPostDetail() {
                       <h3 className="font-medium mb-2">Required Skills</h3>
                       <div className="flex flex-wrap gap-2">
                         {jobDetails.skills.map((skill, index) => (
-                          <Badge key={index} className="flex items-center gap-1 text-sm">
+                          <Badge
+                            key={index}
+                            className="flex items-center gap-1 text-sm"
+                          >
                             <Tool className="h-3.5 w-3.5" />
-                            {skill.replace(/_/g, " ")}
+                            {skill.replace(/_/g, ' ')}
                           </Badge>
                         ))}
                       </div>
@@ -327,9 +376,17 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold">{jobDetails?.businessProfile?.companyName || "Company Name"}</h3>
+                  <Link
+                    href={`${ROUTES.OTHER_BUSINESS_PROFILE}/${jobDetails?.businessProfile?.id}`}
+                  >
+                    <h3 className="font-semibold">
+                      {jobDetails?.businessProfile?.companyName ||
+                        'Company Name'}
+                    </h3>
+                  </Link>
                   <p className="text-sm text-muted-foreground">
-                    Member since {jobDetails?.businessProfile?.yearFounded || "N/A"}
+                    Member since{' '}
+                    {jobDetails?.businessProfile?.yearFounded || 'N/A'}
                   </p>
                 </div>
               </div>
@@ -382,8 +439,9 @@ export default function JobPostDetail() {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                {jobDetails?.businessProfile?.city || ""}, {jobDetails?.businessProfile?.state || ""},{" "}
-                {jobDetails?.businessProfile?.country || ""}
+                {jobDetails?.businessProfile?.city || ''},{' '}
+                {jobDetails?.businessProfile?.state || ''},{' '}
+                {jobDetails?.businessProfile?.country || ''}
                 <br />
                 Exact address provided after application
               </p>
@@ -392,5 +450,5 @@ export default function JobPostDetail() {
         </div>
       </div>
     </div>
-  )
+  );
 }

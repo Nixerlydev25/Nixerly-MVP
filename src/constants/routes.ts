@@ -80,7 +80,7 @@ export const API_ROUTES = {
     ROOT: "/worker",
     LIST: "/worker/get-all-workers-profiles",
     BY_ID: (id: string) => `/worker/${id}`,
-    UPDATE_WORKER_PROFILE: "/worker/profile",
+    UPDATE_WORKER_PROFILE: "/worker/update-worker-profile",
     PROFILE_PICTURE_UPLOAD_URL: "/worker/profile-picture-upload-url",
     UPDATE_PROFILE_PICTURE: "/worker/save-profile-picture",
   },

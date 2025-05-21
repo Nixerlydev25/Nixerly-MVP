@@ -5,14 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Progress } from "@/components/ui/progress"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -29,7 +22,6 @@ import {
   MoreHorizontal,
   Share2,
   StarIcon,
-  ThumbsUp,
 } from "lucide-react"
 import { useGetWorkerById } from "@/hook/worker/worker.hook"
 import { useParams } from "next/navigation"
@@ -126,12 +118,16 @@ export default function FreelancerProfile() {
   }
 
   // Format skills for display
-  const formattedSkills = worker.skills?.map((skill: string) => {
-    return skill.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (l: string) => l.toUpperCase())
-  }) || []
+  const formattedSkills =
+    worker.skills?.map((skill: string) => {
+      return skill
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .replace(/\b\w/g, (l: string) => l.toUpperCase())
+    }) || []
 
   // Format full name
-  const fullName = `${worker.user?.firstName || ''} ${worker.user?.lastName || ''}`.trim()
+  const fullName = `${worker.user?.firstName || ""} ${worker.user?.lastName || ""}`.trim()
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -154,7 +150,7 @@ export default function FreelancerProfile() {
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
-                      src={staticData.avatar}
+                      src={staticData.avatar || "/placeholder.svg"}
                       width={120}
                       height={120}
                       alt={fullName}
@@ -209,7 +205,9 @@ export default function FreelancerProfile() {
                       <div className="flex items-center">
                         <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
                         <span className="font-medium">{worker.avgRating || staticData.rating}</span>
-                        <span className="ml-1 text-gray-500">({worker.completedJobs || staticData.jobsCompleted} reviews)</span>
+                        <span className="ml-1 text-gray-500">
+                          ({worker.completedJobs || staticData.jobsCompleted} reviews)
+                        </span>
                       </div>
                       <div className="flex items-center text-green-600">
                         <CheckCircle2 className="mr-1 h-4 w-4" />
@@ -227,247 +225,143 @@ export default function FreelancerProfile() {
 
             {/* Tabs section */}
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
+              <TabsList className="w-full">
                 <TabsTrigger
                   value="overview"
-                  className="rounded-none border-b-2 border-transparent px-4 py-2 text-gray-600 transition-colors hover:text-blue-600 data-[state=active]:border-blue-600 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
                 >
                   Overview
                 </TabsTrigger>
                 <TabsTrigger
-                  value="work"
-                  className="rounded-none border-b-2 border-transparent px-4 py-2 text-gray-600 transition-colors hover:text-blue-600 data-[state=active]:border-blue-600 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
+                  value="experiences"
                 >
-                  Work History
-                </TabsTrigger>
-                <TabsTrigger
-                  value="reviews"
-                  className="rounded-none border-b-2 border-transparent px-4 py-2 text-gray-600 transition-colors hover:text-blue-600 data-[state=active]:border-blue-600 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none"
-                >
-                  Reviews
+                  Experiences
                 </TabsTrigger>
               </TabsList>
 
               {/* Overview Tab */}
               <TabsContent value="overview" className="mt-6 space-y-8">
                 {/* About section */}
-                <Card className="pt-0 overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100/50 py-3">
-                    <CardTitle>About</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="whitespace-pre-line text-gray-700">{worker.description}</div>
-                  </CardContent>
-                </Card>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold  border-b pb-2">About</h3>
+                  <div className="whitespace-pre-line text-gray-700 py-2">{worker.description}</div>
+                </div>
 
                 {/* Skills section */}
-                <Card className="pt-0 overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-indigo-50 to-indigo-100/50 py-3">
-                    <CardTitle>Skills</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {formattedSkills.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="bg-blue-50 text-blue-700 border-blue-200 border"
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold border-b pb-2">Skills</h3>
+                  <div className="flex flex-wrap gap-2 py-2">
+                    {formattedSkills.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="secondary"
+                        className="bg-blue-50 text-blue-700 border-blue-200 border p-2"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
 
-                {/* Experience section */}
-                <Card className="pt-0 overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100/50 py-3">
-                    <CardTitle className="flex items-center">
-                      <Award className="mr-2 h-5 w-5 text-amber-600" />
-                      Experience
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {worker.experience?.map((exp) => (
-                        <div key={exp.id} className="border-b pb-4 last:border-b-0 last:pb-0">
-                          <h4 className="font-medium">{exp.title}</h4>
-                          <p className="text-gray-600">{exp.company}</p>
+                {/* Education & Certifications */}
+                <div className="grid gap-8 md:grid-cols-2">
+                  {/* Education */}
+                  <div className="space-y-3">
+                    <h3 className="flex items-center text-xl font-semibold text-cyan-700 border-b pb-2">
+                      <GraduationCap className="mr-2 h-5 w-5 text-cyan-600" />
+                      Education
+                    </h3>
+                    <div className="space-y-6 py-2">
+                      {worker.education?.map((edu) => (
+                        <div key={edu.id} className="border-l-2 border-cyan-200 pl-4 py-1">
+                          <h4 className="font-medium">{edu.school}</h4>
+                          <p className="text-gray-600">
+                            {edu.degree} in {edu.fieldOfStudy}
+                          </p>
                           <p className="text-sm text-gray-500">
-                            {new Date(exp.startDate).toLocaleDateString()} - 
-                            {exp.currentlyWorking 
-                              ? ' Present' 
-                              : exp.endDate ? ` ${new Date(exp.endDate).toLocaleDateString()}` : ''}
+                            {new Date(edu.startDate).toLocaleDateString()} -
+                            {edu.currentlyStudying
+                              ? " Present"
+                              : edu.endDate
+                                ? ` ${new Date(edu.endDate).toLocaleDateString()}`
+                                : ""}
                           </p>
-                          <p className="text-sm text-gray-500 mt-1">
-                            {exp.city}, {exp.state}, {exp.country}
-                          </p>
-                          <p className="mt-2 text-gray-700">{exp.description}</p>
+                          <p className="mt-2 text-gray-700">{edu.description}</p>
                         </div>
                       ))}
                     </div>
-                  </CardContent>
-                </Card>
-
-                {/* Education & Certifications */}
-                <div className="grid gap-6 md:grid-cols-2">
-                  {/* Education */}
-                  <Card className="pt-0 overflow-hidden">
-                    <CardHeader className="bg-gradient-to-r from-cyan-50 to-cyan-100/50 py-3">
-                      <CardTitle className="flex items-center">
-                        <GraduationCap className="mr-2 h-5 w-5 text-cyan-600" />
-                        Education
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {worker.education?.map((edu) => (
-                          <div key={edu.id} className="border-b pb-4 last:border-b-0 last:pb-0">
-                            <h4 className="font-medium">{edu.school}</h4>
-                            <p className="text-gray-600">{edu.degree} in {edu.fieldOfStudy}</p>
-                            <p className="text-sm text-gray-500">
-                              {new Date(edu.startDate).toLocaleDateString()} - 
-                              {edu.currentlyStudying 
-                                ? ' Present' 
-                                : edu.endDate ? ` ${new Date(edu.endDate).toLocaleDateString()}` : ''}
-                            </p>
-                            <p className="mt-2 text-gray-700">{edu.description}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  </div>
 
                   {/* Certifications */}
-                  <Card className="pt-0 overflow-hidden">
-                    <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100/50 py-3">
-                      <CardTitle className="flex items-center">
-                        <Award className="mr-2 h-5 w-5 text-purple-600" />
-                        Certifications
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {staticData.certifications.map((cert, index) => (
-                          <div key={index} className={index > 0 ? "border-t pt-4" : ""}>
-                            <h4 className="font-medium">{cert.name}</h4>
-                            <p className="text-gray-600">{cert.issuer}</p>
-                            <p className="text-sm text-gray-500">{cert.year}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="space-y-3">
+                    <h3 className="flex items-center text-xl font-semibold text-purple-700 border-b pb-2">
+                      <Award className="mr-2 h-5 w-5 text-purple-600" />
+                      Certifications
+                    </h3>
+                    <div className="space-y-4 py-2">
+                      {staticData.certifications.map((cert, index) => (
+                        <div key={index} className="border-l-2 border-purple-200 pl-4 py-1">
+                          <h4 className="font-medium">{cert.name}</h4>
+                          <p className="text-gray-600">{cert.issuer}</p>
+                          <p className="text-sm text-gray-500">{cert.year}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Languages */}
-                <Card className="pt-0 overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-green-50 to-green-100/50 py-3">
-                    <CardTitle className="flex items-center">
-                      <Globe className="mr-2 h-5 w-5 text-green-600" />
-                      Languages
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {worker.languages?.map((language) => (
-                        <div key={language.id} className="flex items-center justify-between">
-                          <div>
-                            <span className="font-medium">{language.language.charAt(0) + language.language.slice(1).toLowerCase()}:</span>
-                            <span className="ml-2 text-gray-600">{language.proficiency.charAt(0) + language.proficiency.slice(1).toLowerCase()}</span>
-                          </div>
+                <div className="space-y-3">
+                  <h3 className="flex items-center text-xl font-semibold text-green-700 border-b pb-2">
+                    <Globe className="mr-2 h-5 w-5 text-green-600" />
+                    Languages
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 py-2 sm:grid-cols-3">
+                    {worker.languages?.map((language) => (
+                      <div key={language.id} className="flex items-center">
+                        <div className="h-2 w-2 rounded-full bg-green-500 mr-2"></div>
+                        <div>
+                          <span className="font-medium">
+                            {language.language.charAt(0) + language.language.slice(1).toLowerCase()}:
+                          </span>
+                          <span className="ml-1 text-gray-600">
+                            {language.proficiency.charAt(0) + language.proficiency.slice(1).toLowerCase()}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Work History Tab */}
-              <TabsContent value="work" className="mt-6 space-y-6">
-                <Card>
-                  <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100/50 pb-3">
-                    <CardTitle>Work History</CardTitle>
-                    <CardDescription>
-                      Completed {worker.completedJobs || staticData.jobsCompleted} jobs with {staticData.successRate}% success rate
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-8">
-                      {staticData.workHistory.map((work, index) => (
-                        <div key={index} className={index > 0 ? "border-t pt-6" : ""}>
-                          <div className="flex flex-wrap items-start justify-between gap-2">
-                            <div>
-                              <h3 className="text-lg font-semibold">{work.title}</h3>
-                              <p className="text-gray-600">{work.client}</p>
-                            </div>
-                            <div className="text-right">
-                              <div className="flex items-center">
-                                <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                <span className="font-medium">{work.rating.toFixed(1)}</span>
-                              </div>
-                              <p className="text-sm text-gray-500">{work.completedDate}</p>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-gray-700">{work.description}</p>
-                          <div className="mt-2 text-sm text-gray-500">{work.hours} hours worked</div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Reviews Tab */}
-              <TabsContent value="reviews" className="mt-6 space-y-6">
-                <Card>
-                  <CardHeader className="bg-gradient-to-r from-yellow-50 to-yellow-100/50 pb-3">
-                    <CardTitle>Client Reviews</CardTitle>
-                    <CardDescription>
-                      <div className="flex items-center">
-                        <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{worker.avgRating || staticData.rating}</span>
-                        <span className="ml-1 text-gray-500">({worker.completedJobs || staticData.jobsCompleted} reviews)</span>
                       </div>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-8">
-                      {staticData.reviews.map((review, index) => (
-                        <div key={index} className={index > 0 ? "border-t pt-6" : ""}>
-                          <div className="flex flex-wrap items-start justify-between gap-2">
-                            <div>
-                              <h3 className="font-semibold">
-                                {review.client} <span className="font-normal text-gray-500">from {review.company}</span>
-                              </h3>
-                              <div className="mt-1 flex items-center">
-                                <div className="flex">
-                                  {[...Array(5)].map((_, i) => (
-                                    <StarIcon
-                                      key={i}
-                                      className={`h-4 w-4 ${
-                                        i < Math.floor(review.rating)
-                                          ? "fill-yellow-400 text-yellow-400"
-                                          : "fill-gray-200 text-gray-200"
-                                      }`}
-                                    />
-                                  ))}
-                                </div>
-                                <span className="ml-2 text-sm text-gray-500">{review.date}</span>
-                              </div>
-                            </div>
-                            <Button variant="ghost" size="sm" className="h-8">
-                              <ThumbsUp className="mr-1 h-4 w-4" />
-                              Helpful
-                            </Button>
-                          </div>
-                          <p className="mt-3 text-gray-700">{review.content}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* Experiences Tab */}
+              <TabsContent value="experiences" className="mt-6 space-y-8">
+                {/* Experience section */}
+                <div className="space-y-3">
+                  <h3 className="flex items-center text-xl font-semibold border-b pb-2">
+                    <Award className="mr-2 h-5 w-5 " />
+                    Work Experience
+                  </h3>
+                  <div className="space-y-6 py-2">
+                    {worker.experience?.map((exp) => (
+                      <div key={exp.id} className="border-l-2 border-amber-200 pl-4 py-1">
+                        <h4 className="font-medium">{exp.title}</h4>
+                        <p className="text-gray-600">{exp.company}</p>
+                        <p className="text-sm text-gray-500">
+                          {new Date(exp.startDate).toLocaleDateString()} -
+                          {exp.currentlyWorking
+                            ? " Present"
+                            : exp.endDate
+                              ? ` ${new Date(exp.endDate).toLocaleDateString()}`
+                              : ""}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {exp.city}, {exp.state}, {exp.country}
+                        </p>
+                        <p className="mt-2 text-gray-700">{exp.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </div>
@@ -490,7 +384,9 @@ export default function FreelancerProfile() {
                 <Separator />
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Location</span>
-                  <span className="font-medium">{worker.city}, {worker.state}</span>
+                  <span className="font-medium">
+                    {worker.city}, {worker.state}
+                  </span>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
@@ -506,43 +402,6 @@ export default function FreelancerProfile() {
                 Invite to Job
               </Button>
             </div>
-
-            {/* Profile stats */}
-            <Card>
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 pb-3">
-                <CardTitle className="text-base">Profile Stats</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Jobs Completed</span>
-                    <span className="font-medium">{worker.completedJobs || staticData.jobsCompleted}</span>
-                  </div>
-                  <Progress value={85} className="h-2 bg-blue-100" />
-                </div>
-                <div>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="text-gray-600">On Budget</span>
-                    <span className="font-medium">100%</span>
-                  </div>
-                  <Progress value={100} className="h-2 bg-green-100" />
-                </div>
-                <div>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="text-gray-600">On Time</span>
-                    <span className="font-medium">98%</span>
-                  </div>
-                  <Progress value={98} className="h-2 bg-indigo-100" />
-                </div>
-                <div>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Repeat Hire Rate</span>
-                    <span className="font-medium">75%</span>
-                  </div>
-                  <Progress value={75} className="h-2 bg-purple-100" />
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

@@ -173,7 +173,7 @@ export default function FreelancerProfileSelfView() {
                     </Button>
                   </div>
                   <div className="border-b pb-6">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 lowercase">
                       {workerProfile.skills.map((skill: string) => (
                         <Badge key={skill} variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 p-2">
                           {skill.replace(/_/g, " ")}

@@ -31,6 +31,7 @@ export const API_ROUTES = {
   },
   BUSINESS: {
     UPDATE_BUSINESS_PROFILE: "/business/update-business-profile",
+    GET_BUSINESS_BY_ID: (id: string) => `/business/business-profile-details/${id}`,
   },
   OTP: {
     SEND: "/otp/send-otp",

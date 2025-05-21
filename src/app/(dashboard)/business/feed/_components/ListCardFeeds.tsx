@@ -1,31 +1,31 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { formateSkills } from '@/lib/utils';
-import { CardProps } from '@/types/feed/feed.types';
-import { BookmarkIcon, StarIcon, UserIcon } from 'lucide-react';
-import Image from 'next/image';
-import React from 'react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { formateSkills } from "@/lib/utils";
+import { CardProps } from "@/types/feed/feed.types";
+import { BookmarkIcon, StarIcon, UserIcon } from "lucide-react";
+import Image from "next/image";
+import React from "react";
 
 function ListCardFeeds({
-    id,
-    title,
-    avatar,
-    successRate,
-    skills,
-    rating,
-    name,
-    location,
-    jobsCompleted,
-    hourlyRate,
+  id,
+  title,
+  avatar,
+  successRate,
+  skills,
+  rating,
+  name,
+  location,
+  jobsCompleted,
+  hourlyRate,
 }: CardProps) {
   return (
     <div
       key={id}
-      className="flex flex-col rounded-lg border bg-white shadow-sm sm:flex-row"
+      className="flex flex-col border-b sm:flex-row hover:bg-gray-100 py-4"
     >
       <div className="flex flex-1 items-start p-4">
         <Image
-          src={avatar || '/placeholder.svg'}
+          src={avatar || "/placeholder.svg"}
           width={60}
           height={60}
           alt={name}
@@ -78,18 +78,14 @@ function ListCardFeeds({
             <BookmarkIcon className="h-5 w-5" />
           </Button>
           <div className="mt-auto text-right">
-            <div className="text-lg font-bold text-blue-600">
-              ${hourlyRate}
-            </div>
+            <div className="text-lg font-bold text-blue-600">${hourlyRate}</div>
             <div className="text-sm text-gray-600">per hour</div>
           </div>
         </div>
       </div>
-      <div className="flex border-t bg-gray-50 p-3 sm:w-[180px] sm:flex-col sm:justify-center sm:border-l sm:border-t-0">
+      {/* <div className="flex border-t bg-gray-50 p-3 sm:w-[180px] sm:flex-col sm:justify-center sm:border-l sm:border-t-0">
         <div className="mr-3 block sm:hidden">
-          <div className="text-lg font-bold text-blue-600">
-            ${hourlyRate}
-          </div>
+          <div className="text-lg font-bold text-blue-600">${hourlyRate}</div>
           <div className="text-sm text-gray-600">per hour</div>
         </div>
         <div className="flex flex-1 flex-col gap-2">
@@ -98,7 +94,7 @@ function ListCardFeeds({
             View Profile
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

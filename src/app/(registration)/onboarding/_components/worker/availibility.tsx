@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
 import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
 import { ChevronRight } from "lucide-react";
-import { TWorkerProfile } from "@/types/auth";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { ROUTES } from "@/lib/routes";
@@ -32,14 +31,10 @@ export function AvailabilityInfo() {
     const fieldsToValidate = ["availability"] as const;
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      // Create worker profile data
-      const workerProfileData = {
+      await updateWorkerProfile({
         availability: formData.availability,
-        onboardingStep: OnboardingStepWorkerProfileB.COMPLETED,
-      } as Partial<TWorkerProfile>;
-
-      // Update worker profile
-      await updateWorkerProfile(workerProfileData, {
+        onboardingStep: OnboardingStepWorkerProfileB.COMPLETED
+      }, {
         onSuccess() {
           router.replace(ROUTES.FEED);
           toast.success("Onboarding completed successfully!");

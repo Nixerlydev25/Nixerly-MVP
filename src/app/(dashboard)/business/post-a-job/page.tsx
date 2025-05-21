@@ -42,13 +42,7 @@ import { Check, X } from 'lucide-react';
 import workerData from '@/data/onboarding/worker.json';
 import { useCreateJob } from '@/hook/jobs/jobs.hooks';
 import { DatePicker } from '@/components/ui/date-picker';
-
-export const JobStatus = {
-  OPEN: 'Open',
-  CLOSED: 'Closed',
-  FILLED: 'Filled',
-  EXPIRED: 'Expired',
-};
+import { JobStatus } from './types';
 
 // Define the form schema with Zod
 const formSchema = z

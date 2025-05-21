@@ -10,6 +10,12 @@ export interface Job {
     createdAt: string
     updatedAt: string
     expiresAt: string | null
+    employmentType: string
+    jobType: string
+    startDate: string
+    numberOfWorkersRequired: number
+    numberOfPositions: number
+    requirements: string
     businessProfile: {
       id: string
       companyName: string

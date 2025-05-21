@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
-import { Building2, DollarSign, Clock, ChevronRight } from "lucide-react";
+import { Building2, DollarSign, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { type Job } from "./types";
 import { formatCurrency } from "./utils";
 import { useRouter } from "next/navigation";

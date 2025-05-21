@@ -73,9 +73,10 @@ export const useSignIn = () => {
       router.push(ROUTES.FEED);
     },
     onError: (error: unknown) => {
-      console.log(error?.response?.data?.message,"message", error instanceof AxiosError);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Failed to sign in");
+        const axiosError = error as AxiosError<{ message: string }>;
+        console.log(axiosError.response?.data?.message, "message");
+        toast.error(axiosError.response?.data?.message || "Failed to sign in");
       } else {
         toast.error("An unexpected error occurred");
       }

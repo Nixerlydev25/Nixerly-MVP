@@ -121,7 +121,7 @@ export default function BusinessProfilePage() {
                       onClick={() =>
                         openModal(
                           ModalType.EDIT_BUSINESS_PROFILE,
-                          businessProfileData?.businessProfile
+                          businessProfileData?.businessProfile as unknown as { [key: string]: unknown }
                         )
                       }
                     >

@@ -16,6 +16,7 @@ export function EditAboutModal() {
   const { mutateAsync } = useUpdateBusinessProfile();
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_BUSINESS_ABOUT;
+  const description = ((modalData as Record<string, unknown>)?.description as string) || '';
 
   const onSubmit = (data: { description: string }) => {
     mutateAsync(data,  {
@@ -37,7 +38,7 @@ export function EditAboutModal() {
         </DialogHeader>
         <EditBusinessAboutForm
           onSubmit={onSubmit}
-          defaultValues={{ description: modalData?.description || '' }}
+          defaultValues={{ description }}
           onCancel={closeModal}
         />
       </DialogContent>

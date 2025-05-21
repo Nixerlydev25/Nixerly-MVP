@@ -19,6 +19,8 @@ export function EditLanguagesModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
   const { mutateAsync: updateLanguages } = useUpdateAllLanguages();
 
+  const languages = ((modalData as Record<string, unknown>)?.languages as Array<{ id?: string | undefined; language: string; proficiency: string }>) || []
+
   const isOpen = activeModal === ModalType.EDIT_LANGUAGES;
 
   const handleSubmit = async (data: FormValues) => {
@@ -41,7 +43,7 @@ export function EditLanguagesModal() {
         </DialogHeader>
         <EditLanguagesForm
           onSubmit={handleSubmit}
-          defaultValues={{ languages: modalData?.languages }}
+          defaultValues={{ languages }}
         />
       </DialogContent>
     </Dialog>

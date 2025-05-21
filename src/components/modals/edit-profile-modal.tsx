@@ -21,7 +21,7 @@ export function EditProfileModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
   const {mutateAsync: updateWorkerProfileDetails} = useUpdateWorkerProfile()
   const isOpen = activeModal === ModalType.EDIT_PROFILE
-  const profile = modalData as WorkerProfile
+  const profile = modalData as unknown as WorkerProfile
 
   const handleSubmit = async (values: FormValues) => {
     // TODO: Implement profile update

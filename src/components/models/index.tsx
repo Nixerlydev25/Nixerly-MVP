@@ -1,4 +1,3 @@
-import { EditLessonPlanModal } from "./EditLessonPlanModel"
 import { EditProfileModal } from "@/components/modals/edit-profile-modal"
 import { EditSkillsModal } from "@/components/modals/edit-skills-modal"
 import { EditExperienceModal } from "@/components/modals/edit-experience-modal"
@@ -13,7 +12,6 @@ import { EditServicesModal } from "../modals/edit-business-service-modal"
 export function Modals() {
   return (
     <>
-      <EditLessonPlanModal />
       <EditProfileModal />
       <EditSkillsModal />
       <EditExperienceModal />

@@ -20,10 +20,15 @@ import {
   StarIcon,
 } from "lucide-react"
 import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
-import type { WorkerProfileResponse } from "@/types/worker.types"
+import type { WorkerUser, WorkerEducation, WorkerExperience, WorkerLanguage } from "@/types/worker.types"
 import { useModalStore } from "@/store/modal.store"
 import { ModalType } from "@/types/model"
 import { useState } from "react"
+
+// Helper function to safely cast WorkerProfile to ModalDataType
+const toModalData = (data: unknown): Record<string, unknown> => {
+  return data as Record<string, unknown>
+}
 
 export default function FreelancerProfileSelfView() {
   const { openModal } = useModalStore()
@@ -34,7 +39,7 @@ export default function FreelancerProfileSelfView() {
     return <div>Loading...</div>
   }
 
-  const { workerProfile, firstName, lastName } = workerDetail as WorkerProfileResponse
+  const { firstName, lastName, workerProfile } = workerDetail as WorkerUser
   const fullName = `${firstName} ${lastName}`
 
   // Use the state value if available, otherwise use the one from the API
@@ -42,18 +47,17 @@ export default function FreelancerProfileSelfView() {
   console.log({currentProfilePicture})
   console.log(workerProfile.profilePicture,"profilePicture")
   const handleEditProfile = () => {
-    openModal(ModalType.EDIT_PROFILE, workerProfile)
+    openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile))
   }
 
   const handleProfilePictureClick = () => {
-    openModal(ModalType.CHANGE_PROFILE_PICTURE, {
+    openModal(ModalType.CHANGE_PROFILE_PICTURE, toModalData({
       ...workerProfile,
       onProfilePictureChange: (newImageUrl: string) => {
         setProfilePicture(newImageUrl)
-        // Optionally refetch the worker profile to get updated data
         refetch()
       },
-    })
+    }))
   }
 
   return (
@@ -166,7 +170,7 @@ export default function FreelancerProfileSelfView() {
                       size="sm"
                       variant="outline"
                       className="h-8 gap-1"
-                      onClick={() => openModal(ModalType.EDIT_SKILLS, workerProfile)}
+                      onClick={() => openModal(ModalType.EDIT_SKILLS, toModalData(workerProfile))}
                     >
                       <PencilIcon className="h-3 w-3" />
                       Edit
@@ -196,7 +200,7 @@ export default function FreelancerProfileSelfView() {
                         size="sm"
                         variant="outline"
                         className="h-8 gap-1"
-                        onClick={() => openModal(ModalType.EDIT_EDUCATION, workerProfile)}
+                        onClick={() => openModal(ModalType.EDIT_EDUCATION, toModalData(workerProfile))}
                       >
                         <PencilIcon className="h-3 w-3" />
                         Edit
@@ -204,7 +208,7 @@ export default function FreelancerProfileSelfView() {
                     </div>
                     <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
                       <div className="space-y-4">
-                        {workerProfile.education.map((edu, index: number) => (
+                        {workerProfile.education.map((edu: WorkerEducation, index: number) => (
                           <div key={index} className={index > 0 ? "border-t pt-4" : ""}>
                             <h4 className="font-medium">{edu.school}</h4>
                             <p className="text-gray-600">
@@ -253,7 +257,7 @@ export default function FreelancerProfileSelfView() {
                       size="sm"
                       variant="outline"
                       className="h-8 gap-1"
-                      onClick={() => openModal(ModalType.EDIT_LANGUAGES, workerProfile)}
+                      onClick={() => openModal(ModalType.EDIT_LANGUAGES, toModalData(workerProfile))}
                     >
                       <PencilIcon className="h-3 w-3" />
                       Edit
@@ -261,7 +265,7 @@ export default function FreelancerProfileSelfView() {
                   </div>
                   <div>
                     <div className="space-y-3">
-                      {workerProfile.languages.map((language) => (
+                      {workerProfile.languages.map((language: WorkerLanguage) => (
                         <div key={language.id} className="flex items-center justify-between">
                           <div>
                             <span className="font-medium">
@@ -288,7 +292,7 @@ export default function FreelancerProfileSelfView() {
                   <Button
                     variant="outline"
                     className="gap-1"
-                    onClick={() => openModal(ModalType.EDIT_EXPERIENCE, workerProfile)}
+                    onClick={() => openModal(ModalType.EDIT_EXPERIENCE, toModalData(workerProfile))}
                   >
                     <PencilIcon className="h-4 w-4" />
                     Edit Experience
@@ -297,7 +301,7 @@ export default function FreelancerProfileSelfView() {
 
                 <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
                   <div className="space-y-8">
-                    {workerProfile.experience.map((work, index) => (
+                    {workerProfile.experience.map((work: WorkerExperience, index: number) => (
                       <div key={index} className={index > 0 ? "border-t pt-6" : ""}>
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
@@ -350,7 +354,7 @@ export default function FreelancerProfileSelfView() {
 
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Member since</span>
-                    <span className="font-medium">{new Date(workerDetail.createdAt).toLocaleDateString()}</span>
+                    <span className="font-medium">{new Date(workerProfile.createdAt).toLocaleDateString()}</span>
                   </div>
 
                   <div className="flex items-center justify-between">

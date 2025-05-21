@@ -92,6 +92,36 @@ export interface TBusinessProfileResponse {
   businessProfile: TBusinessProfile;
 }
 
+export interface TJob {
+  id: string;
+  title: string;
+  description: string;
+  requirements: string;
+  employmentType: string;
+  numberOfPositions: number;
+  budget: number;
+  hourlyRateMin: number;
+  hourlyRateMax: number;
+  status: string;
+}
+
+export interface TBusinessDetails {
+  jobs: TJob[];
+  user: TUser;
+  companyName?: string | null;
+  description?: string | null;
+  industry?: string | null;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
+  website?: string | null;
+  employeeCount?: number | null;
+  yearFounded?: number | null;
+  postedJobs?: number;
+  logoUrl?: string | null;
+  createdAt: Date;
+}
+
 export interface CompleteUser extends TUser {
   workerProfile?: TWorkerProfile;
   businessProfile?: TBusinessProfile;

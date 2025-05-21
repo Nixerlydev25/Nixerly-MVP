@@ -5,12 +5,13 @@ import {
   TBusinessProfile,
   TBusinessProfileResponse,
   TUser,
-  TWorkerProfile,
 } from '@/types/auth';
 import { currentUserData } from '@/types/user/user.types';
 import { queryClient } from '@/providers/query.provider';
 import { toast } from 'sonner';
 import { OnboardingStepWorkerProfileB } from '@/types/onboarding';
+import { WorkerUser } from '@/types/worker.types';
+
 export const useUpdateUser = () => {
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_USER],
@@ -87,7 +88,7 @@ export const useGetCurrentUser = () => {
 };
 
 export const useGetCurrentWorkerProfileDetails = () => {
-  return useQuery<TWorkerProfile>({
+  return useQuery<WorkerUser>({
     queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
     queryFn: UserService.getCurrentWorkerProfileDetails,
   });

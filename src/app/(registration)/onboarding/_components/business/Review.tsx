@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useBusinessOnboardingNavigation } from "@/hook/onboarding/useBusinessOnboardingNavigation";
 import { BusinessOnboardingSchema } from "@/schema/onboarding/business-onboarding.schema";
-import { useUpdateUser } from "@/hook/user/user.hooks";
+import { useUpdateBusinessProfile } from "@/hook/user/user.hooks";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/routes";
+import { OnboardingStepBusinessProfileB } from "@/types/onboarding";
 
 const industries = {
   construction: "Construction",
@@ -22,21 +23,26 @@ const industries = {
   other: "Other",
 };
 
+const getEmployeeCountNumber = (range: string): number => {
+  if (range === "100+") return 100;
+  const [min] = range.split("-");
+  return parseInt(min, 10);
+};
+
 export function Review() {
   const { getValues, trigger } = useFormContext<BusinessOnboardingSchema>();
   const { prevStep } = useBusinessOnboardingNavigation();
-  const { mutateAsync: updateUser } = useUpdateUser();
+  const { mutateAsync: updateBusinessProfile } = useUpdateBusinessProfile();
   const router = useRouter();
   const values = getValues();
 
   const handleComplete = async () => {
     const isValid = await trigger();
     if (isValid) {
-      await updateUser({
-        businessProfile: {
-          ...values,
-          onboardingStep: "COMPLETED"
-        }
+      await updateBusinessProfile({
+        ...values,
+        employeeCount: getEmployeeCountNumber(values.employeeCount),
+        onboardingStep: OnboardingStepBusinessProfileB.COMPLETED
       });
       router.push(ROUTES.FEED);
     }
@@ -80,7 +86,7 @@ export function Review() {
                 <div className="border-t mt-2 pt-2">
                   <div className="py-1">
                     <span className="text-muted-foreground">Location:</span>
-                    <p className="font-medium">{values.location}</p>
+                    <p className="font-medium">{`${values.city || ''}, ${values.state || ''}, ${values.country || ''}`}</p>
                   </div>
                   <div className="py-1">
                     <span className="text-muted-foreground">Website:</span>

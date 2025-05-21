@@ -1,5 +1,3 @@
-import { GET } from "./app/api/geolocation/suggestions/route";
-
 export enum QueryKeys {
   AUTH = "auth",
   SIGN_UP = "sign-up",

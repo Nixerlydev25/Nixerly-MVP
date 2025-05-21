@@ -21,7 +21,7 @@ interface FiltersFeedsProps {
 }
 function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [visibleSkillsCount, setVisibleSkillsCount] = useState(20);
+  const [visibleSkillsCount] = useState(20);
 
   // Filter state
   const searchParams = useSearchParams();

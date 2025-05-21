@@ -21,7 +21,7 @@ export function ImageUploadModal() {
   const [imageUrl, setImageUrl] = useState(modalData?.currentImage || "")
 
   const handleImageUpload = (url: unknown) => {
-    setImageUrl(url)
+    setImageUrl(url as string)
   }
 
   const handleSave = () => {
@@ -41,7 +41,7 @@ export function ImageUploadModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center py-6">
-          <ImageUpload value={imageUrl} onChange={handleImageUpload} label="Company Logo" />
+          <ImageUpload value={imageUrl as string} onChange={handleImageUpload} label="Company Logo" />
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={closeModal}>

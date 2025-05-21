@@ -9,9 +9,10 @@ import { ChangeWorkerProfilePictureForm } from "../forms/change-worker-profile-p
 export function ChangeWorkerProfilePictureModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
   const isOpen = activeModal === ModalType.CHANGE_PROFILE_PICTURE
-  const profile = modalData as WorkerProfile
+  const profile = modalData as unknown as WorkerProfile
 
   const handleProfilePictureChange = (newImageUrl: string) => {
+    console.log(newImageUrl)
     // This function will be called after successful upload
     // You might want to update the global state or refetch the profile data
     closeModal()

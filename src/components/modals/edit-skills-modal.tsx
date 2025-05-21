@@ -15,7 +15,7 @@ export function EditSkillsModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
   const { mutateAsync: updateSkills } = useUpdateSkills()
   const isOpen = activeModal === ModalType.EDIT_SKILLS
-  const profile = modalData as WorkerProfile
+  const profile = modalData as unknown as WorkerProfile
 
   const handleSubmit = async (values: FormValues) => {
     try {

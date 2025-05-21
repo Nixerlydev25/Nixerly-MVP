@@ -2,6 +2,7 @@ import instance from "../api";
 import { currentUserData } from "@/types/user/user.types";
 import { TUser, TWorkerProfile, TBusinessProfile, TBusinessProfileResponse } from "@/types/auth";
 import { API_ROUTES } from "@/constants/routes";
+import { WorkerUser } from "@/types/worker.types";
 
 class UserService {
   static async updateUser(data: Partial<TUser>): Promise<TUser> {
@@ -70,7 +71,7 @@ class UserService {
     }
   }
 
-  static async getCurrentWorkerProfileDetails(): Promise<TWorkerProfile> {
+  static async getCurrentWorkerProfileDetails(): Promise<WorkerUser> {
     try {
       const response = await instance.get(
         API_ROUTES.USER.WORKER_PROFILE_DETAILS

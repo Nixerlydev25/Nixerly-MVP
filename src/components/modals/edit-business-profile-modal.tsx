@@ -32,7 +32,7 @@ export function EditBusinessProfileModal() {
   const { mutateAsync } = useUpdateBusinessProfile();
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_BUSINESS_PROFILE;
-  const profileData = modalData as EditBusinessProfileModalData;
+  const profileData = modalData as unknown as EditBusinessProfileModalData;
 
   const onSubmit = (data: EditBusinessProfileModalData) => {
     const businessProfileData = {

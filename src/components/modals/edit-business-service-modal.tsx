@@ -8,6 +8,7 @@ import { ModalType } from '@/types/model';
 export function EditServicesModal() {
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_BUSINESS_SERVICES;
+  const services = ((modalData as Record<string, unknown>)?.services as Array<{ id: number | string; title: string; description: string }>) || [];
 
   const onSubmit = (data: { services: Array<{ id: number | string; title: string; description: string }> }) => {
     console.log(data);
@@ -26,7 +27,7 @@ export function EditServicesModal() {
         </DialogHeader>
         <EditServiceForm
           onSubmit={onSubmit}
-          defaultValues={{ services: modalData?.services || [] }}
+          defaultValues={{ services }}
           onCancel={closeModal}
         />
       </DialogContent>

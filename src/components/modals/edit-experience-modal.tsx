@@ -26,7 +26,7 @@ export function EditExperienceModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
   const { mutateAsync: updateExperience } = useUpdateAllExperience()
   const isOpen = activeModal === ModalType.EDIT_EXPERIENCE
-  const profile = modalData as WorkerProfile
+  const profile = modalData as unknown as WorkerProfile
 
   const handleSubmit = async (values: FormValues) => {
     try {

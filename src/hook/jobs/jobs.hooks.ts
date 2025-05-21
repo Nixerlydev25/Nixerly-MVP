@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import JobsService from "@/services/jobs/jobs.service";
 import { toast } from "sonner";
 import { QueryKeys } from "@/querykey";
-import { JobsResponse } from "@/app/(dashboard)/worker/feed/_components/types";
+import { Job, JobsResponse } from "@/app/(dashboard)/worker/feed/_components/types";
 import { useSearchParams } from "next/navigation";
 
 export const useCreateJob = () => {
@@ -37,7 +37,7 @@ export const useGetAllJobs = () => {
 };
 
 export const useGetSingleJob = (param?:string)=>{
-  return useQuery<JobsResponse>({
+  return useQuery<Job>({
     queryKey: [QueryKeys.JOB_DETAILS, param],
     queryFn: () => JobsService.getJobDetails(param),
   });

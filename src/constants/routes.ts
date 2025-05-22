@@ -91,7 +91,9 @@ export const API_ROUTES = {
     UPDATE: '/jobs/update',
     DELETE: '/jobs/delete',
     LIST: '/jobs/get-all-jobs',
+    GET_JOB_APPLICANTS: (id: string) => `/jobs/get-applicants-of-job/${id}`,
     APPLY: (id:string) => `/jobs/apply/${id}`,
+    GET_MY_JOBS: `/business/get-all-business-jobs`,
     GET_DETAILS: (id?: string) => `/jobs/${id}`,
   },
 };

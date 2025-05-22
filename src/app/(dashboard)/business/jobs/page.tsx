@@ -8,7 +8,7 @@ import { Briefcase, Building2, Calendar, Clock, MapPin, Plus, Search } from "luc
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useGetAllJobs } from "@/hook/jobs/jobs.hooks"
+import { useListMyJobs } from "@/hook/jobs/jobs.hooks"
 import { ROUTES } from "@/lib/routes"
 import JobsSkeleton from "./_components/jobs-skeleton"
 
@@ -33,7 +33,7 @@ interface Job {
 
 export default function BusinessDashboard() {
   const router = useRouter()
-  const { data, isLoading } = useGetAllJobs()
+  const { data, isLoading } = useListMyJobs()
   const jobs = data?.jobs as Job[] | undefined
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -56,6 +56,7 @@ export default function BusinessDashboard() {
     )
   }
 
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -63,18 +64,29 @@ export default function BusinessDashboard() {
           <h1 className="text-3xl font-bold">Job Dashboard</h1>
           <p className="text-muted-foreground mt-1">Manage your job postings and applicants</p>
         </div>
-        <Button>
+        <Button onClick={()=> router.push(ROUTES.POST_A_JOB)} >
           <Plus className="mr-2 h-4 w-4" /> Post New Job
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mb-8">
+      <div className="grid gap-6 md:grid-cols-3 mb-8">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
-                <p className="text-2xl font-bold">{jobs?.filter((job) => job.status === "active").length || 0}</p>
+                <p className="text-2xl font-bold">{data?.jobStatusCounts?.open}</p>
+              </div>
+              <Briefcase className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Total Jobs</p>
+                <p className="text-2xl font-bold">{data?.totalCount}</p>
               </div>
               <Briefcase className="h-8 w-8 text-muted-foreground" />
             </div>

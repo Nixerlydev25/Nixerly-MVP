@@ -14,6 +14,13 @@ interface GetAllJobsParams {
   status?: string;
 }
 
+interface getMyJobsParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+}
+
 class JobsService {
   static async createJob(data: {
     title: string;
@@ -39,12 +46,19 @@ class JobsService {
     return response.data;
   }
 
-  static async applyForJob(
-    id: string,
-    data: JobApplicationSubmitData,
-  ) {
+  static async applyForJob(id: string, data: JobApplicationSubmitData) {
     const response = await instance.post(API_ROUTES.JOB.APPLY(id), data);
     return response;
+  }
+
+  static async getMyJobs(params?: getMyJobsParams) {
+    const response = await instance.get(API_ROUTES.JOB.GET_MY_JOBS, { params });
+    return response.data;
+  }
+
+  static async getJobsApplicants(jobId: string) {
+    const response = await instance.get(API_ROUTES.JOB.GET_JOB_APPLICANTS(jobId));
+    return response.data.data;
   }
 }
 

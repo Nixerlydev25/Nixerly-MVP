@@ -37,6 +37,10 @@ export interface Job {
     currentPage: number
     hasMore: boolean
     jobs: Job[]
+    jobStatusCounts?: {
+      open: number
+      closed: number
+    }
   }
   
   export const JobStatus = {

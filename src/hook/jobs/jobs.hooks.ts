@@ -50,14 +50,9 @@ export const useGetSingleJob = (param?: string) => {
 
 export const useApplyJobs = () => {
   return useMutation({
-    mutationKey: [QueryKeys.JOB_DETAILS],
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: JobApplicationSubmitData;
-    }) => JobsService.applyForJob(id, data),
+    mutationKey: [QueryKeys.APPLY_JOB],
+    mutationFn: ({ id, data }: { id: string; data: JobApplicationSubmitData }) =>
+      JobsService.applyForJob(id, data),
   });
 };
 

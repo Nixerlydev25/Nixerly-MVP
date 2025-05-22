@@ -126,67 +126,65 @@ export default function BusinessDashboard() {
           </div>
 
           <TabsContent value="all" className="mt-0">
-            <div className="grid gap-4">
+            <div className="grid">
               {filteredJobs && filteredJobs.length > 0 ? (
                 filteredJobs.map((job: Job) => (
-                  <Card
+                  <div
                     key={job.id}
-                    className="cursor-pointer hover:bg-accent/50 transition-colors"
+                    className="cursor-pointer hover:bg-accent/50 transition-colors p-6 py-10 border-b"
                     onClick={() => handleJobClick(job.id)}
                   >
-                    <CardContent className="p-6">
-                      <div className="flex flex-col md:flex-row justify-between gap-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-xl font-semibold">{job.title}</h3>
-                            <Badge variant={job.status === "open" ? "default" : "secondary"}>
-                              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
-                            </Badge>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Building2 className="h-3.5 w-3.5" />
-                              <span>{job.businessProfile?.companyName}</span>
-                            </span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-3.5 w-3.5" />
-                              <span>
-                                {job.businessProfile?.city}, {job.businessProfile?.state}
-                              </span>
-                            </span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1">
-                              <Calendar className="h-3.5 w-3.5" />
-                              <span>Posted {new Date(job.createdAt).toLocaleDateString()}</span>
-                            </span>
-                          </div>
+                    <div className="flex flex-col md:flex-row justify-between gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-semibold">{job.title}</h3>
+                          <Badge variant={job.status === "open" ? "default" : "secondary"}>
+                            {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
+                          </Badge>
                         </div>
-                        <div className="flex flex-col items-end justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="text-sm text-muted-foreground">
-                              {job.applicants?.length || 0} applicant{job.applicants?.length !== 1 ? "s" : ""}
-                            </div>
-                            <Badge variant="outline" className="ml-2">
-                              {job.employmentType}
-                            </Badge>
-                          </div>
-                          <div className="mt-2 md:mt-0">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                router.push(`/business/jobs/${job.id}/edit`)
-                              }}
-                            >
-                              Edit
-                            </Button>
-                          </div>
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Building2 className="h-3.5 w-3.5" />
+                            <span>{job.businessProfile?.companyName}</span>
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3.5 w-3.5" />
+                            <span>
+                              {job.businessProfile?.city}, {job.businessProfile?.state}
+                            </span>
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-3.5 w-3.5" />
+                            <span>Posted {new Date(job.createdAt).toLocaleDateString()}</span>
+                          </span>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div className="flex flex-col items-end justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="text-sm text-muted-foreground">
+                            {job.applicants?.length || 0} applicant{job.applicants?.length !== 1 ? "s" : ""}
+                          </div>
+                          <Badge variant="outline" className="ml-2">
+                            {job.employmentType}
+                          </Badge>
+                        </div>
+                        {/* <div className="mt-2 md:mt-0">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              router.push(`/business/jobs/${job.id}/edit`)
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </div> */}
+                      </div>
+                    </div>
+                  </div>
                 ))
               ) : (
                 <div className="text-center py-12">

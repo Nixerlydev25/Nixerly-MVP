@@ -21,6 +21,8 @@ function Page() {
     }
   }, [user, isLoading, router]);
 
+
+  
   if (isLoading || !user) {
     return <SkeletonFeed />;
   }

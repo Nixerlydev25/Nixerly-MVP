@@ -176,7 +176,6 @@ export default function JobsPage() {
                 </div>
               )}
 
-              {/* Pagination Controls */}
               {totalPages > 1 && (
                 <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
                   <div className="flex items-center gap-2">

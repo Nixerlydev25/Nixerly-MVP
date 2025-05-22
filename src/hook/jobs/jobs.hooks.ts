@@ -81,13 +81,6 @@ export const useListMyJobs = () => {
   });
 };
 
-export const useGetJobsApplicants = (id: string) => {
-  return useQuery<JobApplicant[]>({
-    queryKey: [QueryKeys.GET_JOB_APPLICANTS, id],
-    queryFn: () => JobsService.getJobsApplicants(id),
-  });
-};
-
 interface JobApplicantResponse {
   id: string;
   jobId: string;

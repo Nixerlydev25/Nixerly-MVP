@@ -38,11 +38,12 @@ export const PersonalInfo = () => {
       "city",
       "state",
       "country",
+      "phoneNumber",
     ] as const;
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      const { title, description, city, state, country } = formData;
+      const { title, description, city, state, country, phoneNumber } = formData;
       
       const workerProfileData = {
         title,
@@ -50,6 +51,7 @@ export const PersonalInfo = () => {
         city,
         state,
         country,
+        phoneNumber,
         onboardingStep : OnboardingStepWorkerProfileB.SKILLS_HOURLY_RATE_INFO
       };
 
@@ -98,6 +100,27 @@ export const PersonalInfo = () => {
               </FormControl>
               <FormDescription>
                 Provide a detailed description of your professional background and services
+              </FormDescription>
+              <FormMessage className="text-nixerly-coral mt-1" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="text-lg text-nixerly-darkgray font-medium">Phone Number</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="e.g. 123-456-7890" 
+                  {...field} 
+                  className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20" 
+                />
+              </FormControl>
+              <FormDescription>
+                Enter your contact phone number
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
             </FormItem>

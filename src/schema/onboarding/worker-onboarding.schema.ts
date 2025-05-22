@@ -44,9 +44,9 @@ export const workerOnboardingSchema = z.object({
   email: z
     .string({ required_error: 'Email is required' })
     .email('Invalid email address'),
-  phone: z
+  phoneNumber: z
     .string({ required_error: 'Phone number is required' })
-    .min(10, 'Phone number must be at least 10 digits'),
+    .regex(/^\+[1-9]\d{7,14}$/, 'Invalid phone number format. Please enter a valid international phone number starting with +.'),
 
   // Professional Info
   title: z

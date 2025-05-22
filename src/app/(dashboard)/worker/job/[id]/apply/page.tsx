@@ -81,7 +81,6 @@ export default function ApplyPage() {
 
         <div>
           <div className="sticky top-6 space-y-6">
-            {/* Job Details Card - Upwork Style */}
             <Card>
               <CardContent className="p-6 space-y-4">
                 <h2 className="text-lg font-semibold">About this job</h2>

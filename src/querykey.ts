@@ -33,5 +33,6 @@ export enum QueryKeys {
   UPDATE_PROFILE_PICTURE_S3 = "update-profile-picture-s3",
   GET_BUSINESS = "get-business",  
   BUSINESS_PROFILE_DETAILS = "business-profile-details",
-  APPLY_JOB = 'apply-job'
+  APPLY_JOB = 'apply-job',
+  GET_JOB_APPLICANTS = 'get-job-applicants'
 }

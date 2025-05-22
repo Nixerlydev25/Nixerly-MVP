@@ -22,12 +22,13 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function JobPostDetail() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
 
   const { data: jobDetails } = useGetSingleJob(id);
-  console.log({ jobDetails });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -354,7 +355,14 @@ export default function JobPostDetail() {
                   )}
                 </div>
               </div>
-              <Button className="w-full">Apply Now</Button>
+              <Button
+                className="w-full"
+                onClick={() =>
+                  router.push(`${ROUTES.WORKER_JOB}/${jobDetails?.id}/apply`)
+                }
+              >
+                Apply Now
+              </Button>
               {/* <Button variant="outline" className="w-full">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Contact Employer

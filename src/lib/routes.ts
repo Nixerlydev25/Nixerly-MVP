@@ -13,4 +13,5 @@ export enum ROUTES {
     MY_WORKER_PROFILE = "/worker/profile",
     MY_BUSINESS_PROFILE = "/business/profile",
     POST_A_JOB = "/business/post-a-job",
+    MY_JOBS = "/business/jobs",
   }

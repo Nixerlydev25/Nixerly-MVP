@@ -53,6 +53,10 @@ function DashboardNav() {
     router.push(ROUTES.POST_A_JOB);
   };
 
+  const handleMyJobs = () => {
+    router.push(ROUTES.MY_JOBS);
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
@@ -111,6 +115,9 @@ function DashboardNav() {
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleMyJobs}>
+                My Jobs
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handlePostAJob}>
                 Post A Job

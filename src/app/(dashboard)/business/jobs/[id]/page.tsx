@@ -11,12 +11,11 @@ import {
   Check,
   ChevronDown,
   Clock,
-  Download,
-  ExternalLink,
+  //   Download,
+  //   ExternalLink,
   Mail,
   Phone,
   Search,
-  Star,
   User,
   X,
   ChevronLeft,
@@ -30,10 +29,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  useGetSingleJob,
-  useGetJobApplicants,
-} from '@/hook/jobs/jobs.hooks';
+import { useGetSingleJob, useGetJobApplicants } from '@/hook/jobs/jobs.hooks';
 import {
   Dialog,
   DialogContent,
@@ -44,8 +40,9 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import JobApplicantsPageSkeleton from './_components/job-applicants-skeleton';
 
-const ITEMS_PER_PAGE = 10;
+// const ITEMS_PER_PAGE = 10;
 
 export default function JobApplicantsPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,20 +54,14 @@ export default function JobApplicantsPage() {
   const { data: job } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
 
-  // Filter applicants based on search query
-  const filteredApplicants = applicantsData?.applicants?.filter((applicant) => {
-    return applicant.fullName.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
-  // Calculate pagination
-  const totalPages = Math.ceil(
-    (filteredApplicants?.length || 0) / ITEMS_PER_PAGE
-  );
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedApplicants = filteredApplicants?.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
+  // const totalPages = Math.ceil(
+  //   (filteredApplicants?.length || 0) / ITEMS_PER_PAGE
+  // );
+  // const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  // const paginatedApplicants = filteredApplicants?.slice(
+  //   startIndex,
+  //   startIndex + ITEMS_PER_PAGE
+  // );
 
   const handleViewProposal = (applicant: unknown) => {
     setSelectedApplicant(applicant);
@@ -83,25 +74,23 @@ export default function JobApplicantsPage() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <p>Loading applicants...</p>
-        </div>
+        <JobApplicantsPageSkeleton />
       </div>
     );
   }
 
-  if (!job) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col justify-center items-center min-h-[400px] gap-4">
-          <p>Job not found or has been removed.</p>
-          <Button asChild>
-            <Link href="/business/dashboard">Back to Dashboard</Link>
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  //   if (!job) {
+  //     return (
+  //       <div className="container mx-auto px-4 py-8">
+  //         <div className="flex flex-col justify-center items-center min-h-[400px] gap-4">
+  //           <p>Job not found or has been removed.</p>
+  //           <Button asChild>
+  //             <Link href="/business/dashboard">Back to Dashboard</Link>
+  //           </Button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -114,24 +103,21 @@ export default function JobApplicantsPage() {
         </Button>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold">{job.title}</h1>
+            <h1 className="text-2xl font-bold">{job && job?.title}</h1>
             <p className="text-muted-foreground mt-1">
               {applicantsData?.applicants?.length || 0} applicant
               {applicantsData?.applicants?.length !== 1 ? 's' : ''}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline">
-              <Download className="mr-2 h-4 w-4" /> Export
-            </Button>
+          {/* <div className="flex gap-2">
             <Button>
               <ExternalLink className="mr-2 h-4 w-4" /> View Job Post
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3 mb-8">
+      <div className="grid gap-6 md:grid-cols-2 mb-8">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
@@ -140,27 +126,10 @@ export default function JobApplicantsPage() {
                   Total Applicants
                 </p>
                 <p className="text-2xl font-bold">
-                  {applicantsData?.applicants?.length || 0}
+                  {applicantsData?.stats.totalApplications || 0}
                 </p>
               </div>
               <User className="h-8 w-8 text-muted-foreground" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Shortlisted
-                </p>
-                <p className="text-2xl font-bold">
-                  {applicantsData?.applicants?.filter(
-                    (a) => a.status === 'shortlisted'
-                  ).length || 0}
-                </p>
-              </div>
-              <Star className="h-8 w-8 text-muted-foreground" />
             </div>
           </CardContent>
         </Card>
@@ -173,22 +142,8 @@ export default function JobApplicantsPage() {
                 </p>
                 <p className="text-2xl font-bold">
                   $
-                  {applicantsData &&
-                  applicantsData.applicants &&
-                  applicantsData.applicants.length > 0
-                    ? Math.round(
-                        applicantsData.applicants.reduce(
-                          (sum, a) =>
-                            sum +
-                            (a.paymentType === 'hourly'
-                              ? Number(a.hourlyRate)
-                              : 0),
-                          0
-                        ) /
-                          applicantsData.applicants.filter(
-                            (a) => a.paymentType === 'hourly'
-                          ).length
-                      )
+                  {applicantsData?.stats.averageHourlyRateProposed
+                    ? applicantsData?.stats.averageHourlyRateProposed
                     : 0}
                 </p>
               </div>
@@ -213,9 +168,10 @@ export default function JobApplicantsPage() {
         </div>
 
         <div className="grid gap-4">
-          {paginatedApplicants && paginatedApplicants.length > 0 ? (
+          {applicantsData?.applicants &&
+          applicantsData?.applicants.length > 0 ? (
             <>
-              {paginatedApplicants.map((applicant) => (
+              {applicantsData?.applicants.map((applicant) => (
                 <Card key={applicant.id}>
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -223,20 +179,20 @@ export default function JobApplicantsPage() {
                         <Avatar className="h-12 w-12">
                           <AvatarImage
                             src={applicant.avatar || ''}
-                            alt={applicant.fullName}
+                            alt={applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
                           />
                           <AvatarFallback>
-                            {applicant.fullName.charAt(0)}
+                            {applicant.workerProfile.user.firstName.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">
                           <h3 className="font-semibold">
-                            {applicant.fullName}
+                            {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
                           </h3>
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <Clock className="h-3.5 w-3.5" />
-                              <span>{`$${applicant.hourlyRate}/hr`}</span>
+                              <span>{`$${applicant.proposedRate}/hr`}</span>
                             </span>
                             <span>•</span>
                             <span className="flex items-center gap-1">
@@ -244,27 +200,27 @@ export default function JobApplicantsPage() {
                               <span>
                                 Applied{' '}
                                 {new Date(
-                                  applicant.appliedAt
+                                  applicant.createdAt
                                 ).toLocaleDateString()}
                               </span>
                             </span>
                           </div>
                           <div className="flex flex-wrap gap-2 mt-2">
                             <Badge variant="secondary">
-                              {applicant.relevantExperience.replace(/_/g, ' ')}
+                              {applicant.relevantExperience?.replace(/_/g, ' ')}
                             </Badge>
-                            {applicant.status && (
+                            {applicant?.status && (
                               <Badge
                                 variant={
-                                  applicant.status === 'shortlisted'
+                                  applicant?.status === 'shortlisted'
                                     ? 'default'
-                                    : applicant.status === 'rejected'
+                                    : applicant?.status === 'rejected'
                                     ? 'destructive'
                                     : 'outline'
                                 }
                               >
-                                {applicant.status.charAt(0).toUpperCase() +
-                                  applicant.status.slice(1)}
+                                {applicant.status?.charAt(0).toUpperCase() +
+                                  applicant.status?.slice(1)}
                               </Badge>
                             )}
                           </div>
@@ -300,15 +256,15 @@ export default function JobApplicantsPage() {
                                     alt={applicant.fullName}
                                   />
                                   <AvatarFallback>
-                                    {applicant.fullName.charAt(0)}
+                                    {applicant.workerProfile.user.firstName.charAt(0)}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div>
                                   <h3 className="font-semibold">
-                                    {applicant.fullName}
+                                    {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
                                   </h3>
                                   <p className="text-sm text-muted-foreground">
-                                    {applicant.relevantExperience.replace(
+                                    {applicant.relevantExperience?.replace(
                                       /_/g,
                                       ' '
                                     )}{' '}
@@ -325,14 +281,14 @@ export default function JobApplicantsPage() {
                                   <div>
                                     <span className="font-medium">Rate:</span>{' '}
                                     {applicant.paymentType === 'hourly'
-                                      ? `$${applicant.hourlyRate}/hr`
+                                      ? `$${applicant.proposedRate}/hr`
                                       : `$${applicant.fixedBudget} (Fixed)`}
                                   </div>
                                   <div>
                                     <span className="font-medium">
                                       Duration:
                                     </span>{' '}
-                                    {applicant.estimatedDuration.replace(
+                                    {applicant.estimatedDuration?.replace(
                                       /_/g,
                                       ' '
                                     )}
@@ -388,18 +344,18 @@ export default function JobApplicantsPage() {
                                         <Avatar className="h-16 w-16">
                                           <AvatarImage
                                             src={applicant.avatar || ''}
-                                            alt={applicant.fullName}
+                                            alt={applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
                                           />
                                           <AvatarFallback>
-                                            {applicant.fullName.charAt(0)}
+                                            {applicant.workerProfile.user.firstName.charAt(0)}
                                           </AvatarFallback>
                                         </Avatar>
                                         <div>
                                           <h3 className="font-semibold text-lg">
-                                            {applicant.fullName}
+                                            {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
                                           </h3>
                                           <p className="text-sm text-muted-foreground">
-                                            {applicant.relevantExperience.replace(
+                                            {applicant.relevantExperience?.replace(
                                               /_/g,
                                               ' '
                                             )}{' '}
@@ -434,7 +390,7 @@ export default function JobApplicantsPage() {
                                                 asChild
                                               >
                                                 <a
-                                                  href={`https://wa.me/${applicant.phone.replace(
+                                                  href={`https://wa.me/${applicant?.phone?.replace(
                                                     /[^0-9]/g,
                                                     ''
                                                   )}`}
@@ -544,15 +500,19 @@ export default function JobApplicantsPage() {
                   Previous
                 </Button>
                 <span className="text-sm text-muted-foreground">
-                  Page {currentPage} of {totalPages}
+                  Page {currentPage} of {applicantsData?.pagination.totalCount}
                 </span>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    setCurrentPage((prev) =>
+                      Math.min(applicantsData?.pagination.totalPages, prev + 1)
+                    )
                   }
-                  disabled={currentPage === totalPages}
+                  disabled={
+                    currentPage === applicantsData?.pagination.totalPages
+                  }
                 >
                   Next
                   <ChevronRight className="h-4 w-4" />

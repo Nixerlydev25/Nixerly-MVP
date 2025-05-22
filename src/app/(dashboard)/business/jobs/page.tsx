@@ -23,6 +23,12 @@ interface Job {
   status: string
   employmentType: string
   createdAt: string
+  totalApplications?: number
+  location: {
+    city: string
+    state: string
+    country: string
+  }
   businessProfile?: {
     companyName: string
     city: string
@@ -55,6 +61,8 @@ export default function BusinessDashboard() {
       </div>
     )
   }
+
+  console.log(jobs)
 
 
   return (
@@ -151,7 +159,7 @@ export default function BusinessDashboard() {
                           <span className="flex items-center gap-1">
                             <MapPin className="h-3.5 w-3.5" />
                             <span>
-                              {job.businessProfile?.city}, {job.businessProfile?.state}
+                              {job.location?.city}, {job.location?.state}
                             </span>
                           </span>
                           <span>•</span>
@@ -164,10 +172,10 @@ export default function BusinessDashboard() {
                       <div className="flex flex-col items-end justify-between">
                         <div className="flex items-center gap-2">
                           <div className="text-sm text-muted-foreground">
-                            {job.applicants?.length || 0} applicant{job.applicants?.length !== 1 ? "s" : ""}
+                            {job.totalApplications || 0} applicant{job.totalApplications !== 1 ? "s" : ""}
                           </div>
                           <Badge variant="outline" className="ml-2">
-                            {job.employmentType}
+                            {job.employmentType.split('_').join(' ').toLowerCase()}
                           </Badge>
                         </div>
                         {/* <div className="mt-2 md:mt-0">

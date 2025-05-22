@@ -43,6 +43,7 @@ import workerData from '@/data/onboarding/worker.json';
 import { useCreateJob } from '@/hook/jobs/jobs.hooks';
 import { DatePicker } from '@/components/ui/date-picker';
 import { JobStatus } from './types';
+import { LocationSearch } from '@/components/location-search';
 
 // Define the form schema with Zod
 const formSchema = z
@@ -80,6 +81,13 @@ const formSchema = z
     }),
     numberOfWorkersRequired: z.number().int().positive({
       message: 'Number of professionals must be a positive integer',
+    }),
+    location: z.object({
+      street: z.string().optional(),
+      city: z.string(),
+      state: z.string(),
+      country: z.string(),
+      postalCode: z.string().optional(),
     }),
   })
   .refine(
@@ -143,6 +151,11 @@ export default function PostJobPage() {
       jobType: 'FULL_TIME',
       startDate: new Date(),
       numberOfWorkersRequired: 1,
+      location: {
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+      },
     },
   });
 
@@ -501,6 +514,69 @@ export default function PostJobPage() {
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <div className="space-y-4">
+                    <FormItem>
+                      <FormLabel>Location</FormLabel>
+                      <FormControl>
+                        <LocationSearch
+                          onLocationSelect={(location) => {
+                            field.onChange({
+                              ...field.value,
+                              city: location.city,
+                              state: location.state,
+                              country: location.country,
+                            });
+                          }}
+                          defaultValue={`${field.value.city}, ${field.value.state}, ${field.value.country}`}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Search for a location to set city, state and country
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+
+                    <FormItem>
+                      <FormLabel>Street Address</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter street address"
+                          value={field.value.street || ''}
+                          onChange={(e) =>
+                            field.onChange({
+                              ...field.value,
+                              street: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+
+                    <FormItem>
+                      <FormLabel>Postal Code</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter postal code"
+                          value={field.value.postalCode || ''}
+                          onChange={(e) =>
+                            field.onChange({
+                              ...field.value,
+                              postalCode: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </div>
                 )}
               />
 

@@ -8,9 +8,17 @@
     { "value": "100+", "label": "100+ employees" }
   ],
   "industryOptions": [
-    { "value": "technology", "label": "Technology" },
-    { "value": "finance", "label": "Finance" },
-    { "value": "healthcare", "label": "Healthcare" },
-    { "value": "education", "label": "Education" }
+    { "value": "construction", "label": "Construction" },
+    { "value": "manufacturing", "label": "Manufacturing" },
+    { "value": "transportation", "label": "Transportation" },
+    { "value": "automotive", "label": "Automotive" },
+    { "value": "plumbing", "label": "Plumbing" },
+    { "value": "electrical", "label": "Electrical" },
+    { "value": "landscaping", "label": "Landscaping" },
+    { "value": "welding", "label": "Welding" },
+    { "value": "carpentry", "label": "Carpentry" },
+    { "value": "hvac", "label": "HVAC" },
+    { "value": "mining", "label": "Mining" },
+    { "value": "fishing", "label": "Fishing" }
   ]
 }

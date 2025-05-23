@@ -186,6 +186,7 @@ export default function PostJobPage() {
         state: 'NY',
         country: 'USA',
       },
+      
     },
   });
 
@@ -310,7 +311,7 @@ export default function PostJobPage() {
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="status"
                 render={({ field }) => (
@@ -339,7 +340,7 @@ export default function PostJobPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <FormField
                 control={form.control}

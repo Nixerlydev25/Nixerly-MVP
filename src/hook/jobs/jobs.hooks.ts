@@ -8,12 +8,16 @@ import {
 } from '@/app/(dashboard)/worker/feed/_components/types';
 import { useSearchParams } from 'next/navigation';
 import { JobApplicationSubmitData } from '@/app/(dashboard)/worker/job/[id]/apply/_component/types';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 export const useCreateJob = () => {
+  const router = useRouter();
   return useMutation({
     mutationKey: [QueryKeys.JOB_CREATE],
     mutationFn: JobsService.createJob,
     onSuccess: () => {
+      router.push(ROUTES.MY_JOBS);
       toast.success('Job created successfully');
     },
     onError: () => {

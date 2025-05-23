@@ -64,7 +64,7 @@ export default function Dashboard() {
 
             <div className="flex flex-col gap-6 lg:flex-row">
               <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
-              <div className="flex-1">
+              <div className="w-full">
                 <div className="mb-6 hidden items-center justify-between lg:flex">
                   <div>
                     <p className="text-sm text-gray-600">

@@ -1,28 +1,44 @@
-"use client"
+'use client';
 
-import { useParams } from "next/navigation"
-import JobApplicationForm from "./_component/job-application-form"
+import { useParams } from 'next/navigation';
+import JobApplicationForm from './_component/job-application-form';
 // import { useGetSingleJob } from "@/hooks/jobs/jobs.hooks"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Building2, MapPin, User, Clock, Calendar, Briefcase } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import JobApplicationSkeleton from "./_component/job-application-skeleton"
-import { useGetSingleJob } from "@/hook/jobs/jobs.hooks"
-export default function ApplyPage() {
-  const { id } = useParams<{ id: string }>()
-  const { data: jobDetails, isLoading } = useGetSingleJob(id)
+import { Button } from '@/components/ui/button';
+import {
+  ArrowLeft,
+  Building2,
+  MapPin,
+  User,
+  Clock,
+  Calendar,
+  Briefcase,
+} from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import JobApplicationSkeleton from './_component/job-application-skeleton';
+import { useGetSingleJob } from '@/hook/jobs/jobs.hooks';
+import JobAlreadyApplied from './_component/job-already-applied';
 
+const applicationData = {
+  applicationDate: '2023-05-15T10:30:00Z',
+  applicationStatus: 'pending' as const,
+};
+
+export default function ApplyPage() {
+  const { id } = useParams<{ id: string }>();
+  const { data: jobDetails, isLoading } = useGetSingleJob(id);
+
+  
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <JobApplicationSkeleton />
       </div>
-    )
+    );
   }
-
+  
   if (!jobDetails) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -33,7 +49,7 @@ export default function ApplyPage() {
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -52,31 +68,49 @@ export default function ApplyPage() {
         <h1 className="text-2xl font-bold">{jobDetails.title}</h1>
         <div className="flex flex-wrap items-center gap-2 mt-2 text-muted-foreground">
           <Badge variant="outline" className="font-normal">
-            {jobDetails.employmentType || "Full-time"}
+            {jobDetails.employmentType || 'Full-time'}
           </Badge>
           <span>•</span>
           <span className="flex items-center gap-1">
             <MapPin className="h-4 w-4" />
             <span>
-              {jobDetails.businessProfile?.city || ""}, {jobDetails.businessProfile?.state || ""}
+              {jobDetails.businessProfile?.city || ''},{' '}
+              {jobDetails.businessProfile?.state || ''}
             </span>
           </span>
           <span>•</span>
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
-            <span>Posted {new Date(jobDetails.createdAt).toLocaleDateString()}</span>
+            <span>
+              Posted {new Date(jobDetails.createdAt).toLocaleDateString()}
+            </span>
           </span>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2">
-          <JobApplicationForm
-            jobId={id}
-            jobTitle={jobDetails.title || "Job Position"}
-            hourlyRateMin={jobDetails.hourlyRateMin}
-            hourlyRateMax={jobDetails.hourlyRateMax}
-          />
+          {jobDetails.hasWorkerApplied ? (
+            <JobAlreadyApplied
+              jobId={id}
+              jobTitle={jobDetails.title || 'Job Position'}
+              applicationDate={applicationData.applicationDate}
+              applicationStatus={applicationData.applicationStatus}
+              onWithdrawApplication={async () => {
+                // Implement withdrawal logic here
+                console.log('Withdrawing application for job:', id);
+                // You would typically call an API endpoint here
+                return Promise.resolve();
+              }}
+            />
+          ) : (
+            <JobApplicationForm
+              jobId={id}
+              jobTitle={jobDetails.title || 'Job Position'}
+              hourlyRateMin={jobDetails.hourlyRateMin}
+              hourlyRateMax={jobDetails.hourlyRateMax}
+            />
+          )}
         </div>
 
         <div>
@@ -90,7 +124,9 @@ export default function ApplyPage() {
                     <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">Posted</p>
-                      <p className="text-muted-foreground">{new Date(jobDetails.createdAt).toLocaleDateString()}</p>
+                      <p className="text-muted-foreground">
+                        {new Date(jobDetails.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
 
@@ -98,11 +134,14 @@ export default function ApplyPage() {
                     <Briefcase className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">Job Type</p>
-                      <p className="text-muted-foreground">{jobDetails.employmentType || "Full-time"}</p>
+                      <p className="text-muted-foreground">
+                        {jobDetails.employmentType || 'Full-time'}
+                      </p>
                     </div>
                   </div>
 
-                  {(jobDetails.budget || (jobDetails.hourlyRateMin && jobDetails.hourlyRateMax)) && (
+                  {(jobDetails.budget ||
+                    (jobDetails.hourlyRateMin && jobDetails.hourlyRateMax)) && (
                     <div className="flex items-start gap-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -123,10 +162,12 @@ export default function ApplyPage() {
                       <div>
                         <p className="font-medium">Budget</p>
                         <p className="text-muted-foreground">
-                          {jobDetails.budget ? `$${jobDetails.budget} (Fixed Price)` : ""}
+                          {jobDetails.budget
+                            ? `$${jobDetails.budget} (Fixed Price)`
+                            : ''}
                           {jobDetails.hourlyRateMin && jobDetails.hourlyRateMax
                             ? `$${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr`
-                            : ""}
+                            : ''}
                         </p>
                       </div>
                     </div>
@@ -137,7 +178,9 @@ export default function ApplyPage() {
                     <div>
                       <p className="font-medium">Start Date</p>
                       <p className="text-muted-foreground">
-                        {jobDetails.startDate ? new Date(jobDetails.startDate).toLocaleDateString() : "Immediate"}
+                        {jobDetails.startDate
+                          ? new Date(jobDetails.startDate).toLocaleDateString()
+                          : 'Immediate'}
                       </p>
                     </div>
                   </div>
@@ -148,8 +191,12 @@ export default function ApplyPage() {
                     <p className="font-medium mb-2">Skills and Expertise</p>
                     <div className="flex flex-wrap gap-2">
                       {jobDetails.skills.map((skill, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {skill.replace(/_/g, " ")}
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {skill.replace(/_/g, ' ')}
                         </Badge>
                       ))}
                     </div>
@@ -173,9 +220,13 @@ export default function ApplyPage() {
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold">{jobDetails.businessProfile?.companyName || "Company Name"}</h3>
+                    <h3 className="font-semibold">
+                      {jobDetails.businessProfile?.companyName ||
+                        'Company Name'}
+                    </h3>
                     <p className="text-sm text-muted-foreground">
-                      {jobDetails.businessProfile?.city || ""}, {jobDetails.businessProfile?.state || ""}
+                      {jobDetails.businessProfile?.city || ''},{' '}
+                      {jobDetails.businessProfile?.state || ''}
                     </p>
                   </div>
                 </div>
@@ -185,7 +236,10 @@ export default function ApplyPage() {
                     <Building2 className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <p className="font-medium">Industry</p>
-                      <p className="text-muted-foreground">{jobDetails.businessProfile?.industry || "Not specified"}</p>
+                      <p className="text-muted-foreground">
+                        {jobDetails.businessProfile?.industry ||
+                          'Not specified'}
+                      </p>
                     </div>
                   </div>
 
@@ -194,7 +248,8 @@ export default function ApplyPage() {
                     <div>
                       <p className="font-medium">Company Size</p>
                       <p className="text-muted-foreground">
-                        {jobDetails.businessProfile?.employeeCount || "Not specified"}
+                        {jobDetails.businessProfile?.employeeCount ||
+                          'Not specified'}
                       </p>
                     </div>
                   </div>
@@ -204,7 +259,8 @@ export default function ApplyPage() {
                     <div>
                       <p className="font-medium">Member Since</p>
                       <p className="text-muted-foreground">
-                        {jobDetails.businessProfile?.yearFounded || "Not specified"}
+                        {jobDetails.businessProfile?.yearFounded ||
+                          'Not specified'}
                       </p>
                     </div>
                   </div>
@@ -212,43 +268,82 @@ export default function ApplyPage() {
 
                 <div className="mt-4">
                   <p className="text-sm">
-                    {jobDetails.businessProfile?.description || "No company description available."}
+                    {jobDetails.businessProfile?.description ||
+                      'No company description available.'}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
             {/* Application Tips */}
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold mb-4">Proposal Tips</h2>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Highlight your relevant trade experience</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Be clear about your availability to start</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Mention any certifications or licenses you hold</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Provide a competitive rate based on your skills</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Be specific about similar projects you&apos;ve completed</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+            {jobDetails.hasWorkerApplied ? (
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-lg font-semibold mb-4">What's Next?</h2>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex gap-2">
+                      <span className="text-primary">1.</span>
+                      <span>The employer will review your application</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">2.</span>
+                      <span>
+                        You may be contacted for additional information
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">3.</span>
+                      <span>
+                        If selected, you'll be invited for an interview
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">4.</span>
+                      <span>
+                        Keep your profile updated to improve your chances
+                      </span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-lg font-semibold mb-4">Proposal Tips</h2>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span>Highlight your relevant trade experience</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span>Be clear about your availability to start</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span>
+                        Mention any certifications or licenses you hold
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span>
+                        Provide a competitive rate based on your skills
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <span>
+                        Be specific about similar projects you&apos;ve completed
+                      </span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

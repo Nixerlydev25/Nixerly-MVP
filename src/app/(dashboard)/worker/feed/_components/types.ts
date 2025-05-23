@@ -16,6 +16,7 @@ export interface Job {
     numberOfWorkersRequired: number
     numberOfPositions: number
     requirements: string
+    hasWorkerApplied: boolean
     businessProfile: {
       id: string
       companyName: string

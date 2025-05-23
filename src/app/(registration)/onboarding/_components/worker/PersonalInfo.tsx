@@ -18,6 +18,7 @@ import { LocationDetails } from "@/components/location-search";
 import { LocationSearch } from "@/components/location-search";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 import { ChevronRight } from "lucide-react";
+import { PhoneInputComponent } from "@/components/common/phone-input";
 
 export const PersonalInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
@@ -113,10 +114,12 @@ export const PersonalInfo = () => {
             <FormItem className="w-full">
               <FormLabel className="text-lg text-nixerly-darkgray font-medium">Phone Number</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="e.g. 123-456-7890" 
-                  {...field} 
-                  className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20" 
+                <PhoneInputComponent 
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.phoneNumber?.message}
+                  required
+                  className="w-full"
                 />
               </FormControl>
               <FormDescription>

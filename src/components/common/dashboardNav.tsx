@@ -116,13 +116,17 @@ function DashboardNav() {
               <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleMyJobs}>
-                My Jobs
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handlePostAJob}>
-                Post A Job
-              </DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
+              {isBusinessProfile && (
+                <>
+                  <DropdownMenuItem onClick={handleMyJobs}>
+                    My Jobs
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handlePostAJob}>
+                    Post A Job
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                </>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 Log out

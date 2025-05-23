@@ -10,10 +10,10 @@ export enum OnboardingStepWorker {
 export const ONBOARDING_STEPS_WORKER = [
   OnboardingStepWorker.PERSONAL_INFO,
   OnboardingStepWorker.SKILLS_HOURLY_RATE_INFO,
-  OnboardingStepWorker.EXPERIENCE_INFO,
-  OnboardingStepWorker.EDUCATION_INFO,
   OnboardingStepWorker.LANGUAGE_INFO,
   OnboardingStepWorker.AVAILABILITY_INFO,
+  OnboardingStepWorker.EXPERIENCE_INFO,
+  OnboardingStepWorker.EDUCATION_INFO,
 ]; 
 
 export enum OnboardingStepWorkerProfileB {

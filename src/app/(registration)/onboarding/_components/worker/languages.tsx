@@ -45,7 +45,7 @@ export const LanguagesInfo = () => {
       const { languages } = formData;
 
       const workerProfileData = {
-        onboardingStep: OnboardingStepWorkerProfileB.EXPERIENCE_INFO,
+        onboardingStep: OnboardingStepWorkerProfileB.AVAILABILITY_INFO,
       };
       const workerProfileLanguageData = {
         languages,

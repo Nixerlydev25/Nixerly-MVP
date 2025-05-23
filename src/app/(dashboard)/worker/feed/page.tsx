@@ -62,10 +62,10 @@ export default function JobsPage() {
   const { data: jobsData, isLoading } = useGetAllJobs();
 
   const jobs = jobsData?.jobs || [];
-  const totalJobs = jobsData?.totalCount || 0;
-  const totalPages = jobsData?.totalPages || 1;
-  const currentPage = jobsData?.currentPage || 1;
-  const hasMore = jobsData?.hasMore || false;
+  const totalJobs = jobsData?.pagination.totalCount || 0;
+  const totalPages = jobsData?.pagination.totalPages || 1;
+  const currentPage = jobsData?.pagination.currentPage || 1;
+  const hasMore = jobsData?.pagination.hasMore || false;
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));

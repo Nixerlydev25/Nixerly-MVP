@@ -32,10 +32,12 @@ export interface Job {
   }
   
   export interface JobsResponse {
+    pagination: {
     totalCount: number
-    totalPages: number
-    currentPage: number
-    hasMore: boolean
+      totalPages: number
+      currentPage: number
+      hasMore: boolean
+    }
     jobs: Job[]
     jobStatusCounts?: {
       open: number

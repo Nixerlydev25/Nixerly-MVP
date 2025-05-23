@@ -29,8 +29,8 @@ export default function JobsPage() {
   // Ensure page parameter is always present
   React.useEffect(() => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    if (!params.has('page')) {
-      params.set('page', '1');
+    if (!params.has("page")) {
+      params.set("page", "1");
       router.replace(`?${params.toString()}`, { scroll: false });
     }
   }, []);
@@ -53,9 +53,9 @@ export default function JobsPage() {
       .replace(/(^|&)search=[^&]*/g, "");
     const skills = searchParams.get("skills");
     // Ensure page parameter is present
-    if (!query.includes('page=')) {
-      if (query && !query.endsWith('&')) query += '&';
-      query += 'page=1';
+    if (!query.includes("page=")) {
+      if (query && !query.endsWith("&")) query += "&";
+      query += "page=1";
     }
     if (skills) {
       if (query && !query.endsWith("&")) query += "&";
@@ -88,9 +88,15 @@ export default function JobsPage() {
   };
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto py-10 px-4">
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
-        <h1 className="text-3xl font-bold">Available Jobs</h1>
+        <div>
+          <h1 className="text-3xl font-bold">Available Jobs</h1>
+          <p className="mt-1 text-gray-600">
+            Showcase your skills and connect with businesses looking for talent
+            like yours.
+          </p>
+        </div>
         <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
           <div className="relative w-full md:w-64">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -141,6 +147,8 @@ export default function JobsPage() {
         </div>
       </div>
 
+      <Separator className="mb-8" />
+
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-1/4">
           <FilterSidebar />
@@ -163,11 +171,11 @@ export default function JobsPage() {
             </div>
           ) : (
             <>
-              <div className="flex justify-between items-center mb-4">
+              {/* <div className="flex justify-between items-center mb-4">
                 <p className="text-muted-foreground">
                   Total <span className="font-medium">{totalJobs}</span> jobs
                 </p>
-              </div>
+              </div> */}
 
               {viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

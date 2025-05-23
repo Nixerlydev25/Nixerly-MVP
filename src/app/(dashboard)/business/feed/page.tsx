@@ -1,45 +1,46 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import GridIcon from '@/components/Icons/GridIcon';
-import ListIcon from '@/components/Icons/ListIcon';
-import { useGetWorkers } from '@/hook/worker/worker.hook';
-import { WorkerProfileResponse } from '@/types/worker.types';
-import SkeletonFeed from './_components/SkeletonFeed';
-import FiltersFeeds from './_components/FiltersFeeds';
-import CardFeeds from './_components/GridCardFeeds';
-import ListCardFeeds from './_components/ListCardFeeds';
-import FeedsPagination from './_components/FeedsPagination';
-import { ROUTES } from '@/lib/routes';
-import { SearchIcon, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/select";
+import GridIcon from "@/components/Icons/GridIcon";
+import ListIcon from "@/components/Icons/ListIcon";
+import { useGetWorkers } from "@/hook/worker/worker.hook";
+import { WorkerProfileResponse } from "@/types/worker.types";
+import SkeletonFeed from "./_components/SkeletonFeed";
+import FiltersFeeds from "./_components/FiltersFeeds";
+import CardFeeds from "./_components/GridCardFeeds";
+import ListCardFeeds from "./_components/ListCardFeeds";
+import FeedsPagination from "./_components/FeedsPagination";
+import { ROUTES } from "@/lib/routes";
+import { SearchIcon, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 enum SortOption {
-  RATING = 'rating',
-  PRICE_LOW_TO_HIGH = 'price_low_to_high',
-  PRICE_HIGH_TO_LOW = 'price_high_to_low',
+  RATING = "rating",
+  PRICE_LOW_TO_HIGH = "price_low_to_high",
+  PRICE_HIGH_TO_LOW = "price_high_to_low",
 }
 
 export default function Dashboard() {
-  const [viewMode, setViewMode] = useState<'card' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<"card" | "list">("list");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   // Ensure page parameter is always present
   useEffect(() => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    if (!params.has('page')) {
-      params.set('page', '1');
+    if (!params.has("page")) {
+      params.set("page", "1");
       router.replace(`?${params.toString()}`, { scroll: false });
     }
   }, []);
@@ -49,16 +50,16 @@ export default function Dashboard() {
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       updateSearchParam(searchValue);
     }
   };
 
   const updateSearchParam = (value: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set('search', value);
-    if (!params.has('page')) {
-      params.set('page', '1');
+    params.set("search", value);
+    if (!params.has("page")) {
+      params.set("page", "1");
     }
     router.replace(`?${params.toString()}`, { scroll: false });
   };
@@ -71,9 +72,9 @@ export default function Dashboard() {
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set('sort', value);
-    if (!params.has('page')) {
-      params.set('page', '1');
+    params.set("sort", value);
+    if (!params.has("page")) {
+      params.set("page", "1");
     }
     router.replace(`?${params.toString()}`, { scroll: false });
   };
@@ -84,7 +85,7 @@ export default function Dashboard() {
         <SkeletonFeed />
       ) : (
         <div className="flex min-h-screen flex-col py-10">
-          <div className="container mx-auto px-4 py-6 md:py-8">
+          <div className="container mx-auto px-4">
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
@@ -106,43 +107,19 @@ export default function Dashboard() {
                     onChange={handleInputChange}
                     onKeyDown={handleInputKeyDown}
                   />
-                  {searchParams.get('search') && (
+                  {searchParams.get("search") && (
                     <X
                       className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
                       onClick={() => {
-                        setSearchValue('');
-                        updateSearchParam('');
+                        setSearchValue("");
+                        updateSearchParam("");
                       }}
                     />
                   )}
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center rounded-md border bg-white p-1">
-                    <Button
-                      variant={viewMode === 'card' ? 'default' : 'ghost'}
-                      size="sm"
-                      className={`h-8 px-3 ${
-                        viewMode === 'card' ? 'bg-blue-600' : ''
-                      }`}
-                      onClick={() => setViewMode('card')}
-                    >
-                      <GridIcon />
-                      Grid
-                    </Button>
-                    <Button
-                      variant={viewMode === 'list' ? 'default' : 'ghost'}
-                      size="sm"
-                      className={`h-8 px-3 ${
-                        viewMode === 'list' ? 'bg-blue-600' : ''
-                      }`}
-                      onClick={() => setViewMode('list')}
-                    >
-                      <ListIcon />
-                      List
-                    </Button>
-                  </div>
                   <Select
-                    defaultValue={searchParams.get('sort') || SortOption.RATING}
+                    defaultValue={searchParams.get("sort") || SortOption.RATING}
                     onValueChange={handleSortChange}
                   >
                     <SelectTrigger className="w-[220px]">
@@ -158,16 +135,43 @@ export default function Dashboard() {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  <div className="flex border rounded-md overflow-hidden">
+                    <Button
+                      variant={viewMode === "card" ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-none ${
+                        viewMode === "card" ? "bg-blue-600" : ""
+                      }`}
+                      onClick={() => setViewMode("card")}
+                    >
+                      <GridIcon />
+                      Grid
+                    </Button>
+                    <Separator orientation="vertical" className="h-8" />
+                    <Button
+                      variant={viewMode === "list" ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-none ${
+                        viewMode === "list" ? "bg-blue-600" : ""
+                      }`}
+                      onClick={() => setViewMode("list")}
+                    >
+                      <ListIcon />
+                      List
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
+
+            <Separator className="mb-8" />
 
             <div className="flex flex-col gap-6 lg:flex-row">
               <div className="w-full lg:w-1/4">
                 <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
               </div>
               <div className="w-full lg:w-3/4">
-                {viewMode === 'card' ? (
+                {viewMode === "card" ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
@@ -179,7 +183,7 @@ export default function Dashboard() {
                           <CardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={''}
+                            avatar={""}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
@@ -204,7 +208,7 @@ export default function Dashboard() {
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={''}
+                            avatar={""}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
@@ -226,7 +230,7 @@ export default function Dashboard() {
                       const params = new URLSearchParams(
                         Array.from(searchParams.entries())
                       );
-                      params.set('page', page.toString());
+                      params.set("page", page.toString());
                       router.replace(`?${params.toString()}`, {
                         scroll: false,
                       });

@@ -1,47 +1,80 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import GridIcon from "@/components/Icons/GridIcon";
-import ListIcon from "@/components/Icons/ListIcon";
-import { useGetWorkers } from "@/hook/worker/worker.hook";
-import { WorkerProfileResponse } from "@/types/worker.types";
-import SkeletonFeed from "./_components/SkeletonFeed";
-import FiltersFeeds from "./_components/FiltersFeeds";
-import CardFeeds from "./_components/GridCardFeeds";
-import ListCardFeeds from "./_components/ListCardFeeds";
-import FeedsPagination from "./_components/FeedsPagination";
-import { ROUTES } from "@/lib/routes";
+} from '@/components/ui/select';
+import GridIcon from '@/components/Icons/GridIcon';
+import ListIcon from '@/components/Icons/ListIcon';
+import { useGetWorkers } from '@/hook/worker/worker.hook';
+import { WorkerProfileResponse } from '@/types/worker.types';
+import SkeletonFeed from './_components/SkeletonFeed';
+import FiltersFeeds from './_components/FiltersFeeds';
+import CardFeeds from './_components/GridCardFeeds';
+import ListCardFeeds from './_components/ListCardFeeds';
+import FeedsPagination from './_components/FeedsPagination';
+import { ROUTES } from '@/lib/routes';
+import { SearchIcon, X } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 enum SortOption {
-  RATING = "rating",
-  PRICE_LOW_TO_HIGH = "price_low_to_high",
-  PRICE_HIGH_TO_LOW = "price_high_to_low",
+  RATING = 'rating',
+  PRICE_LOW_TO_HIGH = 'price_low_to_high',
+  PRICE_HIGH_TO_LOW = 'price_high_to_low',
 }
 
 export default function Dashboard() {
-  const [viewMode, setViewMode] = useState<"card" | "list">("list");
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('list');
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState('');
+
+  // Ensure page parameter is always present
+  useEffect(() => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (!params.has('page')) {
+      params.set('page', '1');
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      updateSearchParam(searchValue);
+    }
+  };
+
+  const updateSearchParam = (value: string) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.set('search', value);
+    if (!params.has('page')) {
+      params.set('page', '1');
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
 
   // Hook now handles all filter processing and provides currentPage
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
-  console.log(freelancers);
   const handleWorkerClick = (workerId: string) => {
     router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
   };
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set("sort", value);
+    params.set('sort', value);
+    if (!params.has('page')) {
+      params.set('page', '1');
+    }
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
@@ -52,79 +85,89 @@ export default function Dashboard() {
       ) : (
         <div className="flex min-h-screen flex-col py-10">
           <div className="container mx-auto px-4 py-6 md:py-8">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
-                Find Top Talent
-              </h1>
-              <p className="mt-1 text-gray-600">
-                Browse profiles of skilled professionals ready to work on your
-                projects
-              </p>
+            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+                  Find Top Talent
+                </h1>
+                <p className="mt-1 text-gray-600">
+                  Browse profiles of skilled professionals ready to work on your
+                  projects
+                </p>
+              </div>
+              <div className="hidden items-center justify-between lg:flex gap-2">
+                <div className="relative hidden md:block">
+                  <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <Input
+                    type="search"
+                    placeholder="Search for talent..."
+                    className="w-[300px] pl-9"
+                    value={searchValue}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputKeyDown}
+                  />
+                  {searchParams.get('search') && (
+                    <X
+                      className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
+                      onClick={() => {
+                        setSearchValue('');
+                        updateSearchParam('');
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center rounded-md border bg-white p-1">
+                    <Button
+                      variant={viewMode === 'card' ? 'default' : 'ghost'}
+                      size="sm"
+                      className={`h-8 px-3 ${
+                        viewMode === 'card' ? 'bg-blue-600' : ''
+                      }`}
+                      onClick={() => setViewMode('card')}
+                    >
+                      <GridIcon />
+                      Grid
+                    </Button>
+                    <Button
+                      variant={viewMode === 'list' ? 'default' : 'ghost'}
+                      size="sm"
+                      className={`h-8 px-3 ${
+                        viewMode === 'list' ? 'bg-blue-600' : ''
+                      }`}
+                      onClick={() => setViewMode('list')}
+                    >
+                      <ListIcon />
+                      List
+                    </Button>
+                  </div>
+                  <Select
+                    defaultValue={searchParams.get('sort') || SortOption.RATING}
+                    onValueChange={handleSortChange}
+                  >
+                    <SelectTrigger className="w-[220px]">
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={SortOption.RATING}>Rating</SelectItem>
+                      <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
+                        Hourly Rate: Low to High
+                      </SelectItem>
+                      <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>
+                        Hourly Rate: High to Low
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-col gap-6 lg:flex-row">
-              <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
-              <div className="w-full">
-                <div className="mb-6 hidden items-center justify-between lg:flex">
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      Showing{" "}
-                      <span className="font-medium">
-                        {freelancers?.totalCount}
-                      </span>{" "}
-                      results
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center rounded-md border bg-white p-1">
-                      <Button
-                        variant={viewMode === "card" ? "default" : "ghost"}
-                        size="sm"
-                        className={`h-8 px-3 ${
-                          viewMode === "card" ? "bg-blue-600" : ""
-                        }`}
-                        onClick={() => setViewMode("card")}
-                      >
-                        <GridIcon />
-                        Grid
-                      </Button>
-                      <Button
-                        variant={viewMode === "list" ? "default" : "ghost"}
-                        size="sm"
-                        className={`h-8 px-3 ${
-                          viewMode === "list" ? "bg-blue-600" : ""
-                        }`}
-                        onClick={() => setViewMode("list")}
-                      >
-                        <ListIcon />
-                        List
-                      </Button>
-                    </div>
-                    <Select
-                      defaultValue={
-                        searchParams.get("sort") || SortOption.RATING
-                      }
-                      onValueChange={handleSortChange}
-                    >
-                      <SelectTrigger className="w-[220px]">
-                        <SelectValue placeholder="Sort by" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={SortOption.RATING}>
-                          Rating
-                        </SelectItem>
-                        <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
-                          Hourly Rate: Low to High
-                        </SelectItem>
-                        <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>
-                          Hourly Rate: High to Low
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {viewMode === "card" ? (
+              <div className="w-full lg:w-1/4">
+                <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
+              </div>
+              <div className="w-full lg:w-3/4">
+                {viewMode === 'card' ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
@@ -136,7 +179,7 @@ export default function Dashboard() {
                           <CardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={""}
+                            avatar={''}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
@@ -161,7 +204,7 @@ export default function Dashboard() {
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={""}
+                            avatar={''}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
@@ -175,17 +218,21 @@ export default function Dashboard() {
                     )}
                   </div>
                 )}
-                <FeedsPagination
-                  currentPage={currentPage}
-                  totalPages={freelancers?.totalPages || 1}
-                  onPageChange={(page) => {
-                    const params = new URLSearchParams(
-                      Array.from(searchParams.entries())
-                    );
-                    params.set("page", page.toString());
-                    router.replace(`?${params.toString()}`, { scroll: false });
-                  }}
-                />
+                {freelancers?.totalPages && freelancers?.totalPages > 1 && (
+                  <FeedsPagination
+                    currentPage={currentPage}
+                    totalPages={freelancers?.totalPages || 1}
+                    onPageChange={(page) => {
+                      const params = new URLSearchParams(
+                        Array.from(searchParams.entries())
+                      );
+                      params.set('page', page.toString());
+                      router.replace(`?${params.toString()}`, {
+                        scroll: false,
+                      });
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>

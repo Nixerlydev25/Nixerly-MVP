@@ -69,7 +69,8 @@ export function FilterSidebar() {
       params.set('sortOrder', newFilters.sortOrder);
 
     // Always remove any skills/search param that might have been added by URLSearchParams
-    let query = params.toString()
+    let query = params
+      .toString()
       .replace(/(^|&)skills=[^&]*/g, '')
       .replace(/(^|&)search=[^&]*/g, '');
 
@@ -118,7 +119,6 @@ export function FilterSidebar() {
     }
   };
 
-
   const clearFilters = () => {
     router.push('?');
   };
@@ -154,16 +154,14 @@ export function FilterSidebar() {
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearFilters}
-              className="h-8 px-2"
-            >
-              Clear all
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearFilters}
+            className="h-8 px-2 underlined "
+          >
+            Clear all
+          </Button>
         </div>
 
         {/* Location filter */}
@@ -175,7 +173,9 @@ export function FilterSidebar() {
             <LocationSearch
               onLocationSelect={handleLocationSelect}
               className="w-full"
-              defaultValue={filters.city || filters.state || filters.country || ''}
+              defaultValue={
+                filters.city || filters.state || filters.country || ''
+              }
             />
           </div>
         </div>

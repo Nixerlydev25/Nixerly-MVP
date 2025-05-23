@@ -26,6 +26,15 @@ export default function JobsPage() {
   const initialSearch = searchParams.get("search") || "";
   const [searchValue, setSearchValue] = React.useState(initialSearch);
 
+  // Ensure page parameter is always present
+  React.useEffect(() => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    if (!params.has('page')) {
+      params.set('page', '1');
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
@@ -43,6 +52,11 @@ export default function JobsPage() {
       .replace(/(^|&)skills=[^&]*/g, "")
       .replace(/(^|&)search=[^&]*/g, "");
     const skills = searchParams.get("skills");
+    // Ensure page parameter is present
+    if (!query.includes('page=')) {
+      if (query && !query.endsWith('&')) query += '&';
+      query += 'page=1';
+    }
     if (skills) {
       if (query && !query.endsWith("&")) query += "&";
       query += `skills=${skills}`;
@@ -51,7 +65,7 @@ export default function JobsPage() {
       if (query && !query.endsWith("&")) query += "&";
       query += `search=${value}`;
     }
-    router.push(query ? `?${query}` : "?");
+    router.push(query ? `?${query}` : "?page=1");
   }
 
   React.useEffect(() => {
@@ -123,13 +137,6 @@ export default function JobsPage() {
                 List
               </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => (window.location.href = "?")}
-            >
-              Clear filters
-            </Button>
           </div>
         </div>
       </div>

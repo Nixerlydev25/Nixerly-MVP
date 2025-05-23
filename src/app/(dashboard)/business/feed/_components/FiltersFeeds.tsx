@@ -201,7 +201,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
   return (
     <div>
       {/* Filters - Desktop */}
-      <div className="hidden w-full lg:block lg:w-1/4">
+      <div className="hidden w-full lg:block">
         <Card className="sticky top-4 rounded-md">
           <div className="p-4">
             <div className="flex items-center justify-between">
@@ -209,7 +209,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-blue-600"
+                className="h-8 text-blue-600 underlined "
                 onClick={handleClearFilters}
               >
                 Clear All

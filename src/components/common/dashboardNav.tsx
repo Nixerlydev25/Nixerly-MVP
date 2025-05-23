@@ -11,14 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import {
-  BellIcon,
-  BriefcaseIcon,
-  MailIcon,
-  MenuIcon,
-  SearchIcon,
-} from 'lucide-react';
+import { BriefcaseIcon, MenuIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useLogout } from '@/hook/auth/auth.hook';
@@ -84,20 +77,6 @@ function DashboardNav() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <div className="relative hidden md:block">
-            <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Search for talent..."
-              className="w-[300px] pl-9"
-            />
-          </div>
-          <Button variant="ghost" size="icon" className="text-gray-600">
-            <BellIcon className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="text-gray-600">
-            <MailIcon className="h-5 w-5" />
-          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">

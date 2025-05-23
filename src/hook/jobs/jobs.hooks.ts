@@ -124,8 +124,15 @@ interface JobApplicantsResponse {
 }
 
 export const useGetJobApplicants = (jobId: string) => {
+  const searchParams = useSearchParams();
+  const params = {
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 10,
+    search: searchParams.get('search') || '',
+  };
+
   return useQuery<JobApplicantsResponse>({
-    queryKey: [QueryKeys.GET_JOB_APPLICANTS, jobId],
-    queryFn: () => JobsService.getJobsApplicants(jobId),
+    queryKey: [QueryKeys.GET_JOB_APPLICANTS, jobId, params],
+    queryFn: () => JobsService.getJobsApplicants(jobId, params),
   });
 };

@@ -26,11 +26,12 @@ export function LocationSearch({ onLocationSelect, defaultValue = "", className 
   const [isLoadingLocation, setIsLoadingLocation] = useState(false)
   const [locationSuggestions, setLocationSuggestions] = useState<Array<{ placeId: string; description: string }>>([])
   const [justSelected, setJustSelected] = useState(false)
+  const [hasUserTyped, setHasUserTyped] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const fetchLocations = async () => {
-      if (value.length > 2 && !justSelected) {
+      if (value.length > 2 && !justSelected && hasUserTyped) {
         try {
           const suggestions = await geolocationService.getLocationSuggestions(value)
           setLocationSuggestions(suggestions)
@@ -48,7 +49,7 @@ export function LocationSearch({ onLocationSelect, defaultValue = "", className 
 
     const debounceTimer = setTimeout(fetchLocations, 300)
     return () => clearTimeout(debounceTimer)
-  }, [value, open, justSelected])
+  }, [value, open, justSelected, hasUserTyped])
 
   const handleLocationSelect = async (placeId: string, description: string) => {
     try {
@@ -75,6 +76,7 @@ export function LocationSearch({ onLocationSelect, defaultValue = "", className 
         onChange={(e) => {
           setValue(e.target.value)
           setJustSelected(false)
+          setHasUserTyped(true)
         }}
         disabled={isLoadingLocation}
         placeholder="Search for a location..."

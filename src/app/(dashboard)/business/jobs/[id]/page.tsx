@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -41,18 +41,42 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import JobApplicantsPageSkeleton from './_components/job-applicants-skeleton';
+import { useDebounce } from '@/hook/common/useDebounce';
 
 // const ITEMS_PER_PAGE = 10;
 
 export default function JobApplicantsPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { id } = useParams<{ id: string }>();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const debouncedSearch = useDebounce(searchQuery, 500);
+  const currentPage = Number(searchParams.get('page')) || 1;
+
   const [, setSelectedApplicant] = useState<unknown | null>(null);
   const [, setShowContactInfo] = useState(false);
 
   const { data: job } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
+
+  console.log({applicantsData})
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (debouncedSearch) {
+      const cleanedSearch = debouncedSearch.replace(/\s+/g, ' ').trim();
+      params.set('search', cleanedSearch.replace(/ /g, '+'));
+    } else {
+      params.delete('search');
+    }
+    router.push(`?${params.toString()}`);
+  }, [debouncedSearch, router, searchParams]);
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
 
   // const totalPages = Math.ceil(
   //   (filteredApplicants?.length || 0) / ITEMS_PER_PAGE
@@ -491,27 +515,21 @@ export default function JobApplicantsPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(1, prev - 1))
-                  }
+                  onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
                   <ChevronLeft className="h-4 w-4" />
                   Previous
                 </Button>
                 <span className="text-sm text-muted-foreground">
-                  Page {currentPage} of {applicantsData?.pagination.totalCount}
+                  Page {currentPage} of {applicantsData?.pagination.totalPages || 1}
                 </span>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    setCurrentPage((prev) =>
-                      Math.min(applicantsData?.pagination.totalPages, prev + 1)
-                    )
-                  }
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={
-                    currentPage === applicantsData?.pagination.totalPages
+                    !applicantsData?.pagination.hasMore
                   }
                 >
                   Next

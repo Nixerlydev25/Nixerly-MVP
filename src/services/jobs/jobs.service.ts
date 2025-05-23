@@ -21,16 +21,31 @@ interface getMyJobsParams {
   status?: string;
 }
 
+interface JobApplicantsParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 class JobsService {
   static async createJob(data: {
     title: string;
     description: string;
-    budget: number;
-    hourlyRateMin: number;
-    hourlyRateMax: number;
+    budget?: number | null;
+    salary?: number | null;
+    hourlyRateMin?: number | null;
+    hourlyRateMax?: number | null;
     status: string;
     skills: string[];
     requirements: string;
+    jobType: 'HOURLY' | 'CONTRACT' | 'SALARY';
+    location: {
+      city: string;
+      state: string;
+      country: string;
+      street?: string;
+      postalCode?: string;
+    };
   }): Promise<unknown> {
     const response = await instance.post(API_ROUTES.JOB.CREATE, data);
     return response.data;
@@ -56,8 +71,11 @@ class JobsService {
     return response.data;
   }
 
-  static async getJobsApplicants(jobId: string) {
-    const response = await instance.get(API_ROUTES.JOB.GET_JOB_APPLICANTS(jobId));
+  static async getJobsApplicants(jobId: string, params?: JobApplicantsParams) {
+    const response = await instance.get(
+      API_ROUTES.JOB.GET_JOB_APPLICANTS(jobId),
+      { params }
+    );
     return response.data.data;
   }
 }

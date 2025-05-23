@@ -35,6 +35,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command';
 import { Badge } from '@/components/ui/badge';
 import { useState, useRef, useEffect } from 'react';
@@ -60,20 +61,27 @@ const formSchema = z
       .min(20, { message: 'Requirements must be at least 20 characters' }),
     budget: z
       .number()
-      .positive({ message: 'Budget must be a positive number' }),
+      .positive({ message: 'Budget must be a positive number' })
+      .optional(),
     hourlyRateMin: z
       .number()
-      .positive({ message: 'Minimum hourly rate must be a positive number' }),
+      .positive({ message: 'Minimum hourly rate must be a positive number' })
+      .optional(),
     hourlyRateMax: z
       .number()
-      .positive({ message: 'Maximum hourly rate must be a positive number' }),
+      .positive({ message: 'Maximum hourly rate must be a positive number' })
+      .optional(),
+    salary: z
+      .number()
+      .positive({ message: 'Salary must be a positive number' })
+      .optional(),
     status: z.enum(['OPEN', 'CLOSED', 'FILLED', 'EXPIRED'], {
       required_error: 'Please select a job status',
     }),
     skills: z
       .array(z.string())
       .min(1, { message: 'Please select at least one skill' }),
-    jobType: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'TEMPORARY', 'INTERNSHIP'], {
+    jobType: z.enum(['HOURLY', 'SALARY', 'CONTRACT'], {
       required_error: 'Please select a job type',
     }),
     startDate: z.date({
@@ -94,11 +102,23 @@ const formSchema = z
     (data) => {
       // If both hourly rates are provided, max should be greater than or equal to min
       if (
+        data.jobType === 'HOURLY' &&
         data.hourlyRateMin !== undefined &&
         data.hourlyRateMax !== undefined
       ) {
         return data.hourlyRateMax >= data.hourlyRateMin;
       }
+
+      // For SALARY type, salary should be provided
+      if (data.jobType === 'SALARY') {
+        return data.salary !== undefined && data.salary > 0;
+      }
+
+      // For CONTRACT type, budget should be provided
+      if (data.jobType === 'CONTRACT') {
+        return data.budget !== undefined && data.budget > 0;
+      }
+
       return true;
     },
     {
@@ -107,6 +127,16 @@ const formSchema = z
       path: ['hourlyRateMax'],
     }
   );
+
+type FormSchema = z.infer<typeof formSchema>;
+
+const formatDateForInput = (date: Date): string => {
+  return date.toISOString().split('T')[0];
+};
+
+const parseInputDate = (dateString: string): Date => {
+  return new Date(dateString);
+};
 
 export default function PostJobPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -127,7 +157,7 @@ export default function PostJobPage() {
   }, []);
 
   // Initialize the form with React Hook Form
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: 'Experienced Electrician Needed for Residential Wiring',
@@ -148,7 +178,7 @@ export default function PostJobPage() {
         'ELECTRONICS_TECHNICIAN',
         'CALIBRATION_SPECIALIST',
       ],
-      jobType: 'FULL_TIME',
+      jobType: 'HOURLY',
       startDate: new Date(),
       numberOfWorkersRequired: 1,
       location: {
@@ -162,10 +192,30 @@ export default function PostJobPage() {
   const { mutateAsync: createJob } = useCreateJob();
 
   // Handle form submission
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    createJob(values);
-    // Here you would typically send the data to your API
+  function onSubmit(values: FormSchema) {
+    const { jobType, hourlyRateMin, hourlyRateMax, budget, salary, ...commonFields } = values;
+
+    let jobData;
+    if (jobType === 'HOURLY') {
+      jobData = {
+        ...commonFields,
+        hourlyRateMin: hourlyRateMin!,
+        hourlyRateMax: hourlyRateMax!,
+      };
+    } else if (jobType === 'CONTRACT') {
+      jobData = {
+        ...commonFields,
+        budget: budget!,
+      };
+    } else {
+      // SALARY
+      jobData = {
+        ...commonFields,
+        salary: salary!,
+      };
+    }
+
+    createJob({ ...jobData, jobType });
   }
 
   const handleSkillSelect = (value: string) => {
@@ -260,13 +310,151 @@ export default function PostJobPage() {
                 )}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Job Status</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(JobStatus).map(([key, value]) => (
+                          <SelectItem key={key} value={key}>
+                            {value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      The current status of the job posting.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="jobType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Job Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl className="w-full">
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select job type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="HOURLY">Hourly</SelectItem>
+                        <SelectItem value="SALARY">Salary</SelectItem>
+                        <SelectItem value="CONTRACT">Contract</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      The type of employment for this position.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {form.watch('jobType') === 'HOURLY' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="hourlyRateMin"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Minimum Hourly Rate</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 25"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          The minimum hourly rate for the job.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="hourlyRateMax"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Maximum Hourly Rate</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 50"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          The maximum hourly rate for the job.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+
+              {form.watch('jobType') === 'SALARY' && (
+                <FormField
+                  control={form.control}
+                  name="salary"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Annual Salary</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="e.g. 75000"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        The annual salary for this position.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {form.watch('jobType') === 'CONTRACT' && (
                 <FormField
                   control={form.control}
                   name="budget"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Total Budget (Optional)</FormLabel>
+                      <FormLabel>Total Budget</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -278,94 +466,13 @@ export default function PostJobPage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        The total budget for the project (if fixed price).
+                        The total budget for this contract.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Job Status</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a status" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(JobStatus).map(([key, value]) => (
-                            <SelectItem key={key} value={key}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormDescription>
-                        The current status of the job posting.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="hourlyRateMin"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Minimum Hourly Rate (Optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="e.g. 25"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        The minimum hourly rate for the job.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="hourlyRateMax"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Maximum Hourly Rate (Optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="e.g. 50"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        The maximum hourly rate for the job.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              )}
 
               <FormField
                 control={form.control}
@@ -381,7 +488,7 @@ export default function PostJobPage() {
                             onFocus={() => setIsOpen(true)}
                           />
                           {isOpen && (
-                            <>
+                            <CommandList>
                               <CommandEmpty>No skills found.</CommandEmpty>
                               <CommandGroup className="max-h-[200px] overflow-auto border-t">
                                 {workerData.skills.map((skill) => (
@@ -403,7 +510,7 @@ export default function PostJobPage() {
                                   </CommandItem>
                                 ))}
                               </CommandGroup>
-                            </>
+                            </CommandList>
                           )}
                         </Command>
                       </div>
@@ -440,31 +547,23 @@ export default function PostJobPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="jobType"
+                  name="startDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Job Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl className="w-full">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select job type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="FULL_TIME">
-                            Full-time (40 hours per week)
-                          </SelectItem>
-                          <SelectItem value="PART_TIME">Part-time</SelectItem>
-                          <SelectItem value="CONTRACT">Contract</SelectItem>
-                          <SelectItem value="TEMPORARY">Temporary</SelectItem>
-                          <SelectItem value="INTERNSHIP">Internship</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Start Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          value={formatDateForInput(field.value)}
+                          onChange={(e) =>
+                            field.onChange(parseInputDate(e.target.value))
+                          }
+                          className="w-full"
+                        />
+                      </FormControl>
                       <FormDescription>
-                        The type of employment for this position.
+                        When the job should start. Select today for immediate
+                        start.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -473,49 +572,29 @@ export default function PostJobPage() {
 
                 <FormField
                   control={form.control}
-                  name="startDate"
+                  name="numberOfWorkersRequired"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Start Date</FormLabel>
-                      <div className="flex items-center border rounded-md focus-within:border-nixerly-blue focus-within:ring-2 focus-within:ring-nixerly-blue/20">
-                        <DatePicker
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                    <FormItem>
+                      <FormLabel>Number of Professionals Required</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          placeholder="e.g. 1"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                         />
-                      </div>
+                      </FormControl>
                       <FormDescription>
-                        When the job should start. Select &quot;today&quot; for
-                        immediate start.
+                        How many professionals do you need for this job?
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-
-              <FormField
-                control={form.control}
-                name="numberOfWorkersRequired"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Professionals Required</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="1"
-                        placeholder="e.g. 1"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      How many professionals do you need for this job?
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               <FormField
                 control={form.control}
@@ -538,7 +617,7 @@ export default function PostJobPage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        Search for a location to set city, state and country
+                        Enter the city, state, and country for this job
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

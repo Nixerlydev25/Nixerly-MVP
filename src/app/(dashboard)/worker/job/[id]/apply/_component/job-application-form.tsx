@@ -40,7 +40,12 @@ import {
 } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
 import { useApplyJobs } from '@/hook/jobs/jobs.hooks';
-import { applicationFormSchema, type ApplicationFormValues, durationOptions, JobApplicationDuration } from './types';
+import {
+  applicationFormSchema,
+  type ApplicationFormValues,
+  durationOptions,
+  JobApplicationDuration,
+} from './types';
 
 interface JobApplicationFormProps {
   jobId: string;
@@ -55,16 +60,18 @@ export default function JobApplicationForm({
   hourlyRateMax,
 }: JobApplicationFormProps) {
   const { mutateAsync: applyJob, isPending: isApplying } = useApplyJobs();
-  const suggestedRate = hourlyRateMin && hourlyRateMax
-    ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
-    : 25;
+  const suggestedRate =
+    hourlyRateMin && hourlyRateMax
+      ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
+      : 25;
 
   const form = useForm<ApplicationFormValues>({
     resolver: zodResolver(applicationFormSchema),
     defaultValues: {
-      coverLetter: 'Dear Hiring Manager,\n\nI am excited to apply for this opportunity. With my experience in web development and a strong background in delivering scalable, secure applications, I am confident in my ability to contribute effectively to your team. I am passionate about solving complex problems and delivering high-quality code.\n\nThank you for considering my application. I look forward to discussing how I can help drive success for your project.\n\nBest regards,\nJohn Doe',
-      proposedRate: suggestedRate,
-      duration: JobApplicationDuration.LESS_THAN_ONE_WEEK,
+      coverLetter:
+        'Dear Hiring Manager,\n\nI am excited to apply for this opportunity. With my experience in web development and a strong background in delivering scalable, secure applications, I am confident in my ability to contribute effectively to your team. I am passionate about solving complex problems and delivering high-quality code.\n\nThank you for considering my application. I look forward to discussing how I can help drive success for your project.\n\nBest regards,\nJohn Doe',
+      proposedRate: 0,
+      availability: 'tomorrow',
       termsAccepted: true,
     },
   });
@@ -124,12 +131,32 @@ export default function JobApplicationForm({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="availability"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      How soon are you available for the Job?
+                    </FormLabel>
+                    <Input
+                      type="text"
+                      className="pl-7"
+                      placeholder=""
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <Separator />
+            {/* <Separator /> */}
 
             {/* Payment Terms Section */}
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <h3 className="text-lg font-medium">Payment Terms</h3>
 
               <FormField
@@ -161,35 +188,7 @@ export default function JobApplicationForm({
                   </FormItem>
                 )}
               />
-
-              <FormField
-                control={form.control}
-                name="duration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>How long will this project take?</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select estimated duration" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {durationOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            </div> */}
 
             <Separator />
 

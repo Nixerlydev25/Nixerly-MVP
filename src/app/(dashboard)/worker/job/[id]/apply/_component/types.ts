@@ -27,11 +27,8 @@ export const applicationFormSchema = z.object({
     .string()
     .min(50, { message: 'Your proposal must be at least 50 characters.' }),
   proposedRate: z
-    .number()
-    .min(1, { message: 'Hourly rate must be greater than 0' }),
-  duration: z.nativeEnum(JobApplicationDuration, {
-    required_error: 'Please select an estimated duration.',
-  }),
+    .number().optional(),
+  availability: z.string().min(1, 'Tell us your availability'),
   termsAccepted: z.literal(true, {
     errorMap: () => ({ message: 'You must accept the terms and conditions.' }),
   }),

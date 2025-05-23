@@ -1,17 +1,17 @@
-import { formatDistanceToNow } from "date-fns";
-import { Building2, DollarSign, Clock } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { formatDistanceToNow } from 'date-fns';
+import { Building2, DollarSign, Clock } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 // import { Button } from "@/components/ui/button";
-import { type Job } from "./types";
-import { formatCurrency } from "./utils";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/lib/routes";
+import { type Job } from './types';
+import { formatCurrency } from './utils';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 interface JobListItemProps {
   job: Job;
@@ -52,8 +52,10 @@ export function JobListItem({ job }: JobListItemProps) {
               </div>
             </div>
             <Badge
-              variant={job.status === "OPEN" ? "default" : "secondary"}
-              className="mt-2 md:mt-0"
+              variant={job.status === 'OPEN' ? 'default' : 'secondary'}
+              className={`mt-2 md:mt-0 ${
+                job.status === 'OPEN' ? 'bg-blue-500' : 'bg-gray-500'
+              }`}
             >
               {job.status}
             </Badge>
@@ -71,15 +73,16 @@ export function JobListItem({ job }: JobListItemProps) {
             <div className="flex items-center bg-muted px-2 py-1 rounded-md">
               <Clock className="h-3 w-3 mr-1 text-muted-foreground" />
               <span className="text-xs font-medium">
-                Rate: {formatCurrency(job.hourlyRateMin)} - {formatCurrency(job.hourlyRateMax)}/hr
+                Rate: {formatCurrency(job.hourlyRateMin)} -{' '}
+                {formatCurrency(job.hourlyRateMax)}/hr
               </span>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-1">
             {displaySkills.map((skill) => (
-              <Badge key={skill} variant="outline" className="text-xs">
-                {skill.replace(/_/g, " ")}
+              <Badge key={skill} variant="secondary" className="text-xs bg-blue-50 text-blue-700">
+                {skill.replace(/_/g, ' ')}
               </Badge>
             ))}
             {extraSkillsCount > 0 && (
@@ -93,7 +96,7 @@ export function JobListItem({ job }: JobListItemProps) {
                   <TooltipContent>
                     <div className="flex flex-col gap-1">
                       {job.skills.slice(5).map((skill) => (
-                        <span key={skill}>{skill.replace(/_/g, " ")}</span>
+                        <span key={skill}>{skill.replace(/_/g, ' ')}</span>
                       ))}
                     </div>
                   </TooltipContent>

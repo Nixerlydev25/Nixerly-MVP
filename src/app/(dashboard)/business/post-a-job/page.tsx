@@ -45,7 +45,8 @@ import { useCreateJob } from '@/hook/jobs/jobs.hooks';
 import { DatePicker } from '@/components/ui/date-picker';
 import { JobStatus } from './types';
 import { LocationSearch } from '@/components/location-search';
-
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 // Define the form schema with Zod
 const formSchema = z
   .object({
@@ -140,6 +141,7 @@ const parseInputDate = (dateString: string): Date => {
 
 export default function PostJobPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const commandRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

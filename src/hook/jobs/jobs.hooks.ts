@@ -18,10 +18,18 @@ export const useCreateJob = () => {
     mutationFn: JobsService.createJob,
     onSuccess: () => {
       router.push(ROUTES.MY_JOBS);
-      toast.success('Job created successfully');
+      toast.error('Job created successfully', {
+        position: 'top-right',
+        duration: 5000,
+        icon: '🚀',
+      });
     },
     onError: () => {
-      toast.error('Failed to create job');
+      toast.error('Failed to create job', {
+        position: 'top-right',
+        duration: 5000,
+        icon: '🚫',
+      });
     },
   });
 };

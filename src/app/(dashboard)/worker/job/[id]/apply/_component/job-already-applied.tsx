@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { ROUTES } from "@/lib/routes"
 
 interface JobAlreadyAppliedProps {
   jobId: string
@@ -38,7 +39,7 @@ export default function JobAlreadyApplied({
     pending: {
       icon: <Clock className="h-12 w-12 text-amber-500" />,
       title: "Application Pending",
-      description: "Your application is being processed. We'll notify you when there's an update.",
+      description: "Your application is being processed.",
       color: "text-amber-500",
     },
     reviewing: {
@@ -50,13 +51,13 @@ export default function JobAlreadyApplied({
     shortlisted: {
       icon: <CheckCircle2 className="h-12 w-12 text-green-500" />,
       title: "Shortlisted",
-      description: "Congratulations! Your application has been shortlisted. The employer may contact you soon.",
+      description: "You have been shortlisted for this position.",
       color: "text-green-500",
     },
     rejected: {
       icon: <AlertCircle className="h-12 w-12 text-red-500" />,
-      title: "Not Selected",
-      description: "Thank you for your interest. The employer has decided to move forward with other candidates.",
+      title: "Application Not Selected",
+      description: "Unfortunately, your application was not selected for this position.",
       color: "text-red-500",
     },
   }
@@ -92,51 +93,13 @@ export default function JobAlreadyApplied({
               <span className="text-sm font-medium">Job Title:</span>
               <span className="text-sm">{jobTitle}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-sm font-medium">Applied On:</span>
-              <span className="text-sm">
-                {new Date(applicationDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-center gap-4 border-t pt-6">
         <Button variant="outline" asChild>
-          <Link href="/jobs">Browse More Jobs</Link>
+          <Link href={ROUTES.WORKER_FEED}>Browse More Jobs</Link>
         </Button>
-
-        {applicationStatus !== "rejected" && (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline" className="text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600">
-                Withdraw Application
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently withdraw your application for this job.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleWithdraw}
-                  disabled={isWithdrawing}
-                  className="bg-red-500 hover:bg-red-600"
-                >
-                  {isWithdrawing ? "Withdrawing..." : "Withdraw Application"}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
       </CardFooter>
     </Card>
   )

@@ -32,10 +32,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
 import { useApplyJobs } from '@/hook/jobs/jobs.hooks';
-import {
-  applicationFormSchema,
-  type ApplicationFormValues,
-} from './types';
+import { applicationFormSchema, type ApplicationFormValues } from './types';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -45,7 +42,13 @@ import {
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 enum JobApplicationDuration {
   LESS_THAN_ONE_WEEK = 'LESS_THAN_ONE_WEEK',
@@ -68,7 +71,7 @@ export default function JobApplicationForm({
   hourlyRateMax,
 }: JobApplicationFormProps) {
   const { mutateAsync: applyJob, isPending: isApplying } = useApplyJobs();
-  
+
   const suggestedRate =
     hourlyRateMin && hourlyRateMax
       ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
@@ -153,21 +156,29 @@ export default function JobApplicationForm({
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[240px] justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              'w-[240px] justify-start text-left font-normal',
+                              !field.value && 'text-muted-foreground'
                             )}
                           >
                             <CalendarIcon />
-                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => field.onChange(date?.toISOString())}
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
+                            onSelect={(date) =>
+                              field.onChange(date?.toISOString())
+                            }
                             initialFocus
                           />
                         </PopoverContent>
@@ -185,24 +196,39 @@ export default function JobApplicationForm({
                   <FormItem>
                     <FormLabel>Expected Job Duration</FormLabel>
                     <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select duration" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value={JobApplicationDuration.LESS_THAN_ONE_WEEK}>
+                          <SelectItem
+                            value={JobApplicationDuration.LESS_THAN_ONE_WEEK}
+                          >
                             Less than 1 week
                           </SelectItem>
-                          <SelectItem value={JobApplicationDuration.ONE_2_TWO_WEEKS}>
+                          <SelectItem
+                            value={JobApplicationDuration.ONE_2_TWO_WEEKS}
+                          >
                             1 to 2 weeks
                           </SelectItem>
-                          <SelectItem value={JobApplicationDuration.TWO_2_FOUR_WEEKS}>
+                          <SelectItem
+                            value={JobApplicationDuration.TWO_2_FOUR_WEEKS}
+                          >
                             2 to 4 weeks
                           </SelectItem>
-                          <SelectItem value={JobApplicationDuration.ONE_2_THREE_MONTHS}>
+                          <SelectItem
+                            value={JobApplicationDuration.ONE_2_THREE_MONTHS}
+                          >
                             1 to 3 months
                           </SelectItem>
-                          <SelectItem value={JobApplicationDuration.MORE_THAN_THREE_MONTHS}>
+                          <SelectItem
+                            value={
+                              JobApplicationDuration.MORE_THAN_THREE_MONTHS
+                            }
+                          >
                             More than 3 months
                           </SelectItem>
                         </SelectContent>
@@ -250,7 +276,11 @@ export default function JobApplicationForm({
               <Button type="button" variant="outline">
                 Cancel
               </Button>
-              <Button type="submit" disabled={isApplying}>
+              <Button
+                type="submit"
+                disabled={isApplying}
+                className="bg-blue-700 text-white hover:bg-blue-800"
+              >
                 {isApplying && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}

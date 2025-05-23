@@ -68,7 +68,7 @@ export default function ApplyPage() {
         <h1 className="text-2xl font-bold">{jobDetails.title}</h1>
         <div className="flex flex-wrap items-center gap-2 mt-2 text-muted-foreground">
           <Badge variant="outline" className="font-normal">
-            {jobDetails.employmentType || 'Full-time'}
+            {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
           </Badge>
           <span>•</span>
           <span className="flex items-center gap-1">
@@ -82,7 +82,11 @@ export default function ApplyPage() {
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             <span>
-              Posted {new Date(jobDetails.createdAt).toLocaleDateString()}
+              Posted {new Date(jobDetails.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
             </span>
           </span>
         </div>
@@ -125,7 +129,11 @@ export default function ApplyPage() {
                     <div>
                       <p className="font-medium">Posted</p>
                       <p className="text-muted-foreground">
-                        {new Date(jobDetails.createdAt).toLocaleDateString()}
+                        {new Date(jobDetails.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
                       </p>
                     </div>
                   </div>
@@ -135,7 +143,7 @@ export default function ApplyPage() {
                     <div>
                       <p className="font-medium">Job Type</p>
                       <p className="text-muted-foreground">
-                        {jobDetails.employmentType || 'Full-time'}
+                        {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
                       </p>
                     </div>
                   </div>
@@ -179,7 +187,11 @@ export default function ApplyPage() {
                       <p className="font-medium">Start Date</p>
                       <p className="text-muted-foreground">
                         {jobDetails.startDate
-                          ? new Date(jobDetails.startDate).toLocaleDateString()
+                          ? new Date(jobDetails.startDate).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })
                           : 'Immediate'}
                       </p>
                     </div>
@@ -194,7 +206,7 @@ export default function ApplyPage() {
                         <Badge
                           key={index}
                           variant="secondary"
-                          className="text-xs"
+                          className="text-xs bg-blue-50 text-blue-700"
                         >
                           {skill.replace(/_/g, ' ')}
                         </Badge>

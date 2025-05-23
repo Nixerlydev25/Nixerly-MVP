@@ -74,7 +74,11 @@ export default function JobPostDetail() {
                       <span>
                         Posted{' '}
                         {jobDetails
-                          ? new Date(jobDetails.createdAt).toLocaleDateString()
+                          ? new Date(jobDetails.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })
                           : ''}
                       </span>
                     </span>
@@ -102,7 +106,7 @@ export default function JobPostDetail() {
                 variant="outline"
               >
                 <Clock className="h-3.5 w-3.5" />
-                {jobDetails?.employmentType || 'Full-time'}
+                {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
               </Badge>
             </div>
             <div className="flex md:hidden gap-2">
@@ -122,77 +126,73 @@ export default function JobPostDetail() {
           </div>
 
           {/* Job Details Tabs */}
-          <Tabs defaultValue="description" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="description">Description</TabsTrigger>
-              <TabsTrigger value="requirements">Requirements</TabsTrigger>
-              <TabsTrigger value="company">Company</TabsTrigger>
-            </TabsList>
-            <TabsContent value="description" className="space-y-4 pt-4">
-              <div>
-                <h2 className="text-xl font-semibold mb-2">Job Description</h2>
-                <div className="space-y-3 text-muted-foreground">
+          <div className="space-y-8">
+            {/* Description Section */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">
+                Job Description
+              </h2>
+              <div className="space-y-3 text-muted-foreground">
+                <p>{jobDetails?.description || 'No description available.'}</p>
+              </div>
+            </div>
+
+            {/* Requirements Section */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">
+                Job Requirements
+              </h2>
+              <div className="space-y-3 text-muted-foreground">
+                <h3 className="text-base font-medium text-foreground mb-2">
+                  Requirements:
+                </h3>
+                <div className="whitespace-pre-line">
+                  {jobDetails?.requirements || 'No requirements specified.'}
+                </div>
+              </div>
+            </div>
+
+            {/* Company Section */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">
+                About {jobDetails?.businessProfile?.companyName || 'Company'}
+              </h2>
+              <div className="space-y-3 text-muted-foreground">
+                <p>
+                  {jobDetails?.businessProfile?.description ||
+                    'No company description available.'}
+                </p>
+                <div className="mt-4">
                   <p>
-                    {jobDetails?.description || 'No description available.'}
+                    <strong>Industry:</strong>{' '}
+                    {jobDetails?.businessProfile?.industry || 'Not specified'}
                   </p>
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="requirements" className="space-y-4 pt-4">
-              <div>
-                <h2 className="text-xl font-semibold mb-2">Job Requirements</h2>
-                <div className="space-y-3 text-muted-foreground">
-                  <h3 className="text-base font-medium text-foreground mb-2">
-                    Requirements:
-                  </h3>
-                  <div className="whitespace-pre-line">
-                    {jobDetails?.requirements || 'No requirements specified.'}
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="company" className="space-y-4 pt-4">
-              <div>
-                <h2 className="text-xl font-semibold mb-2">
-                  About Reliable Plumbing Co.
-                </h2>
-                <div className="space-y-3 text-muted-foreground">
                   <p>
-                    {jobDetails?.businessProfile?.description ||
-                      'No company description available.'}
+                    <strong>Location:</strong>{' '}
+                    {jobDetails?.businessProfile?.city || ''},{' '}
+                    {jobDetails?.businessProfile?.state || ''},{' '}
+                    {jobDetails?.businessProfile?.country || ''}
                   </p>
-                  <div className="mt-4">
+                  <p>
+                    <strong>Employee Count:</strong>{' '}
+                    {jobDetails?.businessProfile?.employeeCount ||
+                      'Not specified'}
+                  </p>
+                  <p>
+                    <strong>Year Founded:</strong>{' '}
+                    {jobDetails?.businessProfile?.yearFounded ||
+                      'Not specified'}
+                  </p>
+                  {jobDetails?.businessProfile?.website && (
                     <p>
-                      <strong>Industry:</strong>{' '}
-                      {jobDetails?.businessProfile?.industry || 'Not specified'}
+                      <strong>Website:</strong>{' '}
+                      {jobDetails?.businessProfile?.website}
                     </p>
-                    <p>
-                      <strong>Location:</strong>{' '}
-                      {jobDetails?.businessProfile?.city || ''},{' '}
-                      {jobDetails?.businessProfile?.state || ''},{' '}
-                      {jobDetails?.businessProfile?.country || ''}
-                    </p>
-                    <p>
-                      <strong>Employee Count:</strong>{' '}
-                      {jobDetails?.businessProfile?.employeeCount ||
-                        'Not specified'}
-                    </p>
-                    <p>
-                      <strong>Year Founded:</strong>{' '}
-                      {jobDetails?.businessProfile?.yearFounded ||
-                        'Not specified'}
-                    </p>
-                    {jobDetails?.businessProfile?.website && (
-                      <p>
-                        <strong>Website:</strong>{' '}
-                        {jobDetails?.businessProfile?.website}
-                      </p>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
 
           {/* Similar Jobs */}
           {/* <div className="space-y-4">
@@ -307,7 +307,7 @@ export default function JobPostDetail() {
                     <Briefcase className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">
-                        {jobDetails?.employmentType || 'Full-time'}
+                        {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {jobDetails?.jobType || '.'}
@@ -320,7 +320,11 @@ export default function JobPostDetail() {
                       <p className="font-medium">Start date</p>
                       <p className="text-sm text-muted-foreground">
                         {jobDetails?.startDate
-                          ? new Date(jobDetails.startDate).toLocaleDateString()
+                          ? new Date(jobDetails.startDate).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })
                           : 'Immediate'}
                       </p>
                     </div>
@@ -344,7 +348,8 @@ export default function JobPostDetail() {
                         {jobDetails.skills.map((skill, index) => (
                           <Badge
                             key={index}
-                            className="flex items-center gap-1 text-sm"
+                            variant="secondary"
+                            className="flex items-center gap-1 text-sm bg-blue-50 text-blue-700"
                           >
                             <Tool className="h-3.5 w-3.5" />
                             {skill.replace(/_/g, ' ')}
@@ -356,7 +361,7 @@ export default function JobPostDetail() {
                 </div>
               </div>
               <Button
-                className="w-full"
+                className="w-full bg-blue-700 text-white hover:bg-blue-800"
                 onClick={() =>
                   router.push(`${ROUTES.WORKER_JOB}/${jobDetails?.id}/apply`)
                 }

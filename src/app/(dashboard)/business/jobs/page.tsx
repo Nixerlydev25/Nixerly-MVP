@@ -94,7 +94,7 @@ export default function BusinessDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Jobs</p>
-                <p className="text-2xl font-bold">{data?.totalCount}</p>
+                <p className="text-2xl font-bold">{data?.pagination?.totalCount}</p>
               </div>
               <Briefcase className="h-8 w-8 text-muted-foreground" />
             </div>
@@ -165,7 +165,11 @@ export default function BusinessDashboard() {
                           <span>•</span>
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3.5 w-3.5" />
-                            <span>Posted {new Date(job.createdAt).toLocaleDateString()}</span>
+                            <span>Posted {new Date(job.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}</span>
                           </span>
                         </div>
                       </div>

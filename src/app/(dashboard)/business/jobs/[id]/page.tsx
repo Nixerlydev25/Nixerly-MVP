@@ -225,7 +225,11 @@ export default function JobApplicantsPage() {
                                 Applied{' '}
                                 {new Date(
                                   applicant.createdAt
-                                ).toLocaleDateString()}
+                                ).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
                               </span>
                             </span>
                           </div>

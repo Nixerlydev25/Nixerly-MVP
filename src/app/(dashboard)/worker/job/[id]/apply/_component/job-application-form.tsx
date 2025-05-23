@@ -14,15 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Card,
@@ -43,9 +35,25 @@ import { useApplyJobs } from '@/hook/jobs/jobs.hooks';
 import {
   applicationFormSchema,
   type ApplicationFormValues,
-  durationOptions,
-  JobApplicationDuration,
 } from './types';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+enum JobApplicationDuration {
+  LESS_THAN_ONE_WEEK = 'LESS_THAN_ONE_WEEK',
+  ONE_2_TWO_WEEKS = 'ONE_2_TWO_WEEKS',
+  TWO_2_FOUR_WEEKS = 'TWO_2_FOUR_WEEKS',
+  ONE_2_THREE_MONTHS = 'ONE_2_THREE_MONTHS',
+  MORE_THAN_THREE_MONTHS = 'MORE_THAN_THREE_MONTHS',
+}
 
 interface JobApplicationFormProps {
   jobId: string;
@@ -60,6 +68,7 @@ export default function JobApplicationForm({
   hourlyRateMax,
 }: JobApplicationFormProps) {
   const { mutateAsync: applyJob, isPending: isApplying } = useApplyJobs();
+  
   const suggestedRate =
     hourlyRateMin && hourlyRateMax
       ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
@@ -71,7 +80,7 @@ export default function JobApplicationForm({
       coverLetter:
         'Dear Hiring Manager,\n\nI am excited to apply for this opportunity. With my experience in web development and a strong background in delivering scalable, secure applications, I am confident in my ability to contribute effectively to your team. I am passionate about solving complex problems and delivering high-quality code.\n\nThank you for considering my application. I look forward to discussing how I can help drive success for your project.\n\nBest regards,\nJohn Doe',
       proposedRate: 0,
-      availability: 'tomorrow',
+      // availability: new Date(),
       termsAccepted: true,
     },
   });
@@ -140,55 +149,70 @@ export default function JobApplicationForm({
                     <FormLabel>
                       How soon are you available for the Job?
                     </FormLabel>
-                    <Input
-                      type="text"
-                      className="pl-7"
-                      placeholder=""
-                      {...field}
-                      onChange={(e) => field.onChange(e.target.value)}
-                    />
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon />
+                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ? new Date(field.value) : undefined}
+                            onSelect={(date) => field.onChange(date?.toISOString())}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="jobDuration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Expected Job Duration</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select duration" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={JobApplicationDuration.LESS_THAN_ONE_WEEK}>
+                            Less than 1 week
+                          </SelectItem>
+                          <SelectItem value={JobApplicationDuration.ONE_2_TWO_WEEKS}>
+                            1 to 2 weeks
+                          </SelectItem>
+                          <SelectItem value={JobApplicationDuration.TWO_2_FOUR_WEEKS}>
+                            2 to 4 weeks
+                          </SelectItem>
+                          <SelectItem value={JobApplicationDuration.ONE_2_THREE_MONTHS}>
+                            1 to 3 months
+                          </SelectItem>
+                          <SelectItem value={JobApplicationDuration.MORE_THAN_THREE_MONTHS}>
+                            More than 3 months
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
-            {/* <Separator /> */}
-
-            {/* Payment Terms Section */}
-            {/* <div className="space-y-4">
-              <h3 className="text-lg font-medium">Payment Terms</h3>
-
-              <FormField
-                control={form.control}
-                name="proposedRate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Your Hourly Rate (USD)</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
-                          $
-                        </span>
-                        <Input
-                          type="number"
-                          className="pl-7"
-                          placeholder="25"
-                          {...field}
-                          onChange={(e) => field.onChange(Number(e.target.value))}
-                        />
-                      </div>
-                    </FormControl>
-                    {hourlyRateMin && hourlyRateMax && (
-                      <FormDescription>
-                        Client&apos;s budget: ${hourlyRateMin}-${hourlyRateMax}/hr
-                      </FormDescription>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div> */}
 
             <Separator />
 

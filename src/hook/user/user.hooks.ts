@@ -11,6 +11,8 @@ import { queryClient } from '@/providers/query.provider';
 import { toast } from 'sonner';
 import { OnboardingStepWorkerProfileB } from '@/types/onboarding';
 import { WorkerUser } from '@/types/worker.types';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 export const useUpdateUser = () => {
   return useMutation({
@@ -53,18 +55,21 @@ export const useUpdateWorkerProfile = () => {
 };
 
 export const useUpdateBusinessProfile = () => {
+  const router = useRouter()
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_BUSINESS_PROFILE],
     mutationFn: (data: TBusinessProfile) =>
       UserService.updateBusinessProfile(data),
     onSuccess: () => {
       toast.success('Business onboarding completed successfully!');
+
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USER],
       });
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.BUSINESS_PROFILE_DETAILS],
       });
+      router.push(ROUTES.BUSINESS_FEED);
     },
     onError: (error: unknown) => {
       console.error('Error during updating business profile:', error);

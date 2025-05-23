@@ -54,7 +54,7 @@ export function BusinessProfileForm() {
           Enter your business information to complete your profile.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-6">
         <FormField
           control={form.control}
           name="companyName"

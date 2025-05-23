@@ -71,16 +71,16 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
     else params.delete("maxHourlyRate");
 
     // Total Earnings
-    if (minTotalEarnings) params.set("minTotalEarnings", minTotalEarnings);
-    else params.delete("minTotalEarnings");
-    if (maxTotalEarnings) params.set("maxTotalEarnings", maxTotalEarnings);
-    else params.delete("maxTotalEarnings");
+    // if (minTotalEarnings) params.set("minTotalEarnings", minTotalEarnings);
+    // else params.delete("minTotalEarnings");
+    // if (maxTotalEarnings) params.set("maxTotalEarnings", maxTotalEarnings);
+    // else params.delete("maxTotalEarnings");
 
     // Avg Rating
-    if (minAvgRating) params.set("minAvgRating", minAvgRating);
-    else params.delete("minAvgRating");
-    if (maxAvgRating) params.set("maxAvgRating", maxAvgRating);
-    else params.delete("maxAvgRating");
+    // if (minAvgRating) params.set("minAvgRating", minAvgRating);
+    // else params.delete("minAvgRating");
+    // if (maxAvgRating) params.set("maxAvgRating", maxAvgRating);
+    // else params.delete("maxAvgRating");
 
     // Skills - Use a custom approach to avoid URL encoding the comma
     if (selectedSkills.length > 0) {
@@ -241,7 +241,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             </div>
 
             {/* Total Earnings Filter */}
-            <div>
+            {/* <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
               <div className="flex gap-2">
                 <input
@@ -261,10 +261,10 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   min={0}
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* Avg Rating Filter */}
-            <div>
+            {/* <div>
               <h3 className="mb-2 font-medium">Average Rating</h3>
               <div className="flex gap-2">
                 <input
@@ -288,7 +288,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   step={0.1}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -371,7 +371,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
               </div>
             </div>
             {/* Total Earnings */}
-            <div>
+            {/* <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
               <div className="flex gap-2">
                 <input
@@ -391,9 +391,9 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   min={0}
                 />
               </div>
-            </div>
+            </div> */}
             {/* Avg Rating */}
-            <div>
+            {/* <div>
               <h3 className="mb-2 font-medium">Average Rating</h3>
               <div className="flex gap-2">
                 <input
@@ -417,7 +417,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   step={0.1}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="mt-4 flex justify-end">
             <Button

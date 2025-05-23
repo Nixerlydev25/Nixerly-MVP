@@ -103,7 +103,7 @@ function DashboardNav() {
                   <DropdownMenuItem onClick={handlePostAJob}>
                     Post A Job
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
                 </>
               )}
               <DropdownMenuSeparator />

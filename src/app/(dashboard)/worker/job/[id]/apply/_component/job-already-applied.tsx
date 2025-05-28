@@ -4,18 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, Clock, AlertCircle } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+// import { useState } from "react"
 import { ROUTES } from "@/lib/routes"
 
 interface JobAlreadyAppliedProps {
@@ -27,13 +16,13 @@ interface JobAlreadyAppliedProps {
 }
 
 export default function JobAlreadyApplied({
-  jobId,
+  // jobId,
   jobTitle,
-  applicationDate,
+  // applicationDate,
   applicationStatus = "pending",
-  onWithdrawApplication,
+  // onWithdrawApplication,
 }: JobAlreadyAppliedProps) {
-  const [isWithdrawing, setIsWithdrawing] = useState(false)
+  // const [isWithdrawing, setIsWithdrawing] = useState(false)
 
   const statusInfo = {
     pending: {
@@ -64,18 +53,18 @@ export default function JobAlreadyApplied({
 
   const currentStatus = statusInfo[applicationStatus]
 
-  const handleWithdraw = async () => {
-    if (!onWithdrawApplication) return
+  // const handleWithdraw = async () => {
+  //   if (!onWithdrawApplication) return
 
-    try {
-      setIsWithdrawing(true)
-      await onWithdrawApplication()
-    } catch (error) {
-      console.error("Failed to withdraw application:", error)
-    } finally {
-      setIsWithdrawing(false)
-    }
-  }
+  //   try {
+  //     setIsWithdrawing(true)
+  //     await onWithdrawApplication()
+  //   } catch (error) {
+  //     console.error("Failed to withdraw application:", error)
+  //   } finally {
+  //     setIsWithdrawing(false)
+  //   }
+  // }
 
   return (
     <Card className="w-full">

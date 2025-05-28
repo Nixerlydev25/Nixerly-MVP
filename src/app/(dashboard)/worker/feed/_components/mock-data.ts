@@ -1,6 +1,5 @@
-import type { JobsResponse } from "./types"
 
-export const mockJobsData: JobsResponse = {
+export const mockJobsData = {
   totalCount: 6,
   totalPages: 1,
   currentPage: 1,
@@ -16,6 +15,7 @@ export const mockJobsData: JobsResponse = {
       hourlyRateMax: 40,
       businessProfileId: "02e4812a-33d4-4594-9904-65030aaadc22",
       status: "OPEN",
+      hasWorkerApplied: false,
       createdAt: "2025-05-17T16:02:55.342Z",
       updatedAt: "2025-05-17T16:02:55.342Z",
       expiresAt: null,
@@ -55,6 +55,7 @@ export const mockJobsData: JobsResponse = {
         "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
       budget: 1500,
       hourlyRateMin: 25,
+      hasWorkerApplied: false,
       hourlyRateMax: 40,
       businessProfileId: "02e4812a-33d4-4594-9904-65030aaadc22",
       status: "OPEN",
@@ -99,6 +100,7 @@ export const mockJobsData: JobsResponse = {
       hourlyRateMin: 25,
       hourlyRateMax: 40,
       businessProfileId: "02e4812a-33d4-4594-9904-65030aaadc22",
+      hasWorkerApplied: false,
       status: "OPEN",
       createdAt: "2025-05-17T16:02:53.844Z",
       updatedAt: "2025-05-17T16:02:53.844Z",
@@ -141,6 +143,7 @@ export const mockJobsData: JobsResponse = {
       hourlyRateMin: 25,
       hourlyRateMax: 40,
       businessProfileId: "02e4812a-33d4-4594-9904-65030aaadc22",
+      hasWorkerApplied: false,
       status: "OPEN",
       createdAt: "2025-05-17T16:02:52.941Z",
       updatedAt: "2025-05-17T16:02:52.941Z",
@@ -180,6 +183,7 @@ export const mockJobsData: JobsResponse = {
       description:
         "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
       budget: 1500,
+      hasWorkerApplied: false,
       hourlyRateMin: 25,
       hourlyRateMax: 40,
       businessProfileId: "02e4812a-33d4-4594-9904-65030aaadc22",
@@ -233,6 +237,7 @@ export const mockJobsData: JobsResponse = {
       jobType: "CONTRACT",
       startDate: "2025-06-01",
       numberOfWorkersRequired: 1,
+      hasWorkerApplied: false,
       numberOfPositions: 1,
       requirements: "Must have valid electrician license and 5+ years of experience",
       businessProfile: {

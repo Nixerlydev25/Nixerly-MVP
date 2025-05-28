@@ -123,17 +123,17 @@ export function FilterSidebar() {
     router.push('?');
   };
 
-  const hasActiveFilters =
-    filters.status.length > 0 ||
-    filters.skills.length > 0 ||
-    filters.minBudget > 0 ||
-    filters.maxBudget < 10000 ||
-    filters.minHourlyRate > 0 ||
-    filters.maxHourlyRate < 100 ||
-    filters.city !== '' ||
-    filters.state !== '' ||
-    filters.country !== '' ||
-    filters.search !== '';
+  // const hasActiveFilters =
+  //   filters.status.length > 0 ||
+  //   filters.skills.length > 0 ||
+  //   filters.minBudget > 0 ||
+  //   filters.maxBudget < 10000 ||
+  //   filters.minHourlyRate > 0 ||
+  //   filters.maxHourlyRate < 100 ||
+  //   filters.city !== '' ||
+  //   filters.state !== '' ||
+  //   filters.country !== '' ||
+  //   filters.search !== '';
 
   // Handle location selection from LocationSearch
   const handleLocationSelect = (data: {

@@ -291,7 +291,7 @@ export default function ApplyPage() {
             {jobDetails.hasWorkerApplied ? (
               <Card>
                 <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold mb-4">What's Next?</h2>
+                  <h2 className="text-lg font-semibold mb-4">What&apos;s Next?</h2>
                   <ul className="space-y-2 text-sm">
                     <li className="flex gap-2">
                       <span className="text-primary">1.</span>
@@ -306,7 +306,7 @@ export default function ApplyPage() {
                     <li className="flex gap-2">
                       <span className="text-primary">3.</span>
                       <span>
-                        If selected, you'll be invited for an interview
+                        If selected, you&apos;ll be invited for an interview
                       </span>
                     </li>
                     <li className="flex gap-2">

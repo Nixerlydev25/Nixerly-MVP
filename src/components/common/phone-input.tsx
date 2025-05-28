@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import PhoneInput from "react-phone-number-input"
-import { Label } from "@/components/ui/label"
+// import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
 import "react-phone-number-input/style.css"
@@ -21,7 +21,7 @@ export function PhoneInputComponent({
   placeholder = "Enter phone number",
   className,
   error,
-  required = false,
+  // required = false,
   disabled = false,
   value,
   onChange,

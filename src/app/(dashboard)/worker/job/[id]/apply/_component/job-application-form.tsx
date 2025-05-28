@@ -67,15 +67,15 @@ interface JobApplicationFormProps {
 
 export default function JobApplicationForm({
   jobId,
-  hourlyRateMin,
-  hourlyRateMax,
+  // hourlyRateMin,
+  // hourlyRateMax,
 }: JobApplicationFormProps) {
   const { mutateAsync: applyJob, isPending: isApplying } = useApplyJobs();
 
-  const suggestedRate =
-    hourlyRateMin && hourlyRateMax
-      ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
-      : 25;
+  // const suggestedRate =
+  //   hourlyRateMin && hourlyRateMax
+  //     ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
+  //     : 25;
 
   const form = useForm<ApplicationFormValues>({
     resolver: zodResolver(applicationFormSchema),

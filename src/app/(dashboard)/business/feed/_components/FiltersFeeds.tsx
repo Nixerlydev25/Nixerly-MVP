@@ -179,10 +179,10 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
     }
   };
 
-  const handleHourlyRateChange = (value: number[]) => {
-    setMinHourlyRate(value[0].toString());
-    setMaxHourlyRate(value[1].toString());
-  };
+  // const handleHourlyRateChange = (value: number[]) => {
+  //   setMinHourlyRate(value[0].toString());
+  //   setMaxHourlyRate(value[1].toString());
+  // };
 
   const handleMinHourlyRateChange = (value: number[]) => {
     const newValue = value[0];

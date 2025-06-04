@@ -1,17 +1,27 @@
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { businessSignUpSchema, type BusinessSignUpFormValues } from "@/schema/auth/auth.schema"
-import { useBusinessSignUp } from "@/hook/auth/auth.hook"
-import { ProfileType } from "@/types/user/user.types"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  businessSignUpSchema,
+  type BusinessSignUpFormValues,
+} from "@/schema/auth/auth.schema";
+import { useBusinessSignUp } from "@/hook/auth/auth.hook";
+import { ProfileType } from "@/types/user/user.types";
 
 export default function BusinessSignupForm() {
-  const { mutateAsync: SignupBusiness, isPending } = useBusinessSignUp()
+  const { mutateAsync: SignupBusiness, isPending } = useBusinessSignUp();
 
   const form = useForm<BusinessSignUpFormValues>({
     resolver: zodResolver(businessSignUpSchema),
@@ -22,13 +32,13 @@ export default function BusinessSignupForm() {
       password: "passpass",
       confirmPassword: "passpass",
       profileType: ProfileType.BUSINESS,
-      acceptTerms: false
-    }
-  })
+      acceptTerms: false,
+    },
+  });
 
   const onSubmit = async (values: BusinessSignUpFormValues) => {
-    SignupBusiness(values)
-  }
+    SignupBusiness(values);
+  };
 
   return (
     <Form {...form}>
@@ -39,7 +49,9 @@ export default function BusinessSignupForm() {
             name="firstName"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-nixerly-darkgray font-medium">First Name</FormLabel>
+                <FormLabel className="text-nixerly-darkgray font-medium">
+                  First Name
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John"
@@ -57,7 +69,9 @@ export default function BusinessSignupForm() {
             name="lastName"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-nixerly-darkgray font-medium">Last Name</FormLabel>
+                <FormLabel className="text-nixerly-darkgray font-medium">
+                  Last Name
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Doe"
@@ -94,7 +108,9 @@ export default function BusinessSignupForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Email</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-medium">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   type="email"
@@ -113,7 +129,9 @@ export default function BusinessSignupForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-medium">
+                Password
+              </FormLabel>
               <FormControl>
                 <Input
                   type="password"
@@ -132,7 +150,9 @@ export default function BusinessSignupForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Confirm Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-medium">
+                Confirm Password
+              </FormLabel>
               <FormControl>
                 <Input
                   type="password"
@@ -153,6 +173,7 @@ export default function BusinessSignupForm() {
             <FormItem className="flex items-center space-x-2">
               <FormControl>
                 <Checkbox
+                  id="acceptTerms"
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   className="border-nixerly-lightblue data-[state=checked]:bg-nixerly-blue data-[state=checked]:border-nixerly-blue transition-all duration-200 ease-in-out"
@@ -160,12 +181,12 @@ export default function BusinessSignupForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <label
-                  htmlFor="terms"
+                  htmlFor="acceptTerms"
                   className="text-sm font-medium leading-none text-nixerly-darkgray"
                 >
                   I agree to the{" "}
-                  <Link 
-                    href="/terms" 
+                  <Link
+                    href="/terms"
                     className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
                     tabIndex={0}
                     aria-label="Terms of Service"
@@ -173,8 +194,8 @@ export default function BusinessSignupForm() {
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link 
-                    href="/privacy" 
+                  <Link
+                    href="/privacy"
                     className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
                     tabIndex={0}
                     aria-label="Privacy Policy"
@@ -204,5 +225,5 @@ export default function BusinessSignupForm() {
         </Button>
       </form>
     </Form>
-  )
-} 
+  );
+}

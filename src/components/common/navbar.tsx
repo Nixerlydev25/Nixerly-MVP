@@ -16,7 +16,7 @@ export default function Navbar() {
     return pathname === path;
   };
 
-  const isOnboarding = pathname?.startsWith('/onboarding');
+  const isOnboarding = pathname?.startsWith("/onboarding");
 
   const navLinks = [
     { href: "/", label: "Home" },

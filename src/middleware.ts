@@ -7,8 +7,8 @@ import {
 } from "./types/onboarding";
 import { parseCookies } from "./lib/utils";
 
-// const API_URL = `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.USER.GET_CURRENT_USER}`;
-const API_URL = `https://api.nixerly.com/v1${API_ROUTES.USER.GET_CURRENT_USER}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.USER.GET_CURRENT_USER}`;
+// const API_URL = `https://api.nixerly.com/v1${API_ROUTES.USER.GET_CURRENT_USER}`;
 
 const COOKIE_HEADER = "cookie";
 const ACCESS_TOKEN = "access_token";

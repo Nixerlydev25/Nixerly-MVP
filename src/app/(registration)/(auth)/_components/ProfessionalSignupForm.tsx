@@ -135,6 +135,7 @@ export default function ProfessionalSignupForm() {
             <FormItem className="flex items-center space-x-2">
               <FormControl>
                 <Checkbox
+                id="acceptTerms"
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   className="border-nixerly-lightblue data-[state=checked]:bg-nixerly-blue data-[state=checked]:border-nixerly-blue data-[state=checked]:text-white transition-all duration-200 ease-in-out"
@@ -142,7 +143,7 @@ export default function ProfessionalSignupForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <label
-                  htmlFor="terms"
+                  htmlFor="acceptTerms"
                   className="text-sm font-medium leading-none text-nixerly-darkgray"
                 >
                   I agree to the{" "}

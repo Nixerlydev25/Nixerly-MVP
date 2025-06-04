@@ -1,13 +1,18 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Award,
   BookmarkIcon,
@@ -22,119 +27,135 @@ import {
   MoreHorizontal,
   Share2,
   StarIcon,
-} from "lucide-react"
-import { useGetWorkerById } from "@/hook/worker/worker.hook"
-import { useParams } from "next/navigation"
-
+} from 'lucide-react';
+import { useGetWorkerById } from '@/hook/worker/worker.hook';
+import { useParams } from 'next/navigation';
+import { useReportWorker } from '@/hook/report/report.hooks';
+import { useModalStore } from '@/store/modal.store';
+import { ModalType } from '@/types/model';
 // Sample freelancer data for sections that will remain static
 const staticData = {
   rating: 4.9,
   jobsCompleted: 127,
   successRate: 98,
-  lastActive: "2 hours ago",
-  responseTime: "< 1 hour",
-  avatar: "/placeholder.svg?height=200&width=200",
+  lastActive: '2 hours ago',
+  responseTime: '< 1 hour',
+  avatar: '/placeholder.svg?height=200&width=200',
   certifications: [
     {
-      name: "AWS Certified Solutions Architect",
-      issuer: "Amazon Web Services",
-      year: "2020",
+      name: 'AWS Certified Solutions Architect',
+      issuer: 'Amazon Web Services',
+      year: '2020',
     },
     {
-      name: "MongoDB Certified Developer",
-      issuer: "MongoDB, Inc.",
-      year: "2019",
+      name: 'MongoDB Certified Developer',
+      issuer: 'MongoDB, Inc.',
+      year: '2019',
     },
   ],
   workHistory: [
     {
-      title: "E-commerce Platform Redesign",
-      client: "Fashion Retailer",
-      completedDate: "March 2023",
+      title: 'E-commerce Platform Redesign',
+      client: 'Fashion Retailer',
+      completedDate: 'March 2023',
       rating: 5.0,
       hours: 160,
       description:
         "Completely redesigned and rebuilt the client's e-commerce platform using React, Next.js, and Node.js. Implemented a headless CMS, optimized performance, and integrated with payment gateways.",
     },
     {
-      title: "Real-time Analytics Dashboard",
-      client: "SaaS Company",
-      completedDate: "November 2022",
+      title: 'Real-time Analytics Dashboard',
+      client: 'SaaS Company',
+      completedDate: 'November 2022',
       rating: 4.9,
       hours: 120,
       description:
-        "Developed a real-time analytics dashboard using React, D3.js, and WebSockets. The dashboard provides insights into user behavior and system performance.",
+        'Developed a real-time analytics dashboard using React, D3.js, and WebSockets. The dashboard provides insights into user behavior and system performance.',
     },
     {
-      title: "Mobile App Backend",
-      client: "Health Tech Startup",
-      completedDate: "July 2022",
+      title: 'Mobile App Backend',
+      client: 'Health Tech Startup',
+      completedDate: 'July 2022',
       rating: 5.0,
       hours: 80,
       description:
-        "Built a scalable backend for a health tracking mobile app using Node.js, Express, and MongoDB. Implemented authentication, data storage, and RESTful APIs.",
+        'Built a scalable backend for a health tracking mobile app using Node.js, Express, and MongoDB. Implemented authentication, data storage, and RESTful APIs.',
     },
   ],
   reviews: [
     {
-      client: "Sarah M.",
-      company: "Fashion Retailer",
+      client: 'Sarah M.',
+      company: 'Fashion Retailer',
       rating: 5.0,
-      date: "March 15, 2023",
+      date: 'March 15, 2023',
       content:
-        "Alex was exceptional to work with. He understood our requirements perfectly and delivered a solution that exceeded our expectations. His communication was clear and timely, and he was proactive in suggesting improvements to our initial design. Would definitely hire again!",
+        'Alex was exceptional to work with. He understood our requirements perfectly and delivered a solution that exceeded our expectations. His communication was clear and timely, and he was proactive in suggesting improvements to our initial design. Would definitely hire again!',
     },
     {
-      client: "Michael T.",
-      company: "SaaS Company",
+      client: 'Michael T.',
+      company: 'SaaS Company',
       rating: 4.9,
-      date: "November 22, 2022",
+      date: 'November 22, 2022',
       content:
         "Working with Alex was a great experience. He's technically skilled and also understands business requirements well. The dashboard he built has become an essential tool for our team and customers. Highly recommended.",
     },
     {
-      client: "Jennifer K.",
-      company: "Health Tech Startup",
+      client: 'Jennifer K.',
+      company: 'Health Tech Startup',
       rating: 5.0,
-      date: "July 30, 2022",
+      date: 'July 30, 2022',
       content:
         "Alex delivered our backend ahead of schedule and with all requirements met. He's a clear communicator and was able to explain complex technical concepts to our non-technical team members. His work is clean, well-documented, and easy to maintain.",
     },
   ],
-  preferredProjectLength: "3+ months",
-}
+  preferredProjectLength: '3+ months',
+};
 
 export default function FreelancerProfile() {
-  const [isSaved, setIsSaved] = useState(false)
-  const { id } = useParams<{ id: string }>()
-  const { data: worker, isLoading } = useGetWorkerById(id)
+  const [isSaved, setIsSaved] = useState(false);
+  const { id } = useParams<{ id: string }>();
+  const { data: worker, isLoading } = useGetWorkerById(id);
+  const { openModal } = useModalStore();
 
   if (isLoading) {
-    return <div className="flex min-h-screen items-center justify-center">Loading...</div>
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   if (!worker) {
-    return <div className="flex min-h-screen items-center justify-center">Worker not found</div>
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Worker not found
+      </div>
+    );
   }
 
   // Format skills for display
   const formattedSkills =
     worker.skills?.map((skill: string) => {
       return skill
-        .replace(/_/g, " ")
+        .replace(/_/g, ' ')
         .toLowerCase()
-        .replace(/\b\w/g, (l: string) => l.toUpperCase())
-    }) || []
+        .replace(/\b\w/g, (l: string) => l.toUpperCase());
+    }) || [];
 
   // Format full name
-  const fullName = `${worker.user?.firstName || ""} ${worker.user?.lastName || ""}`.trim()
+  const fullName = `${worker.user?.firstName || ''} ${
+    worker.user?.lastName || ''
+  }`.trim();
 
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navbar */}
       <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Back to search results */}
-        <Link href="/dashboard" className="mb-6 inline-flex items-center text-sm font-medium text-blue-600">
+        <Link
+          href="/dashboard"
+          className="mb-6 inline-flex items-center text-sm font-medium text-blue-600"
+        >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to search results
         </Link>
@@ -150,7 +171,7 @@ export default function FreelancerProfile() {
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
-                      src={staticData.avatar || "/placeholder.svg"}
+                      src={staticData.avatar || '/placeholder.svg'}
                       width={120}
                       height={120}
                       alt={fullName}
@@ -160,7 +181,9 @@ export default function FreelancerProfile() {
                   <div className="flex-1">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
-                        <h1 className="text-2xl font-bold text-gray-900">{fullName}</h1>
+                        <h1 className="text-2xl font-bold text-gray-900">
+                          {fullName}
+                        </h1>
                         <p className="text-lg text-gray-600">{worker.title}</p>
                         <div className="mt-2 flex items-center text-sm text-gray-500">
                           <MapPin className="mr-1 h-4 w-4" />
@@ -170,11 +193,29 @@ export default function FreelancerProfile() {
                       <div className="flex gap-2">
                         <Button
                           variant="outline"
+                          size="sm"
+                          className="text-red-600 border-red-200 hover:bg-red-50"
+                          onClick={() => {
+                            openModal(ModalType.REPORT_WORKER_MODAL, {
+                              targetId: id,
+                              targetName: fullName,
+                            });
+                          }}
+                        >
+                          <Flag className="mr-2 h-4 w-4" />
+                          Report User
+                        </Button>
+                        <Button
+                          variant="outline"
                           size="icon"
-                          className={isSaved ? "text-red-500" : "text-gray-400"}
+                          className={isSaved ? 'text-red-500' : 'text-gray-400'}
                           onClick={() => setIsSaved(!isSaved)}
                         >
-                          <HeartIcon className={`h-5 w-5 ${isSaved ? "fill-red-500" : ""}`} />
+                          <HeartIcon
+                            className={`h-5 w-5 ${
+                              isSaved ? 'fill-red-500' : ''
+                            }`}
+                          />
                         </Button>
                         <Button variant="outline" size="icon">
                           <Share2 className="h-5 w-5" />
@@ -204,9 +245,12 @@ export default function FreelancerProfile() {
                     <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                       <div className="flex items-center">
                         <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{worker.avgRating || staticData.rating}</span>
+                        <span className="font-medium">
+                          {worker.avgRating || staticData.rating}
+                        </span>
                         <span className="ml-1 text-gray-500">
-                          ({worker.completedJobs || staticData.jobsCompleted} reviews)
+                          ({worker.completedJobs || staticData.jobsCompleted}{' '}
+                          reviews)
                         </span>
                       </div>
                       <div className="flex items-center text-green-600">
@@ -226,29 +270,27 @@ export default function FreelancerProfile() {
             {/* Tabs section */}
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="w-full">
-                <TabsTrigger
-                  value="overview"
-                >
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger
-                  value="experiences"
-                >
-                  Experiences
-                </TabsTrigger>
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="experiences">Experiences</TabsTrigger>
               </TabsList>
 
               {/* Overview Tab */}
               <TabsContent value="overview" className="mt-6 space-y-8">
                 {/* About section */}
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold  border-b pb-2">About</h3>
-                  <div className="whitespace-pre-line text-gray-700 py-2">{worker.description}</div>
+                  <h3 className="text-xl font-semibold  border-b pb-2">
+                    About
+                  </h3>
+                  <div className="whitespace-pre-line text-gray-700 py-2">
+                    {worker.description}
+                  </div>
                 </div>
 
                 {/* Skills section */}
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold border-b pb-2">Skills</h3>
+                  <h3 className="text-xl font-semibold border-b pb-2">
+                    Skills
+                  </h3>
                   <div className="flex flex-wrap gap-2 py-2">
                     {formattedSkills.map((skill) => (
                       <Badge
@@ -272,7 +314,10 @@ export default function FreelancerProfile() {
                     </h3>
                     <div className="space-y-6 py-2">
                       {worker.education?.map((edu) => (
-                        <div key={edu.id} className="border-l-2 border-cyan-200 pl-4 py-1">
+                        <div
+                          key={edu.id}
+                          className="border-l-2 border-cyan-200 pl-4 py-1"
+                        >
                           <h4 className="font-medium">{edu.school}</h4>
                           <p className="text-gray-600">
                             {edu.degree} in {edu.fieldOfStudy}
@@ -280,12 +325,14 @@ export default function FreelancerProfile() {
                           <p className="text-sm text-gray-500">
                             {new Date(edu.startDate).toLocaleDateString()} -
                             {edu.currentlyStudying
-                              ? " Present"
+                              ? ' Present'
                               : edu.endDate
-                                ? ` ${new Date(edu.endDate).toLocaleDateString()}`
-                                : ""}
+                              ? ` ${new Date(edu.endDate).toLocaleDateString()}`
+                              : ''}
                           </p>
-                          <p className="mt-2 text-gray-700">{edu.description}</p>
+                          <p className="mt-2 text-gray-700">
+                            {edu.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -299,7 +346,10 @@ export default function FreelancerProfile() {
                     </h3>
                     <div className="space-y-4 py-2">
                       {staticData.certifications.map((cert, index) => (
-                        <div key={index} className="border-l-2 border-purple-200 pl-4 py-1">
+                        <div
+                          key={index}
+                          className="border-l-2 border-purple-200 pl-4 py-1"
+                        >
                           <h4 className="font-medium">{cert.name}</h4>
                           <p className="text-gray-600">{cert.issuer}</p>
                           <p className="text-sm text-gray-500">{cert.year}</p>
@@ -321,10 +371,13 @@ export default function FreelancerProfile() {
                         <div className="h-2 w-2 rounded-full bg-green-500 mr-2"></div>
                         <div>
                           <span className="font-medium">
-                            {language.language.charAt(0) + language.language.slice(1).toLowerCase()}:
+                            {language.language.charAt(0) +
+                              language.language.slice(1).toLowerCase()}
+                            :
                           </span>
                           <span className="ml-1 text-gray-600">
-                            {language.proficiency.charAt(0) + language.proficiency.slice(1).toLowerCase()}
+                            {language.proficiency.charAt(0) +
+                              language.proficiency.slice(1).toLowerCase()}
                           </span>
                         </div>
                       </div>
@@ -343,16 +396,19 @@ export default function FreelancerProfile() {
                   </h3>
                   <div className="space-y-6 py-2">
                     {worker.experience?.map((exp) => (
-                      <div key={exp.id} className="border-l-2 border-amber-200 pl-4 py-1">
+                      <div
+                        key={exp.id}
+                        className="border-l-2 border-amber-200 pl-4 py-1"
+                      >
                         <h4 className="font-medium">{exp.title}</h4>
                         <p className="text-gray-600">{exp.company}</p>
                         <p className="text-sm text-gray-500">
                           {new Date(exp.startDate).toLocaleDateString()} -
                           {exp.currentlyWorking
-                            ? " Present"
+                            ? ' Present'
                             : exp.endDate
-                              ? ` ${new Date(exp.endDate).toLocaleDateString()}`
-                              : ""}
+                            ? ` ${new Date(exp.endDate).toLocaleDateString()}`
+                            : ''}
                         </p>
                         <p className="text-sm text-gray-500 mt-1">
                           {exp.city}, {exp.state}, {exp.country}
@@ -372,14 +428,18 @@ export default function FreelancerProfile() {
             <div className="sticky top-24 rounded-lg border bg-gradient-to-b from-white to-blue-50 p-6 shadow-sm">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-t-lg"></div>
               <div className="mb-4 text-center">
-                <div className="text-2xl font-bold text-blue-600">${worker.hourlyRate}</div>
+                <div className="text-2xl font-bold text-blue-600">
+                  ${worker.hourlyRate}
+                </div>
                 <div className="text-gray-600">per hour</div>
               </div>
 
               <div className="mb-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Availability</span>
-                  <span className="font-medium">{worker.availability ? "Available" : "Unavailable"}</span>
+                  <span className="font-medium">
+                    {worker.availability ? 'Available' : 'Unavailable'}
+                  </span>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
@@ -396,7 +456,7 @@ export default function FreelancerProfile() {
               </div>
 
               <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
-                Contact {worker.user?.firstName || "Worker"}
+                Contact {worker.user?.firstName || 'Worker'}
               </Button>
               <Button variant="outline" className="mt-3 w-full">
                 Invite to Job
@@ -406,5 +466,5 @@ export default function FreelancerProfile() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -99,9 +99,10 @@ export interface TJob {
   requirements: string;
   employmentType: string;
   numberOfPositions: number;
-  budget: number;
-  hourlyRateMin: number;
-  hourlyRateMax: number;
+  budget?: number;
+  hourlyRateMin?: number;
+  hourlyRateMax?: number;
+  salary?: number;
   status: string;
 }
 

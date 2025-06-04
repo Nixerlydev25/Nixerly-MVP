@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useGetSingleJob } from '@/hook/jobs/jobs.hooks';
 import { ROUTES } from '@/lib/routes';
+import { ModalType } from '@/types/model';
+import { useModalStore } from '@/store/modal.store';
 import {
   Briefcase,
   Building2,
@@ -26,6 +28,7 @@ import { useRouter } from 'next/navigation';
 export default function JobPostDetail() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { openModal } = useModalStore();
 
   const { data: jobDetails } = useGetSingleJob(id);
 
@@ -73,11 +76,14 @@ export default function JobPostDetail() {
                       <span>
                         Posted{' '}
                         {jobDetails
-                          ? new Date(jobDetails.createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })
+                          ? new Date(jobDetails.createdAt).toLocaleDateString(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              }
+                            )
                           : ''}
                       </span>
                     </span>
@@ -93,7 +99,15 @@ export default function JobPostDetail() {
                   <Share2 className="h-5 w-5" />
                   <span className="sr-only">Share job</span>
                 </Button>
-                <Button size="icon" variant="outline">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={() => {
+                    openModal(ModalType.REPORT_JOB_MODAL, {
+                      jobId: jobDetails?.id,
+                    });
+                  }}
+                >
                   <Flag className="h-5 w-5" />
                   <span className="sr-only">Report job</span>
                 </Button>
@@ -105,7 +119,12 @@ export default function JobPostDetail() {
                 variant="outline"
               >
                 <Clock className="h-3.5 w-3.5" />
-                {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
+                {jobDetails?.employmentType
+                  ? jobDetails.employmentType
+                      .split('_')
+                      .join(' ')
+                      .replace(/^\w/, (c) => c.toUpperCase())
+                  : 'Full-time'}
               </Badge>
             </div>
             <div className="flex md:hidden gap-2">
@@ -150,6 +169,28 @@ export default function JobPostDetail() {
                 </div>
               </div>
             </div>
+
+            {jobDetails?.skills && jobDetails.skills.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold border-b pb-2">
+                  Required Skills
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {jobDetails.skills.map((skill, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center gap-1 text-sm bg-blue-50 text-blue-700 hover:bg-blue-100"
+                    >
+                      <Tool className="h-3.5 w-3.5" />
+                      {skill
+                        .replace(/_/g, ' ')
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Company Section */}
             <div className="space-y-4">
@@ -306,7 +347,12 @@ export default function JobPostDetail() {
                     <Briefcase className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">
-                        {jobDetails?.employmentType ? jobDetails.employmentType.split('_').join(' ').replace(/^\w/, c => c.toUpperCase()) : 'Full-time'}
+                        {jobDetails?.employmentType
+                          ? jobDetails.employmentType
+                              .split('_')
+                              .join(' ')
+                              .replace(/^\w/, (c) => c.toUpperCase())
+                          : 'Full-time'}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {jobDetails?.jobType || '.'}
@@ -319,11 +365,14 @@ export default function JobPostDetail() {
                       <p className="font-medium">Start date</p>
                       <p className="text-sm text-muted-foreground">
                         {jobDetails?.startDate
-                          ? new Date(jobDetails.startDate).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })
+                          ? new Date(jobDetails.startDate).toLocaleDateString(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              }
+                            )
                           : 'Immediate'}
                       </p>
                     </div>
@@ -340,23 +389,6 @@ export default function JobPostDetail() {
                       </p>
                     </div>
                   </div>
-                  {jobDetails?.skills && jobDetails.skills.length > 0 && (
-                    <div>
-                      <h3 className="font-medium mb-2">Required Skills</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {jobDetails.skills.map((skill, index) => (
-                          <Badge
-                            key={index}
-                            variant="secondary"
-                            className="flex items-center gap-1 text-sm bg-blue-50 text-blue-700"
-                          >
-                            <Tool className="h-3.5 w-3.5" />
-                            {skill.replace(/_/g, ' ')}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
               <Button

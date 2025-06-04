@@ -17,17 +17,22 @@ import {
   Users,
   Briefcase,
   Eye,
+  Flag,
 } from 'lucide-react';
 import Image from 'next/image';
 import { BusinessProfileSkeleton } from '@/app/(dashboard)/business/profile/_components/business-profile-skeleton';
 import { useGetBusinessById } from '@/hook/business/business.hook';
 import { useParams } from 'next/navigation';
 import { TJob } from '@/types/auth';
+import { useModalStore } from '@/store/modal.store';
+import { ModalType } from '@/types/model';
 
 export default function BusinessProfilePage() {
   const { id } = useParams<{ id: string }>();
 
   const { data: businessProfileData, isLoading } = useGetBusinessById(id);
+
+  const { openModal } = useModalStore();
 
   if (isLoading && !businessProfileData) {
     return <BusinessProfileSkeleton />;
@@ -43,22 +48,15 @@ export default function BusinessProfilePage() {
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
                 {businessProfileData?.logoUrl ? (
                   <Image
-                    src={
-                      businessProfileData?.logoUrl ||
-                      '/placeholder.svg'
-                    }
-                    alt={
-                      businessProfileData?.companyName || ''
-                    }
+                    src={businessProfileData?.logoUrl || '/placeholder.svg'}
+                    alt={businessProfileData?.companyName || ''}
                     fill
                     className="object-cover"
                   />
                 ) : (
                   <Image
                     src="/placeholder.svg?height=128&width=128"
-                    alt={
-                      businessProfileData?.companyName || ''
-                    }
+                    alt={businessProfileData?.companyName || ''}
                     width={128}
                     height={128}
                     className="object-cover"
@@ -83,17 +81,12 @@ export default function BusinessProfilePage() {
                       <span className="hidden md:inline">•</span>
                       <span className="flex items-center gap-1">
                         <Building2 className="h-4 w-4" />
-                        <span>
-                          {businessProfileData?.industry}
-                        </span>
+                        <span>{businessProfileData?.industry}</span>
                       </span>
                       <span className="hidden md:inline">•</span>
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
-                        <span>
-                          Est.{' '}
-                          {businessProfileData?.yearFounded}
-                        </span>
+                        <span>Est. {businessProfileData?.yearFounded}</span>
                       </span>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -109,6 +102,20 @@ export default function BusinessProfilePage() {
                     </div>
                   </div>
                   <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={() => {
+                        openModal(ModalType.REPORT_BUSINESS_MODAL, {
+                          targetId: id,
+                          targetName: businessProfileData?.companyName,
+                        });
+                      }}
+                    >
+                      <Flag className="mr-2 h-4 w-4" />
+                      Report Business
+                    </Button>
                     <Button>
                       <Mail className="mr-2 h-4 w-4" />
                       Contact
@@ -243,8 +250,7 @@ export default function BusinessProfilePage() {
                   <div>
                     <p className="font-medium">Company Size</p>
                     <p className="text-sm text-muted-foreground">
-                      {businessProfileData?.employeeCount}{' '}
-                      employees
+                      {businessProfileData?.employeeCount} employees
                     </p>
                   </div>
                 </div>
@@ -289,9 +295,7 @@ export default function BusinessProfilePage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span>
-                      {businessProfileData?.user?.email}
-                    </span>
+                    <span>{businessProfileData?.user?.email}</span>
                   </div>
                   {businessProfileData?.website && (
                     <div className="flex items-center gap-2">
@@ -335,11 +339,8 @@ export default function BusinessProfilePage() {
                       {businessProfileData?.user?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {businessProfileData?.user
-                        ?.defaultProfile
-                        ? businessProfileData.user.defaultProfile.charAt(
-                            0
-                          ) +
+                      {businessProfileData?.user?.defaultProfile
+                        ? businessProfileData.user.defaultProfile.charAt(0) +
                           businessProfileData.user.defaultProfile
                             .slice(1)
                             .toLowerCase()

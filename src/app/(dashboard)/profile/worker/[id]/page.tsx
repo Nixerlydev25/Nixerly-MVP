@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {

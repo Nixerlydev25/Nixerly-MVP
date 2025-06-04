@@ -3,8 +3,11 @@ import instance from '../api';
 import { API_ROUTES } from '@/constants/routes';
 
 class ReportService {
-  static async reportWorker(data: ReportWorker) {
-    const response = await instance.post(API_ROUTES.REPORT.REPORT_WORKER, data);
+  static async reportWorker(data: ReportWorker, workerId: string) {
+    const response = await instance.post(
+      API_ROUTES.REPORT.REPORT_WORKER(workerId),
+      data
+    );
     return response.data;
   }
 
@@ -18,6 +21,13 @@ class ReportService {
 
   static async reportJob(data: ReportJob) {
     const response = await instance.post(API_ROUTES.REPORT.REPORT_JOB, data);
+    return response.data;
+  }
+
+  static async hasBusinessReportedWorker(workerId: string) {
+    const response = await instance.get(
+      API_ROUTES.REPORT.HAS_BUSINESS_REPORTED_WORKER(workerId)
+    );
     return response.data;
   }
 }

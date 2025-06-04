@@ -1,8 +1,7 @@
-'use client';
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import {
   Dialog,
   DialogContent,
@@ -10,15 +9,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { AlertCircle, CheckCircle } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
 import {
   Form,
   FormControl,
@@ -26,18 +23,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { useReportWorker } from '@/hook/report/report.hooks';
-import { ReportCategory } from '@/types/report.types';
+} from "@/components/ui/form";
+import {
+  useHasBusinessReportedWorker,
+  useReportWorker,
+} from "@/hook/report/report.hooks";
+import { ReportCategory } from "@/types/report.types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const reportFormSchema = z.object({
-  category: z.nativeEnum(ReportCategory, {
-    required_error: 'Please select a report category',
+  reason: z.nativeEnum(ReportCategory, {
+    required_error: "Please select a report reason",
   }),
-  reason: z
+  description: z
     .string()
-    .min(10, 'Please provide at least 10 characters of detail')
-    .max(1000, 'Details must not exceed 1000 characters'),
+    .min(10, "Please provide at least 10 characters of detail")
+    .max(1000, "Details must not exceed 1000 characters"),
 });
 
 type ReportFormValues = z.infer<typeof reportFormSchema>;
@@ -45,7 +52,7 @@ type ReportFormValues = z.infer<typeof reportFormSchema>;
 export function ReportWorkerModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
   const isOpen = activeModal === ModalType.REPORT_WORKER_MODAL;
-  const { targetId = '', targetName = '' } = (modalData || {}) as {
+  const { targetId = "", targetName = "" } = (modalData || {}) as {
     targetId: string;
     targetName: string;
   };
@@ -54,42 +61,41 @@ export function ReportWorkerModal() {
     isSuccess: isReportWorkerSuccess,
     error: reportWorkerError,
   } = useReportWorker();
+  const { data } = useHasBusinessReportedWorker(targetId);
+  const hasAlreadyReported = data?.data;
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportFormSchema),
     defaultValues: {
-      category: ReportCategory.OTHER,
-      reason: '',
+      reason: ReportCategory.OTHER,
+      description: "",
     },
   });
 
   const onSubmit = async (values: ReportFormValues) => {
     await reportWorker({
-      targetWorkerId: targetId,
-      ...values,
+      data: values,
+      workerId: targetId,
     });
 
     closeModal();
   };
 
   const handleClose = () => {
-    if (!isReportWorkerSuccess) {
       closeModal();
-      form.reset();
-    }
   };
 
-  const categoryLabels: Record<ReportCategory, string> = {
-    HARASSMENT: 'Harassment or Bullying',
-    SPAM: 'Spam or Misleading Content',
-    INAPPROPRIATE_CONTENT: 'Inappropriate Content',
-    FRAUD: 'Fraud or Scam',
-    FAKE_PROFILE: 'Fake Profile',
-    HATE_SPEECH: 'Hate Speech',
-    VIOLENCE: 'Violence or Threats',
-    INTELLECTUAL_PROPERTY: 'Intellectual Property Violation',
-    IMPERSONATION: 'Impersonation',
-    OTHER: 'Other Issue',
+  const reasonLabels: Record<ReportCategory, string> = {
+    INAPPROPRIATE_BEHAVIOR: "Inappropriate Behavior",
+    MISREPRESENTATION_OF_SKILLS: "Misrepresentation of Skills",
+    UNPROFESSIONAL_CONDUCT: "Unprofessional Conduct",
+    HARASSMENT: "Harassment",
+    DISCRIMINATION: "Discrimination",
+    POOR_COMMUNICATION: "Poor Communication",
+    NO_SHOW: "No Show",
+    FRAUDULENT_ACTIVITY: "Fraudulent Activity",
+    VIOLATION_OF_TERMS: "Violation of Terms",
+    OTHER: "Other",
   };
 
   return (
@@ -103,16 +109,15 @@ export function ReportWorkerModal() {
           </DialogDescription>
         </DialogHeader>
 
-        {isReportWorkerSuccess ? (
+        {hasAlreadyReported ? (
           <div className="py-6">
-            <Alert className="bg-green-50 border-green-200">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <AlertTitle className="text-green-800">
-                Report Submitted
+            <Alert className="bg-yellow-50 border-yellow-200">
+              <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <AlertTitle className="text-yellow-800">
+                Already Reported
               </AlertTitle>
-              <AlertDescription className="text-green-700">
-                Thank you for your report. Our team will review it as soon as
-                possible.
+              <AlertDescription className="text-yellow-700">
+                You have already submitted a report for this worker.
               </AlertDescription>
             </Alert>
           </div>
@@ -121,39 +126,27 @@ export function ReportWorkerModal() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="category"
+                name="reason"
                 render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <FormLabel className="text-sm font-medium">
-                      What are you reporting?
-                    </FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="grid grid-cols-1 gap-3 md:grid-cols-2"
-                      >
-                        {Object.entries(categoryLabels).map(
-                          ([value, label]) => (
-                            <div
-                              key={value}
-                              className="flex items-center space-x-2"
-                            >
-                              <RadioGroupItem
-                                value={value}
-                                id={`category-${value}`}
-                              />
-                              <Label
-                                htmlFor={`category-${value}`}
-                                className="text-sm"
-                              >
-                                {label}
-                              </Label>
-                            </div>
-                          )
-                        )}
-                      </RadioGroup>
-                    </FormControl>
+                  <FormItem>
+                    <FormLabel>What are you reporting?</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a reason" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(reasonLabels).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -161,7 +154,7 @@ export function ReportWorkerModal() {
 
               <FormField
                 control={form.control}
-                name="reason"
+                name="description"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>Additional details</FormLabel>
@@ -197,7 +190,7 @@ export function ReportWorkerModal() {
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isReportWorkerSuccess}>
-                  {isReportWorkerSuccess ? 'Submitting...' : 'Submit Report'}
+                  {isReportWorkerSuccess ? "Submitting..." : "Submit Report"}
                 </Button>
               </DialogFooter>
             </form>

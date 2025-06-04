@@ -97,7 +97,9 @@ export const API_ROUTES = {
     GET_DETAILS: (id?: string) => `/jobs/${id}`,
   },
   REPORT: {
-    REPORT_WORKER: '/reports/report-worker',
+    REPORT_WORKER: (workerId: string) => `/reports/report-worker/${workerId}`,
+    HAS_BUSINESS_REPORTED_WORKER: (workerId: string) =>
+      `/reports/has-reported-worker/${workerId}`,
     REPORT_BUSINESS: '/reports/report-business',
     REPORT_JOB: '/reports/report-job',
   },

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Building2,
   Calendar,
@@ -18,14 +18,21 @@ import {
   Briefcase,
   Eye,
   Flag,
-} from 'lucide-react';
-import Image from 'next/image';
-import { BusinessProfileSkeleton } from '@/app/(dashboard)/business/profile/_components/business-profile-skeleton';
-import { useGetBusinessById } from '@/hook/business/business.hook';
-import { useParams } from 'next/navigation';
-import { TJob } from '@/types/auth';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
+  MoreHorizontal,
+} from "lucide-react";
+import Image from "next/image";
+import { BusinessProfileSkeleton } from "@/app/(dashboard)/business/profile/_components/business-profile-skeleton";
+import { useGetBusinessById } from "@/hook/business/business.hook";
+import { useParams } from "next/navigation";
+import { TJob } from "@/types/auth";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function BusinessProfilePage() {
   const { id } = useParams<{ id: string }>();
@@ -48,15 +55,15 @@ export default function BusinessProfilePage() {
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
                 {businessProfileData?.logoUrl ? (
                   <Image
-                    src={businessProfileData?.logoUrl || '/placeholder.svg'}
-                    alt={businessProfileData?.companyName || ''}
+                    src={businessProfileData?.logoUrl || "/placeholder.svg"}
+                    alt={businessProfileData?.companyName || ""}
                     fill
                     className="object-cover"
                   />
                 ) : (
                   <Image
                     src="/placeholder.svg?height=128&width=128"
-                    alt={businessProfileData?.companyName || ''}
+                    alt={businessProfileData?.companyName || ""}
                     width={128}
                     height={128}
                     className="object-cover"
@@ -73,8 +80,8 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         <span>
-                          {businessProfileData?.city},{' '}
-                          {businessProfileData?.state},{' '}
+                          {businessProfileData?.city},{" "}
+                          {businessProfileData?.state},{" "}
                           {businessProfileData?.country}
                         </span>
                       </span>
@@ -102,24 +109,26 @@ export default function BusinessProfilePage() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-red-600 border-red-200 hover:bg-red-50"
-                      onClick={() => {
-                        openModal(ModalType.REPORT_BUSINESS_MODAL, {
-                          targetId: id,
-                          targetName: businessProfileData?.companyName,
-                        });
-                      }}
-                    >
-                      <Flag className="mr-2 h-4 w-4" />
-                      Report Business
-                    </Button>
-                    <Button>
-                      <Mail className="mr-2 h-4 w-4" />
-                      Contact
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon">
+                          <MoreHorizontal className="h-5 w-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          onClick={() => {
+                            openModal(ModalType.REPORT_BUSINESS_MODAL, {
+                              targetId: id,
+                              targetName: businessProfileData?.companyName,
+                            });
+                          }}
+                        >
+                          <Flag className="mr-2 h-4 w-4" />
+                          Report this profile
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </div>
               </div>
@@ -207,7 +216,7 @@ export default function BusinessProfilePage() {
                                 ${job.hourlyRateMin}-{job.hourlyRateMax}/hr
                               </Badge>
                               <Badge variant="outline">
-                                {businessProfileData.city},{' '}
+                                {businessProfileData.city},{" "}
                                 {businessProfileData.state}
                               </Badge>
                             </div>
@@ -278,10 +287,10 @@ export default function BusinessProfilePage() {
                     <p className="font-medium">Member Since</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(
-                        businessProfileData?.createdAt ?? ''
+                        businessProfileData?.createdAt ?? ""
                       ).toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'long',
+                        year: "numeric",
+                        month: "long",
                       })}
                     </p>
                   </div>
@@ -335,7 +344,7 @@ export default function BusinessProfilePage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">
-                      {businessProfileData?.user?.firstName}{' '}
+                      {businessProfileData?.user?.firstName}{" "}
                       {businessProfileData?.user?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -344,7 +353,7 @@ export default function BusinessProfilePage() {
                           businessProfileData.user.defaultProfile
                             .slice(1)
                             .toLowerCase()
-                        : 'Owner'}{' '}
+                        : "Owner"}{" "}
                       Owner
                     </p>
                   </div>

@@ -57,24 +57,31 @@ function DashboardNav() {
           <Button variant="ghost" size="icon" className="md:hidden">
             <MenuIcon className="h-6 w-6" />
           </Button>
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={isBusinessProfile ? "/business/feed" : '/worker/feed'} className="flex items-center gap-2">
             <BriefcaseIcon className="h-6 w-6 text-blue-600" />
             <span className="text-xl font-bold text-blue-600">Nixerly</span>
           </Link>
-          <nav className="hidden md:flex md:items-center md:gap-6">
+          {isBusinessProfile ? <nav className="hidden md:flex md:items-center md:gap-6">
             <Link
-              href="/feed"
+              href="/business/feed"
               className="text-sm font-medium text-blue-600 hover:text-blue-600"
             >
               Find Talent
             </Link>
             <Link
-              href="#"
+              href="/business/jobs"
               className="text-sm font-medium text-gray-600 hover:text-blue-600"
             >
               My Jobs
             </Link>
-          </nav>
+          </nav> : <nav className="hidden md:flex md:items-center md:gap-6">
+            <Link
+              href="/worker/feed"
+              className="text-sm font-medium text-blue-600 hover:text-blue-600"
+            >
+              Find Job
+            </Link>
+          </nav>}
         </div>
         <div className="flex items-center gap-4">
           <DropdownMenu>

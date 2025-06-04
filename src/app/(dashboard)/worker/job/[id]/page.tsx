@@ -92,10 +92,6 @@ export default function JobPostDetail() {
               </div>
               <div className="hidden md:flex gap-2">
                 <Button size="icon" variant="outline">
-                  <Heart className="h-5 w-5" />
-                  <span className="sr-only">Save job</span>
-                </Button>
-                <Button size="icon" variant="outline">
                   <Share2 className="h-5 w-5" />
                   <span className="sr-only">Share job</span>
                 </Button>

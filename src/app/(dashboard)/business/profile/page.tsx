@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Building2,
   Calendar,
@@ -20,21 +20,37 @@ import {
   Briefcase,
   Camera,
   Eye,
-} from "lucide-react";
-import Image from "next/image";
-import { useModalStore } from "@/store/modal.store";
-import { ModalType } from "@/types/model";
-import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
-import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
+  ChevronRight,
+  ChevronLeft,
+} from 'lucide-react';
+import Image from 'next/image';
+import { useModalStore } from '@/store/modal.store';
+import { ModalType } from '@/types/model';
+import { useGetCurrentBusinessProfileDetails } from '@/hook/user/user.hooks';
+import { BusinessProfileSkeleton } from './_components/business-profile-skeleton';
+import { useRouter } from 'next/navigation';
+import { useListMyJobs } from '@/hook/jobs/jobs.hooks';
 
 export default function BusinessProfilePage() {
   const { data: businessProfileData, isLoading } =
     useGetCurrentBusinessProfileDetails();
-  const { openModal } = useModalStore();
 
-  if (isLoading && !businessProfileData) {
+  const { data: jobs, isLoading: isJobsLoading } = useListMyJobs();
+
+  const { openModal } = useModalStore();
+  const router = useRouter();
+
+  const handlePageChange = async (page: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('page', page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  if (isLoading && !businessProfileData && isJobsLoading) {
     return <BusinessProfileSkeleton />;
   }
+
+  console.log(jobs);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -49,16 +65,16 @@ export default function BusinessProfilePage() {
                   <Image
                     src={
                       businessProfileData?.businessProfile?.logoUrl ||
-                      "/placeholder.svg"
+                      '/placeholder.svg'
                     }
-                    alt={businessProfileData?.businessProfile.companyName || ""}
+                    alt={businessProfileData?.businessProfile.companyName || ''}
                     fill
                     className="object-cover"
                   />
                 ) : (
                   <Image
                     src="/placeholder.svg?height=128&width=128"
-                    alt={businessProfileData?.businessProfile.companyName || ""}
+                    alt={businessProfileData?.businessProfile.companyName || ''}
                     width={128}
                     height={128}
                     className="object-cover"
@@ -82,8 +98,8 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         <span>
-                          {businessProfileData?.businessProfile.city},{" "}
-                          {businessProfileData?.businessProfile.state},{" "}
+                          {businessProfileData?.businessProfile.city},{' '}
+                          {businessProfileData?.businessProfile.state},{' '}
                           {businessProfileData?.businessProfile.country}
                         </span>
                       </span>
@@ -98,7 +114,7 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          Est.{" "}
+                          Est.{' '}
                           {businessProfileData?.businessProfile.yearFounded}
                         </span>
                       </span>
@@ -121,16 +137,14 @@ export default function BusinessProfilePage() {
                       onClick={() =>
                         openModal(
                           ModalType.EDIT_BUSINESS_PROFILE,
-                          businessProfileData?.businessProfile as unknown as { [key: string]: unknown }
+                          businessProfileData?.businessProfile as unknown as {
+                            [key: string]: unknown;
+                          }
                         )
                       }
                     >
                       <Edit className="mr-2 h-4 w-4" />
                       Edit Profile
-                    </Button>
-                    <Button>
-                      <Mail className="mr-2 h-4 w-4" />
-                      Contact
                     </Button>
                   </div>
                 </div>
@@ -163,113 +177,46 @@ export default function BusinessProfilePage() {
           <Separator />
 
           {/* Tabs for different sections */}
-          <Tabs defaultValue="services" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="services">Services</TabsTrigger>
-              <TabsTrigger value="jobs">Job Postings</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            </TabsList>
-            <TabsContent value="services" className="space-y-6 pt-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Services Offered</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    openModal(ModalType.EDIT_BUSINESS_SERVICES, {
-                      services: [
-                        {
-                          id: 1,
-                          title: "Plumbing Installation",
-                          description:
-                            "Complete installation services for residential and commercial properties, including pipes, fixtures, and appliances.",
-                        },
-                        {
-                          id: 2,
-                          title: "Leak Repairs",
-                          description:
-                            "Fast and reliable leak detection and repair services to prevent water damage and conserve water.",
-                        },
-                        {
-                          id: 3,
-                          title: "Bathroom Remodeling",
-                          description:
-                            "Complete bathroom renovation services, from fixture replacement to full remodels.",
-                        },
-                        {
-                          id: 4,
-                          title: "Emergency Services",
-                          description:
-                            "24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.",
-                        },
-                      ],
-                    })
-                  }
-                >
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Edit Services
-                </Button>
-              </div>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-medium">Recent Job Postings</h3>
+            <Button onClick={() => router.push('/business/post-a-job')}>
+              <Pencil className="mr-2 h-4 w-4" />
+              Post New Job
+            </Button>
+          </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Plumbing Installation</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Complete installation services for residential and
-                    commercial properties, including pipes, fixtures, and
-                    appliances.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Leak Repairs</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Fast and reliable leak detection and repair services to
-                    prevent water damage and conserve water.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Bathroom Remodeling</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Complete bathroom renovation services, from fixture
-                    replacement to full remodels.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Emergency Services</h4>
-                  <p className="text-sm text-muted-foreground">
-                    24/7 emergency plumbing services for urgent issues like
-                    burst pipes and major leaks.
-                  </p>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="jobs" className="pt-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium">Recent Job Postings</h3>
-                <Button>
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Post New Job
-                </Button>
-              </div>
-
-              {(businessProfileData?.businessProfile.postedJobs ?? 0) > 0 ? (
-                <div className="space-y-4">
-                  <div className="rounded-lg border p-4">
+          {(jobs?.jobs?.length ?? 0) > 0 ? (
+            <>
+              <div className="space-y-4">
+                {jobs?.jobs?.map((job) => (
+                  <div key={job.id} className="rounded-lg border p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-3">
                         <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
                         <div>
-                          <h4 className="font-medium">
-                            Experienced Electrician Needed
-                          </h4>
+                          <h4 className="font-medium">{job.title}</h4>
                           <p className="text-sm text-muted-foreground">
-                            Posted 2 days ago
+                            Posted {job.createdAt}
                           </p>
                           <div className="mt-2 flex flex-wrap gap-2">
-                            <Badge variant="outline">Full-time</Badge>
-                            <Badge variant="outline">$25-40/hr</Badge>
-                            <Badge variant="outline">Miami, FL</Badge>
+                            <Badge variant="outline">{job.jobType}</Badge>
+                            {job.jobType === 'SALARY' && (
+                              <Badge variant="outline">
+                                ${job.salary}/year
+                              </Badge>
+                            )}
+                            {job.jobType === 'CONTRACT' && (
+                              <Badge variant="outline">${job.budget}</Badge>
+                            )}
+                            {job.jobType === 'HOURLY' && (
+                              <Badge variant="outline">
+                                ${job.hourlyRateMin}-${job.hourlyRateMax}/hr
+                              </Badge>
+                            )}
+                            <Badge variant="outline">
+                              {job.businessProfile.city},{' '}
+                              {job.businessProfile.state}
+                            </Badge>
                           </div>
                         </div>
                       </div>
@@ -278,49 +225,68 @@ export default function BusinessProfilePage() {
                       </Button>
                     </div>
                   </div>
+                ))}
+              </div>
 
-                  <div className="rounded-lg border p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start gap-3">
-                        <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <h4 className="font-medium">
-                            Plumbing Assistant Required
-                          </h4>
-                          <p className="text-sm text-muted-foreground">
-                            Posted 1 week ago
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            <Badge variant="outline">Part-time</Badge>
-                            <Badge variant="outline">$18-22/hr</Badge>
-                            <Badge variant="outline">Miami, FL</Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
+              {(jobs?.pagination?.totalCount ?? 0) > 10 && (
+                <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handlePageChange((jobs?.pagination?.currentPage ?? 1) - 1)
+                      }
+                      disabled={jobs?.pagination?.currentPage === 1}
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+
+                    <div className="flex items-center gap-1">
+                      {Array.from(
+                        { length: jobs?.pagination?.totalPages ?? 0 },
+                        (_, i) => i + 1
+                      ).map((pageNum) => (
+                        <Button
+                          key={pageNum}
+                          variant={
+                            pageNum === (jobs?.pagination?.currentPage ?? 1)
+                              ? 'default'
+                              : 'outline'
+                          }
+                          size="sm"
+                          className="w-8 h-8 p-0"
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </Button>
+                      ))}
                     </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handlePageChange((jobs?.pagination?.currentPage ?? 1) + 1)
+                      }
+                      disabled={!jobs?.pagination?.hasMore}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Page {jobs?.pagination?.currentPage} of{' '}
+                    {jobs?.pagination?.totalPages} •{' '}
+                    {jobs?.pagination?.totalCount} total jobs
                   </div>
                 </div>
-              ) : (
-                <p className="text-muted-foreground">No job postings yet.</p>
               )}
-            </TabsContent>
-
-            <TabsContent value="reviews" className="pt-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium">Customer Reviews</h3>
-              </div>
-              <div className="rounded-lg border p-6 text-center">
-                <p className="text-muted-foreground">No reviews yet.</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Reviews from your customers will appear here once they&apos;re
-                  submitted.
-                </p>
-              </div>
-            </TabsContent>
-          </Tabs>
+            </>
+          ) : (
+            <p className="text-muted-foreground">No job postings yet.</p>
+          )}
         </div>
 
         <div className="space-y-6 md:order-2">
@@ -333,7 +299,7 @@ export default function BusinessProfilePage() {
                   <div>
                     <p className="font-medium">Company Size</p>
                     <p className="text-sm text-muted-foreground">
-                      {businessProfileData?.businessProfile.employeeCount}{" "}
+                      {businessProfileData?.businessProfile.employeeCount}{' '}
                       employees
                     </p>
                   </div>
@@ -362,10 +328,10 @@ export default function BusinessProfilePage() {
                     <p className="font-medium">Member Since</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(
-                        businessProfileData?.createdAt ?? ""
+                        businessProfileData?.createdAt ?? ''
                       ).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "long",
+                        year: 'numeric',
+                        month: 'long',
                       })}
                     </p>
                   </div>
@@ -419,14 +385,14 @@ export default function BusinessProfilePage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">
-                      {businessProfileData?.firstName}{" "}
+                      {businessProfileData?.firstName}{' '}
                       {businessProfileData?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {businessProfileData?.role
                         ? businessProfileData.role.charAt(0) +
                           businessProfileData.role.slice(1).toLowerCase()
-                        : "Owner"}{" "}
+                        : 'Owner'}{' '}
                       Owner
                     </p>
                   </div>

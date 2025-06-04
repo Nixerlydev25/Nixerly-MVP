@@ -15,14 +15,11 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Award,
-  BookmarkIcon,
-  CheckCircle2,
   ChevronLeft,
   Clock,
   Flag,
   Globe,
   GraduationCap,
-  HeartIcon,
   MapPin,
   MoreHorizontal,
   Share2,
@@ -30,92 +27,15 @@ import {
 } from 'lucide-react';
 import { useGetWorkerById } from '@/hook/worker/worker.hook';
 import { useParams } from 'next/navigation';
-import { useReportWorker } from '@/hook/report/report.hooks';
 import { useModalStore } from '@/store/modal.store';
 import { ModalType } from '@/types/model';
-// Sample freelancer data for sections that will remain static
-const staticData = {
-  rating: 4.9,
-  jobsCompleted: 127,
-  successRate: 98,
-  lastActive: '2 hours ago',
-  responseTime: '< 1 hour',
-  avatar: '/placeholder.svg?height=200&width=200',
-  certifications: [
-    {
-      name: 'AWS Certified Solutions Architect',
-      issuer: 'Amazon Web Services',
-      year: '2020',
-    },
-    {
-      name: 'MongoDB Certified Developer',
-      issuer: 'MongoDB, Inc.',
-      year: '2019',
-    },
-  ],
-  workHistory: [
-    {
-      title: 'E-commerce Platform Redesign',
-      client: 'Fashion Retailer',
-      completedDate: 'March 2023',
-      rating: 5.0,
-      hours: 160,
-      description:
-        "Completely redesigned and rebuilt the client's e-commerce platform using React, Next.js, and Node.js. Implemented a headless CMS, optimized performance, and integrated with payment gateways.",
-    },
-    {
-      title: 'Real-time Analytics Dashboard',
-      client: 'SaaS Company',
-      completedDate: 'November 2022',
-      rating: 4.9,
-      hours: 120,
-      description:
-        'Developed a real-time analytics dashboard using React, D3.js, and WebSockets. The dashboard provides insights into user behavior and system performance.',
-    },
-    {
-      title: 'Mobile App Backend',
-      client: 'Health Tech Startup',
-      completedDate: 'July 2022',
-      rating: 5.0,
-      hours: 80,
-      description:
-        'Built a scalable backend for a health tracking mobile app using Node.js, Express, and MongoDB. Implemented authentication, data storage, and RESTful APIs.',
-    },
-  ],
-  reviews: [
-    {
-      client: 'Sarah M.',
-      company: 'Fashion Retailer',
-      rating: 5.0,
-      date: 'March 15, 2023',
-      content:
-        'Alex was exceptional to work with. He understood our requirements perfectly and delivered a solution that exceeded our expectations. His communication was clear and timely, and he was proactive in suggesting improvements to our initial design. Would definitely hire again!',
-    },
-    {
-      client: 'Michael T.',
-      company: 'SaaS Company',
-      rating: 4.9,
-      date: 'November 22, 2022',
-      content:
-        "Working with Alex was a great experience. He's technically skilled and also understands business requirements well. The dashboard he built has become an essential tool for our team and customers. Highly recommended.",
-    },
-    {
-      client: 'Jennifer K.',
-      company: 'Health Tech Startup',
-      rating: 5.0,
-      date: 'July 30, 2022',
-      content:
-        "Alex delivered our backend ahead of schedule and with all requirements met. He's a clear communicator and was able to explain complex technical concepts to our non-technical team members. His work is clean, well-documented, and easy to maintain.",
-    },
-  ],
-  preferredProjectLength: '3+ months',
-};
+import { useRouter } from 'next/navigation';
 
 export default function FreelancerProfile() {
-  const [isSaved, setIsSaved] = useState(false);
   const { id } = useParams<{ id: string }>();
   const { data: worker, isLoading } = useGetWorkerById(id);
   const { openModal } = useModalStore();
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -152,13 +72,13 @@ export default function FreelancerProfile() {
       {/* Navbar */}
       <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Back to search results */}
-        <Link
-          href="/dashboard"
-          className="mb-6 inline-flex items-center text-sm font-medium text-blue-600"
+        <div
+          onClick={() => router.back()}
+          className="mb-6 inline-flex cursor-pointer items-center text-sm font-medium text-blue-600"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to search results
-        </Link>
+          Back
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
           {/* Main content */}
@@ -171,7 +91,7 @@ export default function FreelancerProfile() {
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
-                      src={staticData.avatar || '/placeholder.svg'}
+                      src="/placeholder.svg"
                       width={120}
                       height={120}
                       alt={fullName}
@@ -191,21 +111,7 @@ export default function FreelancerProfile() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="text-red-600 border-red-200 hover:bg-red-50"
-                          onClick={() => {
-                            openModal(ModalType.REPORT_WORKER_MODAL, {
-                              targetId: id,
-                              targetName: fullName,
-                            });
-                          }}
-                        >
-                          <Flag className="mr-2 h-4 w-4" />
-                          Report User
-                        </Button>
-                        <Button
+                        {/* <Button
                           variant="outline"
                           size="icon"
                           className={isSaved ? 'text-red-500' : 'text-gray-400'}
@@ -216,7 +122,7 @@ export default function FreelancerProfile() {
                               isSaved ? 'fill-red-500' : ''
                             }`}
                           />
-                        </Button>
+                        </Button> */}
                         <Button variant="outline" size="icon">
                           <Share2 className="h-5 w-5" />
                         </Button>
@@ -227,13 +133,16 @@ export default function FreelancerProfile() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                openModal(ModalType.REPORT_WORKER_MODAL, {
+                                  targetId: id,
+                                  targetName: fullName,
+                                });
+                              }}
+                            >
                               <Flag className="mr-2 h-4 w-4" />
                               Report this profile
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <BookmarkIcon className="mr-2 h-4 w-4" />
-                              Save to list
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -245,21 +154,14 @@ export default function FreelancerProfile() {
                     <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                       <div className="flex items-center">
                         <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">
-                          {worker.avgRating || staticData.rating}
-                        </span>
+                        <span className="font-medium">{worker.avgRating}</span>
                         <span className="ml-1 text-gray-500">
-                          ({worker.completedJobs || staticData.jobsCompleted}{' '}
-                          reviews)
+                          ({worker.completedJobs} reviews)
                         </span>
-                      </div>
-                      <div className="flex items-center text-green-600">
-                        <CheckCircle2 className="mr-1 h-4 w-4" />
-                        {staticData.successRate}% Job Success
                       </div>
                       <div className="flex items-center">
                         <Clock className="mr-1 h-4 w-4 text-gray-500" />
-                        <span>{staticData.responseTime} response time</span>
+                        <span>Response time varies</span>
                       </div>
                     </div>
                   </div>
@@ -313,28 +215,32 @@ export default function FreelancerProfile() {
                       Education
                     </h3>
                     <div className="space-y-6 py-2">
-                      {worker.education?.map((edu) => (
-                        <div
-                          key={edu.id}
-                          className="border-l-2 border-cyan-200 pl-4 py-1"
-                        >
-                          <h4 className="font-medium">{edu.school}</h4>
-                          <p className="text-gray-600">
-                            {edu.degree} in {edu.fieldOfStudy}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {new Date(edu.startDate).toLocaleDateString()} -
-                            {edu.currentlyStudying
-                              ? ' Present'
-                              : edu.endDate
-                              ? ` ${new Date(edu.endDate).toLocaleDateString()}`
-                              : ''}
-                          </p>
-                          <p className="mt-2 text-gray-700">
-                            {edu.description}
-                          </p>
-                        </div>
-                      ))}
+                      {worker.education?.length ? (
+                        worker.education.map((edu) => (
+                          <div
+                            key={edu.id}
+                            className="border-l-2 border-cyan-200 pl-4 py-1"
+                          >
+                            <h4 className="font-medium">{edu.school}</h4>
+                            <p className="text-gray-600">
+                              {edu.degree} in {edu.fieldOfStudy}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {new Date(edu.startDate).toLocaleDateString()} -
+                              {edu.currentlyStudying
+                                ? ' Present'
+                                : edu.endDate
+                                ? ` ${new Date(edu.endDate).toLocaleDateString()}`
+                                : ''}
+                            </p>
+                            <p className="mt-2 text-gray-700">
+                              {edu.description}
+                            </p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-500">No Education</p>
+                      )}
                     </div>
                   </div>
 
@@ -345,16 +251,20 @@ export default function FreelancerProfile() {
                       Certifications
                     </h3>
                     <div className="space-y-4 py-2">
-                      {staticData.certifications.map((cert, index) => (
-                        <div
-                          key={index}
-                          className="border-l-2 border-purple-200 pl-4 py-1"
-                        >
-                          <h4 className="font-medium">{cert.name}</h4>
-                          <p className="text-gray-600">{cert.issuer}</p>
-                          <p className="text-sm text-gray-500">{cert.year}</p>
-                        </div>
-                      ))}
+                      {worker.certifications?.length ? (
+                        worker.certifications.map((cert) => (
+                          <div
+                            key={cert.id}
+                            className="border-l-2 border-purple-200 pl-4 py-1"
+                          >
+                            <h4 className="font-medium">{cert.name}</h4>
+                            <p className="text-gray-600">{cert.issuer}</p>
+                            <p className="text-sm text-gray-500">{cert.year}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-500">No Certifications</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -395,27 +305,31 @@ export default function FreelancerProfile() {
                     Work Experience
                   </h3>
                   <div className="space-y-6 py-2">
-                    {worker.experience?.map((exp) => (
-                      <div
-                        key={exp.id}
-                        className="border-l-2 border-amber-200 pl-4 py-1"
-                      >
-                        <h4 className="font-medium">{exp.title}</h4>
-                        <p className="text-gray-600">{exp.company}</p>
-                        <p className="text-sm text-gray-500">
-                          {new Date(exp.startDate).toLocaleDateString()} -
-                          {exp.currentlyWorking
-                            ? ' Present'
-                            : exp.endDate
-                            ? ` ${new Date(exp.endDate).toLocaleDateString()}`
-                            : ''}
-                        </p>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {exp.city}, {exp.state}, {exp.country}
-                        </p>
-                        <p className="mt-2 text-gray-700">{exp.description}</p>
-                      </div>
-                    ))}
+                    {worker.experience?.length ? (
+                      worker.experience.map((exp) => (
+                        <div
+                          key={exp.id}
+                          className="border-l-2 border-amber-200 pl-4 py-1"
+                        >
+                          <h4 className="font-medium">{exp.title}</h4>
+                          <p className="text-gray-600">{exp.company}</p>
+                          <p className="text-sm text-gray-500">
+                            {new Date(exp.startDate).toLocaleDateString()} -
+                            {exp.currentlyWorking
+                              ? ' Present'
+                              : exp.endDate
+                              ? ` ${new Date(exp.endDate).toLocaleDateString()}`
+                              : ''}
+                          </p>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {exp.city}, {exp.state}, {exp.country}
+                          </p>
+                          <p className="mt-2 text-gray-700">{exp.description}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500">No Experience</p>
+                    )}
                   </div>
                 </div>
               </TabsContent>
@@ -448,18 +362,10 @@ export default function FreelancerProfile() {
                     {worker.city}, {worker.state}
                   </span>
                 </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Last active</span>
-                  <span className="font-medium">{staticData.lastActive}</span>
-                </div>
               </div>
 
               <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
                 Contact {worker.user?.firstName || 'Worker'}
-              </Button>
-              <Button variant="outline" className="mt-3 w-full">
-                Invite to Job
               </Button>
             </div>
           </div>

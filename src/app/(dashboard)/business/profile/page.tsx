@@ -50,8 +50,6 @@ export default function BusinessProfilePage() {
     return <BusinessProfileSkeleton />;
   }
 
-  console.log(jobs);
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 md:grid-cols-3">
@@ -213,14 +211,14 @@ export default function BusinessProfilePage() {
                                 ${job.hourlyRateMin}-${job.hourlyRateMax}/hr
                               </Badge>
                             )}
-                            <Badge variant="outline">
-                              {job.businessProfile.city},{' '}
-                              {job.businessProfile.state}
-                            </Badge>
                           </div>
                         </div>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push(`/business/jobs/${job.id}`)}
+                      >
                         View Details
                       </Button>
                     </div>

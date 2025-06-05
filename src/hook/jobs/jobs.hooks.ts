@@ -1,15 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import JobsService from "@/services/jobs/jobs.service";
-import { toast } from "sonner";
-import { QueryKeys } from "@/querykey";
+import { useMutation, useQuery } from '@tanstack/react-query';
+import JobsService from '@/services/jobs/jobs.service';
+import { toast } from 'sonner';
+import { QueryKeys } from '@/querykey';
 import {
   Job,
   JobsResponse,
-} from "@/app/(dashboard)/worker/feed/_components/types";
-import { useSearchParams } from "next/navigation";
-import { JobApplicationSubmitData } from "@/app/(dashboard)/worker/job/[id]/apply/_component/types";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/lib/routes";
+} from '@/app/(dashboard)/worker/feed/_components/types';
+import { useSearchParams } from 'next/navigation';
+import { JobApplicationSubmitData } from '@/app/(dashboard)/worker/job/[id]/apply/_component/types';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 export const useCreateJob = () => {
   const router = useRouter();
@@ -18,10 +18,10 @@ export const useCreateJob = () => {
     mutationFn: JobsService.createJob,
     onSuccess: () => {
       router.push(ROUTES.MY_JOBS);
-      toast.success("Job created successfully");
+      toast.success('Job created successfully');
     },
     onError: () => {
-      toast.error("Failed to create job");
+      toast.error('Failed to create job');
     },
   });
 };
@@ -29,18 +29,18 @@ export const useCreateJob = () => {
 export const useGetAllJobs = () => {
   const searchParams = useSearchParams();
   const params: Record<string, string | number | undefined> = {
-    page: Number(searchParams.get("page")) || 1,
-    limit: Number(searchParams.get("limit")) || 10,
-    sortBy: searchParams.get("sortBy") || "createdAt",
-    sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "desc",
-    ...(searchParams.get("minHourlyRate") && {
-      minHourlyRate: Number(searchParams.get("minHourlyRate")),
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 10,
+    sortBy: searchParams.get('sortBy') || 'createdAt',
+    sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc',
+    ...(searchParams.get('minHourlyRate') && {
+      minHourlyRate: Number(searchParams.get('minHourlyRate')),
     }),
-    ...(searchParams.get("maxHourlyRate") && {
-      maxHourlyRate: Number(searchParams.get("maxHourlyRate")),
+    ...(searchParams.get('maxHourlyRate') && {
+      maxHourlyRate: Number(searchParams.get('maxHourlyRate')),
     }),
-    search: searchParams.get("search") || "",
-    status: searchParams.get("status") || undefined,
+    search: searchParams.get('search') || '',
+    status: searchParams.get('status') || undefined,
   };
 
   return useQuery<JobsResponse>({
@@ -77,16 +77,16 @@ export const useListMyJobs = () => {
     search?: string;
     status?: string;
   } = {
-    page: Number(searchParams.get("page")) || 1,
-    limit: Number(searchParams.get("limit")) || 10,
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 10,
   };
 
-  if (searchParams.get("search")) {
-    params.search = searchParams.get("search") || "";
+  if (searchParams.get('search')) {
+    params.search = searchParams.get('search') || '';
   }
 
-  if (searchParams.get("status")) {
-    params.status = searchParams.get("status") || "";
+  if (searchParams.get('status')) {
+    params.status = searchParams.get('status') || '';
   }
   return useQuery<JobsResponse>({
     queryKey: [QueryKeys.JOB_GET_ALL, params],
@@ -105,9 +105,12 @@ interface JobApplicantResponse {
   createdAt: string;
   updatedAt: string;
   workerProfile: {
+    phoneNumber: string;
+    profilePicture: string;
     user: {
       firstName: string;
       lastName: string;
+      email: string;
     };
   };
   fullName: string;
@@ -115,7 +118,7 @@ interface JobApplicantResponse {
   phone: string;
   avatar?: string;
   appliedAt: string;
-  paymentType: "hourly" | "fixed";
+  paymentType: 'hourly' | 'fixed';
   hourlyRate?: string;
   fixedBudget?: string;
   estimatedDuration: string;
@@ -140,9 +143,9 @@ interface JobApplicantsResponse {
 export const useGetJobApplicants = (jobId: string) => {
   const searchParams = useSearchParams();
   const params = {
-    page: Number(searchParams.get("page")) || 1,
-    limit: Number(searchParams.get("limit")) || 10,
-    search: searchParams.get("search") || "",
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 10,
+    search: searchParams.get('search') || '',
   };
 
   return useQuery<JobApplicantsResponse>({

@@ -23,3 +23,11 @@ export interface FeedsFilter {
   maxAvgRating?: number;
   sort?: 'rating' | 'price_low_to_high' | 'price_high_to_low';
 }
+
+export interface AppliedJobsFilter {
+  page?: number;
+  limit?: number;
+  search?: string;
+  startDate?: string;
+  endDate?: string;
+}

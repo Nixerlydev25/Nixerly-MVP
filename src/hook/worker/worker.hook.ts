@@ -1,17 +1,17 @@
-import { QueryKeys } from "@/querykey";
-import WorkerService from "@/services/worker/worker.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { FeedsFilter } from "@/types/feed/feed.types";
+import { QueryKeys } from '@/querykey';
+import WorkerService from '@/services/worker/worker.service';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { FeedsFilter } from '@/types/feed/feed.types';
 import {
   WorkerListResponse,
   WorkerProfileResponse,
-} from "@/types/worker.types";
-import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
-import { toast } from "sonner";
-import S3Service from "@/services/s3/s3.service";
-import { z } from "zod";
-import { queryClient } from "@/providers/query.provider";
+} from '@/types/worker.types';
+import { useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
+import { toast } from 'sonner';
+import S3Service from '@/services/s3/s3.service';
+import { z } from 'zod';
+import { queryClient } from '@/providers/query.provider';
 
 export const useGetWorkers = (enabled?: boolean) => {
   const searchParams = useSearchParams();
@@ -25,28 +25,28 @@ export const useGetWorkers = (enabled?: boolean) => {
 
     searchParams.forEach((value, key) => {
       switch (key) {
-        case "page":
-        case "limit":
-        case "minHourlyRate":
-        case "maxHourlyRate":
-        case "minTotalEarnings":
-        case "maxTotalEarnings":
-        case "minAvgRating":
-        case "maxAvgRating":
+        case 'page':
+        case 'limit':
+        case 'minHourlyRate':
+        case 'maxHourlyRate':
+        case 'minTotalEarnings':
+        case 'maxTotalEarnings':
+        case 'minAvgRating':
+        case 'maxAvgRating':
           const numValue = Number(value);
           if (!isNaN(numValue)) {
             params[key] = numValue;
           }
           break;
-        case "skills":
+        case 'skills':
           if (!params.skills) params.skills = [];
           params.skills.push(value);
           break;
-        case "sort":
+        case 'sort':
           if (
-            value === "rating" ||
-            value === "price_low_to_high" ||
-            value === "price_high_to_low"
+            value === 'rating' ||
+            value === 'price_low_to_high' ||
+            value === 'price_high_to_low'
           ) {
             params[key] = value;
           }
@@ -91,8 +91,8 @@ export const useGetWorkerById = (id: string) => {
 const getProfilePictureUploadUrlSchema = z.object({
   contentType: z
     .string()
-    .regex(/^image\/(jpeg|png|gif|webp)$/, "Invalid image format"),
-  fileName: z.string().min(1, "File name is required"),
+    .regex(/^image\/(jpeg|png|gif|webp)$/, 'Invalid image format'),
+  fileName: z.string().min(1, 'File name is required'),
 });
 
 type PresignedUrlResponse = {
@@ -108,7 +108,7 @@ export const useWorkerProfilePicture = () => {
   >({
     mutationKey: [QueryKeys.GET_PROFILE_PICTURE_UPLOAD_URL],
     mutationFn: async (file: File) => {
-      if (!file) throw new Error("No file provided");
+      if (!file) throw new Error('No file provided');
 
       // Validate file
       try {
@@ -145,7 +145,7 @@ export const useWorkerProfilePicture = () => {
       await WorkerService.updateProfilePicture(key);
     },
     onSuccess: () => {
-      toast.success("Profile picture updated successfully");
+      toast.success('Profile picture updated successfully');
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
       });
@@ -161,8 +161,8 @@ export const useWorkerProfilePicture = () => {
       await updateProfilePictureMutation.mutateAsync(s3Key);
       onClose();
     } catch (error) {
-      console.error("Error uploading profile picture:", error);
-      toast.error("There was an error uploading your profile picture");
+      console.error('Error uploading profile picture:', error);
+      toast.error('There was an error uploading your profile picture');
     }
   };
 
@@ -172,5 +172,53 @@ export const useWorkerProfilePicture = () => {
       getPresignedUrlMutation.isPending ||
       uploadToS3Mutation.isPending ||
       updateProfilePictureMutation.isPending,
+  };
+};
+
+export const useGetAppliedJobs = () => {
+  const searchParams = useSearchParams();
+
+  const filters = useMemo(() => {
+    const params: FeedsFilter & Record<string, string | number | string[]> = {
+      page: 1,
+      limit: 15,
+    };
+
+    searchParams.forEach((value, key) => {
+      switch (key) {
+        case 'page':
+        case 'limit':
+          const numValue = Number(value);
+          if (!isNaN(numValue)) {
+            params[key] = numValue;
+          }
+          break;
+        case 'search':
+          params.search = value;
+          break;
+        case 'startDate':
+        case 'endDate':
+          params[key] = value;
+          break;
+      }
+    });
+
+    return params;
+  }, [searchParams]);
+
+  const currentPage = useMemo(() => {
+    return filters.page || 1;
+  }, [filters.page]);
+
+  const query = useQuery<any>({
+    queryKey: [QueryKeys.GET_APPLIED_JOBS, filters],
+    queryFn: () => WorkerService.getAppliedJobs(filters),
+    enabled: !!filters.page,
+  });
+
+  return {
+    ...query,
+    currentPage,
+    filters,
   };
 };

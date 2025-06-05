@@ -39,4 +39,6 @@ export enum QueryKeys {
   REPORT_BUSINESS = 'report-business',
   REPORT_JOB = 'report-job',
   HAS_BUSINESS_REPORTED_WORKER = 'has-business-reported-worker',
+  HAS_WORKER_REPORTED_JOB = 'has-worker-reported-job',
+  HAS_WORKER_REPORTED_BUSINESS = 'has-worker-reported-business',
 }

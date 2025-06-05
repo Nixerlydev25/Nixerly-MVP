@@ -28,6 +28,7 @@ export const API_ROUTES = {
     RESET_PASSWORD: '/user/reset-password',
     WORKER_PROFILE_DETAILS: '/user/worker-profile-details',
     BUSINESS_PROFILE_DETAILS: '/user/business-profile-details',
+    APPLIED_JOBS: '/user/applied-jobs',
   },
   BUSINESS: {
     UPDATE_BUSINESS_PROFILE: '/business/update-business-profile',

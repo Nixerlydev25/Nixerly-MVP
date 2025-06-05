@@ -29,6 +29,7 @@ export interface Job {
       website: string
       employeeCount: number
       yearFounded: number
+      postedJobs?: number
     }
     skills: string[]
   }

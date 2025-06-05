@@ -11,8 +11,6 @@ import {
   Check,
   ChevronDown,
   Clock,
-  //   Download,
-  //   ExternalLink,
   Mail,
   Phone,
   Search,
@@ -49,7 +47,9 @@ export default function JobApplicantsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { id } = useParams<{ id: string }>();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get('search') || ''
+  );
   const debouncedSearch = useDebounce(searchQuery, 500);
   const currentPage = Number(searchParams.get('page')) || 1;
 
@@ -59,7 +59,7 @@ export default function JobApplicantsPage() {
   const { data: job } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
 
-  console.log({applicantsData})
+  console.log({ applicantsData });
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -177,6 +177,123 @@ export default function JobApplicantsPage() {
         </Card>
       </div>
 
+      {/* Job Details Section */}
+      <div className="mb-8">
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Job Details</h2>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Description
+                  </h3>
+                  <p className="text-sm leading-relaxed">{job?.description}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Employment Type
+                  </h3>
+                  <Badge variant="secondary">
+                    {job?.employmentType?.replace('_', ' ')}
+                  </Badge>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Job Type & Budget
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline">{job?.jobType}</Badge>
+                    {job?.hourlyRateMin && job?.hourlyRateMax && (
+                      <Badge variant="outline">
+                        ${job.hourlyRateMin} - ${job.hourlyRateMax}/hr
+                      </Badge>
+                    )}
+                    {job?.salary && (
+                      <Badge variant="outline">
+                        ${job.salary.toLocaleString()} salary
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Positions Available
+                  </h3>
+                  <p className="text-sm">
+                    {job?.numberOfPositions} position
+                    {job?.numberOfPositions !== 1 ? 's' : ''}
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Requirements
+                  </h3>
+                  <div className="text-sm leading-relaxed whitespace-pre-line bg-muted p-3 rounded-md">
+                    {job?.requirements}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Required Skills
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {job?.skills?.map((skill, index) => (
+                      <Badge key={index} variant="secondary">
+                        {skill
+                          .replace(/_/g, ' ')
+                          .toLowerCase()
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
+                    Timeline
+                  </h3>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Calendar className="h-4 w-4" />
+                    <span>
+                      Posted{' '}
+                      {new Date(job?.createdAt || '').toLocaleDateString(
+                        'en-US',
+                        {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        }
+                      )}
+                    </span>
+                  </div>
+                  {job?.startDate && (
+                    <div className="flex items-center gap-2 text-sm mt-1">
+                      <Clock className="h-4 w-4" />
+                      <span>
+                        Start Date:{' '}
+                        {new Date(job.startDate).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <div className="relative w-full md:w-[300px]">
@@ -202,8 +319,12 @@ export default function JobApplicantsPage() {
                       <div className="flex gap-4">
                         <Avatar className="h-12 w-12">
                           <AvatarImage
-                            src={applicant.avatar || ''}
-                            alt={applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
+                            src={applicant.workerProfile.profilePicture || ''}
+                            alt={
+                              applicant.workerProfile.user.firstName +
+                              ' ' +
+                              applicant.workerProfile.user.lastName
+                            }
                           />
                           <AvatarFallback>
                             {applicant.workerProfile.user.firstName.charAt(0)}
@@ -211,12 +332,20 @@ export default function JobApplicantsPage() {
                         </Avatar>
                         <div className="space-y-1">
                           <h3 className="font-semibold">
-                            {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
+                            {applicant.workerProfile.user.firstName +
+                              ' ' +
+                              applicant.workerProfile.user.lastName}
                           </h3>
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <Clock className="h-3.5 w-3.5" />
-                              <span>{`$${applicant.proposedRate}/hr`}</span>
+                              <span>
+                                {job?.jobType === 'HOURLY'
+                                  ? `$${job?.hourlyRateMin}-${job?.hourlyRateMax}/hr`
+                                  : job?.jobType === 'CONTRACT'
+                                  ? `$${job?.budget} (Fixed)`
+                                  : `$${job?.salary}/year`}
+                              </span>
                             </span>
                             <span>•</span>
                             <span className="flex items-center gap-1">
@@ -228,15 +357,12 @@ export default function JobApplicantsPage() {
                                 ).toLocaleDateString('en-US', {
                                   year: 'numeric',
                                   month: 'long',
-                                  day: 'numeric'
+                                  day: 'numeric',
                                 })}
                               </span>
                             </span>
                           </div>
                           <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">
-                              {applicant.relevantExperience?.replace(/_/g, ' ')}
-                            </Badge>
                             {applicant?.status && (
                               <Badge
                                 variant={
@@ -284,12 +410,16 @@ export default function JobApplicantsPage() {
                                     alt={applicant.fullName}
                                   />
                                   <AvatarFallback>
-                                    {applicant.workerProfile.user.firstName.charAt(0)}
+                                    {applicant.workerProfile.user.firstName.charAt(
+                                      0
+                                    )}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div>
                                   <h3 className="font-semibold">
-                                    {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
+                                    {applicant.workerProfile.user.firstName +
+                                      ' ' +
+                                      applicant.workerProfile.user.lastName}
                                   </h3>
                                   <p className="text-sm text-muted-foreground">
                                     {applicant.relevantExperience?.replace(
@@ -308,9 +438,11 @@ export default function JobApplicantsPage() {
                                 <div className="flex gap-4 text-sm">
                                   <div>
                                     <span className="font-medium">Rate:</span>{' '}
-                                    {applicant.paymentType === 'hourly'
-                                      ? `$${applicant.proposedRate}/hr`
-                                      : `$${applicant.fixedBudget} (Fixed)`}
+                                    {job?.jobType === 'HOURLY'
+                                      ? `$${job?.hourlyRateMin}-${job?.hourlyRateMax}/hr`
+                                      : job?.jobType === 'CONTRACT'
+                                      ? `$${job?.budget} (Fixed)`
+                                      : `$${job?.salary}/year`}
                                   </div>
                                   <div>
                                     <span className="font-medium">
@@ -364,7 +496,8 @@ export default function JobApplicantsPage() {
                                         Contact Information
                                       </DialogTitle>
                                       <DialogDescription>
-                                        Contact details for {applicant.fullName}
+                                        Contact details for{' '}
+                                        {applicant.workerProfile.user.firstName}
                                       </DialogDescription>
                                     </DialogHeader>
                                     <div className="space-y-4 py-4">
@@ -372,15 +505,27 @@ export default function JobApplicantsPage() {
                                         <Avatar className="h-16 w-16">
                                           <AvatarImage
                                             src={applicant.avatar || ''}
-                                            alt={applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
+                                            alt={
+                                              applicant.workerProfile.user
+                                                .firstName +
+                                              ' ' +
+                                              applicant.workerProfile.user
+                                                .lastName
+                                            }
                                           />
                                           <AvatarFallback>
-                                            {applicant.workerProfile.user.firstName.charAt(0)}
+                                            {applicant.workerProfile.user.firstName.charAt(
+                                              0
+                                            )}
                                           </AvatarFallback>
                                         </Avatar>
                                         <div>
                                           <h3 className="font-semibold text-lg">
-                                            {applicant.workerProfile.user.firstName + ' ' + applicant.workerProfile.user.lastName}
+                                            {applicant.workerProfile.user
+                                              .firstName +
+                                              ' ' +
+                                              applicant.workerProfile.user
+                                                .lastName}
                                           </h3>
                                           <p className="text-sm text-muted-foreground">
                                             {applicant.relevantExperience?.replace(
@@ -399,7 +544,12 @@ export default function JobApplicantsPage() {
                                           <Phone className="h-5 w-5 text-muted-foreground" />
                                           <div>
                                             <p className="font-medium">Phone</p>
-                                            <p>{applicant.phone}</p>
+                                            <p>
+                                              {
+                                                applicant?.workerProfile
+                                                  ?.phoneNumber
+                                              }
+                                            </p>
                                             <div className="flex gap-2 mt-1">
                                               <Button
                                                 size="sm"
@@ -407,7 +557,7 @@ export default function JobApplicantsPage() {
                                                 asChild
                                               >
                                                 <a
-                                                  href={`tel:${applicant.phone}`}
+                                                  href={`tel:${applicant?.workerProfile?.phoneNumber}`}
                                                 >
                                                   Call
                                                 </a>
@@ -418,7 +568,7 @@ export default function JobApplicantsPage() {
                                                 asChild
                                               >
                                                 <a
-                                                  href={`https://wa.me/${applicant?.phone?.replace(
+                                                  href={`https://wa.me/${applicant?.workerProfile?.phoneNumber?.replace(
                                                     /[^0-9]/g,
                                                     ''
                                                   )}`}
@@ -436,7 +586,12 @@ export default function JobApplicantsPage() {
                                           <Mail className="h-5 w-5 text-muted-foreground" />
                                           <div>
                                             <p className="font-medium">Email</p>
-                                            <p>{applicant.email}</p>
+                                            <p>
+                                              {
+                                                applicant?.workerProfile?.user
+                                                  ?.email
+                                              }
+                                            </p>
                                             <div className="mt-1">
                                               <Button
                                                 size="sm"
@@ -444,7 +599,7 @@ export default function JobApplicantsPage() {
                                                 asChild
                                               >
                                                 <a
-                                                  href={`mailto:${applicant.email}`}
+                                                  href={`mailto:${applicant?.workerProfile?.user?.email}`}
                                                 >
                                                   Send Email
                                                 </a>
@@ -456,58 +611,10 @@ export default function JobApplicantsPage() {
                                     </div>
                                   </DialogContent>
                                 </Dialog>
-
-                                <div className="flex gap-2">
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button variant="outline">
-                                        Set Status{' '}
-                                        <ChevronDown className="ml-2 h-4 w-4" />
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                      <DropdownMenuItem>
-                                        <Check className="mr-2 h-4 w-4" />{' '}
-                                        Shortlist
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem>
-                                        <Calendar className="mr-2 h-4 w-4" />{' '}
-                                        Schedule Interview
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem>
-                                        <X className="mr-2 h-4 w-4" /> Reject
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </div>
                               </div>
                             </div>
                           </DialogContent>
                         </Dialog>
-
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <ChevronDown className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => handleViewProposal(applicant)}
-                            >
-                              View Proposal
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handleContactClick}>
-                              Contact Applicant
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Check className="mr-2 h-4 w-4" /> Shortlist
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <X className="mr-2 h-4 w-4" /> Reject
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
                       </div>
                     </div>
                   </CardContent>
@@ -526,15 +633,14 @@ export default function JobApplicantsPage() {
                   Previous
                 </Button>
                 <span className="text-sm text-muted-foreground">
-                  Page {currentPage} of {applicantsData?.pagination.totalPages || 1}
+                  Page {currentPage} of{' '}
+                  {applicantsData?.pagination.totalPages || 1}
                 </span>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={
-                    !applicantsData?.pagination.hasMore
-                  }
+                  disabled={!applicantsData?.pagination.hasMore}
                 >
                   Next
                   <ChevronRight className="h-4 w-4" />

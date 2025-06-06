@@ -152,7 +152,7 @@ export default function Dashboard() {
                       variant={viewMode === "card" ? "default" : "ghost"}
                       size="sm"
                       className={`rounded-none ${
-                        viewMode === "card" ? "bg-blue-600" : ""
+                        viewMode === "card" ? "bg-primary" : ""
                       }`}
                       onClick={() => handleViewModeChange("card")}
                     >
@@ -164,7 +164,7 @@ export default function Dashboard() {
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="sm"
                       className={`rounded-none ${
-                        viewMode === "list" ? "bg-blue-600" : ""
+                        viewMode === "list" ? "bg-primary" : ""
                       }`}
                       onClick={() => handleViewModeChange("list")}
                     >

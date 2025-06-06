@@ -81,7 +81,9 @@ export default function BusinessProfilePage() {
                 )}
                 <button
                   onClick={() =>
-                    openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE)
+                    openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
+                      profilePicture: businessProfileData?.businessProfile?.profilePicture
+                    })
                   }
                   className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
                   aria-label="Change profile picture"

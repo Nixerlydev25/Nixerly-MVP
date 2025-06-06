@@ -78,6 +78,7 @@ export interface WorkerProfileResponse {
   totalEarnings: number;
   completedJobs: number;
   avgRating: number;
+  profilePicture: string;
   onboardingStep: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
   skills: string[];
   experience: WorkerExperience[];

@@ -34,7 +34,7 @@ function CardFeeds({
               width={60}
               height={60}
               alt={name}
-              className="rounded-full"
+              className="rounded-full object-cover"
             />
             <div>
               <h3 className="font-semibold">{name}</h3>

@@ -26,10 +26,10 @@ function ListCardFeeds({
       <div className="flex flex-1 items-start p-4">
         <Image
           src={avatar || "/placeholder.svg"}
-          width={60}
-          height={60}
+          width={100}
+          height={100}
           alt={name}
-          className="mr-4 rounded-full"
+          className="mr-4 rounded-full w-16 h-16 object-cover"
         />
         <div className="flex-1">
           <div className="flex items-start justify-between">

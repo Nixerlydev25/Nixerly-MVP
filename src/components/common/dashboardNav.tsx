@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,14 +10,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { BriefcaseIcon, MenuIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { useLogout } from '@/hook/auth/auth.hook';
-import { useUser } from '@/hook/user/useUser';
-import { ProfileType } from '@/types/user/user.types';
-import { ROUTES } from '@/lib/routes';
+} from "@/components/ui/dropdown-menu";
+import { BriefcaseIcon, MenuIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { useLogout } from "@/hook/auth/auth.hook";
+import { useUser } from "@/hook/user/useUser";
+import { ProfileType } from "@/types/user/user.types";
+import { ROUTES } from "@/lib/routes";
 
 function DashboardNav() {
   const { mutate: logout } = useLogout();
@@ -49,6 +49,8 @@ function DashboardNav() {
   const handleMyJobs = () => {
     router.push(ROUTES.MY_JOBS);
   };
+
+  console.log({ user });
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
@@ -101,11 +103,15 @@ function DashboardNav() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">
                 <Image
-                  src="/placeholder.svg?height=32&width=32"
+                  src={
+                    isBusinessProfile
+                      ? user.businessProfile?.profilePicture || "/placeholder.svg?height=32&width=32"
+                      : user.workerProfile?.profilePicture || "/placeholder.svg?height=32&width=32"
+                  }
                   width={32}
                   height={32}
-                  className="rounded-full"
-                  alt="User avatar"
+                  className="rounded-full object-cover w-full h-full"
+                  alt={`${user.firstName} ${user.lastName}'s avatar`}
                 />
               </Button>
             </DropdownMenuTrigger>

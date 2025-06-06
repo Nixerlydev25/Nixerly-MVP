@@ -47,6 +47,12 @@ export interface TUser {
   provider: OAuthProvider;
   defaultProfile: ProfileType;
   firstTimeLogin: boolean;
+  businessProfile?: {
+    profilePicture?: string | null;
+  };
+  workerProfile?: {
+    profilePicture?: string | null;
+  }
 }
 
 // Worker Profile type
@@ -65,6 +71,7 @@ export interface TWorkerProfile {
   completedJobs?: number;
   avgRating?: number;
   onboardingStep?: OnboardingStepWorkerProfileB;
+  profilePicture?: string | null;
 }
 
 // Business Profile type
@@ -81,6 +88,7 @@ export interface TBusinessProfile {
   postedJobs?: number;
   logoUrl?: string | null;
   onboardingStep?: OnboardingStepBusinessProfileB;
+  profilePicture?: string | null;
 }
 
 export interface TBusinessProfileResponse {

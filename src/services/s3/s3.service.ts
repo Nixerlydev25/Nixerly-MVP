@@ -7,7 +7,7 @@ interface PresignedUrlResponse {
 }
 
 class S3Service {
-  static async getPresignedUrl(fileName: string, contentType: string): Promise<PresignedUrlResponse> {
+  static async getPresignedUrlWorkerProfilePicture(fileName: string, contentType: string): Promise<PresignedUrlResponse> {
     try {
       const response = await instance.post(API_ROUTES.WORKER.PROFILE_PICTURE_UPLOAD_URL, {
         fileName,
@@ -20,7 +20,7 @@ class S3Service {
     }
   }
 
-  static async uploadToS3(presignedUrl: string, file: File, contentType: string): Promise<void> {
+  static async uploadToS3WorkerProfilePicture(presignedUrl: string, file: File, contentType: string): Promise<void> {
     try {
       const response = await fetch(presignedUrl, {
         method: "PUT",

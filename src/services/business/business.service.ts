@@ -2,6 +2,11 @@ import { TBusinessDetails } from "@/types/auth";
 import instance from "../api";
 import { API_ROUTES } from "@/constants/routes";
 
+interface PresignedUrlResponse {
+  presignedUrl: string;
+  s3Key: string;
+}
+
 class BusinessService {
   static async getBusinessById(id: string): Promise<TBusinessDetails> {
     try {
@@ -11,6 +16,51 @@ class BusinessService {
       return response.data;
     } catch (error) {
       console.error("Error getting business by id:", error);
+      throw error;
+    }
+  }
+
+  static async getProfilePictureUploadUrl(fileName: string, contentType: string): Promise<PresignedUrlResponse> {
+    try {
+      const response = await instance.post(
+        API_ROUTES.BUSINESS.GET_PROFILE_PICTURE_UPLOAD_URL,
+        { fileName, contentType }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error getting profile picture upload URL:", error);
+      throw error;
+    }
+  }
+
+  static async uploadToS3(presignedUrl: string, file: File): Promise<void> {
+    try {
+      const response = await fetch(presignedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload to S3");
+      }
+    } catch (error) {
+      console.error("Error uploading to S3:", error);
+      throw error;
+    }
+  }
+
+  static async saveProfilePicture(s3Key: string): Promise<void> {
+    try {
+      const response = await instance.put(
+        API_ROUTES.BUSINESS.SAVE_PROFILE_PICTURE,
+        { s3Key }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error saving profile picture:", error);
       throw error;
     }
   }

@@ -173,7 +173,7 @@ export function EditCertificatesForm({ onClose }: EditCertificatesFormProps) {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl>
+                        <FormControl className="w-full">
                           <SelectTrigger>
                             <SelectValue placeholder="Select certificate type" />
                           </SelectTrigger>

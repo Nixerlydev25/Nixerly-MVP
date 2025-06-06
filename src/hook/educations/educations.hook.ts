@@ -2,7 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import EducationsService, { Education } from "@/services/educations/educations.service";
 import { QueryKeys } from "@/querykey";
 import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
-import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { queryClient } from "@/providers/query.provider";
 
@@ -19,13 +18,11 @@ export const useCreateEducation = () => {
     mutationFn: (data: WorkerOnboardingSchema['education']) =>
       EducationsService.createEducation(data),
     onSuccess: () => {
-      toast.success("Education created successfully");
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EDUCATIONS] });
     },
     onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
+      console.error('Error creating education:', error);
+      throw error;
     },
   });
 };
@@ -39,9 +36,8 @@ export const useUpdateEducation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EDUCATIONS] });
     },
     onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
+      console.error('Error updating education:', error);
+      throw error;
     },
   });
 };
@@ -54,9 +50,8 @@ export const useDeleteEducation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EDUCATIONS] });
     },
     onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
+      console.error('Error deleting education:', error);
+      throw error;
     },
   });
 };
@@ -66,13 +61,11 @@ export const useUpdateAllEducation = () => {
     mutationKey: [QueryKeys.UPDATE_EDUCATIONS],
     mutationFn: (data: WorkerOnboardingSchema['education']) => EducationsService.updateAllEducations(data),
     onSuccess: () => {
-      toast.success("Education updated successfully");
       queryClient.invalidateQueries({ queryKey: [QueryKeys.WORKER_PROFILE_DETAILS] });
     },
     onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      }
+      console.error('Error updating all educations:', error);
+      throw error;
     },
   });
 };

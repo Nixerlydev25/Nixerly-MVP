@@ -8,7 +8,6 @@ import {
 } from '@/types/auth';
 import { currentUserData } from '@/types/user/user.types';
 import { queryClient } from '@/providers/query.provider';
-import { toast } from 'sonner';
 import { OnboardingStepWorkerProfileB } from '@/types/onboarding';
 import { WorkerUser } from '@/types/worker.types';
 import { useRouter } from 'next/navigation';
@@ -61,8 +60,6 @@ export const useUpdateBusinessProfile = () => {
     mutationFn: (data: TBusinessProfile) =>
       UserService.updateBusinessProfile(data),
     onSuccess: () => {
-      toast.success('Business onboarding completed successfully!');
-
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USER],
       });

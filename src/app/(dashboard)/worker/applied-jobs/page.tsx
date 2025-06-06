@@ -2,7 +2,7 @@
 
 import { useGetAppliedJobs } from '@/hook/worker/worker.hook';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -41,10 +41,27 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import JobApplicationsSkeleton from './components/JobApplicationSkeleton';
 
 interface FilterState {
   search: string;
   dateRange: DateRange | undefined;
+}
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 }
 
 export default function AppliedJobsPage() {
@@ -56,6 +73,8 @@ export default function AppliedJobsPage() {
     dateRange: undefined,
   });
 
+  const debouncedSearch = useDebounce(filters.search, 500);
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (!params.has('page')) {
@@ -64,23 +83,46 @@ export default function AppliedJobsPage() {
     }
   }, []);
 
-  // Update URL params when filters change
   useEffect(() => {
     const params = new URLSearchParams();
+    if (debouncedSearch) params.set('search', debouncedSearch);
 
-    if (filters.search) params.set('search', filters.search);
-    if (filters.dateRange?.from)
-      params.set('startDate', filters.dateRange.from.toISOString().split('T')[0]);
-    if (filters.dateRange?.to)
-      params.set('endDate', filters.dateRange.to.toISOString().split('T')[0]);
+    if (filters.dateRange?.from && filters.dateRange?.to) {
+      const startDate = new Date(filters.dateRange.from);
+      startDate.setUTCHours(0, 0, 0, 0);
+      params.set('startDate', startDate.toISOString());
+      const endDate = new Date(filters.dateRange.to);
+      endDate.setUTCHours(23, 59, 59, 999);
+      params.set('endDate', endDate.toISOString());
+    }
 
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : window.location.pathname;
 
     router.replace(newUrl, { scroll: false });
-  }, [filters, router]);
+  }, [debouncedSearch, filters.dateRange, router]);
 
-  if (isLoading) return <div>Loading...</div>;
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+
+    params.set('page', newPage.toString());
+
+    if (filters.search) params.set('search', filters.search);
+    if (filters.dateRange?.from) {
+      const startDate = new Date(filters.dateRange.from);
+      startDate.setUTCHours(0, 0, 0, 0);
+      params.set('startDate', startDate.toISOString());
+    }
+    if (filters.dateRange?.to) {
+      const endDate = new Date(filters.dateRange.to);
+      endDate.setUTCHours(23, 59, 59, 999);
+      params.set('endDate', endDate.toISOString());
+    }
+
+    router.push(`?${params.toString()}`);
+  };
+
+  if (isLoading) return <JobApplicationsSkeleton />;
 
   function formatDate(dateString: string) {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -228,7 +270,9 @@ export default function AppliedJobsPage() {
                   onClick={() =>
                     updateFilter(
                       'dateRange',
-                      filters.dateRange?.to ? { to: filters.dateRange.to } : undefined
+                      filters.dateRange?.to
+                        ? { to: filters.dateRange.to }
+                        : undefined
                     )
                   }
                 />
@@ -331,7 +375,8 @@ export default function AppliedJobsPage() {
                         <SheetHeader>
                           <SheetTitle>Application Details</SheetTitle>
                           <SheetDescription>
-                            Complete details for your job application and the position.
+                            Complete details for your job application and the
+                            position.
                           </SheetDescription>
                         </SheetHeader>
                         <ApplicationDetails application={application} />
@@ -364,7 +409,7 @@ export default function AppliedJobsPage() {
           )}
 
         {/* Pagination */}
-        {data?.pagination?.totalPages > 1 && (
+        {data?.applications?.length > 10 && (
           <div className="flex items-center justify-between mt-8">
             <div className="text-sm text-muted-foreground">
               Showing page {data?.pagination?.currentPage} of{' '}
@@ -375,6 +420,9 @@ export default function AppliedJobsPage() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() =>
+                  handlePageChange(data.pagination.currentPage - 1)
+                }
                 disabled={data?.pagination?.currentPage === 1}
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
@@ -394,6 +442,7 @@ export default function AppliedJobsPage() {
                     }
                     size="sm"
                     className="w-8 h-8 p-0"
+                    onClick={() => handlePageChange(page)}
                   >
                     {page}
                   </Button>
@@ -402,6 +451,9 @@ export default function AppliedJobsPage() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() =>
+                  handlePageChange(data.pagination.currentPage + 1)
+                }
                 disabled={!data?.pagination?.hasMore}
               >
                 Next

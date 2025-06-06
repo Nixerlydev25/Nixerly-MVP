@@ -63,7 +63,7 @@ function getStatusColor(status: string) {
 function ApplicationDetails({ application }: ApplicationDetailsProps) {
     console.log(application)
   return (
-    <ScrollArea className="h-full">
+    <ScrollArea className="h-full pb-26">
       <div className="space-y-6 p-6">
         {/* Header */}
         <div className="space-y-4">

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,7 @@ function DashboardNav() {
   const { mutate: logout } = useLogout();
   const { user, isLoading } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   if (isLoading || !user) {
     return <div></div>;
@@ -59,7 +60,7 @@ function DashboardNav() {
           </Button>
           <Link
             href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             <BriefcaseIcon className="h-6 w-6 text-blue-600" />
             <span className="text-xl font-bold text-blue-600">Nixerly</span>
@@ -68,13 +69,21 @@ function DashboardNav() {
             <nav className="hidden md:flex md:items-center md:gap-6">
               <Link
                 href={ROUTES.BUSINESS_FEED as string}
-                className="text-sm font-medium text-blue-600 hover:text-blue-600"
+                className={`text-sm font-medium cursor-pointer ${
+                  pathname === ROUTES.BUSINESS_FEED
+                    ? 'text-blue-600'
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 Find Talent
               </Link>
               <Link
                 href={ROUTES.MY_JOBS as string}
-                className="text-sm font-medium text-gray-600 hover:text-blue-600"
+                className={`text-sm font-medium cursor-pointer ${
+                  pathname === ROUTES.MY_JOBS
+                    ? 'text-blue-600'
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 My Jobs
               </Link>
@@ -83,13 +92,21 @@ function DashboardNav() {
             <nav className="hidden md:flex md:items-center md:gap-6">
               <Link
                 href={ROUTES.WORKER_FEED as string}
-                className="text-sm font-medium text-blue-600 hover:text-blue-600"
+                className={`text-sm font-medium cursor-pointer ${
+                  pathname === ROUTES.WORKER_FEED
+                    ? 'text-blue-600'
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 Find Job
               </Link>
               <Link
                 href={ROUTES.APPLIED_JOBS as string}
-                className="text-sm font-medium text-blue-600 hover:text-blue-600"
+                className={`text-sm font-medium cursor-pointer ${
+                  pathname === ROUTES.APPLIED_JOBS
+                    ? 'text-blue-600'
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 Applied Jobs
               </Link>
@@ -99,12 +116,12 @@ function DashboardNav() {
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button variant="ghost" size="icon" className="rounded-full cursor-pointer">
                 <Image
                   src="/placeholder.svg?height=32&width=32"
                   width={32}
                   height={32}
-                  className="rounded-full"
+                  className="rounded-full cursor-pointer"
                   alt="User avatar"
                 />
               </Button>
@@ -112,15 +129,15 @@ function DashboardNav() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleProfileClick}>
+              <DropdownMenuItem onClick={handleProfileClick} className="cursor-pointer">
                 Profile
               </DropdownMenuItem>
               {isBusinessProfile && (
                 <>
-                  <DropdownMenuItem onClick={handleMyJobs}>
+                  <DropdownMenuItem onClick={handleMyJobs} className="cursor-pointer">
                     My Jobs
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handlePostAJob}>
+                  <DropdownMenuItem onClick={handlePostAJob} className="cursor-pointer">
                     Post A Job
                   </DropdownMenuItem>
                   {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
@@ -129,12 +146,13 @@ function DashboardNav() {
               {!isBusinessProfile && (
                 <DropdownMenuItem
                   onClick={() => router.push(ROUTES.APPLIED_JOBS)}
+                  className="cursor-pointer"
                 >
                   Applied Jobs
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>

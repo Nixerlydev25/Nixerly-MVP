@@ -118,7 +118,6 @@ export const useWorkerProfilePicture = () => {
         });
       } catch (error) {
         if (error instanceof z.ZodError) {
-          toast.error(error.errors[0].message);
           throw new Error(error.errors[0].message);
         }
         throw error;
@@ -145,7 +144,6 @@ export const useWorkerProfilePicture = () => {
       await WorkerService.updateProfilePicture(key);
     },
     onSuccess: () => {
-      toast.success('Profile picture updated successfully');
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
       });
@@ -162,7 +160,7 @@ export const useWorkerProfilePicture = () => {
       onClose();
     } catch (error) {
       console.error('Error uploading profile picture:', error);
-      toast.error('There was an error uploading your profile picture');
+      throw error;
     }
   };
 
@@ -181,7 +179,7 @@ export const useGetAppliedJobs = () => {
   const filters = useMemo(() => {
     const params: FeedsFilter & Record<string, string | number | string[]> = {
       page: 1,
-      limit: 15,
+      limit: 10,
     };
 
     searchParams.forEach((value, key) => {

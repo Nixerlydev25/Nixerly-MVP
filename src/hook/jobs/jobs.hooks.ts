@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import JobsService from '@/services/jobs/jobs.service';
-import { toast } from 'sonner';
 import { QueryKeys } from '@/querykey';
 import {
   Job,
@@ -18,10 +17,10 @@ export const useCreateJob = () => {
     mutationFn: JobsService.createJob,
     onSuccess: () => {
       router.push(ROUTES.MY_JOBS);
-      toast.success('Job created successfully');
     },
-    onError: () => {
-      toast.error('Failed to create job');
+    onError: (error) => {
+      console.error('Error creating job:', error);
+      throw error;
     },
   });
 };

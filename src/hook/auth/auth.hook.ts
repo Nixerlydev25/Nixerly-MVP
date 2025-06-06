@@ -2,7 +2,6 @@ import { SignInRequest } from "../../types/auth";
 import { QueryKeys } from "../../querykey";
 import authService from "../../services/auth/auth.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { AxiosError } from "axios";
 import {useRouter} from 'next/navigation';
 import { ROUTES } from "@/lib/routes";
@@ -22,15 +21,11 @@ export const useProfessionalSignUp = () => {
     }),
     onSuccess: async () => {
       await revalidateUser();
-      toast.success("Professional account created successfully!");
       router.push(ROUTES.ONBOARDING);
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Failed to create professional account");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      console.error('Error during professional signup:', error);
+      throw error;
     },
   });
 };
@@ -47,15 +42,11 @@ export const useBusinessSignUp = () => {
     }),
     onSuccess: async () => {
       await revalidateUser();
-      toast.success("Business account created successfully!");
       router.push(ROUTES.ONBOARDING);
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Failed to create business account");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      console.error('Error during business signup:', error);
+      throw error;
     },
   });
 };
@@ -69,17 +60,11 @@ export const useSignIn = () => {
     mutationFn: (data: SignInRequest) => authService.signIn(data),
     onSuccess: async () => {
       await revalidateUser();
-      toast.success("Signed in successfully!");
       router.push(ROUTES.FEED);
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) {
-        const axiosError = error as AxiosError<{ message: string }>;
-        console.log(axiosError.response?.data?.message, "message");
-        toast.error(axiosError.response?.data?.message || "Failed to sign in");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      console.error('Error during sign in:', error);
+      throw error;
     },
   });
 };
@@ -90,15 +75,11 @@ export const useSignOut = () => {
     mutationKey: [QueryKeys.AUTH, QueryKeys.SIGN_OUT],
     mutationFn: () => authService.signOut(),
     onSuccess: () => {
-      toast.success("Signed out successfully!");
       router.push(ROUTES.SIGNIN);
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Failed to sign out");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      console.error('Error during sign out:', error);
+      throw error;
     },
   });
 };
@@ -109,15 +90,11 @@ export const useLogout = () => {
     mutationKey: [QueryKeys.AUTH, QueryKeys.LOGOUT],
     mutationFn: () => authService.logout(),
     onSuccess: () => {
-      toast.success("Logged out successfully!");
       router.replace(ROUTES.HOME);
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Failed to logout");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      console.error('Error during logout:', error);
+      throw error;
     },
   });
 };

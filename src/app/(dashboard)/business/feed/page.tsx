@@ -31,12 +31,18 @@ enum SortOption {
 }
 
 export default function Dashboard() {
-  const [viewMode, setViewMode] = useState<"card" | "list">("list");
+  const [viewMode, setViewMode] = useState<"card" | "list">(() => {
+    // Try to get the saved view mode from localStorage during initialization
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('businessFeedViewMode');
+      return (saved === 'card' || saved === 'list') ? saved : 'list';
+    }
+    return 'list';
+  });
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
 
-  // Ensure page parameter is always present
   useEffect(() => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     if (!params.has("page")) {
@@ -77,6 +83,12 @@ export default function Dashboard() {
       params.set("page", "1");
     }
     router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  // Save view mode to localStorage whenever it changes
+  const handleViewModeChange = (mode: "card" | "list") => {
+    setViewMode(mode);
+    localStorage.setItem('businessFeedViewMode', mode);
   };
 
   return (
@@ -142,7 +154,7 @@ export default function Dashboard() {
                       className={`rounded-none ${
                         viewMode === "card" ? "bg-blue-600" : ""
                       }`}
-                      onClick={() => setViewMode("card")}
+                      onClick={() => handleViewModeChange("card")}
                     >
                       <GridIcon />
                       Grid
@@ -154,7 +166,7 @@ export default function Dashboard() {
                       className={`rounded-none ${
                         viewMode === "list" ? "bg-blue-600" : ""
                       }`}
-                      onClick={() => setViewMode("list")}
+                      onClick={() => handleViewModeChange("list")}
                     >
                       <ListIcon />
                       List
@@ -183,7 +195,7 @@ export default function Dashboard() {
                           <CardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={""}
+                            avatar={freelancer.profilePicture}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
@@ -208,7 +220,7 @@ export default function Dashboard() {
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
-                            avatar={""}
+                            avatar={freelancer.profilePicture}
                             successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}

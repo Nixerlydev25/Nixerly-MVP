@@ -87,11 +87,11 @@ export default function FreelancerProfile() {
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
-                      src="/placeholder.svg"
+                      src={worker.profilePicture || '/placeholder.svg'}
                       width={120}
                       height={120}
                       alt={fullName}
-                      className="rounded-full"
+                      className="rounded-full object-cover w-28 h-28"
                     />
                   </div>
                   <div className="flex-1">

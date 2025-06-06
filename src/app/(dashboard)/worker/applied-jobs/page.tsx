@@ -70,10 +70,15 @@ export default function AppliedJobsPage() {
   const router = useRouter();
   const [filters, setFilters] = useState<FilterState>({
     search: searchParams.get('search') || '',
-    dateRange: undefined,
+    dateRange: searchParams.get('startDate') && searchParams.get('endDate')
+      ? {
+          from: new Date(searchParams.get('startDate')!),
+          to: new Date(searchParams.get('endDate')!)
+        }
+      : undefined,
   });
 
-  const debouncedSearch = useDebounce(filters.search, 500);
+  const debouncedSearch = useDebounce(filters.search, 1000);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());

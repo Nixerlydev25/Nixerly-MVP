@@ -51,8 +51,6 @@ function DashboardNav() {
     router.push(ROUTES.MY_JOBS);
   };
 
-  console.log({ user });
-
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Award,
   CheckCircle2,
@@ -18,17 +18,17 @@ import {
   PencilIcon,
   Share2,
   StarIcon,
-} from 'lucide-react';
-import { useGetCurrentWorkerProfileDetails } from '@/hook/user/user.hooks';
+} from "lucide-react";
+import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks";
 import type {
   WorkerUser,
   WorkerEducation,
   WorkerExperience,
   WorkerLanguage,
-} from '@/types/worker.types';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
-import { useState } from 'react';
+} from "@/types/worker.types";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
+import { useState } from "react";
 
 // Helper function to safely cast WorkerProfile to ModalDataType
 const toModalData = (data: unknown): Record<string, unknown> => {
@@ -50,7 +50,7 @@ export default function FreelancerProfileSelfView() {
   // Use the state value if available, otherwise use the one from the API
   const currentProfilePicture = profilePicture || workerProfile.profilePicture;
   console.log({ currentProfilePicture });
-  console.log(workerProfile.profilePicture, 'profilePicture');
+  console.log(workerProfile.profilePicture, "profilePicture");
   const handleEditProfile = () => {
     openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile));
   };
@@ -93,7 +93,7 @@ export default function FreelancerProfileSelfView() {
                   onClick={handleProfilePictureClick}
                 >
                   <Image
-                    src={currentProfilePicture || '/placeholder.svg'}
+                    src={currentProfilePicture || "/placeholder.svg"}
                     width={120}
                     height={120}
                     alt={fullName}
@@ -154,13 +154,13 @@ export default function FreelancerProfileSelfView() {
                     </div>
                     <div className="flex items-center text-green-600">
                       <CheckCircle2 className="mr-1 h-4 w-4" />
-                      {workerProfile.completedJobs > 0 ? '100%' : '0%'} Job
+                      {workerProfile.completedJobs > 0 ? "100%" : "0%"} Job
                       Success
                     </div>
                     <div className="flex items-center">
                       <Clock className="mr-1 h-4 w-4 text-gray-500" />
                       <span>
-                        Available {workerProfile.availability ? 'Now' : 'Soon'}
+                        Available {workerProfile.availability ? "Now" : "Soon"}
                       </span>
                     </div>
                     <div className="flex items-center font-medium text-blue-600">
@@ -235,7 +235,7 @@ export default function FreelancerProfileSelfView() {
                           variant="secondary"
                           className="bg-blue-50 text-blue-700 border-blue-200 p-2"
                         >
-                          {skill.replace(/_/g, ' ')}
+                          {skill.replace(/_/g, " ")}
                         </Badge>
                       ))}
                     </div>
@@ -273,16 +273,16 @@ export default function FreelancerProfileSelfView() {
                             (edu: WorkerEducation, index: number) => (
                               <div
                                 key={index}
-                                className={index > 0 ? 'border-t pt-4' : ''}
+                                className={index > 0 ? "border-t pt-4" : ""}
                               >
                                 <h4 className="font-medium">{edu.school}</h4>
                                 <p className="text-gray-600">
                                   {edu.degree} in {edu.fieldOfStudy}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  {new Date(edu.startDate).getFullYear()} -{' '}
+                                  {new Date(edu.startDate).getFullYear()} -{" "}
                                   {edu.currentlyStudying
-                                    ? 'Present'
+                                    ? "Present"
                                     : new Date(edu.endDate).getFullYear()}
                                 </p>
                                 <p className="mt-2 text-sm text-gray-600">
@@ -312,7 +312,12 @@ export default function FreelancerProfileSelfView() {
                         <Award className="mr-2 h-5 w-5 text-purple-600" />
                         Certifications
                       </h2>
-                      <Button size="sm" variant="outline" className="h-8 gap-1">
+                      <Button size="sm" variant="outline" className="h-8 gap-1" onClick={() =>
+                          openModal(
+                            ModalType.EDIT_CERTIFICATES,
+                            toModalData(workerProfile)
+                          )
+                        }>
                         <PencilIcon className="h-3 w-3" />
                         Edit
                       </Button>
@@ -405,7 +410,7 @@ export default function FreelancerProfileSelfView() {
                       (work: WorkerExperience, index: number) => (
                         <div
                           key={index}
-                          className={index > 0 ? 'border-t pt-6' : ''}
+                          className={index > 0 ? "border-t pt-6" : ""}
                         >
                           <div className="flex flex-wrap items-start justify-between gap-2">
                             <div>
@@ -420,9 +425,9 @@ export default function FreelancerProfileSelfView() {
                             <div className="flex items-center gap-2">
                               <div className="text-right">
                                 <p className="text-sm text-gray-500">
-                                  {new Date(work.startDate).getFullYear()} -{' '}
+                                  {new Date(work.startDate).getFullYear()} -{" "}
                                   {work.currentlyWorking
-                                    ? 'Present'
+                                    ? "Present"
                                     : new Date(work.endDate).getFullYear()}
                                 </p>
                               </div>
@@ -472,13 +477,13 @@ export default function FreelancerProfileSelfView() {
                     <span
                       className={`font-medium ${
                         workerProfile.availability
-                          ? 'text-green-600'
-                          : 'text-amber-600'
+                          ? "text-green-600"
+                          : "text-amber-600"
                       }`}
                     >
                       {workerProfile.availability
-                        ? 'Available Now'
-                        : 'Not Available'}
+                        ? "Available Now"
+                        : "Not Available"}
                     </span>
                   </div>
 

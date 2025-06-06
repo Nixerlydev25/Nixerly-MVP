@@ -87,6 +87,10 @@ export const API_ROUTES = {
     UPDATE_WORKER_PROFILE: '/worker/update-worker-profile',
     PROFILE_PICTURE_UPLOAD_URL: '/worker/profile-picture-upload-url',
     UPDATE_PROFILE_PICTURE: '/worker/save-profile-picture',
+    CREATE_CERTIFICATES: '/worker/certificates',
+    DELETE_CERTIFICATES: '/worker/certificates',
+    GET_CERTIFICATE_UPLOAD_URL: '/worker/certificates/upload-url',
+    SAVE_CERTIFICATE_ASSETS: '/worker/certificates/assets',
   },
   JOB: {
     ROOT: '/jobs',

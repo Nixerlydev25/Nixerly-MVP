@@ -117,3 +117,65 @@ export interface WorkerListResponse {
     applied: Record<string, unknown>;
   };
 }
+
+export enum CertificateType {
+  SAFE_PASS = "SAFE_PASS",
+  MANUAL_HANDLING = "MANUAL_HANDLING",
+  WORKING_AT_HEIGHT = "WORKING_AT_HEIGHT",
+  PASMA = "PASMA",
+  IPAF = "IPAF",
+  ABRASIVE_WHEELS = "ABRASIVE_WHEELS",
+  CONFINED_SPACE_ENTRY = "CONFINED_SPACE_ENTRY",
+  FIRST_AID_AT_WORK = "FIRST_AID_AT_WORK",
+  FIRE_WARDEN = "FIRE_WARDEN",
+  CSCS = "CSCS",
+  QQI_ELECTRICIAN = "QQI_ELECTRICIAN",
+  QQI_PLUMBER = "QQI_PLUMBER",
+  QQI_CARPENTER = "QQI_CARPENTER",
+  QQI_BRICKLAYER = "QQI_BRICKLAYER",
+  QQI_PLASTERER = "QQI_PLASTERER",
+  OTHER = "OTHER"
+}
+
+export interface Certificate {
+  id: string;
+  name: string;
+  issuingOrg: string;
+  issueDate: string;
+  expiryDate?: string | null;
+  credentialUrl?: string;
+  certificateType: CertificateType;
+  assets?: CertificateAsset[];
+}
+
+export interface CertificateAsset {
+  id: string;
+  s3Key: string;
+  mediaType: string;
+  url: string;
+}
+
+export interface CreateCertificatePayload {
+  name: string;
+  issuingOrg: string;
+  issueDate: string;
+  expiryDate?: string | null;
+  credentialUrl?: string;
+  certificateType: CertificateType;
+}
+
+export interface UploadCertificateAssetPayload {
+  certificateId: string;
+  files: Array<{
+    fileName: string;
+    contentType: string;
+  }>;
+}
+
+export interface SaveCertificateAssetsPayload {
+  certificateId: string;
+  assets: Array<{
+    s3Key: string;
+    mediaType: string;
+  }>;
+}

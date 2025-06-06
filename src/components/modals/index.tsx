@@ -11,6 +11,7 @@ import { EditServicesModal } from './edit-business-service-modal';
 import { ReportWorkerModal } from './report-worker';
 import { ReportBusinessModal } from './report-business';
 import { ReportJobModal } from './report-job';
+import { EditCertificatesModal } from './edit-certificates-modal';
 
 export function Modals() {
   return (
@@ -28,6 +29,7 @@ export function Modals() {
       <ReportWorkerModal />
       <ReportBusinessModal />
       <ReportJobModal />
+      <EditCertificatesModal/>
     </>
   );
 }

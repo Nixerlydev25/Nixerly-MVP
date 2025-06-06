@@ -10,10 +10,12 @@ import {
 import { useModalStore } from '@/store/modal.store';
 import { ModalType } from '@/types/model';
 import { EditCertificatesForm } from '../forms/edit-certificates-form';
+import { Certificate } from '@/types/worker.types';
 
 export function EditCertificatesModal() {
-  const { activeModal, closeModal } = useModalStore();
+  const { activeModal, modalData, closeModal } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_CERTIFICATES;
+  const certificates = (modalData as { certificates: Certificate[] })?.certificates || [];
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
@@ -25,7 +27,7 @@ export function EditCertificatesModal() {
             and upload images for each one.
           </DialogDescription>
         </DialogHeader>
-        <EditCertificatesForm onClose={closeModal} />
+        <EditCertificatesForm onClose={closeModal} existingCertificates={certificates} />
       </DialogContent>
     </Dialog>
   );

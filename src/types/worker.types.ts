@@ -60,7 +60,7 @@ export interface WorkerProfile {
   experience: WorkerExperience[];
   education: WorkerEducation[];
   languages: WorkerLanguage[];
-  certificates: Record<string, unknown>;
+  certificates: Certificate[];
   portfolio: Record<string, unknown>;
   isVerified: boolean;
 }
@@ -84,12 +84,7 @@ export interface WorkerProfileResponse {
   experience: WorkerExperience[];
   education: WorkerEducation[];
   languages: WorkerLanguage[];
-  certifications: {
-    id: string;
-    name: string;
-    issuer: string;
-    year: string;
-  }[];
+  certificates: Certificate[];
   user: {
     id: string;
     email: string;
@@ -140,20 +135,20 @@ export enum CertificateType {
 
 export interface Certificate {
   id: string;
+  workerId: string;
   name: string;
   issuingOrg: string;
   issueDate: string;
   expiryDate?: string | null;
   credentialUrl?: string;
   certificateType: CertificateType;
-  assets?: CertificateAsset[];
+  assets: CertificateAsset[];
 }
 
 export interface CertificateAsset {
-  id: string;
-  s3Key: string;
-  mediaType: string;
   url: string;
+  key: string;
+  mediaType: string;
 }
 
 export interface CreateCertificatePayload {

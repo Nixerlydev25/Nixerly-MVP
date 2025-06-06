@@ -7,8 +7,21 @@ import type {
   SaveCertificateAssetsPayload,
 } from '@/types/worker.types';
 
+interface CreateCertificatesResponse {
+  message: string;
+  certificates: Certificate[];
+}
+
+interface PresignedUrlResponse {
+  urls: Array<{
+    fileName: string;
+    presignedUrl: string;
+    s3Key: string;
+  }>;
+}
+
 class CertificateService {
-  static async createCertificates(certificates: CreateCertificatePayload[]): Promise<Certificate[]> {
+  static async createCertificates(certificates: CreateCertificatePayload[]): Promise<CreateCertificatesResponse> {
     try {
       const response = await instance.post(API_ROUTES.WORKER.CREATE_CERTIFICATES, {
         certificates,
@@ -31,9 +44,7 @@ class CertificateService {
     }
   }
 
-  static async getAssetUploadUrl(payload: UploadCertificateAssetPayload): Promise<{
-    presignedUrls: Array<{ url: string; key: string }>;
-  }> {
+  static async getAssetUploadUrl(payload: UploadCertificateAssetPayload): Promise<PresignedUrlResponse> {
     try {
       const response = await instance.post(
         API_ROUTES.WORKER.GET_CERTIFICATE_UPLOAD_URL,

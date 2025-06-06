@@ -39,10 +39,12 @@ export default function FreelancerProfileSelfView() {
   const { openModal } = useModalStore();
   const { data: workerDetail, refetch } = useGetCurrentWorkerProfileDetails();
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
-
+  
   if (!workerDetail) {
     return <div>Loading...</div>;
   }
+
+  console.log({workerDetail})
 
   const { firstName, lastName, workerProfile } = workerDetail as WorkerUser;
   const fullName = `${firstName} ${lastName}`;
@@ -315,18 +317,70 @@ export default function FreelancerProfileSelfView() {
                       <Button size="sm" variant="outline" className="h-8 gap-1" onClick={() =>
                           openModal(
                             ModalType.EDIT_CERTIFICATES,
-                            toModalData(workerProfile)
+                            { certificates: workerProfile.certificates }
                           )
                         }>
                         <PencilIcon className="h-3 w-3" />
                         Edit
                       </Button>
                     </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 min-h-[150px] flex items-center justify-center">
-                      <div className="text-center py-4 text-gray-500">
-                        <Award className="mx-auto h-12 w-12 mb-4" />
-                        <p>Certifications coming soon!</p>
-                      </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      {workerProfile.certificates.length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-1">
+                          {workerProfile.certificates.map((certificate) => (
+                            <div
+                              key={certificate.id}
+                              className="relative rounded-lg border p-4 hover:bg-gray-50"
+                            >
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-medium">{certificate.name}</h4>
+                                  <Badge variant="outline">{certificate.certificateType.replace(/_/g, " ")}</Badge>
+                                </div>
+                                <p className="text-sm text-gray-500">{certificate.issuingOrg}</p>
+                                <p className="text-sm text-gray-500">
+                                  Issued: {new Date(certificate.issueDate).toLocaleDateString()}
+                                  {certificate.expiryDate && 
+                                    ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`
+                                  }
+                                </p>
+                                {certificate.credentialUrl && (
+                                  <a
+                                    href={certificate.credentialUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-600 hover:underline"
+                                  >
+                                    View Credential
+                                  </a>
+                                )}
+                                {certificate.assets?.length > 0 && (
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {certificate.assets.map((asset, index) => (
+                                      <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
+                                        <Image
+                                          src={asset.url}
+                                          alt={`Certificate ${index + 1}`}
+                                          fill
+                                          className="object-cover"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4 text-gray-500">
+                          <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                          <p>No certificates added yet</p>
+                          <p className="text-sm mt-1">
+                            Add your professional certificates to enhance your profile
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </section>
                 </div>

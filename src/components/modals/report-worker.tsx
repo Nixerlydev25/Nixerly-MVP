@@ -5,7 +5,6 @@ import * as z from "zod";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -28,7 +27,7 @@ import {
   useHasBusinessReportedWorker,
   useReportWorker,
 } from "@/hook/report/report.hooks";
-import { ReportCategory } from "@/types/report.types";
+import { WorkerReportReason } from "@/types/report.types";
 import {
   Select,
   SelectContent,
@@ -38,7 +37,7 @@ import {
 } from "@/components/ui/select";
 
 const reportFormSchema = z.object({
-  reason: z.nativeEnum(ReportCategory, {
+  reason: z.nativeEnum(WorkerReportReason, {
     required_error: "Please select a report reason",
   }),
   description: z
@@ -52,7 +51,7 @@ type ReportFormValues = z.infer<typeof reportFormSchema>;
 export function ReportWorkerModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
   const isOpen = activeModal === ModalType.REPORT_WORKER_MODAL;
-  const { targetId = "", targetName = "" } = (modalData || {}) as {
+  const { targetId = "" } = (modalData || {}) as {
     targetId: string;
     targetName: string;
   };
@@ -67,7 +66,7 @@ export function ReportWorkerModal() {
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportFormSchema),
     defaultValues: {
-      reason: ReportCategory.OTHER,
+      reason: WorkerReportReason.OTHER,
       description: "",
     },
   });
@@ -82,10 +81,10 @@ export function ReportWorkerModal() {
   };
 
   const handleClose = () => {
-      closeModal();
+    closeModal();
   };
 
-  const reasonLabels: Record<ReportCategory, string> = {
+  const reasonLabels: Record<WorkerReportReason, string> = {
     INAPPROPRIATE_BEHAVIOR: "Inappropriate Behavior",
     MISREPRESENTATION_OF_SKILLS: "Misrepresentation of Skills",
     UNPROFESSIONAL_CONDUCT: "Unprofessional Conduct",
@@ -102,13 +101,8 @@ export function ReportWorkerModal() {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Report Worker</DialogTitle>
-          <DialogDescription>
-            Report inappropriate behavior or content from {targetName}. Your
-            report will be reviewed by our team.
-          </DialogDescription>
+          <DialogTitle>Report Professional</DialogTitle>
         </DialogHeader>
-
         {hasAlreadyReported ? (
           <div className="py-6">
             <Alert className="bg-yellow-50 border-yellow-200">
@@ -117,7 +111,7 @@ export function ReportWorkerModal() {
                 Already Reported
               </AlertTitle>
               <AlertDescription className="text-yellow-700">
-                You have already submitted a report for this worker.
+                You have already submitted a report for this Professional.
               </AlertDescription>
             </Alert>
           </div>
@@ -136,7 +130,11 @@ export function ReportWorkerModal() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a reason" />
+                          <SelectValue placeholder="Select a reason">
+                            {field.value
+                              ? reasonLabels[field.value as WorkerReportReason]
+                              : "Select a reason"}
+                          </SelectValue>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>

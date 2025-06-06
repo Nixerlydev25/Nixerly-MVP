@@ -5,7 +5,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/query.provider";
 import Footer from "@/components/common/footer";
 import { ToastProvider } from "@/providers/ToastProvider";
-import { Modals } from "@/components/models";
+import { Modals } from "@/components/modals";
 
 const inter = Inter({ subsets: ["latin"] });
 

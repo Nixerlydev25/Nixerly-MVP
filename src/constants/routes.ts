@@ -34,6 +34,8 @@ export const API_ROUTES = {
     UPDATE_BUSINESS_PROFILE: '/business/update-business-profile',
     GET_BUSINESS_BY_ID: (id: string) =>
       `/business/business-profile-details/${id}`,
+    GET_PROFILE_PICTURE_UPLOAD_URL: '/business/get-profile-picture-upload-url',
+    SAVE_PROFILE_PICTURE: '/business/save-profile-picture',
   },
   OTP: {
     SEND: '/otp/send-otp',
@@ -101,7 +103,13 @@ export const API_ROUTES = {
     REPORT_WORKER: (workerId: string) => `/reports/report-worker/${workerId}`,
     HAS_BUSINESS_REPORTED_WORKER: (workerId: string) =>
       `/reports/has-reported-worker/${workerId}`,
-    REPORT_BUSINESS: '/reports/report-business',
-    REPORT_JOB: '/reports/report-job',
+    REPORT_BUSINESS: (businessId: string) =>
+      `/reports/report-business/${businessId}`,
+    REPORT_JOB: (jobId: string) => `/reports/report-job/${jobId}`,
+    HAS_WORKER_REPORTED_JOB: (jobId: string) =>
+      `/reports/has-reported-job/${jobId}`,
+    HAS_WORKER_REPORTED_BUSINESS: (businessId: string) =>
+      `/reports/has-reported-business/${businessId}`,
+    
   },
 };

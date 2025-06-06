@@ -14,14 +14,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Award,
   ChevronLeft,
-  Clock,
   Flag,
   Globe,
   GraduationCap,
   MapPin,
   MoreHorizontal,
   Share2,
-  StarIcon,
 } from 'lucide-react';
 import { useGetWorkerById } from '@/hook/worker/worker.hook';
 import { useParams } from 'next/navigation';
@@ -147,21 +145,7 @@ export default function FreelancerProfile() {
                       </div>
                     </div>
 
-                    <p className="mt-3 text-gray-700">{worker.description}</p>
-
-                    <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                      <div className="flex items-center">
-                        <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{worker.avgRating}</span>
-                        <span className="ml-1 text-gray-500">
-                          ({worker.completedJobs} reviews)
-                        </span>
-                      </div>
-                      <div className="flex items-center">
-                        <Clock className="mr-1 h-4 w-4 text-gray-500" />
-                        <span>Response time varies</span>
-                      </div>
-                    </div>
+                    {/* <p className="mt-3 text-gray-700">{worker.description}</p> */}
                   </div>
                 </div>
               </div>

@@ -10,12 +10,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { AlertCircle, CheckCircle, Flag, Loader2 } from 'lucide-react';
+import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { useModalStore } from '@/store/modal.store';
 import { ModalType } from '@/types/model';
 import {
@@ -26,15 +23,22 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useReportJob } from '@/hook/report/report.hooks';
+import { useHasWorkerReportedJob, useReportJob } from '@/hook/report/report.hooks';
 import { ReportJobsCategory } from '@/types/report.types';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const formSchema = z.object({
-  category: z.nativeEnum(ReportJobsCategory, {
+  reason: z.nativeEnum(ReportJobsCategory, {
     required_error: 'Please select a report category',
   }),
-  reason: z.string().min(1, 'Please provide a reason'),
+  description: z.string().min(1, 'Please provide a reason'),
 });
 
 type ReportFormValues = z.infer<typeof formSchema>;
@@ -42,25 +46,28 @@ type ReportFormValues = z.infer<typeof formSchema>;
 export function ReportJobModal() {
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.REPORT_JOB_MODAL;
+  
   const {
     mutateAsync: reportJob,
     isSuccess: isReportJobSuccess,
     isPending: isReportJobPending,
     error: reportJobError,
   } = useReportJob();
+  const {data} = useHasWorkerReportedJob(modalData?.jobId as string)
+  const hasReported = data?.data || false
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category: undefined,
-      reason: '',
+      reason: undefined,
+      description: '',
     },
   });
 
   const onSubmit = async (values: ReportFormValues) => {
     await reportJob({
-      targetJobId: modalData?.jobId as string,
-      ...values,
+      data : values,
+      jobId: modalData?.jobId as string,
     });
 
     closeModal();
@@ -72,12 +79,29 @@ export function ReportJobModal() {
     form.reset();
   };
 
-  const defaultTrigger = (
-    <Button size="icon" variant="outline">
-      <Flag className="h-5 w-5" />
-      <span className="sr-only">Report job</span>
-    </Button>
-  );
+  if (hasReported) {
+    return (
+      <Dialog open={isOpen} onOpenChange={handleClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Report Job</DialogTitle>
+          </DialogHeader>
+          <Alert className="bg-yellow-50 border-yellow-200">
+            <AlertCircle className="h-5 w-5 text-yellow-600" />
+            <AlertTitle className="text-yellow-800">Already Reported</AlertTitle>
+            <AlertDescription className="text-yellow-700">
+              You have already reported this job. Our team is reviewing your report.
+            </AlertDescription>
+          </Alert>
+          <div className="flex justify-end">
+            <Button type="button" variant="outline" onClick={handleClose}>
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -107,41 +131,30 @@ export function ReportJobModal() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="category"
+                name="reason"
                 render={({ field }) => (
-                  <FormItem className="space-y-4">
+                  <FormItem>
                     <FormLabel>Reason for reporting</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="space-y-2"
-                      >
-                        {Object.entries(ReportJobsCategory).map(
-                          ([key, value]) => (
-                            <div
-                              key={key}
-                              className="flex items-center space-x-2"
-                            >
-                              <RadioGroupItem
-                                value={value}
-                                id={key.toLowerCase()}
-                              />
-                              <Label htmlFor={key.toLowerCase()}>
-                                {key
-                                  .split('_')
-                                  .map(
-                                    (word) =>
-                                      word.charAt(0) +
-                                      word.slice(1).toLowerCase()
-                                  )
-                                  .join(' ')}
-                              </Label>
-                            </div>
-                          )
-                        )}
-                      </RadioGroup>
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a reason" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(ReportJobsCategory).map(([key, value]) => (
+                          <SelectItem key={key} value={value}>
+                            {key
+                              .split('_')
+                              .map(
+                                (word) =>
+                                  word.charAt(0) + word.slice(1).toLowerCase()
+                              )
+                              .join(' ')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -149,7 +162,7 @@ export function ReportJobModal() {
 
               <FormField
                 control={form.control}
-                name="reason"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Additional details</FormLabel>

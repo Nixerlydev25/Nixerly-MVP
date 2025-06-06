@@ -123,7 +123,7 @@ export const useWorkerProfilePicture = () => {
         throw error;
       }
 
-      return await S3Service.getPresignedUrl(file.name, file.type);
+      return await S3Service.getPresignedUrlWorkerProfilePicture(file.name, file.type);
     },
   });
 
@@ -134,7 +134,7 @@ export const useWorkerProfilePicture = () => {
   >({
     mutationKey: [QueryKeys.UPDATE_PROFILE_PICTURE_S3],
     mutationFn: async ({ presignedUrl, file }) => {
-      await S3Service.uploadToS3(presignedUrl, file, file.type);
+      await S3Service.uploadToS3WorkerProfilePicture(presignedUrl, file, file.type);
     },
   });
 

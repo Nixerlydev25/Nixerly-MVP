@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Building2,
   Calendar,
@@ -22,14 +21,15 @@ import {
   Eye,
   ChevronRight,
   ChevronLeft,
-} from 'lucide-react';
-import Image from 'next/image';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
-import { useGetCurrentBusinessProfileDetails } from '@/hook/user/user.hooks';
-import { BusinessProfileSkeleton } from './_components/business-profile-skeleton';
-import { useRouter } from 'next/navigation';
-import { useListMyJobs } from '@/hook/jobs/jobs.hooks';
+} from "lucide-react";
+import Image from "next/image";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
+import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
+import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
+import { useRouter } from "next/navigation";
+import { useListMyJobs } from "@/hook/jobs/jobs.hooks";
+import { ChangeBusinessProfilePictureModal } from "@/components/modals/change-business-profile-picture-modal";
 
 export default function BusinessProfilePage() {
   const { data: businessProfileData, isLoading } =
@@ -42,7 +42,7 @@ export default function BusinessProfilePage() {
 
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams(window.location.search);
-    params.set('page', page.toString());
+    params.set("page", page.toString());
     router.push(`?${params.toString()}`);
   };
 
@@ -52,6 +52,7 @@ export default function BusinessProfilePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <ChangeBusinessProfilePictureModal />
       <div className="grid gap-8 md:grid-cols-3">
         {/* Main Content */}
 
@@ -59,29 +60,31 @@ export default function BusinessProfilePage() {
           <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
-                {businessProfileData?.businessProfile?.logoUrl ? (
+                {businessProfileData?.businessProfile?.profilePicture ? (
                   <Image
                     src={
-                      businessProfileData?.businessProfile?.logoUrl ||
-                      '/placeholder.svg'
+                      businessProfileData?.businessProfile?.profilePicture ||
+                      "/placeholder.svg"
                     }
-                    alt={businessProfileData?.businessProfile.companyName || ''}
+                    alt={businessProfileData?.businessProfile.companyName || ""}
                     fill
                     className="object-cover"
                   />
                 ) : (
                   <Image
                     src="/placeholder.svg?height=128&width=128"
-                    alt={businessProfileData?.businessProfile.companyName || ''}
+                    alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
                     height={128}
                     className="object-cover"
                   />
                 )}
                 <button
-                  onClick={() => openModal(ModalType.UPLOAD_LOGO)}
+                  onClick={() =>
+                    openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE)
+                  }
                   className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
-                  aria-label="Upload logo"
+                  aria-label="Change profile picture"
                 >
                   <Camera className="h-4 w-4" />
                 </button>
@@ -96,8 +99,8 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         <span>
-                          {businessProfileData?.businessProfile.city},{' '}
-                          {businessProfileData?.businessProfile.state},{' '}
+                          {businessProfileData?.businessProfile.city},{" "}
+                          {businessProfileData?.businessProfile.state},{" "}
                           {businessProfileData?.businessProfile.country}
                         </span>
                       </span>
@@ -112,7 +115,7 @@ export default function BusinessProfilePage() {
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          Est.{' '}
+                          Est.{" "}
                           {businessProfileData?.businessProfile.yearFounded}
                         </span>
                       </span>
@@ -177,7 +180,7 @@ export default function BusinessProfilePage() {
           {/* Tabs for different sections */}
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium">Recent Job Postings</h3>
-            <Button onClick={() => router.push('/business/post-a-job')}>
+            <Button onClick={() => router.push("/business/post-a-job")}>
               <Pencil className="mr-2 h-4 w-4" />
               Post New Job
             </Button>
@@ -198,15 +201,15 @@ export default function BusinessProfilePage() {
                           </p>
                           <div className="mt-2 flex flex-wrap gap-2">
                             <Badge variant="outline">{job.jobType}</Badge>
-                            {job.jobType === 'SALARY' && (
+                            {job.jobType === "SALARY" && (
                               <Badge variant="outline">
                                 ${job.salary}/year
                               </Badge>
                             )}
-                            {job.jobType === 'CONTRACT' && (
+                            {job.jobType === "CONTRACT" && (
                               <Badge variant="outline">${job.budget}</Badge>
                             )}
-                            {job.jobType === 'HOURLY' && (
+                            {job.jobType === "HOURLY" && (
                               <Badge variant="outline">
                                 ${job.hourlyRateMin}-${job.hourlyRateMax}/hr
                               </Badge>
@@ -233,7 +236,9 @@ export default function BusinessProfilePage() {
                       variant="outline"
                       size="sm"
                       onClick={() =>
-                        handlePageChange((jobs?.pagination?.currentPage ?? 1) - 1)
+                        handlePageChange(
+                          (jobs?.pagination?.currentPage ?? 1) - 1
+                        )
                       }
                       disabled={jobs?.pagination?.currentPage === 1}
                     >
@@ -250,8 +255,8 @@ export default function BusinessProfilePage() {
                           key={pageNum}
                           variant={
                             pageNum === (jobs?.pagination?.currentPage ?? 1)
-                              ? 'default'
-                              : 'outline'
+                              ? "default"
+                              : "outline"
                           }
                           size="sm"
                           className="w-8 h-8 p-0"
@@ -266,7 +271,9 @@ export default function BusinessProfilePage() {
                       variant="outline"
                       size="sm"
                       onClick={() =>
-                        handlePageChange((jobs?.pagination?.currentPage ?? 1) + 1)
+                        handlePageChange(
+                          (jobs?.pagination?.currentPage ?? 1) + 1
+                        )
                       }
                       disabled={!jobs?.pagination?.hasMore}
                     >
@@ -275,8 +282,8 @@ export default function BusinessProfilePage() {
                     </Button>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Page {jobs?.pagination?.currentPage} of{' '}
-                    {jobs?.pagination?.totalPages} •{' '}
+                    Page {jobs?.pagination?.currentPage} of{" "}
+                    {jobs?.pagination?.totalPages} •{" "}
                     {jobs?.pagination?.totalCount} total jobs
                   </div>
                 </div>
@@ -297,7 +304,7 @@ export default function BusinessProfilePage() {
                   <div>
                     <p className="font-medium">Company Size</p>
                     <p className="text-sm text-muted-foreground">
-                      {businessProfileData?.businessProfile.employeeCount}{' '}
+                      {businessProfileData?.businessProfile.employeeCount}{" "}
                       employees
                     </p>
                   </div>
@@ -326,10 +333,10 @@ export default function BusinessProfilePage() {
                     <p className="font-medium">Member Since</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(
-                        businessProfileData?.createdAt ?? ''
+                        businessProfileData?.createdAt ?? ""
                       ).toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'long',
+                        year: "numeric",
+                        month: "long",
                       })}
                     </p>
                   </div>
@@ -383,14 +390,14 @@ export default function BusinessProfilePage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">
-                      {businessProfileData?.firstName}{' '}
+                      {businessProfileData?.firstName}{" "}
                       {businessProfileData?.lastName}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {businessProfileData?.role
                         ? businessProfileData.role.charAt(0) +
                           businessProfileData.role.slice(1).toLowerCase()
-                        : 'Owner'}{' '}
+                        : "Owner"}{" "}
                       Owner
                     </p>
                   </div>

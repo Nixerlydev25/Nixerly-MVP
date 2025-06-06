@@ -2,7 +2,7 @@
 
 import { useGetAppliedJobs } from '@/hook/worker/worker.hook';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -15,7 +15,6 @@ import { X, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { ApplicationDetails } from './components/application-details';
 import {
   Sheet,
@@ -132,27 +131,27 @@ export default function AppliedJobsPage() {
     });
   }
 
-  function getStatusColor(status: string) {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'accepted':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'rejected':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'withdrawn':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-      default:
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-    }
-  }
+  // function getStatusColor(status: string) {
+  //   switch (status.toLowerCase()) {
+  //     case 'pending':
+  //       return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+  //     case 'accepted':
+  //       return 'bg-green-100 text-green-800 border-green-200';
+  //     case 'rejected':
+  //       return 'bg-red-100 text-red-800 border-red-200';
+  //     case 'withdrawn':
+  //       return 'bg-gray-100 text-gray-800 border-gray-200';
+  //     default:
+  //       return 'bg-blue-100 text-blue-800 border-blue-200';
+  //   }
+  // }
 
-  function formatDuration(duration: string) {
-    return duration
-      .replace(/_/g, ' ')
-      .toLowerCase()
-      .replace(/\b\w/g, (l) => l.toUpperCase());
-  }
+  // function formatDuration(duration: string) {
+  //   return duration
+  //     .replace(/_/g, ' ')
+  //     .toLowerCase()
+  //     .replace(/\b\w/g, (l) => l.toUpperCase());
+  // }
 
   const clearFilters = () => {
     setFilters({
@@ -169,7 +168,7 @@ export default function AppliedJobsPage() {
 
   return (
     <TooltipProvider>
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -329,9 +328,9 @@ export default function AppliedJobsPage() {
                       </div>
                     </div>
                   </div>
-                  <Badge className={getStatusColor(application.status)}>
+                  {/* <Badge className={getStatusColor(application.status)}>
                     {application.status}
-                  </Badge>
+                  </Badge> */}
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -339,7 +338,7 @@ export default function AppliedJobsPage() {
                   {application.job.description}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="flex items-center gap-2 text-sm">
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
                     <span>
@@ -358,12 +357,13 @@ export default function AppliedJobsPage() {
                       {formatDate(application.workerStartDateAvailability)}
                     </span>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex justify-between items-center pt-2">
-                  <div className="text-xs text-muted-foreground">
+                  {/* <div className="text-xs text-muted-foreground">
                     Last updated: {formatDate(application.updatedAt)}
-                  </div>
+                  </div> */}
+                  <div></div>
                   <div className="flex gap-2">
                     <Sheet>
                       <SheetTrigger asChild>

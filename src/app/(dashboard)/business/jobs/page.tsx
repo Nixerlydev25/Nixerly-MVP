@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Briefcase,
   Building2,
@@ -186,22 +186,20 @@ export default function BusinessDashboard() {
             </div>
           </div>
 
-          <div className="grid">
+          <div className="grid gap-4">
             {filteredJobs && filteredJobs.length > 0 ? (
               <>
-                <div className="space-y-4">
-                  {filteredJobs.map((job: Job) => (
-                    <div
-                      key={job.id}
-                      className="cursor-pointer hover:bg-accent/50 transition-colors p-6 py-10 border-b"
-                      onClick={() => handleJobClick(job.id)}
-                    >
+                {filteredJobs.map((job: Job) => (
+                  <Card 
+                    key={job.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => handleJobClick(job.id)}
+                  >
+                    <CardHeader>
                       <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <h3 className="text-xl font-semibold">
-                              {job.title}
-                            </h3>
+                            <CardTitle>{job.title}</CardTitle>
                             <Badge
                               variant={
                                 job.status === 'open' ? 'default' : 'secondary'
@@ -240,24 +238,22 @@ export default function BusinessDashboard() {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col items-end justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="text-sm text-muted-foreground">
-                              {job.totalApplications || 0} applicant
-                              {job.totalApplications !== 1 ? 's' : ''}
-                            </div>
-                            <Badge variant="outline" className="ml-2">
-                              {job.employmentType
-                                .split('_')
-                                .join(' ')
-                                .toLowerCase()}
-                            </Badge>
+                        <div className="flex items-center gap-2">
+                          <div className="text-sm text-muted-foreground">
+                            {job.totalApplications || 0} applicant
+                            {job.totalApplications !== 1 ? 's' : ''}
                           </div>
+                          <Badge variant="outline" className="ml-2">
+                            {job.employmentType
+                              .split('_')
+                              .join(' ')
+                              .toLowerCase()}
+                          </Badge>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    </CardHeader>
+                  </Card>
+                ))}
 
                 {(data?.pagination?.totalCount ?? 0) > 10 && (
                   <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">

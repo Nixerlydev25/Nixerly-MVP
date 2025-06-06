@@ -51,7 +51,6 @@ function CardFeeds({
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-400 hover:text-blue-600"
           >
             <BookmarkIcon className="h-5 w-5" />
           </Button>
@@ -63,7 +62,7 @@ function CardFeeds({
             <span className="text-sm font-medium text-gray-600">
               Hourly Rate:
             </span>
-            <span className="ml-1 text-lg font-bold text-blue-600">
+            <span className="ml-1 text-lg font-bold text-primary">
               ${hourlyRate}
             </span>
             <span className="text-sm text-gray-600">/hr</span>
@@ -88,7 +87,6 @@ function CardFeeds({
               <Badge
                 key={skill}
                 variant="secondary"
-                className="bg-blue-50 text-blue-700"
               >
                 {formateSkills(skill)}
               </Badge>
@@ -100,7 +98,7 @@ function CardFeeds({
         <Button variant="outline" className="w-[48%]">
           View Profile
         </Button>
-        <Button className="w-[48%] bg-blue-600 ">Contact</Button>
+        <Button className="w-[48%]">Contact</Button>
       </CardFooter>
     </Card>
   );

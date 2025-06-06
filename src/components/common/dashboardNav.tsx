@@ -11,19 +11,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BriefcaseIcon, MenuIcon } from "lucide-react";
+import { BriefcaseIcon, MenuIcon, UserCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useLogout } from "@/hook/auth/auth.hook";
 import { useUser } from "@/hook/user/useUser";
 import { ProfileType } from "@/types/user/user.types";
 import { ROUTES } from "@/lib/routes";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 function DashboardNav() {
   const { mutate: logout } = useLogout();
   const { user, isLoading } = useUser();
   const router = useRouter();
-  const pathname = usePathname();
 
   if (isLoading || !user) {
     return <div></div>;
@@ -43,16 +51,6 @@ function DashboardNav() {
     }
   };
 
-  const handlePostAJob = () => {
-    router.push(ROUTES.POST_A_JOB);
-  };
-
-  const handleMyJobs = () => {
-    router.push(ROUTES.MY_JOBS);
-  };
-
-  console.log({ user });
-
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
@@ -67,54 +65,106 @@ function DashboardNav() {
             <BriefcaseIcon className="h-6 w-6 text-blue-600" />
             <span className="text-xl font-bold text-blue-600">Nixerly</span>
           </Link>
-          {isBusinessProfile ? (
-            <nav className="hidden md:flex md:items-center md:gap-6">
-              <Link
-                href={ROUTES.BUSINESS_FEED as string}
-                className={`text-sm font-medium cursor-pointer ${
-                  pathname === ROUTES.BUSINESS_FEED
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                Find Talent
-              </Link>
-              <Link
-                href={ROUTES.MY_JOBS as string}
-                className={`text-sm font-medium cursor-pointer ${
-                  pathname === ROUTES.MY_JOBS
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                My Jobs
-              </Link>
-            </nav>
-          ) : (
-            <nav className="hidden md:flex md:items-center md:gap-6">
-              <Link
-                href={ROUTES.WORKER_FEED as string}
-                className={`text-sm font-medium cursor-pointer ${
-                  pathname === ROUTES.WORKER_FEED
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                Find Job
-              </Link>
-              <Link
-                href={ROUTES.APPLIED_JOBS as string}
-                className={`text-sm font-medium cursor-pointer ${
-                  pathname === ROUTES.APPLIED_JOBS
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                Applied Jobs
-              </Link>
-            </nav>
-          )}
+
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              {isBusinessProfile ? (
+                <>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Find Talent</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-3 p-4">
+                        <li className="row-span-3">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={ROUTES.BUSINESS_FEED}
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                            >
+                              <BriefcaseIcon className="h-6 w-6 text-blue-600" />
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                Browse Talent
+                              </div>
+                              <p className="text-sm leading-tight text-muted-foreground">
+                                Find and connect with skilled professionals for your projects
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Jobs</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-3 p-4">
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={ROUTES.MY_JOBS}
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">My Jobs</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Manage your posted jobs and applications
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={ROUTES.POST_A_JOB}
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Post a Job</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Create a new job posting
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </>
+              ) : (
+                <>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Find Jobs</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-3 p-4">
+                        <li className="row-span-3">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={ROUTES.WORKER_FEED}
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                            >
+                              <BriefcaseIcon className="h-6 w-6 text-blue-600" />
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                Browse Jobs
+                              </div>
+                              <p className="text-sm leading-tight text-muted-foreground">
+                                Discover new job opportunities that match your skills
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={ROUTES.APPLIED_JOBS}
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Applied Jobs</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Track your job applications
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </>
+              )}
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
+
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -136,27 +186,9 @@ function DashboardNav() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleProfileClick} className="cursor-pointer">
+                <UserCircle2Icon className="mr-2 h-4 w-4" />
                 Profile
               </DropdownMenuItem>
-              {isBusinessProfile && (
-                <>
-                  <DropdownMenuItem onClick={handleMyJobs} className="cursor-pointer">
-                    My Jobs
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handlePostAJob} className="cursor-pointer">
-                    Post A Job
-                  </DropdownMenuItem>
-                  {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
-                </>
-              )}
-              {!isBusinessProfile && (
-                <DropdownMenuItem
-                  onClick={() => router.push(ROUTES.APPLIED_JOBS)}
-                  className="cursor-pointer"
-                >
-                  Applied Jobs
-                </DropdownMenuItem>
-              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                 Log out

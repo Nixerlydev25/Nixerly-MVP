@@ -98,7 +98,7 @@ export function BusinessProfileForm() {
               <FormItem>
                 <FormLabel>Industry</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
+                  <FormControl className="w-full">
                     <SelectTrigger>
                       <SelectValue placeholder="Select an industry" />
                     </SelectTrigger>
@@ -124,7 +124,7 @@ export function BusinessProfileForm() {
                 <FormLabel>Number of Employees</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select employee range" />
                     </SelectTrigger>
                   </FormControl>

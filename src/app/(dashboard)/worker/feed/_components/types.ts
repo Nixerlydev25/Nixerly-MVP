@@ -30,6 +30,7 @@ export interface Job {
       employeeCount: number
       yearFounded: number
       postedJobs?: number
+      profilePicture: string
     }
     skills: string[]
   }

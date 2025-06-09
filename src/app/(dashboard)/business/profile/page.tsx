@@ -22,7 +22,6 @@ import {
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
-import Image from "next/image";
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
@@ -61,17 +60,16 @@ export default function BusinessProfilePage() {
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
                 {businessProfileData?.businessProfile?.profilePicture ? (
-                  <Image
+                  <img
                     src={
                       businessProfileData?.businessProfile?.profilePicture ||
                       "/placeholder.svg"
                     }
                     alt={businessProfileData?.businessProfile.companyName || ""}
-                    fill
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 ) : (
-                  <Image
+                  <img
                     src="/placeholder.svg?height=128&width=128"
                     alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
@@ -415,11 +413,10 @@ export default function BusinessProfilePage() {
                   key={index}
                   className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
                 >
-                  <Image
+                  <img
                     src={`/placeholder.svg?height=150&width=150&text=Image ${index}`}
                     alt={`Company image ${index}`}
-                    fill
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
                     <Eye className="h-6 w-6 text-white" />

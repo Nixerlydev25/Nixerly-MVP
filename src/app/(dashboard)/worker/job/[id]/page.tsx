@@ -50,11 +50,11 @@ export default function JobPostDetail() {
               <div className="flex items-center gap-3">
                 <div className="relative h-16 w-16 overflow-hidden rounded-md border bg-muted">
                   <Image
-                    src="/placeholder.svg?height=64&width=64"
+                    src={jobDetails?.businessProfile?.profilePicture || "/placeholder.svg?height=64&width=64"}
                     alt="Company logo"
                     width={64}
                     height={64}
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 <div>
@@ -423,11 +423,11 @@ export default function JobPostDetail() {
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 overflow-hidden rounded-md border bg-muted">
                   <Image
-                    src="/placeholder.svg?height=48&width=48"
+                    src={jobDetails?.businessProfile?.profilePicture || "/placeholder.svg?height=48&width=48"}
                     alt="Company logo"
                     width={48}
                     height={48}
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 <div>

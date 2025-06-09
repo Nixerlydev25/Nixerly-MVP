@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,40 +11,44 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Plus, Trash2, Briefcase, Calendar } from "lucide-react";
-import { DatePicker } from "@/components/ui/date-picker";
-import { LocationSearch, LocationDetails } from "@/components/location-search";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Plus, Trash2, Briefcase } from 'lucide-react';
+import { DatePicker } from '@/components/ui/date-picker';
+import { LocationSearch, LocationDetails } from '@/components/location-search';
 
-const experienceSchema = z.object({
-  title: z.string().min(1, "Job title is required"),
-  company: z.string().min(1, "Company is required"),
-  location: z.string().min(1, "Location is required"),
-  country: z.string().min(1, "Country is required"),
-  city: z.string().min(1, "City is required"),
-  state: z.string().min(1, "State is required"),
-  startDate: z.date(),
-  endDate: z.date().optional(),
-  description: z.string().min(1, "Description is required"),
-  current: z.boolean(),
-}).refine(
-  (data) => {
-    if (data.current) {
-      return true;
+const experienceSchema = z
+  .object({
+    title: z.string().min(1, 'Job title is required'),
+    company: z.string().min(1, 'Company is required'),
+    location: z.string().min(1, 'Location is required'),
+    country: z.string().min(1, 'Country is required'),
+    city: z.string().min(1, 'City is required'),
+    state: z.string().min(1, 'State is required'),
+    startDate: z.date(),
+    endDate: z.date().optional(),
+    description: z.string().min(1, 'Description is required'),
+    current: z.boolean(),
+  })
+  .refine(
+    (data) => {
+      if (data.current) {
+        return true;
+      }
+      return !!data.endDate;
+    },
+    {
+      message: 'End date is required unless this is your current position',
+      path: ['endDate'],
     }
-    return !!data.endDate;
-  },
-  {
-    message: "End date is required unless this is your current position",
-    path: ["endDate"],
-  }
-);
+  );
 
 const formSchema = z.object({
-  experience: z.array(experienceSchema).min(1, "At least one experience is required"),
+  experience: z
+    .array(experienceSchema)
+    .min(1, 'At least one experience is required'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -76,36 +80,37 @@ export function EditExperienceForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      experience: defaultValues?.experience?.map(exp => ({
-        title: exp.title,
-        company: exp.company,
-        location: `${exp.city}, ${exp.state}, ${exp.country}`,
-        city: exp.city,
-        country: exp.country,
-        state: exp.state,
-        startDate: new Date(exp.startDate),
-        endDate: exp.endDate ? new Date(exp.endDate) : undefined,
-        description: exp.description,
-        current: exp.currentlyWorking
-      })) || [],
+      experience:
+        defaultValues?.experience?.map((exp) => ({
+          title: exp.title,
+          company: exp.company,
+          location: `${exp.city}, ${exp.state}, ${exp.country}`,
+          city: exp.city,
+          country: exp.country,
+          state: exp.state,
+          startDate: new Date(exp.startDate),
+          endDate: exp.endDate ? new Date(exp.endDate) : undefined,
+          description: exp.description,
+          current: exp.currentlyWorking,
+        })) || [],
     },
   });
 
-  const experience = form.watch("experience") || [];
+  const experience = form.watch('experience') || [];
 
   const addExperience = () => {
-    form.setValue("experience", [
+    form.setValue('experience', [
       ...experience,
       {
-        title: "",
-        company: "",
-        location: "",
-        city: "",
-        country: "",
-        state: "",
+        title: '',
+        company: '',
+        location: '',
+        city: '',
+        country: '',
+        state: '',
         startDate: new Date(),
         endDate: undefined,
-        description: "",
+        description: '',
         current: false,
       },
     ]);
@@ -114,7 +119,7 @@ export function EditExperienceForm({
   const removeExperience = (index: number) => {
     const newExperience = [...experience];
     newExperience.splice(index, 1);
-    form.setValue("experience", newExperience);
+    form.setValue('experience', newExperience);
   };
 
   const handleCurrentPositionChange = (index: number, checked: boolean) => {
@@ -128,7 +133,7 @@ export function EditExperienceForm({
       });
     }
     newExperience[index].current = checked;
-    form.setValue("experience", newExperience);
+    form.setValue('experience', newExperience);
   };
 
   return (
@@ -285,7 +290,6 @@ export function EditExperienceForm({
                           <FormLabel>Start Date</FormLabel>
                           <FormControl>
                             <div className="flex items-center border rounded-md">
-                              <Calendar className="ml-3 h-4 w-4 text-gray-500" />
                               <DatePicker
                                 selected={field.value}
                                 onSelect={field.onChange}
@@ -307,7 +311,6 @@ export function EditExperienceForm({
                             <FormLabel>End Date</FormLabel>
                             <FormControl>
                               <div className="flex items-center border rounded-md">
-                                <Calendar className="ml-3 h-4 w-4 text-gray-500" />
                                 <DatePicker
                                   selected={field.value}
                                   onSelect={field.onChange}

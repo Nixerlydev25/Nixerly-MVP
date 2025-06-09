@@ -41,6 +41,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import JobApplicationsSkeleton from './components/JobApplicationSkeleton';
+import { Application } from '@/types/application/application.type';
 
 interface FilterState {
   search: string;
@@ -167,7 +168,7 @@ export default function AppliedJobsPage() {
 
   const hasActiveFilters = filters.search || filters.dateRange;
 
-  const updateFilter = (key: keyof FilterState, value: any) => {
+  const updateFilter = (key: keyof FilterState, value: string | DateRange | undefined) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -275,7 +276,7 @@ export default function AppliedJobsPage() {
                     updateFilter(
                       'dateRange',
                       filters.dateRange?.to
-                        ? { to: filters.dateRange.to }
+                        ? { from: filters.dateRange.from, to: filters.dateRange.to }
                         : undefined
                     )
                   }
@@ -291,7 +292,7 @@ export default function AppliedJobsPage() {
                     updateFilter(
                       'dateRange',
                       filters.dateRange?.from
-                        ? { from: filters.dateRange.from }
+                        ? { from: filters.dateRange.from, to: filters.dateRange.to   }
                         : undefined
                     )
                   }
@@ -306,7 +307,7 @@ export default function AppliedJobsPage() {
 
         {/* Applications List */}
         <div className="space-y-6">
-          {data?.applications?.map((application: any) => (
+          {data?.applications?.map((application: Application) => (
             <Card
               key={application.id}
               className="hover:shadow-md transition-shadow"

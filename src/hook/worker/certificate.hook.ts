@@ -114,7 +114,7 @@ export const useCertificates = () => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
       });
-      toast.success("Certificates added successfully");
+      // toast.success("Certificates added successfully");
     },
   });
 
@@ -126,7 +126,7 @@ export const useCertificates = () => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
       });
-      toast.success("Certificates deleted successfully");
+      // toast.success("Certificates deleted successfully");
     },
   });
 

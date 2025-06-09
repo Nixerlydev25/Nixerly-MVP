@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Award,
   CheckCircle2,
@@ -18,17 +17,17 @@ import {
   PencilIcon,
   Share2,
   StarIcon,
-} from "lucide-react";
-import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks";
+} from 'lucide-react';
+import { useGetCurrentWorkerProfileDetails } from '@/hook/user/user.hooks';
 import type {
   WorkerUser,
   WorkerEducation,
   WorkerExperience,
   WorkerLanguage,
-} from "@/types/worker.types";
-import { useModalStore } from "@/store/modal.store";
-import { ModalType } from "@/types/model";
-import { useState } from "react";
+} from '@/types/worker.types';
+import { useModalStore } from '@/store/modal.store';
+import { ModalType } from '@/types/model';
+import { useState } from 'react';
 
 // Helper function to safely cast WorkerProfile to ModalDataType
 const toModalData = (data: unknown): Record<string, unknown> => {
@@ -39,12 +38,12 @@ export default function FreelancerProfileSelfView() {
   const { openModal } = useModalStore();
   const { data: workerDetail, refetch } = useGetCurrentWorkerProfileDetails();
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  
+
   if (!workerDetail) {
     return <div>Loading...</div>;
   }
 
-  console.log({workerDetail})
+  console.log({ workerDetail });
 
   const { firstName, lastName, workerProfile } = workerDetail as WorkerUser;
   const fullName = `${firstName} ${lastName}`;
@@ -52,7 +51,7 @@ export default function FreelancerProfileSelfView() {
   // Use the state value if available, otherwise use the one from the API
   const currentProfilePicture = profilePicture || workerProfile.profilePicture;
   console.log({ currentProfilePicture });
-  console.log(workerProfile.profilePicture, "profilePicture");
+  console.log(workerProfile.profilePicture, 'profilePicture');
   const handleEditProfile = () => {
     openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile));
   };
@@ -82,9 +81,9 @@ export default function FreelancerProfileSelfView() {
           Back to dashboard
         </Link>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+        <div className="grid gap-8 md:grid-cols-3">
           {/* Main content */}
-          <div className="space-y-8">
+          <div className="space-y-8 md:col-span-2">
             {/* Profile header */}
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 shadow-sm border border-blue-100">
               <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-indigo-500"></div>
@@ -94,8 +93,8 @@ export default function FreelancerProfileSelfView() {
                   className="flex-shrink-0 relative group cursor-pointer w-[120px] h-[120px]"
                   onClick={handleProfilePictureClick}
                 >
-                  <Image
-                    src={currentProfilePicture || "/placeholder.svg"}
+                  <img
+                    src={currentProfilePicture || '/placeholder.svg'}
                     width={120}
                     height={120}
                     alt={fullName}
@@ -156,13 +155,13 @@ export default function FreelancerProfileSelfView() {
                     </div>
                     <div className="flex items-center text-green-600">
                       <CheckCircle2 className="mr-1 h-4 w-4" />
-                      {workerProfile.completedJobs > 0 ? "100%" : "0%"} Job
+                      {workerProfile.completedJobs > 0 ? '100%' : '0%'} Job
                       Success
                     </div>
                     <div className="flex items-center">
                       <Clock className="mr-1 h-4 w-4 text-gray-500" />
                       <span>
-                        Available {workerProfile.availability ? "Now" : "Soon"}
+                        Available {workerProfile.availability ? 'Now' : 'Soon'}
                       </span>
                     </div>
                     <div className="flex items-center font-medium text-blue-600">
@@ -237,153 +236,12 @@ export default function FreelancerProfileSelfView() {
                           variant="secondary"
                           className="bg-blue-50 text-blue-700 border-blue-200 p-2"
                         >
-                          {skill.replace(/_/g, " ")}
+                          {skill.replace(/_/g, ' ')}
                         </Badge>
                       ))}
                     </div>
                   </div>
                 </section>
-
-                {/* Education & Certifications */}
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Education */}
-                  <section>
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-xl font-semibold flex items-center">
-                        <GraduationCap className="mr-2 h-5 w-5 text-blue-600" />
-                        Education
-                      </h2>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-8 gap-1"
-                        onClick={() =>
-                          openModal(
-                            ModalType.EDIT_EDUCATION,
-                            toModalData(workerProfile)
-                          )
-                        }
-                      >
-                        <PencilIcon className="h-3 w-3" />
-                        Edit
-                      </Button>
-                    </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-                      <div className="space-y-4">
-                        {workerProfile.education.length > 0 ? (
-                          workerProfile.education.map(
-                            (edu: WorkerEducation, index: number) => (
-                              <div
-                                key={index}
-                                className={index > 0 ? "border-t pt-4" : ""}
-                              >
-                                <h4 className="font-medium">{edu.school}</h4>
-                                <p className="text-gray-600">
-                                  {edu.degree} in {edu.fieldOfStudy}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                  {new Date(edu.startDate).getFullYear()} -{" "}
-                                  {edu.currentlyStudying
-                                    ? "Present"
-                                    : new Date(edu.endDate).getFullYear()}
-                                </p>
-                                <p className="mt-2 text-sm text-gray-600">
-                                  {edu.description}
-                                </p>
-                              </div>
-                            )
-                          )
-                        ) : (
-                          <div className="text-center py-4 text-gray-500">
-                            <GraduationCap className="mx-auto h-12 w-12 mb-4 opacity-50" />
-                            <p>No education added yet</p>
-                            <p className="text-sm mt-1">
-                              Add your educational background to enhance your
-                              profile
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Certifications */}
-                  <section>
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-xl font-semibold flex items-center">
-                        <Award className="mr-2 h-5 w-5 text-purple-600" />
-                        Certifications
-                      </h2>
-                      <Button size="sm" variant="outline" className="h-8 gap-1" onClick={() =>
-                          openModal(
-                            ModalType.EDIT_CERTIFICATES,
-                            { certificates: workerProfile.certificates }
-                          )
-                        }>
-                        <PencilIcon className="h-3 w-3" />
-                        Edit
-                      </Button>
-                    </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-                      {workerProfile.certificates.length > 0 ? (
-                        <div className="grid gap-4 md:grid-cols-1">
-                          {workerProfile.certificates.map((certificate) => (
-                            <div
-                              key={certificate.id}
-                              className="relative rounded-lg border p-4 hover:bg-gray-50"
-                            >
-                              <div className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                  <h4 className="font-medium">{certificate.name}</h4>
-                                  <Badge variant="outline">{certificate.certificateType.replace(/_/g, " ")}</Badge>
-                                </div>
-                                <p className="text-sm text-gray-500">{certificate.issuingOrg}</p>
-                                <p className="text-sm text-gray-500">
-                                  Issued: {new Date(certificate.issueDate).toLocaleDateString()}
-                                  {certificate.expiryDate && 
-                                    ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`
-                                  }
-                                </p>
-                                {certificate.credentialUrl && (
-                                  <a
-                                    href={certificate.credentialUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sm text-blue-600 hover:underline"
-                                  >
-                                    View Credential
-                                  </a>
-                                )}
-                                {certificate.assets?.length > 0 && (
-                                  <div className="mt-2 grid grid-cols-3 gap-2">
-                                    {certificate.assets.map((asset, index) => (
-                                      <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
-                                        <Image
-                                          src={asset.url}
-                                          alt={`Certificate ${index + 1}`}
-                                          fill
-                                          className="object-cover"
-                                        />
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-4 text-gray-500">
-                          <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
-                          <p>No certificates added yet</p>
-                          <p className="text-sm mt-1">
-                            Add your professional certificates to enhance your profile
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </section>
-                </div>
 
                 {/* Languages */}
                 <section>
@@ -432,6 +290,167 @@ export default function FreelancerProfileSelfView() {
                     </div>
                   </div>
                 </section>
+
+                {/* Education & Certifications */}
+                <div className="grid gap-8">
+                  {/* Education */}
+                  <section>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold flex items-center">
+                        <GraduationCap className="mr-2 h-5 w-5 text-blue-600" />
+                        Education
+                      </h2>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1"
+                        onClick={() =>
+                          openModal(
+                            ModalType.EDIT_EDUCATION,
+                            toModalData(workerProfile)
+                          )
+                        }
+                      >
+                        <PencilIcon className="h-3 w-3" />
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      <div className="space-y-4">
+                        {workerProfile.education.length > 0 ? (
+                          workerProfile.education.map(
+                            (edu: WorkerEducation, index: number) => (
+                              <div
+                                key={index}
+                                className={index > 0 ? 'border-t pt-4' : ''}
+                              >
+                                <h4 className="font-medium">{edu.school}</h4>
+                                <p className="text-gray-600">
+                                  {edu.degree} in {edu.fieldOfStudy}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  {new Date(edu.startDate).getFullYear()} -{' '}
+                                  {edu.currentlyStudying
+                                    ? 'Present'
+                                    : new Date(edu.endDate).getFullYear()}
+                                </p>
+                                <p className="mt-2 text-sm text-gray-600">
+                                  {edu.description}
+                                </p>
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <div className="text-center py-4 text-gray-500">
+                            <GraduationCap className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                            <p>No education added yet</p>
+                            <p className="text-sm mt-1">
+                              Add your educational background to enhance your
+                              profile
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* Certifications */}
+                  <section>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold flex items-center">
+                        <Award className="mr-2 h-5 w-5 text-purple-600" />
+                        Certifications
+                      </h2>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1"
+                        onClick={() =>
+                          openModal(ModalType.EDIT_CERTIFICATES, {
+                            certificates: workerProfile.certificates,
+                          })
+                        }
+                      >
+                        <PencilIcon className="h-3 w-3" />
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      {workerProfile.certificates.length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-1">
+                          {workerProfile.certificates.map((certificate) => (
+                            <div
+                              key={certificate.id}
+                              className="relative rounded-lg border p-4 hover:bg-gray-50"
+                            >
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-medium">
+                                    {certificate.name}
+                                  </h4>
+                                  <Badge variant="outline">
+                                    {certificate.certificateType.replace(
+                                      /_/g,
+                                      ' '
+                                    )}
+                                  </Badge>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  {certificate.issuingOrg}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  Issued:{' '}
+                                  {new Date(
+                                    certificate.issueDate
+                                  ).toLocaleDateString()}
+                                  {certificate.expiryDate &&
+                                    ` • Expires: ${new Date(
+                                      certificate.expiryDate
+                                    ).toLocaleDateString()}`}
+                                </p>
+                                {certificate.credentialUrl && (
+                                  <a
+                                    href={certificate.credentialUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-600 hover:underline"
+                                  >
+                                    View Credential
+                                  </a>
+                                )}
+                                {certificate.assets?.length > 0 && (
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {certificate.assets.map((asset, index) => (
+                                      <div
+                                        key={index}
+                                        className="relative aspect-square overflow-hidden rounded-lg border"
+                                      >
+                                        <img
+                                          src={asset.url}
+                                          alt={`Certificate ${index + 1}`}
+                                          className="object-cover w-full h-full"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4 text-gray-500">
+                          <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                          <p>No certificates added yet</p>
+                          <p className="text-sm mt-1">
+                            Add your professional certificates to enhance your
+                            profile
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                </div>
               </TabsContent>
 
               {/* Work History Tab */}
@@ -464,7 +483,7 @@ export default function FreelancerProfileSelfView() {
                       (work: WorkerExperience, index: number) => (
                         <div
                           key={index}
-                          className={index > 0 ? "border-t pt-6" : ""}
+                          className={index > 0 ? 'border-t pt-6' : ''}
                         >
                           <div className="flex flex-wrap items-start justify-between gap-2">
                             <div>
@@ -479,9 +498,9 @@ export default function FreelancerProfileSelfView() {
                             <div className="flex items-center gap-2">
                               <div className="text-right">
                                 <p className="text-sm text-gray-500">
-                                  {new Date(work.startDate).getFullYear()} -{" "}
+                                  {new Date(work.startDate).getFullYear()} -{' '}
                                   {work.currentlyWorking
-                                    ? "Present"
+                                    ? 'Present'
                                     : new Date(work.endDate).getFullYear()}
                                 </p>
                               </div>
@@ -512,7 +531,7 @@ export default function FreelancerProfileSelfView() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:order-2">
             {/* Profile stats */}
             <div className="sticky top-24 bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
               <div className="p-6 space-y-4">
@@ -531,13 +550,13 @@ export default function FreelancerProfileSelfView() {
                     <span
                       className={`font-medium ${
                         workerProfile.availability
-                          ? "text-green-600"
-                          : "text-amber-600"
+                          ? 'text-green-600'
+                          : 'text-amber-600'
                       }`}
                     >
                       {workerProfile.availability
-                        ? "Available Now"
-                        : "Not Available"}
+                        ? 'Available Now'
+                        : 'Not Available'}
                     </span>
                   </div>
 

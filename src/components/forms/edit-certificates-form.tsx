@@ -24,7 +24,6 @@ import { CertificateType, Certificate } from "@/types/worker.types";
 import { useCertificates } from "@/hook/worker/certificate.hook";
 import { Loader2, Plus, Trash2, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { Badge } from "../ui/badge";
 
 const certificateSchema = z.object({
@@ -156,11 +155,10 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                           <div className="mt-2 grid grid-cols-3 gap-2">
                             {certificate.assets.map((asset, index) => (
                               <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
-                                <Image
+                                <img
                                   src={asset.url}
                                   alt={`Certificate ${index + 1}`}
-                                  fill
-                                  className="object-cover"
+                                  className="object-cover w-full h-full"
                                 />
                               </div>
                             ))}
@@ -332,11 +330,10 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                               key={fileIndex}
                               className="relative aspect-square overflow-hidden rounded-lg border"
                             >
-                              <Image
+                              <img
                                 src={URL.createObjectURL(file)}
                                 alt={`Certificate ${index + 1} image ${fileIndex + 1}`}
-                                fill
-                                className="object-cover"
+                                className="object-cover w-full h-full"
                               />
                             </div>
                           ))}

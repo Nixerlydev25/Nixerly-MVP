@@ -393,7 +393,10 @@ export default function JobApplicantsPage() {
                           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                             <DialogHeader>
                               <DialogTitle>
-                                Proposal from {applicant.fullName}
+                                Proposal from{' '}
+                                {applicant.workerProfile.user.firstName +
+                                  ' ' +
+                                  applicant.workerProfile.user.lastName}
                               </DialogTitle>
                               <DialogDescription>
                                 Applied on{' '}
@@ -406,8 +409,15 @@ export default function JobApplicantsPage() {
                               <div className="flex items-center gap-4">
                                 <Avatar className="h-12 w-12">
                                   <AvatarImage
-                                    src={applicant.avatar || ''}
-                                    alt={applicant.fullName}
+                                    src={
+                                      applicant.workerProfile.profilePicture ||
+                                      ''
+                                    }
+                                    alt={
+                                      applicant.workerProfile.user.firstName +
+                                      ' ' +
+                                      applicant.workerProfile.user.lastName
+                                    }
                                   />
                                   <AvatarFallback>
                                     {applicant.workerProfile.user.firstName.charAt(
@@ -504,7 +514,10 @@ export default function JobApplicantsPage() {
                                       <div className="flex items-center gap-4">
                                         <Avatar className="h-16 w-16">
                                           <AvatarImage
-                                            src={applicant.avatar || ''}
+                                            src={
+                                              applicant.workerProfile
+                                                .profilePicture || ''
+                                            }
                                             alt={
                                               applicant.workerProfile.user
                                                 .firstName +

@@ -1,11 +1,10 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Award,
   CheckCircle2,
@@ -44,13 +43,16 @@ export default function FreelancerProfileSelfView() {
     return <div>Loading...</div>;
   }
 
+  console.log({ workerDetail });
+
   const { firstName, lastName, workerProfile } = workerDetail as WorkerUser;
   const fullName = `${firstName} ${lastName}`;
 
   // Use the state value if available, otherwise use the one from the API
   const currentProfilePicture = profilePicture || workerProfile.profilePicture;
   console.log({ currentProfilePicture });
-  console.log(workerProfile.profilePicture, 'profilePicture');
+  
+  console.log(workerProfile.profilePicture, "profilePicture");
   const handleEditProfile = () => {
     openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile));
   };
@@ -80,24 +82,22 @@ export default function FreelancerProfileSelfView() {
           Back to dashboard
         </Link>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+        <div className="grid gap-8 md:grid-cols-3">
           {/* Main content */}
-          <div className="space-y-8">
+          <div className="space-y-8 md:col-span-2">
             {/* Profile header */}
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 shadow-sm border border-blue-100">
               <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-indigo-500"></div>
 
               <div className="flex flex-col gap-6 sm:flex-row">
                 <div
-                  className="flex-shrink-0 relative group cursor-pointer"
+                  className="flex-shrink-0 relative group cursor-pointer w-[120px] h-[120px]"
                   onClick={handleProfilePictureClick}
                 >
-                  <Image
-                    src={currentProfilePicture || '/placeholder.svg'}
-                    width={120}
-                    height={120}
+                  <img
+                    src={currentProfilePicture || "/placeholder.svg"}
                     alt={fullName}
-                    className="rounded-full border-2 border-white shadow-sm h-full object-cover"
+                    className="rounded-full border-2 border-white shadow-sm object-cover w-full h-full"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 rounded-full flex items-center justify-center opacity-0 group-hover:bg-opacity-30 group-hover:opacity-100 transition-all duration-200">
                     <Button
@@ -273,16 +273,16 @@ export default function FreelancerProfileSelfView() {
                             (edu: WorkerEducation, index: number) => (
                               <div
                                 key={index}
-                                className={index > 0 ? 'border-t pt-4' : ''}
+                                className={index > 0 ? "border-t pt-4" : ""}
                               >
                                 <h4 className="font-medium">{edu.school}</h4>
                                 <p className="text-gray-600">
                                   {edu.degree} in {edu.fieldOfStudy}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  {new Date(edu.startDate).getFullYear()} -{' '}
+                                  {new Date(edu.startDate).getFullYear()} -{" "}
                                   {edu.currentlyStudying
-                                    ? 'Present'
+                                    ? "Present"
                                     : new Date(edu.endDate).getFullYear()}
                                 </p>
                                 <p className="mt-2 text-sm text-gray-600">
@@ -312,16 +312,72 @@ export default function FreelancerProfileSelfView() {
                         <Award className="mr-2 h-5 w-5 text-purple-600" />
                         Certifications
                       </h2>
-                      <Button size="sm" variant="outline" className="h-8 gap-1">
+                      <Button size="sm" variant="outline" className="h-8 gap-1" onClick={() =>
+                          openModal(
+                            ModalType.EDIT_CERTIFICATES,
+                            { certificates: workerProfile.certificates }
+                          )
+                        }>
                         <PencilIcon className="h-3 w-3" />
                         Edit
                       </Button>
                     </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 min-h-[150px] flex items-center justify-center">
-                      <div className="text-center py-4 text-gray-500">
-                        <Award className="mx-auto h-12 w-12 mb-4" />
-                        <p>Certifications coming soon!</p>
-                      </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      {workerProfile.certificates.length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-1">
+                          {workerProfile.certificates.map((certificate) => (
+                            <div
+                              key={certificate.id}
+                              className="relative rounded-lg border p-4 hover:bg-gray-50"
+                            >
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-medium">{certificate.name}</h4>
+                                  <Badge variant="outline">{certificate.certificateType.replace(/_/g, " ")}</Badge>
+                                </div>
+                                <p className="text-sm text-gray-500">{certificate.issuingOrg}</p>
+                                <p className="text-sm text-gray-500">
+                                  Issued: {new Date(certificate.issueDate).toLocaleDateString()}
+                                  {certificate.expiryDate && 
+                                    ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`
+                                  }
+                                </p>
+                                {certificate.credentialUrl && (
+                                  <a
+                                    href={certificate.credentialUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-600 hover:underline"
+                                  >
+                                    View Credential
+                                  </a>
+                                )}
+                                {certificate.assets?.length > 0 && (
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {certificate.assets.map((asset, index) => (
+                                      <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
+                                        <img
+                                          src={asset.url}
+                                          alt={`Certificate ${index + 1}`}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4 text-gray-500">
+                          <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                          <p>No certificates added yet</p>
+                          <p className="text-sm mt-1">
+                            Add your professional certificates to enhance your profile
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </section>
                 </div>
@@ -373,6 +429,167 @@ export default function FreelancerProfileSelfView() {
                     </div>
                   </div>
                 </section>
+
+                {/* Education & Certifications */}
+                <div className="grid gap-8">
+                  {/* Education */}
+                  <section>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold flex items-center">
+                        <GraduationCap className="mr-2 h-5 w-5 text-blue-600" />
+                        Education
+                      </h2>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1"
+                        onClick={() =>
+                          openModal(
+                            ModalType.EDIT_EDUCATION,
+                            toModalData(workerProfile)
+                          )
+                        }
+                      >
+                        <PencilIcon className="h-3 w-3" />
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      <div className="space-y-4">
+                        {workerProfile.education.length > 0 ? (
+                          workerProfile.education.map(
+                            (edu: WorkerEducation, index: number) => (
+                              <div
+                                key={index}
+                                className={index > 0 ? 'border-t pt-4' : ''}
+                              >
+                                <h4 className="font-medium">{edu.school}</h4>
+                                <p className="text-gray-600">
+                                  {edu.degree} in {edu.fieldOfStudy}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  {new Date(edu.startDate).getFullYear()} -{' '}
+                                  {edu.currentlyStudying
+                                    ? 'Present'
+                                    : new Date(edu.endDate).getFullYear()}
+                                </p>
+                                <p className="mt-2 text-sm text-gray-600">
+                                  {edu.description}
+                                </p>
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <div className="text-center py-4 text-gray-500">
+                            <GraduationCap className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                            <p>No education added yet</p>
+                            <p className="text-sm mt-1">
+                              Add your educational background to enhance your
+                              profile
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* Certifications */}
+                  <section>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold flex items-center">
+                        <Award className="mr-2 h-5 w-5 text-purple-600" />
+                        Certifications
+                      </h2>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1"
+                        onClick={() =>
+                          openModal(ModalType.EDIT_CERTIFICATES, {
+                            certificates: workerProfile.certificates,
+                          })
+                        }
+                      >
+                        <PencilIcon className="h-3 w-3" />
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      {workerProfile.certificates.length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-1">
+                          {workerProfile.certificates.map((certificate) => (
+                            <div
+                              key={certificate.id}
+                              className="relative rounded-lg border p-4 hover:bg-gray-50"
+                            >
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-medium">
+                                    {certificate.name}
+                                  </h4>
+                                  <Badge variant="outline">
+                                    {certificate.certificateType.replace(
+                                      /_/g,
+                                      ' '
+                                    )}
+                                  </Badge>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  {certificate.issuingOrg}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  Issued:{' '}
+                                  {new Date(
+                                    certificate.issueDate
+                                  ).toLocaleDateString()}
+                                  {certificate.expiryDate &&
+                                    ` • Expires: ${new Date(
+                                      certificate.expiryDate
+                                    ).toLocaleDateString()}`}
+                                </p>
+                                {certificate.credentialUrl && (
+                                  <a
+                                    href={certificate.credentialUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-600 hover:underline"
+                                  >
+                                    View Credential
+                                  </a>
+                                )}
+                                {certificate.assets?.length > 0 && (
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {certificate.assets.map((asset, index) => (
+                                      <div
+                                        key={index}
+                                        className="relative aspect-square overflow-hidden rounded-lg border"
+                                      >
+                                        <img
+                                          src={asset.url}
+                                          alt={`Certificate ${index + 1}`}
+                                          className="object-cover w-full h-full"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4 text-gray-500">
+                          <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
+                          <p>No certificates added yet</p>
+                          <p className="text-sm mt-1">
+                            Add your professional certificates to enhance your
+                            profile
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                </div>
               </TabsContent>
 
               {/* Work History Tab */}
@@ -453,7 +670,7 @@ export default function FreelancerProfileSelfView() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:order-2">
             {/* Profile stats */}
             <div className="sticky top-24 bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
               <div className="p-6 space-y-4">

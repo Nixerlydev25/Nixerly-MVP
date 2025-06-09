@@ -30,7 +30,8 @@ export function BusinessOnboarding() {
     resolver: typedResolver,
     defaultValues: {
       companyName: "",
-      description: "Need reliable plumbing help? I'm a licensed plumber with over 5 years of experience handling everything from leak repairs and pipe installations to bathroom remodeling and emergency services. Whether it's a clogged drain or a full repiping job, I deliver fast, affordable, and high-quality work. Available for both residential and commercial projects. Satisfaction guaranteed.",
+      description:
+        "Need reliable plumbing help? I'm a licensed plumber with over 5 years of experience handling everything from leak repairs and pipe installations to bathroom remodeling and emergency services. Whether it's a clogged drain or a full repiping job, I deliver fast, affordable, and high-quality work. Available for both residential and commercial projects. Satisfaction guaranteed.",
       industry: undefined,
       city: "",
       state: "",
@@ -61,12 +62,15 @@ export function BusinessOnboarding() {
         country: data.country,
         state: data.state,
         website: data.website || null,
-        employeeCount: data.employeeCount === "100+" ? 100 : getEmployeeCountNumber(data.employeeCount),
+        employeeCount:
+          data.employeeCount === "100+"
+            ? 100
+            : getEmployeeCountNumber(data.employeeCount),
         yearFounded: data.yearFounded,
         onboardingStep: OnboardingStepBusinessProfileB.COMPLETED,
       };
 
-      console.log(businessProfileData,"businessProfileData")
+      console.log(businessProfileData, "businessProfileData");
 
       // Update user data
       await updateBusinessUser(businessProfileData);
@@ -87,7 +91,7 @@ export function BusinessOnboarding() {
 
   const CurrentComponent = AllSteps[currentStep];
 
-  console.log(form.formState.errors)
+  console.log(form.formState.errors);
 
   return (
     <div className="space-y-6">

@@ -3,10 +3,9 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "./globals.css";
 import QueryProvider from "@/providers/query.provider";
-
 import Footer from "@/components/common/footer";
-import { Toaster } from "sonner";
-import { Modals } from "@/components/models";
+import { ToastProvider } from "@/providers/ToastProvider";
+import { Modals } from "@/components/modals";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +30,7 @@ export default function RootLayout({
               <main>{children}</main>
               <Footer />
             </div>
-            <Toaster />
+            <ToastProvider />
             <Modals />
           </QueryProvider>
         </ThemeProvider>

@@ -1,25 +1,39 @@
-export enum ReportCategory {
+export enum WorkerReportReason {
+  INAPPROPRIATE_BEHAVIOR = 'INAPPROPRIATE_BEHAVIOR',
+  MISREPRESENTATION_OF_SKILLS = 'MISREPRESENTATION_OF_SKILLS',
+  UNPROFESSIONAL_CONDUCT = 'UNPROFESSIONAL_CONDUCT',
   HARASSMENT = 'HARASSMENT',
-  SPAM = 'SPAM',
-  INAPPROPRIATE_CONTENT = 'INAPPROPRIATE_CONTENT',
-  FRAUD = 'FRAUD',
-  FAKE_PROFILE = 'FAKE_PROFILE',
-  HATE_SPEECH = 'HATE_SPEECH',
-  VIOLENCE = 'VIOLENCE',
-  INTELLECTUAL_PROPERTY = 'INTELLECTUAL_PROPERTY',
-  IMPERSONATION = 'IMPERSONATION',
+  DISCRIMINATION = 'DISCRIMINATION',
+  POOR_COMMUNICATION = 'POOR_COMMUNICATION',
+  NO_SHOW = 'NO_SHOW',
+  FRAUDULENT_ACTIVITY = 'FRAUDULENT_ACTIVITY',
+  VIOLATION_OF_TERMS = 'VIOLATION_OF_TERMS',
+  OTHER = 'OTHER',
+}
+
+export enum BusinessReportReason {
+  PAYMENT_ISSUES = 'PAYMENT_ISSUES',
+  HARASSMENT = 'HARASSMENT',
+  DISCRIMINATION = 'DISCRIMINATION',
+  FRAUDULENT_ACTIVITY = 'FRAUDULENT_ACTIVITY',
+  UNPROFESSIONAL_CONDUCT = 'UNPROFESSIONAL_CONDUCT',
+  MISLEADING_JOB_DESCRIPTION = 'MISLEADING_JOB_DESCRIPTION',
+  VIOLATION_OF_TERMS = 'VIOLATION_OF_TERMS',
+  POOR_COMMUNICATION = 'POOR_COMMUNICATION',
+  SCAM = 'SCAM',
   OTHER = 'OTHER',
 }
 
 export enum ReportJobsCategory {
-  SCAM_FRAUD = 'SCAM_FRAUD',
-  INAPPROPRIATE = 'INAPPROPRIATE',
-  MISLEADING = 'MISLEADING',
-  PRIVACY_VIOLATION = 'PRIVACY_VIOLATION',
-  SPAM = 'SPAM',
-  DUPLICATE = 'DUPLICATE',
-  EXPIRED = 'EXPIRED',
-  ILLEGAL = 'ILLEGAL',
+  MISLEADING_DESCRIPTION = 'MISLEADING_DESCRIPTION',
+  INAPPROPRIATE_REQUIREMENTS = 'INAPPROPRIATE_REQUIREMENTS',
+  DISCRIMINATORY_CONTENT = 'DISCRIMINATORY_CONTENT',
+  UNREALISTIC_EXPECTATIONS = 'UNREALISTIC_EXPECTATIONS',
+  ILLEGAL_ACTIVITY = 'ILLEGAL_ACTIVITY',
+  FRAUDULENT_JOB_POSTING = 'FRAUDULENT_JOB_POSTING',
+  PAYMENT_ISSUES = 'PAYMENT_ISSUES',
+  VIOLATION_OF_TERMS = 'VIOLATION_OF_TERMS',
+  SCAM = 'SCAM',
   OTHER = 'OTHER',
 }
 
@@ -33,7 +47,7 @@ export enum ReportStatus {
 export interface BaseReport {
   id: string;
   reason: string;
-  category: ReportCategory;
+  category: WorkerReportReason;
   status: ReportStatus;
   reporterWorkerId?: string;
   reporterBusinessId?: string;
@@ -54,19 +68,16 @@ export interface BusinessReport extends BaseReport {
 }
 
 export interface ReportWorker {
-  targetWorkerId: string;
-  reason: string;
-  category: ReportCategory;
+  reason: WorkerReportReason;
+  description: string;
 }
 
 export interface ReportBusiness {
-  targetBusinessId: string;
-  reason: string;
-  category: ReportCategory;
+  reason: BusinessReportReason;
+  description: string;
 }
 
 export interface ReportJob {
-  targetJobId: string;
-  reason: string;
-  category: ReportJobsCategory;
+  description: string;
+  reason: ReportJobsCategory;
 }

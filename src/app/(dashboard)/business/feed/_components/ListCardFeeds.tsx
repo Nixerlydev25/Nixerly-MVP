@@ -26,23 +26,23 @@ function ListCardFeeds({
       <div className="flex flex-1 items-start p-4">
         <Image
           src={avatar || "/placeholder.svg"}
-          width={60}
-          height={60}
+          width={100}
+          height={100}
           alt={name}
-          className="mr-4 rounded-full"
+          className="mr-4 rounded-full w-16 h-16 object-cover"
         />
         <div className="flex-1">
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-semibold">{name}</h3>
               <p className="text-sm text-gray-600">{title}</p>
-              <div className="mt-1 flex items-center">
+              {/* <div className="mt-1 flex items-center">
                 <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
                 <span className="text-sm font-medium">{rating}</span>
                 <span className="ml-2 text-xs text-gray-500">
                   ({jobsCompleted} jobs)
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="hidden sm:block">
               <span className="text-sm font-medium text-gray-600">
@@ -58,7 +58,6 @@ function ListCardFeeds({
               <Badge
                 key={skill}
                 variant="secondary"
-                className="bg-blue-50 text-blue-700"
               >
                 {formateSkills(skill)}
               </Badge>
@@ -73,12 +72,12 @@ function ListCardFeeds({
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-400 hover:text-blue-600"
+            className="text-gray-400"
           >
             <BookmarkIcon className="h-5 w-5" />
           </Button>
           <div className="mt-auto text-right">
-            <div className="text-lg font-bold text-blue-600">${hourlyRate}</div>
+            <div className="text-lg font-bold text-primary">${hourlyRate}</div>
             <div className="text-sm text-gray-600">per hour</div>
           </div>
         </div>

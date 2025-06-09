@@ -47,6 +47,12 @@ export interface TUser {
   provider: OAuthProvider;
   defaultProfile: ProfileType;
   firstTimeLogin: boolean;
+  businessProfile?: {
+    profilePicture?: string | null;
+  };
+  workerProfile?: {
+    profilePicture?: string | null;
+  }
 }
 
 // Worker Profile type
@@ -65,9 +71,21 @@ export interface TWorkerProfile {
   completedJobs?: number;
   avgRating?: number;
   onboardingStep?: OnboardingStepWorkerProfileB;
+  profilePicture?: string | null;
 }
 
 // Business Profile type
+export interface TBusinessAsset {
+  id: string;
+  key: string;
+  mediaType: string;
+  projectId: string | null;
+  certificateId: string | null;
+  businessProfileId: string;
+  createdAt: string;
+  url: string;
+}
+
 export interface TBusinessProfile {
   companyName?: string | null;
   description?: string | null;
@@ -81,6 +99,8 @@ export interface TBusinessProfile {
   postedJobs?: number;
   logoUrl?: string | null;
   onboardingStep?: OnboardingStepBusinessProfileB;
+  profilePicture?: string | null;
+  assets?: TBusinessAsset[];
 }
 
 export interface TBusinessProfileResponse {

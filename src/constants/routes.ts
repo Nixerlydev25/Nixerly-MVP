@@ -28,11 +28,17 @@ export const API_ROUTES = {
     RESET_PASSWORD: '/user/reset-password',
     WORKER_PROFILE_DETAILS: '/user/worker-profile-details',
     BUSINESS_PROFILE_DETAILS: '/user/business-profile-details',
+    APPLIED_JOBS: '/user/applied-jobs',
   },
   BUSINESS: {
     UPDATE_BUSINESS_PROFILE: '/business/update-business-profile',
     GET_BUSINESS_BY_ID: (id: string) =>
       `/business/business-profile-details/${id}`,
+    GET_PROFILE_PICTURE_UPLOAD_URL: '/business/get-profile-picture-upload-url',
+    SAVE_PROFILE_PICTURE: '/business/save-profile-picture',
+    GET_ASSETS_UPLOAD_URL: '/business/get-asset-upload-url',
+    DELETE_ASSETS: '/business/delete-assets',
+    SAVE_ASSETS: '/business/save-assets',
   },
   OTP: {
     SEND: '/otp/send-otp',
@@ -84,6 +90,10 @@ export const API_ROUTES = {
     UPDATE_WORKER_PROFILE: '/worker/update-worker-profile',
     PROFILE_PICTURE_UPLOAD_URL: '/worker/profile-picture-upload-url',
     UPDATE_PROFILE_PICTURE: '/worker/save-profile-picture',
+    CREATE_CERTIFICATES: '/certificate/create',
+    DELETE_CERTIFICATES: '/certificate/delete',
+    GET_CERTIFICATE_UPLOAD_URL: '/certificate/get-asset-upload-url',
+    SAVE_CERTIFICATE_ASSETS: '/certificate/save-assets',
   },
   JOB: {
     ROOT: '/jobs',
@@ -97,8 +107,16 @@ export const API_ROUTES = {
     GET_DETAILS: (id?: string) => `/jobs/${id}`,
   },
   REPORT: {
-    REPORT_WORKER: '/reports/report-worker',
-    REPORT_BUSINESS: '/reports/report-business',
-    REPORT_JOB: '/reports/report-job',
+    REPORT_WORKER: (workerId: string) => `/reports/report-worker/${workerId}`,
+    HAS_BUSINESS_REPORTED_WORKER: (workerId: string) =>
+      `/reports/has-reported-worker/${workerId}`,
+    REPORT_BUSINESS: (businessId: string) =>
+      `/reports/report-business/${businessId}`,
+    REPORT_JOB: (jobId: string) => `/reports/report-job/${jobId}`,
+    HAS_WORKER_REPORTED_JOB: (jobId: string) =>
+      `/reports/has-reported-job/${jobId}`,
+    HAS_WORKER_REPORTED_BUSINESS: (businessId: string) =>
+      `/reports/has-reported-business/${businessId}`,
+    
   },
 };

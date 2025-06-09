@@ -11,6 +11,7 @@ import {
 import { BookmarkIcon, StarIcon, UserIcon } from 'lucide-react';
 import { CardProps } from '@/types/feed/feed.types';
 import { formateSkills } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 function CardFeeds({
   id,
@@ -24,6 +25,7 @@ function CardFeeds({
   jobsCompleted,
   hourlyRate,
 }: CardProps) {
+  const router = useRouter();
   return (
     <Card key={id} className="overflow-hidden">
       <CardHeader className="p-4 pb-0">
@@ -34,7 +36,7 @@ function CardFeeds({
               width={60}
               height={60}
               alt={name}
-              className="rounded-full"
+              className="rounded-full object-cover w-16 h-16"
             />
             <div>
               <h3 className="font-semibold">{name}</h3>
@@ -48,11 +50,7 @@ function CardFeeds({
               </div>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-gray-400 hover:text-blue-600"
-          >
+          <Button variant="ghost" size="icon">
             <BookmarkIcon className="h-5 w-5" />
           </Button>
         </div>
@@ -63,7 +61,7 @@ function CardFeeds({
             <span className="text-sm font-medium text-gray-600">
               Hourly Rate:
             </span>
-            <span className="ml-1 text-lg font-bold text-blue-600">
+            <span className="ml-1 text-lg font-bold text-primary">
               ${hourlyRate}
             </span>
             <span className="text-sm text-gray-600">/hr</span>
@@ -83,13 +81,8 @@ function CardFeeds({
         </p>
         <div className="flex flex-wrap gap-2">
           {skills.slice(0, 4).map((skill) => {
-
             return (
-              <Badge
-                key={skill}
-                variant="secondary"
-                className="bg-blue-50 text-blue-700"
-              >
+              <Badge key={skill} variant="secondary">
                 {formateSkills(skill)}
               </Badge>
             );
@@ -97,10 +90,14 @@ function CardFeeds({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between border-t bg-gray-50 p-4">
-        <Button variant="outline" className="w-[48%]">
+        <Button
+          variant="outline"
+          className="w-full cursor-pointer"
+          onClick={() => router.push(`/profile/worker/${id}`)}
+        >
           View Profile
         </Button>
-        <Button className="w-[48%] bg-blue-600 ">Contact</Button>
+        {/* <Button className="w-[48%]">Contact</Button> */}
       </CardFooter>
     </Card>
   );

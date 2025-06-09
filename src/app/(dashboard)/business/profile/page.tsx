@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Building2,
   Calendar,
@@ -20,24 +19,40 @@ import {
   Briefcase,
   Camera,
   Eye,
+  ChevronRight,
+  ChevronLeft,
+  ImagePlus,
 } from "lucide-react";
-import Image from "next/image";
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
 import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
+import { useRouter } from "next/navigation";
+import { useListMyJobs } from "@/hook/jobs/jobs.hooks";
+import { ChangeBusinessProfilePictureModal } from "@/components/modals/change-business-profile-picture-modal";
 
 export default function BusinessProfilePage() {
   const { data: businessProfileData, isLoading } =
     useGetCurrentBusinessProfileDetails();
-  const { openModal } = useModalStore();
 
-  if (isLoading && !businessProfileData) {
+  const { data: jobs, isLoading: isJobsLoading } = useListMyJobs();
+
+  const { openModal } = useModalStore();
+  const router = useRouter();
+
+  const handlePageChange = async (page: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  if (isLoading && !businessProfileData && isJobsLoading) {
     return <BusinessProfileSkeleton />;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <ChangeBusinessProfilePictureModal />
       <div className="grid gap-8 md:grid-cols-3">
         {/* Main Content */}
 
@@ -45,18 +60,17 @@ export default function BusinessProfilePage() {
           <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
-                {businessProfileData?.businessProfile?.logoUrl ? (
-                  <Image
+                {businessProfileData?.businessProfile?.profilePicture ? (
+                  <img
                     src={
-                      businessProfileData?.businessProfile?.logoUrl ||
+                      businessProfileData?.businessProfile?.profilePicture ||
                       "/placeholder.svg"
                     }
                     alt={businessProfileData?.businessProfile.companyName || ""}
-                    fill
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 ) : (
-                  <Image
+                  <img
                     src="/placeholder.svg?height=128&width=128"
                     alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
@@ -65,9 +79,13 @@ export default function BusinessProfilePage() {
                   />
                 )}
                 <button
-                  onClick={() => openModal(ModalType.UPLOAD_LOGO)}
+                  onClick={() =>
+                    openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
+                      profilePicture: businessProfileData?.businessProfile?.profilePicture
+                    })
+                  }
                   className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
-                  aria-label="Upload logo"
+                  aria-label="Change profile picture"
                 >
                   <Camera className="h-4 w-4" />
                 </button>
@@ -121,16 +139,14 @@ export default function BusinessProfilePage() {
                       onClick={() =>
                         openModal(
                           ModalType.EDIT_BUSINESS_PROFILE,
-                          businessProfileData?.businessProfile as unknown as { [key: string]: unknown }
+                          businessProfileData?.businessProfile as unknown as {
+                            [key: string]: unknown;
+                          }
                         )
                       }
                     >
                       <Edit className="mr-2 h-4 w-4" />
                       Edit Profile
-                    </Button>
-                    <Button>
-                      <Mail className="mr-2 h-4 w-4" />
-                      Contact
                     </Button>
                   </div>
                 </div>
@@ -163,164 +179,120 @@ export default function BusinessProfilePage() {
           <Separator />
 
           {/* Tabs for different sections */}
-          <Tabs defaultValue="services" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="services">Services</TabsTrigger>
-              <TabsTrigger value="jobs">Job Postings</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            </TabsList>
-            <TabsContent value="services" className="space-y-6 pt-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Services Offered</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    openModal(ModalType.EDIT_BUSINESS_SERVICES, {
-                      services: [
-                        {
-                          id: 1,
-                          title: "Plumbing Installation",
-                          description:
-                            "Complete installation services for residential and commercial properties, including pipes, fixtures, and appliances.",
-                        },
-                        {
-                          id: 2,
-                          title: "Leak Repairs",
-                          description:
-                            "Fast and reliable leak detection and repair services to prevent water damage and conserve water.",
-                        },
-                        {
-                          id: 3,
-                          title: "Bathroom Remodeling",
-                          description:
-                            "Complete bathroom renovation services, from fixture replacement to full remodels.",
-                        },
-                        {
-                          id: 4,
-                          title: "Emergency Services",
-                          description:
-                            "24/7 emergency plumbing services for urgent issues like burst pipes and major leaks.",
-                        },
-                      ],
-                    })
-                  }
-                >
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Edit Services
-                </Button>
-              </div>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-medium">Recent Job Postings</h3>
+            <Button onClick={() => router.push("/business/post-a-job")}>
+              <Pencil className="mr-2 h-4 w-4" />
+              Post New Job
+            </Button>
+          </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Plumbing Installation</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Complete installation services for residential and
-                    commercial properties, including pipes, fixtures, and
-                    appliances.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Leak Repairs</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Fast and reliable leak detection and repair services to
-                    prevent water damage and conserve water.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Bathroom Remodeling</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Complete bathroom renovation services, from fixture
-                    replacement to full remodels.
-                  </p>
-                </div>
-                <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">Emergency Services</h4>
-                  <p className="text-sm text-muted-foreground">
-                    24/7 emergency plumbing services for urgent issues like
-                    burst pipes and major leaks.
-                  </p>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="jobs" className="pt-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium">Recent Job Postings</h3>
-                <Button>
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Post New Job
-                </Button>
-              </div>
-
-              {(businessProfileData?.businessProfile.postedJobs ?? 0) > 0 ? (
-                <div className="space-y-4">
-                  <div className="rounded-lg border p-4">
+          {(jobs?.jobs?.length ?? 0) > 0 ? (
+            <>
+              <div className="space-y-4">
+                {jobs?.jobs?.map((job) => (
+                  <div key={job.id} className="rounded-lg border p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-3">
                         <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
                         <div>
-                          <h4 className="font-medium">
-                            Experienced Electrician Needed
-                          </h4>
+                          <h4 className="font-medium">{job.title}</h4>
                           <p className="text-sm text-muted-foreground">
-                            Posted 2 days ago
+                            Posted {job.createdAt}
                           </p>
                           <div className="mt-2 flex flex-wrap gap-2">
-                            <Badge variant="outline">Full-time</Badge>
-                            <Badge variant="outline">$25-40/hr</Badge>
-                            <Badge variant="outline">Miami, FL</Badge>
+                            <Badge variant="outline">{job.jobType}</Badge>
+                            {job.jobType === "SALARY" && (
+                              <Badge variant="outline">
+                                ${job.salary}/year
+                              </Badge>
+                            )}
+                            {job.jobType === "CONTRACT" && (
+                              <Badge variant="outline">${job.budget}</Badge>
+                            )}
+                            {job.jobType === "HOURLY" && (
+                              <Badge variant="outline">
+                                ${job.hourlyRateMin}-${job.hourlyRateMax}/hr
+                              </Badge>
+                            )}
                           </div>
                         </div>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push(`/business/jobs/${job.id}`)}
+                      >
                         View Details
                       </Button>
                     </div>
                   </div>
+                ))}
+              </div>
 
-                  <div className="rounded-lg border p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start gap-3">
-                        <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <h4 className="font-medium">
-                            Plumbing Assistant Required
-                          </h4>
-                          <p className="text-sm text-muted-foreground">
-                            Posted 1 week ago
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            <Badge variant="outline">Part-time</Badge>
-                            <Badge variant="outline">$18-22/hr</Badge>
-                            <Badge variant="outline">Miami, FL</Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
+              {(jobs?.pagination?.totalCount ?? 0) > 10 && (
+                <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handlePageChange(
+                          (jobs?.pagination?.currentPage ?? 1) - 1
+                        )
+                      }
+                      disabled={jobs?.pagination?.currentPage === 1}
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+
+                    <div className="flex items-center gap-1">
+                      {Array.from(
+                        { length: jobs?.pagination?.totalPages ?? 0 },
+                        (_, i) => i + 1
+                      ).map((pageNum) => (
+                        <Button
+                          key={pageNum}
+                          variant={
+                            pageNum === (jobs?.pagination?.currentPage ?? 1)
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          className="w-8 h-8 p-0"
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </Button>
+                      ))}
                     </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handlePageChange(
+                          (jobs?.pagination?.currentPage ?? 1) + 1
+                        )
+                      }
+                      disabled={!jobs?.pagination?.hasMore}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Page {jobs?.pagination?.currentPage} of{" "}
+                    {jobs?.pagination?.totalPages} •{" "}
+                    {jobs?.pagination?.totalCount} total jobs
                   </div>
                 </div>
-              ) : (
-                <p className="text-muted-foreground">No job postings yet.</p>
               )}
-            </TabsContent>
-
-            <TabsContent value="reviews" className="pt-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium">Customer Reviews</h3>
-              </div>
-              <div className="rounded-lg border p-6 text-center">
-                <p className="text-muted-foreground">No reviews yet.</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Reviews from your customers will appear here once they&apos;re
-                  submitted.
-                </p>
-              </div>
-            </TabsContent>
-          </Tabs>
+            </>
+          ) : (
+            <p className="text-muted-foreground">No job postings yet.</p>
+          )}
         </div>
 
         <div className="space-y-6 md:order-2">
@@ -435,24 +407,53 @@ export default function BusinessProfilePage() {
             </div>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">Company Images</h2>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Company Images</h2>
+              <Button onClick={() => openModal(ModalType.MANAGE_COMPANY_IMAGES, {
+                assets: businessProfileData?.businessProfile?.assets || []
+              })}>
+                <ImagePlus className="mr-2 h-4 w-4" />
+                Manage Images
+              </Button>
+            </div>
             <div className="grid grid-cols-2 gap-3">
-              {[1, 2, 3, 4].map((index) => (
-                <div
-                  key={index}
-                  className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
-                >
-                  <Image
-                    src={`/placeholder.svg?height=150&width=150&text=Image ${index}`}
-                    alt={`Company image ${index}`}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
-                    <Eye className="h-6 w-6 text-white" />
+              {businessProfileData?.businessProfile?.assets?.length ? (
+                <>
+                  <div
+                    onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                      images: businessProfileData.businessProfile.assets,
+                      startIndex: 0
+                    })}
+                    className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                  >
+                    <img
+                      src={businessProfileData.businessProfile.assets[0].url}
+                      alt="Company image"
+                      className="w-full h-full object-cover"
+                    />
+                    {businessProfileData.businessProfile.assets.length > 1 && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                        <div className="text-white text-center">
+                          <Eye className="h-6 w-6 mx-auto" />
+                          <span className="text-sm mt-2 block">
+                            +{businessProfileData.businessProfile.assets.length - 1} more
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                  <div className="flex flex-col justify-center items-center text-muted-foreground">
+                    <p className="text-sm">
+                      {businessProfileData.businessProfile.assets.length} image{businessProfileData.businessProfile.assets.length !== 1 ? 's' : ''} uploaded
+                    </p>
+                    <p className="text-xs mt-1">Click to view all</p>
+                  </div>
+                </>
+              ) : (
+                <p className="col-span-2 text-center text-muted-foreground">
+                  No company images uploaded yet.
+                </p>
+              )}
             </div>
           </div>
         </div>

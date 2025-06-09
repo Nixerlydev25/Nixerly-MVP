@@ -56,7 +56,7 @@ export default function ApplyPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
         <Button variant="ghost" size="sm" asChild className="mb-4">
-          <Link href={`/jobs/${id}`}>
+          <Link href={`/worker/job/${id}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Job Details
           </Link>

@@ -155,7 +155,7 @@ export default function BusinessSignupForm() {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  className="border-nixerly-lightblue data-[state=checked]:bg-nixerly-blue data-[state=checked]:border-nixerly-blue data-[state=checked]:text-black transition-all duration-200 ease-in-out"
+                  className="border-nixerly-lightblue data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=checked]:text-white transition-all duration-200 ease-in-out cursor-pointer"
                 />
               </FormControl>
               <div className="space-y-1 leading-none">

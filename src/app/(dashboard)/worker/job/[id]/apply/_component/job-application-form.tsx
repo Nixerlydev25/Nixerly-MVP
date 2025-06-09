@@ -49,6 +49,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 enum JobApplicationDuration {
   LESS_THAN_ONE_WEEK = 'LESS_THAN_ONE_WEEK',
@@ -67,11 +70,11 @@ interface JobApplicationFormProps {
 
 export default function JobApplicationForm({
   jobId,
-  // hourlyRateMin,
-  // hourlyRateMax,
-}: JobApplicationFormProps) {
+}: // hourlyRateMin,
+// hourlyRateMax,
+JobApplicationFormProps) {
   const { mutateAsync: applyJob, isPending: isApplying } = useApplyJobs();
-
+  const router = useRouter();
   // const suggestedRate =
   //   hourlyRateMin && hourlyRateMax
   //     ? Math.floor((hourlyRateMin + hourlyRateMax) / 2)
@@ -91,7 +94,18 @@ export default function JobApplicationForm({
   async function onSubmit(data: ApplicationFormValues) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAccepted, ...submitData } = data;
-    await applyJob({ id: jobId, data: submitData });
+    await applyJob(
+      { id: jobId, data: submitData },
+      {
+        onSuccess: () => {
+          toast.success('Application submitted successfully');
+          router.push(ROUTES.APPLIED_JOBS);
+        },
+        onError: () => {
+          toast.error('Failed to submit application');
+        },
+      }
+    );
   }
 
   return (

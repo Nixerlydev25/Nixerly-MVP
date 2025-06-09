@@ -5,6 +5,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { type Job } from "./types"
 import { formatCurrency } from "./utils"
+import { useRouter } from 'next/navigation'
+import { ROUTES } from '@/lib/routes'
 
 interface JobCardProps {
   job: Job
@@ -13,13 +15,18 @@ interface JobCardProps {
 export function JobCard({ job }: JobCardProps) {
   const createdAt = new Date(job.createdAt)
   const timeAgo = formatDistanceToNow(createdAt, { addSuffix: true })
+  const router = useRouter()
   
   // Limit skills to first 3 for display
   const displaySkills = job.skills.slice(0, 3)
   const extraSkillsCount = job.skills.length - 3
+
+  const handleJobClick = () => {
+    router.push(`${ROUTES.WORKER_JOB}/${job.id}`)
+  }
   
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex flex-col cursor-pointer hover:shadow-md transition-shadow" onClick={handleJobClick}>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg line-clamp-2">{job.title}</CardTitle>
@@ -34,7 +41,7 @@ export function JobCard({ job }: JobCardProps) {
           <span>{job.businessProfile.city}, {job.businessProfile.state}</span>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent>
         <p className="text-sm line-clamp-3 mb-4">{job.description}</p>
         
         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -80,7 +87,7 @@ export function JobCard({ job }: JobCardProps) {
           )}
         </div>
       </CardContent>
-      <CardFooter className="pt-2 border-t text-xs text-muted-foreground">
+      <CardFooter className="mt-auto pt-4">
         Posted {timeAgo}
       </CardFooter>
     </Card>

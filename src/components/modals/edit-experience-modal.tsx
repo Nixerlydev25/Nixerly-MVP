@@ -1,6 +1,6 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog"
 import { EditExperienceForm } from "@/components/forms/edit-experience-form"
 import { useModalStore } from "@/store/modal.store"
 import { WorkerProfile } from "@/types/worker.types"
@@ -39,19 +39,22 @@ export function EditExperienceModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Edit Experience</DialogTitle>
-        </DialogHeader>
-        <div className="overflow-y-auto pr-6 -mr-6">
-          <EditExperienceForm
-            onSubmit={handleSubmit}
-            defaultValues={{
-              experience: profile?.experience || [],
-            }}
-          />
-        </div>
-      </DialogContent>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Edit Experience</DialogTitle>
+          </DialogHeader>
+          <div className="overflow-y-auto pr-6 -mr-6">
+            <EditExperienceForm
+              onSubmit={handleSubmit}
+              defaultValues={{
+                experience: profile?.experience || [],
+              }}
+            />
+          </div>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   )
 } 

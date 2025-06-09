@@ -33,11 +33,11 @@ enum SortOption {
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"card" | "list">(() => {
     // Try to get the saved view mode from localStorage during initialization
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('businessFeedViewMode');
-      return (saved === 'card' || saved === 'list') ? saved : 'list';
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("businessFeedViewMode");
+      return saved === "card" || saved === "list" ? saved : "list";
     }
-    return 'list';
+    return "list";
   });
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -88,7 +88,7 @@ export default function Dashboard() {
   // Save view mode to localStorage whenever it changes
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
-    localStorage.setItem('businessFeedViewMode', mode);
+    localStorage.setItem("businessFeedViewMode", mode);
   };
 
   return (
@@ -110,18 +110,26 @@ export default function Dashboard() {
               </div>
               <div className="hidden items-center justify-between lg:flex gap-2">
                 <div className="relative hidden md:block">
-                  <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                  <Input
-                    type="search"
-                    placeholder="Search for talent..."
-                    className="w-[300px] pl-9"
-                    value={searchValue}
-                    onChange={handleInputChange}
-                    onKeyDown={handleInputKeyDown}
-                  />
+                  <div className="flex items-center">
+                    <Input
+                      type="search"
+                      placeholder="Search for talent..."
+                      className="w-[300px] rounded-r-none border-r-0"
+                      value={searchValue}
+                      onChange={handleInputChange}
+                      onKeyDown={handleInputKeyDown}
+                    />
+                    <Button
+                      type="button"
+                      className="h-10 flex items-center justify-center rounded-l-none px-4"
+                      onClick={() => updateSearchParam(searchValue)}
+                    >
+                      <SearchIcon className="h-4 w-4 text-whire z-10" />
+                    </Button>
+                  </div>
                   {searchParams.get("search") && (
                     <X
-                      className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
+                      className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
                       onClick={() => {
                         setSearchValue("");
                         updateSearchParam("");

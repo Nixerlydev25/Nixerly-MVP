@@ -45,7 +45,7 @@ export function JobListItem({ job }: JobListItemProps) {
                 <span>{job.businessProfile.companyName}</span>
                 <span className="mx-1">•</span>
                 <span>
-                  {job.businessProfile.city}, {job.businessProfile.state}
+                  {job.location.city}, {job.location.state}
                 </span>
                 <span className="mx-1">•</span>
                 <span>Posted {timeAgo}</span>

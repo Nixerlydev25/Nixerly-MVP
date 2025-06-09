@@ -19,13 +19,13 @@ export function DatePicker({ selected, onSelect, className, placeholder = "Pick 
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
-          className={cn("justify-start text-left font-normal", !selected && "text-muted-foreground", className)}
+          className={cn("w-full justify-start text-left font-normal", !selected && "text-muted-foreground", className)}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {selected ? format(selected, "PPP") : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent align="start" className="flex w-auto flex-col space-y-2 p-2 z-[110]" sideOffset={4}>
         <Calendar mode="single" selected={selected} onSelect={onSelect} initialFocus />
       </PopoverContent>
     </Popover>

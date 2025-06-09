@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -95,17 +95,41 @@ export function FilterSidebar() {
     updateFilters({ ...filters, skills: newSkills });
   };
 
+  const [budgetRange, setBudgetRange] = useState([filters.minBudget, filters.maxBudget]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      updateFilters({ ...filters, minBudget: budgetRange[0], maxBudget: budgetRange[1] });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [budgetRange]);
+
   const handleBudgetChange = (value: number[]) => {
-    updateFilters({ ...filters, minBudget: value[0], maxBudget: value[1] });
+    setBudgetRange(value);
   };
 
+  const [hourlyRateRange, setHourlyRateRange] = useState([
+    filters.minHourlyRate,
+    filters.maxHourlyRate
+  ]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      updateFilters({
+        ...filters,
+        minHourlyRate: hourlyRateRange[0],
+        maxHourlyRate: hourlyRateRange[1]
+      });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [hourlyRateRange]);
+
   const handleHourlyRateChange = (value: number[]) => {
-    updateFilters({
-      ...filters,
-      minHourlyRate: value[0],
-      maxHourlyRate: value[1],
-    });
+    setHourlyRateRange(value);
   };
+
   const handleSkillSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -158,7 +182,7 @@ export function FilterSidebar() {
             variant="ghost"
             size="sm"
             onClick={clearFilters}
-            className="h-8 px-2 underlined "
+            className="h-8 px-2 underlined text-blue-600"
           >
             Clear all
           </Button>
@@ -222,10 +246,10 @@ export function FilterSidebar() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm">
-                    {formatCurrency(filters.minBudget)}
+                    {formatCurrency(budgetRange[0])}
                   </span>
                   <span className="text-sm">
-                    {formatCurrency(filters.maxBudget)}
+                    {formatCurrency(budgetRange[1])}
                   </span>
                 </div>
                 <Slider
@@ -233,7 +257,7 @@ export function FilterSidebar() {
                   min={0}
                   max={10000}
                   step={100}
-                  value={[filters.minBudget, filters.maxBudget]}
+                  value={budgetRange}
                   onValueChange={handleBudgetChange}
                 />
               </div>
@@ -249,10 +273,10 @@ export function FilterSidebar() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm">
-                    {formatCurrency(filters.minHourlyRate)}/hr
+                    {formatCurrency(hourlyRateRange[0])}/hr
                   </span>
                   <span className="text-sm">
-                    {formatCurrency(filters.maxHourlyRate)}/hr
+                    {formatCurrency(hourlyRateRange[1])}/hr
                   </span>
                 </div>
                 <Slider
@@ -260,7 +284,7 @@ export function FilterSidebar() {
                   min={0}
                   max={100}
                   step={5}
-                  value={[filters.minHourlyRate, filters.maxHourlyRate]}
+                  value={hourlyRateRange}
                   onValueChange={handleHourlyRateChange}
                 />
               </div>
@@ -273,7 +297,7 @@ export function FilterSidebar() {
               Skills
             </AccordionTrigger>
             <AccordionContent>
-              <div className="space-y-4">
+              <div className="space-y-4 p-0.5">
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input

@@ -38,10 +38,10 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
   const router = useRouter();
 
   const [minHourlyRate, setMinHourlyRate] = useState<string>(
-    searchParams.get('minHourlyRate') || ''
+    searchParams.get('minHourlyRate') || '0'
   );
   const [maxHourlyRate, setMaxHourlyRate] = useState<string>(
-    searchParams.get('maxHourlyRate') || ''
+    searchParams.get('maxHourlyRate') || '100'
   );
   const [minTotalEarnings, setMinTotalEarnings] = useState<string>(
     searchParams.get('minTotalEarnings') || ''
@@ -126,8 +126,8 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
 
   // Clear all filters
   const handleClearFilters = () => {
-    setMinHourlyRate('');
-    setMaxHourlyRate('');
+    setMinHourlyRate('0');
+    setMaxHourlyRate('100');
     setMinTotalEarnings('');
     setMaxTotalEarnings('');
     setMinAvgRating('');
@@ -228,7 +228,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                     Skills
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-4">
+                    <div className="space-y-4 p-0.5">
                       <div className="relative">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -274,20 +274,6 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                     <div className="space-y-4">
                       <div className="space-y-6">
                         <div className="space-y-2">
-                          <Label className="text-sm">Minimum Hourly Rate</Label>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm">${minHourlyRate}/hr</span>
-                          </div>
-                          <Slider
-                            defaultValue={[Number(minHourlyRate)]}
-                            min={0}
-                            max={100}
-                            step={5}
-                            value={[Number(minHourlyRate)]}
-                            onValueChange={handleMinHourlyRateChange}
-                          />
-                        </div>
-                        <div className="space-y-2">
                           <Label className="text-sm">Maximum Hourly Rate</Label>
                           <div className="flex items-center justify-between">
                             <span className="text-sm">${maxHourlyRate}/hr</span>
@@ -299,6 +285,20 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                             step={5}
                             value={[Number(maxHourlyRate)]}
                             onValueChange={handleMaxHourlyRateChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-sm">Minimum Hourly Rate</Label>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">${minHourlyRate}/hr</span>
+                          </div>
+                          <Slider
+                            defaultValue={[Number(minHourlyRate)]}
+                            min={0}
+                            max={100}
+                            step={5}
+                            value={[Number(minHourlyRate)]}
+                            onValueChange={handleMinHourlyRateChange}
                           />
                         </div>
                       </div>

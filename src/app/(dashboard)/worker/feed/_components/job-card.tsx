@@ -38,7 +38,7 @@ export function JobCard({ job }: JobCardProps) {
           <Building2 className="h-3 w-3 mr-1" />
           <span>{job.businessProfile.companyName}</span>
           <span className="mx-1">•</span>
-          <span>{job.businessProfile.city}, {job.businessProfile.state}</span>
+          <span>{job.location.city}, {job.location.state}</span>
         </div>
       </CardHeader>
       <CardContent>

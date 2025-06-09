@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   Grid3x3,
   List,
@@ -8,40 +8,40 @@ import {
   ChevronRight,
   Search,
   X,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { FilterSidebar } from './_components/filter-sidebar';
-import { JobCard } from './_components/job-card';
-import { JobListItem } from './_components/job-list-item';
-import { type Job } from './_components/types';
-import { useGetAllJobs } from '@/hook/jobs/jobs.hooks';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { FilterSidebar } from "./_components/filter-sidebar";
+import { JobCard } from "./_components/job-card";
+import { JobListItem } from "./_components/job-list-item";
+import { type Job } from "./_components/types";
+import { useGetAllJobs } from "@/hook/jobs/jobs.hooks";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 export default function JobsPage() {
-  const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('list');
+  const [viewMode, setViewMode] = React.useState<"grid" | "list">("list");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialSearch = searchParams.get('search') || '';
+  const initialSearch = searchParams.get("search") || "";
   const [searchValue, setSearchValue] = React.useState(initialSearch);
 
   useEffect(() => {
-    const savedViewMode = localStorage.getItem('jobsViewMode');
-    if (savedViewMode === 'grid' || savedViewMode === 'list') {
+    const savedViewMode = localStorage.getItem("jobsViewMode");
+    if (savedViewMode === "grid" || savedViewMode === "list") {
       setViewMode(savedViewMode);
     }
   }, []);
 
-  const handleViewModeChange = (mode: 'grid' | 'list') => {
+  const handleViewModeChange = (mode: "grid" | "list") => {
     setViewMode(mode);
-    localStorage.setItem('jobsViewMode', mode);
+    localStorage.setItem("jobsViewMode", mode);
   };
 
   React.useEffect(() => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    if (!params.has('page')) {
-      params.set('page', '1');
+    if (!params.has("page")) {
+      params.set("page", "1");
       router.replace(`?${params.toString()}`, { scroll: false });
     }
   }, []);
@@ -51,7 +51,7 @@ export default function JobsPage() {
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       updateSearchParam(searchValue);
     }
   };
@@ -60,23 +60,23 @@ export default function JobsPage() {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     let query = params
       .toString()
-      .replace(/(^|&)skills=[^&]*/g, '')
-      .replace(/(^|&)search=[^&]*/g, '');
-    const skills = searchParams.get('skills');
+      .replace(/(^|&)skills=[^&]*/g, "")
+      .replace(/(^|&)search=[^&]*/g, "");
+    const skills = searchParams.get("skills");
     // Ensure page parameter is present
-    if (!query.includes('page=')) {
-      if (query && !query.endsWith('&')) query += '&';
-      query += 'page=1';
+    if (!query.includes("page=")) {
+      if (query && !query.endsWith("&")) query += "&";
+      query += "page=1";
     }
     if (skills) {
-      if (query && !query.endsWith('&')) query += '&';
+      if (query && !query.endsWith("&")) query += "&";
       query += `skills=${skills}`;
     }
     if (value) {
-      if (query && !query.endsWith('&')) query += '&';
+      if (query && !query.endsWith("&")) query += "&";
       query += `search=${value}`;
     }
-    router.push(query ? `?${query}` : '?page=1');
+    router.push(query ? `?${query}` : "?page=1");
   }
 
   React.useEffect(() => {
@@ -94,7 +94,7 @@ export default function JobsPage() {
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set('page', newPage.toString());
+    params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
   };
 
@@ -109,21 +109,30 @@ export default function JobsPage() {
           </p>
         </div>
         <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search jobs..."
-              className="pl-8"
-              value={searchValue}
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-            />
-            {searchParams.get('search') && (
+          <div className="relative hidden md:block">
+            <div className="flex items-center">
+              <Input
+                type="search"
+                placeholder="Search for talent..."
+                className="w-[300px] rounded-r-none border-r-0 focus:border-blue-600 "
+                value={searchValue}
+                onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
+              />
+              <Button
+                type="button"
+                className="h-10 rounded-l-none px-4 flex items-center justify-center "
+                onClick={() => updateSearchParam(searchValue)}
+              >
+                <Search className="h-4 w-4 text-white z-10" />
+              </Button>
+            </div>
+            {searchParams.get("search") && (
               <X
-                className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
+                className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
                 onClick={() => {
-                  setSearchValue('');
-                  updateSearchParam('');
+                  setSearchValue("");
+                  updateSearchParam("");
                 }}
               />
             )}
@@ -131,24 +140,24 @@ export default function JobsPage() {
           <div className="flex items-center space-x-2">
             <div className="flex border rounded-md overflow-hidden">
               <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                variant={viewMode === "grid" ? "default" : "ghost"}
                 size="sm"
                 className={`rounded-none ${
-                  viewMode === 'grid' ? 'bg-blue-600' : ''
+                  viewMode === "grid" ? "bg-blue-600" : ""
                 }`}
-                onClick={() => handleViewModeChange('grid')}
+                onClick={() => handleViewModeChange("grid")}
               >
                 <Grid3x3 className="h-4 w-4 mr-2" />
                 Grid
               </Button>
               <Separator orientation="vertical" className="h-8" />
               <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                variant={viewMode === "list" ? "default" : "ghost"}
                 size="sm"
                 className={`rounded-none ${
-                  viewMode === 'list' ? 'bg-blue-600' : ''
+                  viewMode === "list" ? "bg-blue-600" : ""
                 }`}
-                onClick={() => handleViewModeChange('list')}
+                onClick={() => handleViewModeChange("list")}
               >
                 <List className="h-4 w-4 mr-2" />
                 List
@@ -176,7 +185,7 @@ export default function JobsPage() {
               <p className="text-muted-foreground mb-4">
                 Try adjusting your filters to find more jobs
               </p>
-              <Button onClick={() => (window.location.href = '?')}>
+              <Button onClick={() => (window.location.href = "?")}>
                 Clear all filters
               </Button>
             </div>
@@ -188,7 +197,7 @@ export default function JobsPage() {
                 </p>
               </div> */}
 
-              {viewMode === 'grid' ? (
+              {viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {jobs.map((job: Job) => (
                     <JobCard key={job.id} job={job} />
@@ -222,7 +231,7 @@ export default function JobsPage() {
                           <Button
                             key={pageNum}
                             variant={
-                              pageNum === currentPage ? 'default' : 'outline'
+                              pageNum === currentPage ? "default" : "outline"
                             }
                             size="sm"
                             className="w-8 h-8 p-0"

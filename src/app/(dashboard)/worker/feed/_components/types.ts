@@ -18,6 +18,11 @@ export interface Job {
     requirements: string
     hasWorkerApplied: boolean
     salary: number
+    location: {
+      city: string
+      state: string
+      country: string
+    }
     businessProfile: {
       id: string
       companyName: string

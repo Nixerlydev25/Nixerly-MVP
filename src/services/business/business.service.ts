@@ -7,6 +7,28 @@ interface PresignedUrlResponse {
   s3Key: string;
 }
 
+interface FileUploadRequest {
+  fileName: string;
+  contentType: string;
+}
+
+interface FileUploadResponse {
+  fileName: string;
+  presignedUrl: string;
+  s3Key: string;
+}
+
+interface GetAssetsUploadUrlResponse {
+  urls: FileUploadResponse[];
+}
+
+interface SaveAssetsPayload {
+  assets: Array<{
+    s3Key: string;
+    mediaType: string;
+  }>;
+}
+
 class BusinessService {
   static async getBusinessById(id: string): Promise<TBusinessDetails> {
     try {
@@ -61,6 +83,45 @@ class BusinessService {
       return response.data;
     } catch (error) {
       console.error("Error saving profile picture:", error);
+      throw error;
+    }
+  }
+
+  static async getAssetsUploadUrl(files: FileUploadRequest[]): Promise<GetAssetsUploadUrlResponse> {
+    try {
+      const response = await instance.post(
+        API_ROUTES.BUSINESS.GET_ASSETS_UPLOAD_URL,
+        { files }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error getting assets upload URL:", error);
+      throw error;
+    }
+  }
+
+  static async saveAssets(assets: SaveAssetsPayload['assets']): Promise<void> {
+    try {
+      const response = await instance.post(
+        API_ROUTES.BUSINESS.SAVE_ASSETS,
+        { assets }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error saving assets:", error);
+      throw error;
+    }
+  }
+
+  static async deleteAssets(assetIds: string[]): Promise<{ message: string }> {
+    try {
+      const response = await instance.delete(
+        API_ROUTES.BUSINESS.DELETE_ASSETS,
+        { data: { assetIds } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting assets:", error);
       throw error;
     }
   }

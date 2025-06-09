@@ -36,6 +36,9 @@ export const API_ROUTES = {
       `/business/business-profile-details/${id}`,
     GET_PROFILE_PICTURE_UPLOAD_URL: '/business/get-profile-picture-upload-url',
     SAVE_PROFILE_PICTURE: '/business/save-profile-picture',
+    GET_ASSETS_UPLOAD_URL: '/business/get-asset-upload-url',
+    DELETE_ASSETS: '/business/delete-assets',
+    SAVE_ASSETS: '/business/save-assets',
   },
   OTP: {
     SEND: '/otp/send-otp',

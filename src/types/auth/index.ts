@@ -75,6 +75,17 @@ export interface TWorkerProfile {
 }
 
 // Business Profile type
+export interface TBusinessAsset {
+  id: string;
+  key: string;
+  mediaType: string;
+  projectId: string | null;
+  certificateId: string | null;
+  businessProfileId: string;
+  createdAt: string;
+  url: string;
+}
+
 export interface TBusinessProfile {
   companyName?: string | null;
   description?: string | null;
@@ -89,6 +100,7 @@ export interface TBusinessProfile {
   logoUrl?: string | null;
   onboardingStep?: OnboardingStepBusinessProfileB;
   profilePicture?: string | null;
+  assets?: TBusinessAsset[];
 }
 
 export interface TBusinessProfileResponse {

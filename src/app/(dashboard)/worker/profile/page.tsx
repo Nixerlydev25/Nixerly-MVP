@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,6 +51,7 @@ export default function FreelancerProfileSelfView() {
   // Use the state value if available, otherwise use the one from the API
   const currentProfilePicture = profilePicture || workerProfile.profilePicture;
   console.log({ currentProfilePicture });
+  
   console.log(workerProfile.profilePicture, "profilePicture");
   const handleEditProfile = () => {
     openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile));
@@ -94,10 +94,8 @@ export default function FreelancerProfileSelfView() {
                   className="flex-shrink-0 relative group cursor-pointer w-[120px] h-[120px]"
                   onClick={handleProfilePictureClick}
                 >
-                  <Image
+                  <img
                     src={currentProfilePicture || "/placeholder.svg"}
-                    width={120}
-                    height={120}
                     alt={fullName}
                     className="rounded-full border-2 border-white shadow-sm object-cover w-full h-full"
                   />
@@ -358,11 +356,10 @@ export default function FreelancerProfileSelfView() {
                                   <div className="mt-2 grid grid-cols-3 gap-2">
                                     {certificate.assets.map((asset, index) => (
                                       <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
-                                        <Image
+                                        <img
                                           src={asset.url}
                                           alt={`Certificate ${index + 1}`}
-                                          fill
-                                          className="object-cover"
+                                          className="w-full h-full object-cover"
                                         />
                                       </div>
                                     ))}

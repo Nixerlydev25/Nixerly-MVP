@@ -21,6 +21,7 @@ import {
   Eye,
   ChevronRight,
   ChevronLeft,
+  ImagePlus,
 } from "lucide-react";
 import Image from "next/image";
 import { useModalStore } from "@/store/modal.store";
@@ -408,24 +409,53 @@ export default function BusinessProfilePage() {
             </div>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">Company Images</h2>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Company Images</h2>
+              <Button onClick={() => openModal(ModalType.MANAGE_COMPANY_IMAGES, {
+                assets: businessProfileData?.businessProfile?.assets || []
+              })}>
+                <ImagePlus className="mr-2 h-4 w-4" />
+                Manage Images
+              </Button>
+            </div>
             <div className="grid grid-cols-2 gap-3">
-              {[1, 2, 3, 4].map((index) => (
-                <div
-                  key={index}
-                  className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
-                >
-                  <Image
-                    src={`/placeholder.svg?height=150&width=150&text=Image ${index}`}
-                    alt={`Company image ${index}`}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
-                    <Eye className="h-6 w-6 text-white" />
+              {businessProfileData?.businessProfile?.assets?.length ? (
+                <>
+                  <div
+                    onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                      images: businessProfileData.businessProfile.assets,
+                      startIndex: 0
+                    })}
+                    className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                  >
+                    <img
+                      src={businessProfileData.businessProfile.assets[0].url}
+                      alt="Company image"
+                      className="w-full h-full object-cover"
+                    />
+                    {businessProfileData.businessProfile.assets.length > 1 && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                        <div className="text-white text-center">
+                          <Eye className="h-6 w-6 mx-auto" />
+                          <span className="text-sm mt-2 block">
+                            +{businessProfileData.businessProfile.assets.length - 1} more
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                  <div className="flex flex-col justify-center items-center text-muted-foreground">
+                    <p className="text-sm">
+                      {businessProfileData.businessProfile.assets.length} image{businessProfileData.businessProfile.assets.length !== 1 ? 's' : ''} uploaded
+                    </p>
+                    <p className="text-xs mt-1">Click to view all</p>
+                  </div>
+                </>
+              ) : (
+                <p className="col-span-2 text-center text-muted-foreground">
+                  No company images uploaded yet.
+                </p>
+              )}
             </div>
           </div>
         </div>

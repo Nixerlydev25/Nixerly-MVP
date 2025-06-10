@@ -16,13 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -226,74 +219,6 @@ const JobPostingSVG = () => (
   </svg>
 );
 
-// Team SVG Illustration
-// const TeamSVG = () => (
-//   <svg viewBox="0 0 300 200" className="w-full h-32">
-//     <defs>
-//       <linearGradient id="teamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-//         <stop offset="0%" stopColor="#10B981" stopOpacity="0.1" />
-//         <stop offset="100%" stopColor="#059669" stopOpacity="0.2" />
-//       </linearGradient>
-//     </defs>
-
-//     <rect width="300" height="200" fill="url(#teamGrad)" rx="8" />
-
-//     {/* Team Members */}
-//     <circle cx="80" cy="80" r="20" fill="#3B82F6" opacity="0.6" />
-//     <circle cx="150" cy="80" r="20" fill="#10B981" opacity="0.6" />
-//     <circle cx="220" cy="80" r="20" fill="#F59E0B" opacity="0.6" />
-
-//     {/* Connection Lines */}
-//     <line
-//       x1="100"
-//       y1="80"
-//       x2="130"
-//       y2="80"
-//       stroke="#6B7280"
-//       strokeWidth="2"
-//       opacity="0.4"
-//     />
-//     <line
-//       x1="170"
-//       y1="80"
-//       x2="200"
-//       y2="80"
-//       stroke="#6B7280"
-//       strokeWidth="2"
-//       opacity="0.4"
-//     />
-
-//     {/* Skills Badges */}
-//     <rect
-//       x="60"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#3B82F6"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//     <rect
-//       x="130"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#10B981"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//     <rect
-//       x="200"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#F59E0B"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//   </svg>
-// );
-
 export default function PostJobPage() {
   const [isOpen, setIsOpen] = useState(false);
   const commandRef = useRef<HTMLDivElement>(null);
@@ -394,23 +319,22 @@ export default function PostJobPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-12">
+    <div className="min-h-screen bg-nixerly-form-gradient py-12">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <JobPostingSVG />
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="flex flex-col mb-8">
+            <h1 className="text-4xl font-title text-gray-900 mb-2">
               Post a New Job
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600">
               Create a detailed job posting to attract the best talent for your
               project. Fill out each section carefully to get quality
               applications.
             </p>
           </div>
 
-          <div className="bg-white/60 p-8 border border-white/20">
+          <div className="bg-white/60 p-8 border border-white/20 rounded-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -905,12 +829,11 @@ export default function PostJobPage() {
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-8">
+                <div className="pt-8 flex justify-end">
                   <Button
                     type="submit"
-                    className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+                    className="text-md font-semibold py-6 px-6"
                   >
-                    <Briefcase className="w-5 h-5 mr-2" />
                     Post Job
                   </Button>
                 </div>

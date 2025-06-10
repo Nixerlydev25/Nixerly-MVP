@@ -110,8 +110,63 @@ JobApplicationFormProps) {
 
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-xl">Submit a Proposal</CardTitle>
+      <CardHeader className="text-center">
+        <div className="flex items-center justify-center mb-4">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-blue-600"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="currentColor"
+              fillOpacity="0.1"
+            />
+            <polyline
+              points="14,2 14,8 20,8"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <line
+              x1="16"
+              y1="13"
+              x2="8"
+              y2="13"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <line
+              x1="16"
+              y1="17"
+              x2="8"
+              y2="17"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <polyline
+              points="10,9 9,9 8,9"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <CardTitle className="text-2xl flex items-center justify-center gap-2">Submit a Proposal</CardTitle>
+        <p className="text-muted-foreground mt-2">Complete the sections below to submit your job application</p>
       </CardHeader>
       <CardContent>
         <Form {...form}>

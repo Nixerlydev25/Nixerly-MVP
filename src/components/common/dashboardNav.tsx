@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BriefcaseIcon, MenuIcon, UserCircle2Icon } from "lucide-react";
+import { BriefcaseIcon, Hammer, MenuIcon, UserCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useLogout } from "@/hook/auth/auth.hook";
@@ -25,7 +25,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 function DashboardNav() {
@@ -62,8 +61,8 @@ function DashboardNav() {
             href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <BriefcaseIcon className="h-6 w-6 text-blue-600" />
-            <span className="text-xl font-bold text-blue-600">Nixerly</span>
+            <Hammer className="h-8 w-8 text-blue-600"/>
+            <span className="text-lg font-bold text-blue-600">Nixerly</span>
           </Link>
 
           <NavigationMenu className="hidden md:flex">

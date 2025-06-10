@@ -81,7 +81,8 @@ export default function BusinessProfilePage() {
                 <button
                   onClick={() =>
                     openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
-                      profilePicture: businessProfileData?.businessProfile?.profilePicture
+                      profilePicture:
+                        businessProfileData?.businessProfile?.profilePicture,
                     })
                   }
                   className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
@@ -182,7 +183,7 @@ export default function BusinessProfilePage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium">Recent Job Postings</h3>
             <Button onClick={() => router.push("/business/post-a-job")}>
-              <Pencil className="mr-2 h-4 w-4" />
+              <Pencil className="mr-2 h-4 w-4"/>
               Post New Job
             </Button>
           </div>
@@ -219,7 +220,7 @@ export default function BusinessProfilePage() {
                         </div>
                       </div>
                       <Button
-                        variant="outline"
+                        variant="link"
                         size="sm"
                         onClick={() => router.push(`/business/jobs/${job.id}`)}
                       >
@@ -409,9 +410,13 @@ export default function BusinessProfilePage() {
           <div className="rounded-lg border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Company Images</h2>
-              <Button onClick={() => openModal(ModalType.MANAGE_COMPANY_IMAGES, {
-                assets: businessProfileData?.businessProfile?.assets || []
-              })}>
+              <Button
+                onClick={() =>
+                  openModal(ModalType.MANAGE_COMPANY_IMAGES, {
+                    assets: businessProfileData?.businessProfile?.assets || [],
+                  })
+                }
+              >
                 <ImagePlus className="mr-2 h-4 w-4" />
                 Manage Images
               </Button>
@@ -420,10 +425,12 @@ export default function BusinessProfilePage() {
               {businessProfileData?.businessProfile?.assets?.length ? (
                 <>
                   <div
-                    onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
-                      images: businessProfileData.businessProfile.assets,
-                      startIndex: 0
-                    })}
+                    onClick={() =>
+                      openModal(ModalType.IMAGE_CAROUSEL, {
+                        images: businessProfileData.businessProfile.assets,
+                        startIndex: 0,
+                      })
+                    }
                     className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
                   >
                     <img
@@ -436,7 +443,10 @@ export default function BusinessProfilePage() {
                         <div className="text-white text-center">
                           <Eye className="h-6 w-6 mx-auto" />
                           <span className="text-sm mt-2 block">
-                            +{businessProfileData.businessProfile.assets.length - 1} more
+                            +
+                            {businessProfileData.businessProfile.assets.length -
+                              1}{" "}
+                            more
                           </span>
                         </div>
                       </div>
@@ -444,7 +454,11 @@ export default function BusinessProfilePage() {
                   </div>
                   <div className="flex flex-col justify-center items-center text-muted-foreground">
                     <p className="text-sm">
-                      {businessProfileData.businessProfile.assets.length} image{businessProfileData.businessProfile.assets.length !== 1 ? 's' : ''} uploaded
+                      {businessProfileData.businessProfile.assets.length} image
+                      {businessProfileData.businessProfile.assets.length !== 1
+                        ? "s"
+                        : ""}{" "}
+                      uploaded
                     </p>
                     <p className="text-xs mt-1">Click to view all</p>
                   </div>

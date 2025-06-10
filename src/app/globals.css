@@ -164,6 +164,10 @@
   background: linear-gradient(135deg, #f8faff 0%, #eaf2ff 100%);
 }
 
+.bg-nixerly-form-gradient {
+  background: linear-gradient(to bottom right, #EFF6FF 0%, #FFFFFF 50%, #EEF2FF 100%);
+}
+
 /* Custom Colors */
 .text-nixerly-blue {
   color: var(--nixerly-blue);

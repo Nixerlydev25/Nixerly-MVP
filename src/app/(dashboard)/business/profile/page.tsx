@@ -57,7 +57,7 @@ export default function BusinessProfilePage() {
         {/* Main Content */}
 
         <div className="space-y-8 md:col-span-2">
-          <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8">
+          <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
               <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
                 {businessProfileData?.businessProfile?.profilePicture ? (

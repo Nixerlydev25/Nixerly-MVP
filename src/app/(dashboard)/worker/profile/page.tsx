@@ -142,7 +142,7 @@ export default function FreelancerProfileSelfView() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="gap-1">
+                      <Button variant="ghost" size="sm" className="gap-1">
                         <Share2 className="h-4 w-4" />
                         Share
                       </Button>
@@ -209,7 +209,7 @@ export default function FreelancerProfileSelfView() {
                         <TooltipTrigger asChild>
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             className="h-8 gap-1"
                             onClick={handleEditProfile}
                           >
@@ -241,7 +241,7 @@ export default function FreelancerProfileSelfView() {
                         <TooltipTrigger asChild>
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             className="h-8 gap-1"
                             onClick={() =>
                               openModal(
@@ -287,7 +287,7 @@ export default function FreelancerProfileSelfView() {
                         <TooltipTrigger asChild>
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             className="h-8 gap-1"
                             onClick={() =>
                               openModal(
@@ -346,7 +346,7 @@ export default function FreelancerProfileSelfView() {
                           <TooltipTrigger asChild>
                             <Button
                               size="sm"
-                              variant="outline"
+                              variant="ghost"
                               className="h-8 gap-1"
                               onClick={() =>
                                 openModal(
@@ -365,7 +365,7 @@ export default function FreelancerProfileSelfView() {
                         </Tooltip>
                       </TooltipProvider>
                     </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                    <div className="bg-white rounded-lg p-5 ">
                       <div className="space-y-4">
                         {workerProfile.education.length > 0 ? (
                           workerProfile.education.map(
@@ -379,7 +379,7 @@ export default function FreelancerProfileSelfView() {
                                   {edu.degree} in {edu.fieldOfStudy}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  {new Date(edu.startDate).getFullYear()} -{" "}
+                                  {new Date(edu.startDate).getFullYear()} - 
                                   {edu.currentlyStudying
                                     ? "Present"
                                     : new Date(edu.endDate).getFullYear()}
@@ -416,7 +416,7 @@ export default function FreelancerProfileSelfView() {
                           <TooltipTrigger asChild>
                             <Button
                               size="sm"
-                              variant="outline"
+                              variant="ghost"
                               className="h-8 gap-1"
                               onClick={() =>
                                 openModal(ModalType.EDIT_CERTIFICATES, {
@@ -434,20 +434,20 @@ export default function FreelancerProfileSelfView() {
                         </Tooltip>
                       </TooltipProvider>
                     </div>
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                    <div className="">
                       {workerProfile.certificates.length > 0 ? (
-                        <div className="grid gap-4 md:grid-cols-1">
+                        <div className="grid gap-4 md:grid-cols-1 ">
                           {workerProfile.certificates.map((certificate) => (
                             <div
                               key={certificate.id}
-                              className="relative rounded-lg border p-4 hover:bg-gray-50"
+                              className="relative bg-white rounded-lg p-5 "
                             >
                               <div className="space-y-2">
                                 <div className="flex items-center gap-2">
                                   <h4 className="font-medium">
                                     {certificate.name}
                                   </h4>
-                                  <Badge variant="outline">
+                                  <Badge variant="ghost">
                                     {certificate.certificateType.replace(
                                       /_/g,
                                       " "
@@ -525,7 +525,7 @@ export default function FreelancerProfileSelfView() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          variant="outline"
+                          variant="ghost"
                           className="gap-1"
                           onClick={() =>
                             openModal(

@@ -202,7 +202,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
     <div>
       {/* Filters - Desktop */}
       <div className="hidden w-full lg:block">
-        <Card className="sticky top-4 rounded-md">
+        <Card className="sticky top-4 rounded-md border-none">
           <div className="p-4">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Filters</h2>

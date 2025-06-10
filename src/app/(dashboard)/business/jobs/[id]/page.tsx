@@ -8,25 +8,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import {
   ArrowLeft,
   Calendar,
-  Check,
-  ChevronDown,
   Clock,
   Mail,
   Phone,
   Search,
   User,
-  X,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useGetSingleJob, useGetJobApplicants } from '@/hook/jobs/jobs.hooks';
 import {
   Dialog,

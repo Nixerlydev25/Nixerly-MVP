@@ -20,7 +20,7 @@ import CardFeeds from "./_components/GridCardFeeds";
 import ListCardFeeds from "./_components/ListCardFeeds";
 import FeedsPagination from "./_components/FeedsPagination";
 import { ROUTES } from "@/lib/routes";
-import { SearchIcon, X } from "lucide-react";
+import { SearchIcon, X, UserX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
@@ -191,7 +191,13 @@ export default function Dashboard() {
                 <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
               </div>
               <div className="w-full lg:w-3/4">
-                {viewMode === "card" ? (
+                {!freelancers?.data?.length ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                    <UserX className="h-16 w-16 mb-4" />
+                    <h3 className="text-lg font-medium">No talent found</h3>
+                    <p className="text-sm">Please adjust your search criteria to find matching talent</p>
+                  </div>
+                ) : viewMode === "card" ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (

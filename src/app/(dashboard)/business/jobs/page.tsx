@@ -106,7 +106,7 @@ export default function BusinessDashboard() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Job Dashboard</h1>
+          <h1 className="text-4xl font-title">Job Dashboard</h1>
           <p className="text-muted-foreground mt-1">
             Manage your job postings and applicants
           </p>

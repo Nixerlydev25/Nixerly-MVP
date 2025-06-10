@@ -14,6 +14,7 @@ import { ReportJobModal } from './report-job';
 import { EditCertificatesModal } from './edit-certificates-modal';
 import { ManageCompanyImagesModal } from './manage-company-images-modal';
 import { ImageCarouselModal } from './image-carousel-modal';
+import { ShareModal } from './share-modal';
 
 export function Modals() {
   return (
@@ -34,6 +35,7 @@ export function Modals() {
       <EditCertificatesModal/>
       <ManageCompanyImagesModal />
       <ImageCarouselModal />
+      <ShareModal />
     </>
   );
 }

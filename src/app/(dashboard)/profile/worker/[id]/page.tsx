@@ -1,31 +1,33 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Award,
   ChevronLeft,
+  Eye,
   Flag,
   Globe,
   GraduationCap,
   MapPin,
   MoreHorizontal,
   Share2,
-} from 'lucide-react';
-import { useGetWorkerById } from '@/hook/worker/worker.hook';
-import { useParams } from 'next/navigation';
-import { useModalStore } from '@/store/modal.store';
-import { ModalType } from '@/types/model';
-import { useRouter } from 'next/navigation';
+} from "lucide-react";
+import { useGetWorkerById } from "@/hook/worker/worker.hook";
+import { useParams } from "next/navigation";
+import { useModalStore } from "@/store/modal.store";
+import { ModalType } from "@/types/model";
+import { useRouter } from "next/navigation";
+import { FreelancerProfileSkeleton } from "./components/worker-profile-skeleton";
 
 export default function FreelancerProfile() {
   const { id } = useParams<{ id: string }>();
@@ -35,9 +37,7 @@ export default function FreelancerProfile() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
+      <FreelancerProfileSkeleton />
     );
   }
 
@@ -53,15 +53,17 @@ export default function FreelancerProfile() {
   const formattedSkills =
     worker.skills?.map((skill: string) => {
       return skill
-        .replace(/_/g, ' ')
+        .replace(/_/g, " ")
         .toLowerCase()
         .replace(/\b\w/g, (l: string) => l.toUpperCase());
     }) || [];
 
   // Format full name
-  const fullName = `${worker.user?.firstName || ''} ${
-    worker.user?.lastName || ''
+  const fullName = `${worker.user?.firstName || ""} ${
+    worker.user?.lastName || ""
   }`.trim();
+
+  console.log(worker);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -86,13 +88,24 @@ export default function FreelancerProfile() {
               <div className="relative">
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
-                    <Image
-                      src={worker.profilePicture || '/placeholder.svg'}
-                      width={120}
-                      height={120}
-                      alt={fullName}
-                      className="rounded-full object-cover w-28 h-28"
-                    />
+                    <div 
+                      className="relative cursor-pointer group"
+                      onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                        images: [{url: worker.profilePicture || "/placeholder.svg"}],
+                        startIndex: 0
+                      })}
+                    >
+                      <Image
+                        src={worker.profilePicture || "/placeholder.svg"}
+                        width={120}
+                        height={120}
+                        alt={fullName}
+                        className="rounded-full object-cover w-28 h-28"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100 rounded-full">
+                        <Eye className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-wrap items-start justify-between gap-4">
@@ -107,19 +120,16 @@ export default function FreelancerProfile() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        {/* <Button
+                        <Button
                           variant="outline"
                           size="icon"
-                          className={isSaved ? 'text-red-500' : 'text-gray-400'}
-                          onClick={() => setIsSaved(!isSaved)}
+                          onClick={() =>
+                            openModal(ModalType.SHARE_MODAL, {
+                              profileUrl: "example.com",
+                              profileName: fullName,
+                            })
+                          }
                         >
-                          <HeartIcon
-                            className={`h-5 w-5 ${
-                              isSaved ? 'fill-red-500' : ''
-                            }`}
-                          />
-                        </Button> */}
-                        <Button variant="outline" size="icon">
                           <Share2 className="h-5 w-5" />
                         </Button>
                         <DropdownMenu>
@@ -144,8 +154,6 @@ export default function FreelancerProfile() {
                         </DropdownMenu>
                       </div>
                     </div>
-
-                    {/* <p className="mt-3 text-gray-700">{worker.description}</p> */}
                   </div>
                 </div>
               </div>
@@ -188,69 +196,6 @@ export default function FreelancerProfile() {
                   </div>
                 </div>
 
-                {/* Education & Certifications */}
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Education */}
-                  <div className="space-y-3">
-                    <h3 className="flex items-center text-xl font-semibold text-cyan-700 border-b pb-2">
-                      <GraduationCap className="mr-2 h-5 w-5 text-cyan-600" />
-                      Education
-                    </h3>
-                    <div className="space-y-6 py-2">
-                      {worker.education?.length ? (
-                        worker.education.map((edu) => (
-                          <div
-                            key={edu.id}
-                            className="border-l-2 border-cyan-200 pl-4 py-1"
-                          >
-                            <h4 className="font-medium">{edu.school}</h4>
-                            <p className="text-gray-600">
-                              {edu.degree} in {edu.fieldOfStudy}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {new Date(edu.startDate).toLocaleDateString()} -
-                              {edu.currentlyStudying
-                                ? ' Present'
-                                : edu.endDate
-                                ? ` ${new Date(edu.endDate).toLocaleDateString()}`
-                                : ''}
-                            </p>
-                            <p className="mt-2 text-gray-700">
-                              {edu.description}
-                            </p>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-gray-500">No Education</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Certifications */}
-                  <div className="space-y-3">
-                    <h3 className="flex items-center text-xl font-semibold text-purple-700 border-b pb-2">
-                      <Award className="mr-2 h-5 w-5 text-purple-600" />
-                      Certifications
-                    </h3>
-                    <div className="space-y-4 py-2">
-                      {worker.certifications?.length ? (
-                        worker.certifications.map((cert) => (
-                          <div
-                            key={cert.id}
-                            className="border-l-2 border-purple-200 pl-4 py-1"
-                          >
-                            <h4 className="font-medium">{cert.name}</h4>
-                            <p className="text-gray-600">{cert.issuer}</p>
-                            <p className="text-sm text-gray-500">{cert.year}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-gray-500">No Certifications</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
                 {/* Languages */}
                 <div className="space-y-3">
                   <h3 className="flex items-center text-xl font-semibold text-green-700 border-b pb-2">
@@ -276,6 +221,131 @@ export default function FreelancerProfile() {
                     ))}
                   </div>
                 </div>
+
+                {/* Education */}
+                <div className="space-y-3">
+                  <h3 className="flex items-center text-xl font-semibold text-cyan-700 border-b pb-2">
+                    <GraduationCap className="mr-2 h-5 w-5 text-cyan-600" />
+                    Education
+                  </h3>
+                  <div className="space-y-6 py-2">
+                    {worker.education?.length ? (
+                      worker.education.map((edu) => (
+                        <div
+                          key={edu.id}
+                          className="border-l-2 border-cyan-200 pl-4 py-1"
+                        >
+                          <h4 className="font-medium">{edu.school}</h4>
+                          <p className="text-gray-600">
+                            {edu.degree} in {edu.fieldOfStudy}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {new Date(edu.startDate).toLocaleDateString()} -
+                            {edu.currentlyStudying
+                              ? " Present"
+                              : edu.endDate
+                              ? ` ${new Date(edu.endDate).toLocaleDateString()}`
+                              : ""}
+                          </p>
+                          <p className="mt-2 text-gray-700">
+                            {edu.description}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500">No Education</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Certifications */}
+                <div className="space-y-3 mt-8">
+                  <h3 className="flex items-center text-xl font-semibold text-purple-700 border-b pb-2">
+                    <Award className="mr-2 h-5 w-5 text-purple-600" />
+                    Certifications
+                  </h3>
+                  <div className="space-y-6 py-2">
+                    {worker.certificates?.length ? (
+                      worker.certificates.map((certificate) => (
+                        <div
+                          key={certificate.id}
+                          className="border-l-2 border-purple-200 pl-4 py-1"
+                        >
+                          <div className="flex gap-4">
+                            <div className="space-y-2 flex-1">
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium">
+                                  {certificate.name}
+                                </h4>
+                                <Badge variant="ghost">
+                                  {certificate.certificateType.replace(
+                                    /_/g,
+                                    " "
+                                  )}
+                                </Badge>
+                              </div>
+                              <p className="text-gray-600">
+                                {certificate.issuingOrg}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                Issued:{" "}
+                                {new Date(
+                                  certificate.issueDate
+                                ).toLocaleDateString()}
+                                {certificate.expiryDate &&
+                                  ` • Expires: ${new Date(
+                                    certificate.expiryDate
+                                  ).toLocaleDateString()}`}
+                              </p>
+                              {certificate.credentialUrl && (
+                                <a
+                                  href={certificate.credentialUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-blue-600 hover:underline"
+                                >
+                                  View Credential
+                                </a>
+                              )}
+                            </div>
+                            <div className="w-24 h-24 flex-shrink-0">
+                              {certificate.assets?.length > 0 ? (
+                                <div 
+                                  className="relative cursor-pointer group"
+                                  onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                                    images: certificate.assets,
+                                    startIndex: 0
+                                  })}
+                                >
+                                  <img
+                                    src={
+                                      certificate.assets[0].url ||
+                                      "/placeholder.svg?height=96&width=96"
+                                    }
+                                    alt={certificate.name}
+                                    className="w-full h-full object-cover rounded-md"
+                                  />
+                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100 rounded-md">
+                                    <Eye className="h-6 w-6 text-white" />
+                                    {certificate.assets.length > 1 && (
+                                      <span className="text-white text-xs mt-1">1 more image</span>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-purple-100 to-purple-200 rounded-md flex items-center justify-center">
+                                  <Award className="h-10 w-10 text-purple-500" />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500">No Certifications</p>
+                    )}
+                  </div>
+                </div>
               </TabsContent>
 
               {/* Experiences Tab */}
@@ -298,15 +368,17 @@ export default function FreelancerProfile() {
                           <p className="text-sm text-gray-500">
                             {new Date(exp.startDate).toLocaleDateString()} -
                             {exp.currentlyWorking
-                              ? ' Present'
+                              ? " Present"
                               : exp.endDate
                               ? ` ${new Date(exp.endDate).toLocaleDateString()}`
-                              : ''}
+                              : ""}
                           </p>
                           <p className="text-sm text-gray-500 mt-1">
                             {exp.city}, {exp.state}, {exp.country}
                           </p>
-                          <p className="mt-2 text-gray-700">{exp.description}</p>
+                          <p className="mt-2 text-gray-700">
+                            {exp.description}
+                          </p>
                         </div>
                       ))
                     ) : (
@@ -334,7 +406,7 @@ export default function FreelancerProfile() {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Availability</span>
                   <span className="font-medium">
-                    {worker.availability ? 'Available' : 'Unavailable'}
+                    {worker.availability ? "Available" : "Unavailable"}
                   </span>
                 </div>
                 <Separator />
@@ -347,7 +419,7 @@ export default function FreelancerProfile() {
               </div>
 
               <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
-                Contact {worker.user?.firstName || 'Worker'}
+                Contact {worker.user?.firstName || "Worker"}
               </Button>
             </div>
           </div>

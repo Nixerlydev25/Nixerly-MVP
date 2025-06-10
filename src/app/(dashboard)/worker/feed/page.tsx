@@ -143,7 +143,7 @@ export default function JobsPage() {
                 variant={viewMode === "grid" ? "default" : "ghost"}
                 size="sm"
                 className={`rounded-none ${
-                  viewMode === "grid" ? "bg-blue-600" : ""
+                  viewMode === "grid" ? "bg-primary" : ""
                 }`}
                 onClick={() => handleViewModeChange("grid")}
               >
@@ -155,7 +155,7 @@ export default function JobsPage() {
                 variant={viewMode === "list" ? "default" : "ghost"}
                 size="sm"
                 className={`rounded-none ${
-                  viewMode === "list" ? "bg-blue-600" : ""
+                  viewMode === "list" ? "bg-primary" : ""
                 }`}
                 onClick={() => handleViewModeChange("list")}
               >

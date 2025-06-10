@@ -30,6 +30,7 @@ import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton
 import { useRouter } from "next/navigation";
 import { useListMyJobs } from "@/hook/jobs/jobs.hooks";
 import { ChangeBusinessProfilePictureModal } from "@/components/modals/change-business-profile-picture-modal";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function BusinessProfilePage() {
   const { data: businessProfileData, isLoading } =
@@ -78,17 +79,26 @@ export default function BusinessProfilePage() {
                     className="object-cover"
                   />
                 )}
-                <button
-                  onClick={() =>
-                    openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
-                      profilePicture: businessProfileData?.businessProfile?.profilePicture
-                    })
-                  }
-                  className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
-                  aria-label="Change profile picture"
-                >
-                  <Camera className="h-4 w-4" />
-                </button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() =>
+                          openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
+                            profilePicture: businessProfileData?.businessProfile?.profilePicture
+                          })
+                        }
+                        className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
+                        aria-label="Change profile picture"
+                      >
+                        <Camera className="h-4 w-4" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Update your company profile picture</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
               <div className="flex-1">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
@@ -134,20 +144,29 @@ export default function BusinessProfilePage() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        openModal(
-                          ModalType.EDIT_BUSINESS_PROFILE,
-                          businessProfileData?.businessProfile as unknown as {
-                            [key: string]: unknown;
-                          }
-                        )
-                      }
-                    >
-                      <Edit className="mr-2 h-4 w-4" />
-                      Edit Profile
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            onClick={() =>
+                              openModal(
+                                ModalType.EDIT_BUSINESS_PROFILE,
+                                businessProfileData?.businessProfile as unknown as {
+                                  [key: string]: unknown;
+                                }
+                              )
+                            }
+                          >
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Profile
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Edit your business profile details</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               </div>
@@ -157,19 +176,28 @@ export default function BusinessProfilePage() {
           <section>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">About</h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() =>
-                  openModal(ModalType.EDIT_BUSINESS_ABOUT, {
-                    description:
-                      businessProfileData?.businessProfile.description,
-                  })
-                }
-              >
-                <Pencil className="mr-2 h-4 w-4" />
-                Edit
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        openModal(ModalType.EDIT_BUSINESS_ABOUT, {
+                          description:
+                            businessProfileData?.businessProfile.description,
+                        })
+                      }
+                    >
+                      <Pencil className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Edit your business description</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <p className="text-muted-foreground">
               {businessProfileData?.businessProfile.description}
@@ -181,10 +209,19 @@ export default function BusinessProfilePage() {
           {/* Tabs for different sections */}
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium">Recent Job Postings</h3>
-            <Button onClick={() => router.push("/business/post-a-job")}>
-              <Pencil className="mr-2 h-4 w-4" />
-              Post New Job
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => router.push("/business/post-a-job")}>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Post New Job
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Create a new job posting</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           {(jobs?.jobs?.length ?? 0) > 0 ? (
@@ -409,46 +446,81 @@ export default function BusinessProfilePage() {
           <div className="rounded-lg border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Company Images</h2>
-              <Button onClick={() => openModal(ModalType.MANAGE_COMPANY_IMAGES, {
-                assets: businessProfileData?.businessProfile?.assets || []
-              })}>
-                <ImagePlus className="mr-2 h-4 w-4" />
-                Manage Images
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button onClick={() => openModal(ModalType.MANAGE_COMPANY_IMAGES, {
+                      assets: businessProfileData?.businessProfile?.assets || []
+                    })}>
+                      <ImagePlus className="mr-2 h-4 w-4" />
+                      Manage Images
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Upload and manage your company images</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {businessProfileData?.businessProfile?.assets?.length ? (
-                <>
-                  <div
-                    onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
-                      images: businessProfileData.businessProfile.assets,
-                      startIndex: 0
-                    })}
-                    className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
-                  >
-                    <img
-                      src={businessProfileData.businessProfile.assets[0].url}
-                      alt="Company image"
-                      className="w-full h-full object-cover"
-                    />
-                    {businessProfileData.businessProfile.assets.length > 1 && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
-                        <div className="text-white text-center">
-                          <Eye className="h-6 w-6 mx-auto" />
-                          <span className="text-sm mt-2 block">
-                            +{businessProfileData.businessProfile.assets.length - 1} more
-                          </span>
+                businessProfileData.businessProfile.assets.length > 4 ? (
+                  <>
+                    {businessProfileData.businessProfile.assets.slice(0, 3).map((asset, index) => (
+                      <div
+                        key={index}
+                        onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                          images: businessProfileData.businessProfile.assets,
+                          startIndex: index
+                        })}
+                        className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                      >
+                        <img
+                          src={asset.url}
+                          alt={`Company image ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                          <Eye className="h-6 w-6 text-white" />
                         </div>
                       </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col justify-center items-center text-muted-foreground">
-                    <p className="text-sm">
-                      {businessProfileData.businessProfile.assets.length} image{businessProfileData.businessProfile.assets.length !== 1 ? 's' : ''} uploaded
-                    </p>
-                    <p className="text-xs mt-1">Click to view all</p>
-                  </div>
-                </>
+                    ))}
+                    <div 
+                      onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                        images: businessProfileData.businessProfile.assets,
+                        startIndex: 0
+                      })}
+                      className="relative aspect-square overflow-hidden rounded-md group cursor-pointer bg-black/10 flex items-center justify-center"
+                    >
+                      <div className="text-center">
+                        <Eye className="h-6 w-6 mx-auto text-muted-foreground" />
+                        <span className="text-sm mt-2 block text-muted-foreground">
+                          +{businessProfileData.businessProfile.assets.length - 3} more
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  businessProfileData.businessProfile.assets.map((asset, index) => (
+                    <div
+                      key={index}
+                      onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
+                        images: businessProfileData.businessProfile.assets,
+                        startIndex: index
+                      })}
+                      className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                    >
+                      <img
+                        src={asset.url}
+                        alt={`Company image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                        <Eye className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                  ))
+                )
               ) : (
                 <p className="col-span-2 text-center text-muted-foreground">
                   No company images uploaded yet.

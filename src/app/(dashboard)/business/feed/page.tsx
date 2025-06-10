@@ -100,10 +100,10 @@ export default function Dashboard() {
           <div className="container mx-auto px-4">
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+                <h1 className="text-4xl font-bold font-title">
                   Find Top Talent
                 </h1>
-                <p className="mt-1 text-gray-600">
+                <p className="mt-1 text-gray-500 font-subtitle">
                   Browse profiles of skilled professionals ready to work on your
                   projects
                 </p>

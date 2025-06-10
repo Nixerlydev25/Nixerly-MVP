@@ -102,8 +102,8 @@ export default function JobsPage() {
     <div className="container mx-auto py-10 px-4">
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
         <div>
-          <h1 className="text-5xl font-bold font-title">Available Jobs</h1>
-          <p className="mt-1 text-gray-600 font-subtitle">
+          <h1 className="text-4xl font-bold font-title">Available Jobs</h1>
+          <p className="mt-1 text-gray-500 font-subtitle">
             Showcase your skills and connect with businesses looking for talent
             like yours.
           </p>

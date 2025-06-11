@@ -27,20 +27,51 @@ export const useCreateJob = () => {
 
 export const useGetAllJobs = () => {
   const searchParams = useSearchParams();
-  const params: Record<string, string | number | undefined> = {
-    page: Number(searchParams.get('page')) || 1,
-    limit: Number(searchParams.get('limit')) || 10,
-    sortBy: searchParams.get('sortBy') || 'createdAt',
-    sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc',
-    ...(searchParams.get('minHourlyRate') && {
-      minHourlyRate: Number(searchParams.get('minHourlyRate')),
-    }),
-    ...(searchParams.get('maxHourlyRate') && {
-      maxHourlyRate: Number(searchParams.get('maxHourlyRate')),
-    }),
-    search: searchParams.get('search') || '',
-    status: searchParams.get('status') || undefined,
-  };
+  
+  const params: Record<string, string | number | string[] | undefined> = {};
+
+  // Base pagination and sorting
+  const page = searchParams.get('page');
+  if (page) params.page = Number(page);
+
+  const limit = searchParams.get('limit');
+  if (limit) params.limit = Number(limit);
+
+  const sortOrder = searchParams.get('sortOrder') as 'asc' | 'desc';
+  if (sortOrder) params.sortOrder = sortOrder;
+
+  // Search term
+  const search = searchParams.get('search');
+  if (search && search.trim() !== '') params.search = search;
+
+  // Location params
+  const city = searchParams.get('city');
+  if (city) params.city = city;
+
+  const state = searchParams.get('state');
+  if (state) params.state = state;
+
+  const country = searchParams.get('country');
+  if (country) params.country = country;
+
+  // Rate range
+  const minHourlyRate = searchParams.get('minHourlyRate');
+  if (minHourlyRate) params.minHourlyRate = Number(minHourlyRate);
+
+  const maxHourlyRate = searchParams.get('maxHourlyRate');
+  if (maxHourlyRate) params.maxHourlyRate = Number(maxHourlyRate);
+
+  // Budget
+  const budget = searchParams.get('budget');
+  if (budget) params.budget = Number(budget);
+
+  // Status
+  const status = searchParams.get('status');
+  if (status) params.status = status;
+
+  // Skills (assuming it comes as a comma-separated string)
+  const skills = searchParams.get('skills');
+  if (skills) params.skills = skills.split(',');
 
   return useQuery<JobsResponse>({
     queryKey: [QueryKeys.JOB_GET_ALL, params],

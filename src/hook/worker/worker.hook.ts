@@ -8,7 +8,6 @@ import {
 } from '@/types/worker.types';
 import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { toast } from 'sonner';
 import S3Service from '@/services/s3/s3.service';
 import { z } from 'zod';
 import { queryClient } from '@/providers/query.provider';
@@ -19,44 +18,45 @@ export const useGetWorkers = (enabled?: boolean) => {
   // Process URL params and set defaults in the hook
   const filters = useMemo(() => {
     const params: FeedsFilter & Record<string, string | number | string[]> = {
-      page: 1,
-      limit: 15,
+      page: Number(searchParams.get('page')) || 1,
+      limit: Number(searchParams.get('limit')) || 10,
     };
 
-    searchParams.forEach((value, key) => {
-      switch (key) {
-        case 'page':
-        case 'limit':
-        case 'minHourlyRate':
-        case 'maxHourlyRate':
-        case 'minTotalEarnings':
-        case 'maxTotalEarnings':
-        case 'minAvgRating':
-        case 'maxAvgRating':
-          const numValue = Number(value);
-          if (!isNaN(numValue)) {
-            params[key] = numValue;
-          }
-          break;
-        case 'skills':
-          if (!params.skills) params.skills = [];
-          params.skills.push(value);
-          break;
-        case 'sort':
-          if (
-            value === 'rating' ||
-            value === 'price_low_to_high' ||
-            value === 'price_high_to_low'
-          ) {
-            params[key] = value;
-          }
-          break;
-        default:
-          // For other potential string fields like location, search, etc.
-          if (value) {
-            params[key] = value;
-          }
-          break;
+    // Handle skills array
+    const skills = searchParams.get('skills');
+    if (skills && skills.trim() !== '') {
+      params.skills = skills.split(',');
+    }
+
+    // Handle sort parameter
+    const sort = searchParams.get('sort');
+    if (sort && ['rating', 'price_low_to_high', 'price_high_to_low'].includes(sort)) {
+      params.sort = sort as 'rating' | 'price_low_to_high' | 'price_high_to_low';
+    }
+
+    // Handle search parameter
+    const search = searchParams.get('search');
+    if (search && search.trim() !== '') {
+      params.search = search;
+    }
+
+    // Handle numeric parameters with validation
+    const numericParams = [
+      'minHourlyRate',
+      'maxHourlyRate',
+      'minTotalEarnings',
+      'maxTotalEarnings',
+      'minAvgRating',
+      'maxAvgRating'
+    ] as const;
+
+    numericParams.forEach(param => {
+      const value = searchParams.get(param);
+      if (value) {
+        const numValue = Number(value);
+        if (!isNaN(numValue)) {
+          params[param] = numValue;
+        }
       }
     });
 
@@ -173,6 +173,23 @@ export const useWorkerProfilePicture = () => {
   };
 };
 
+// Define the applied jobs response type
+interface AppliedJobsResponse {
+  data: Array<{
+    id: string;
+    title: string;
+    status: string;
+    appliedAt: string;
+    // Add other fields as needed
+  }>;
+  pagination: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    hasMore: boolean;
+  };
+}
+
 export const useGetAppliedJobs = () => {
   const searchParams = useSearchParams();
 
@@ -208,7 +225,7 @@ export const useGetAppliedJobs = () => {
     return filters.page || 1;
   }, [filters.page]);
 
-  const query = useQuery<any>({
+  const query = useQuery<AppliedJobsResponse>({
     queryKey: [QueryKeys.GET_APPLIED_JOBS, filters],
     queryFn: () => WorkerService.getAppliedJobs(filters),
     enabled: !!filters.page,

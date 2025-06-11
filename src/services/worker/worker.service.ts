@@ -6,6 +6,22 @@ import {
   WorkerProfileResponse,
 } from '@/types/worker.types';
 
+interface AppliedJobsResponse {
+  data: Array<{
+    id: string;
+    title: string;
+    status: string;
+    appliedAt: string;
+    // Add other fields as needed
+  }>;
+  pagination: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    hasMore: boolean;
+  };
+}
+
 class WorkerService {
   static async getWorkers(
     filters: FeedsFilter = {}
@@ -26,11 +42,13 @@ class WorkerService {
         minAvgRating: 'number',
         maxAvgRating: 'number',
         sort: 'string',
+        search: 'string',
       };
 
       (Object.keys(filterConfig) as Array<keyof FeedsFilter>).forEach((key) => {
         const value = filters[key];
         if (value === undefined || value === null) return;
+        if (typeof value === 'string' && value.trim() === '') return;
 
         const configType = filterConfig[key];
 
@@ -80,7 +98,7 @@ class WorkerService {
     }
   }
 
-  static async getAppliedJobs(filters: AppliedJobsFilter): Promise<any> {
+  static async getAppliedJobs(filters: AppliedJobsFilter): Promise<AppliedJobsResponse> {
     const params = new URLSearchParams();
 
     const filterConfig: {

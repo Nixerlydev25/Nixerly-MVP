@@ -15,6 +15,26 @@ interface ModalStore {
 export const useModalStore = create<ModalStore>((set) => ({
   activeModal: ModalType.NONE,
   modalData: null,
-  openModal: (modal: ModalType, data: ModalDataType = {}) => set({ activeModal: modal, modalData: data }),
-  closeModal: () => set({ activeModal: ModalType.NONE, modalData: null }),
+  openModal: (modal: ModalType, data: ModalDataType = {}) => {
+    // Close any open dropdowns by clicking outside
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    document.body.dispatchEvent(clickEvent);
+    
+    set({ activeModal: modal, modalData: data });
+  },
+  closeModal: () => {
+    // Close any open dropdowns by clicking outside
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    document.body.dispatchEvent(clickEvent);
+    
+    set({ activeModal: ModalType.NONE, modalData: null });
+  },
 })) 

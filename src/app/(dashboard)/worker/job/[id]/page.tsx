@@ -95,6 +95,7 @@ export default function JobPostDetail() {
                   <Share2 className="h-5 w-5" />
                   <span className="sr-only">Share job</span>
                 </Button>
+
                 <Button
                   variant="outline"
                   size="icon"
@@ -334,10 +335,157 @@ export default function JobPostDetail() {
                           ? ` ($${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr)`
                           : ""}
                       </p>
+                      <p className="text-sm text-muted-foreground">
+                        Based on experience
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">
+                        {jobDetails?.employmentType
+                          ? jobDetails.employmentType
+                              .split("_")
+                              .join(" ")
+                              .replace(/^\w/, (c) => c.toUpperCase())
+                          : "Full-time"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {jobDetails?.jobType || "."}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">Start date</p>
+                      <p className="text-sm text-muted-foreground">
+                        {jobDetails?.startDate
+                          ? new Date(jobDetails.startDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          : "Immediate"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <User className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">Professionals</p>
+                      <p className="text-sm text-muted-foreground">
+                        {jobDetails?.numberOfWorkersRequired ||
+                          jobDetails?.numberOfPositions ||
+                          1}{" "}
+                        Required
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
+              <Button
+                className="w-full bg-blue-700 text-white hover:bg-blue-800"
+                onClick={() =>
+                  router.push(`${ROUTES.WORKER_JOB}/${jobDetails?.id}/apply`)
+                }
+              >
+                Apply Now
+              </Button>
+              {/* <Button variant="outline" className="w-full">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Contact Employer
+              </Button> */}
+            </CardContent>
+          </Card>
+
+          {/* Employer Card */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="relative h-12 w-12 overflow-hidden rounded-md border bg-muted">
+                  <Image
+                    src={jobDetails?.businessProfile?.profilePicture || "/placeholder.svg?height=48&width=48"}
+                    alt="Company logo"
+                    width={48}
+                    height={48}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div>
+                  <Link
+                    href={`${ROUTES.OTHER_BUSINESS_PROFILE}/${jobDetails?.businessProfile?.id}`}
+                  >
+                    <h3 className="font-semibold">
+                      {jobDetails?.businessProfile?.companyName ||
+                        "Company Name"}
+                    </h3>
+                  </Link>
+                  <p className="text-sm text-muted-foreground">
+                    Member since{" "}
+                    {jobDetails?.businessProfile?.yearFounded || "N/A"}
+                  </p>
+                </div>
+              </div>
+              {/* <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span>Response rate</span>
+                  <span className="font-medium">95%</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Average response time</span>
+                  <span className="font-medium">2 hours</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Jobs posted</span>
+                  <span className="font-medium">27</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>Hire rate</span>
+                  <span className="font-medium">87%</span>
+                </div>
+              </div> */}
+              {/* <div className="flex items-center gap-2">
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className="h-4 w-4 fill-primary text-primary"
+                    />
+                  ))}
+                </div>
+                <span className="text-sm font-medium">4.8</span>
+                <span className="text-sm text-muted-foreground">
+                  (124 reviews)
+                </span>
+              </div> */}
+            </CardContent>
+          </Card>
+
+          {/* Job Location */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <h3 className="font-semibold">Job Location</h3>
+              <div className="aspect-video w-full overflow-hidden rounded-md bg-muted">
+                <Image
+                  src="/placeholder.svg?height=200&width=400"
+                  alt="Map location"
+                  width={400}
+                  height={200}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {jobDetails?.businessProfile?.city || ""},{" "}
+                {jobDetails?.businessProfile?.state || ""},{" "}
+                {jobDetails?.businessProfile?.country || ""}
+                <br />
+                Exact address provided after application
+              </p>
             </CardContent>
           </Card>
         </div>

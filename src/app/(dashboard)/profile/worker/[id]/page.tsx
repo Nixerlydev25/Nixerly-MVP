@@ -3,12 +3,6 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -19,7 +13,6 @@ import {
   Globe,
   GraduationCap,
   MapPin,
-  MoreHorizontal,
   Share2,
 } from "lucide-react";
 import { useGetWorkerById } from "@/hook/worker/worker.hook";
@@ -132,26 +125,18 @@ export default function FreelancerProfile() {
                         >
                           <Share2 className="h-5 w-5" />
                         </Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="icon">
-                              <MoreHorizontal className="h-5 w-5" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => {
-                                openModal(ModalType.REPORT_WORKER_MODAL, {
-                                  targetId: id,
-                                  targetName: fullName,
-                                });
-                              }}
-                            >
-                              <Flag className="mr-2 h-4 w-4" />
-                              Report this profile
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => {
+                            openModal(ModalType.REPORT_WORKER_MODAL, {
+                              targetId: id,
+                              targetName: fullName,
+                            });
+                          }}
+                        >
+                          <Flag className="h-5 w-5" />
+                        </Button>
                       </div>
                     </div>
                   </div>

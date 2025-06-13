@@ -18,7 +18,6 @@ import {
   Briefcase,
   Eye,
   Flag,
-  MoreHorizontal,
 } from "lucide-react";
 import Image from "next/image";
 import { BusinessProfileSkeleton } from "@/app/(dashboard)/business/profile/_components/business-profile-skeleton";
@@ -27,18 +26,10 @@ import { useParams } from "next/navigation";
 import { TJob } from "@/types/auth";
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export default function BusinessProfilePage() {
   const { id } = useParams<{ id: string }>();
-
   const { data: businessProfileData, isLoading } = useGetBusinessById(id);
-
   const { openModal } = useModalStore();
 
   if (isLoading && !businessProfileData) {
@@ -109,26 +100,19 @@ export default function BusinessProfilePage() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon">
-                          <MoreHorizontal className="h-5 w-5" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            openModal(ModalType.REPORT_BUSINESS_MODAL, {
-                              targetId: id,
-                              targetName: businessProfileData?.companyName,
-                            });
-                          }}
-                        >
-                          <Flag className="mr-2 h-4 w-4" />
-                          Report this profile
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        openModal(ModalType.REPORT_BUSINESS_MODAL, {
+                          targetId: id,
+                          targetName: businessProfileData?.companyName,
+                        });
+                      }}
+                    >
+                      <Flag className="h-5 w-5" />
+                      <span className="sr-only">Report business</span>
+                    </Button>
                   </div>
                 </div>
               </div>

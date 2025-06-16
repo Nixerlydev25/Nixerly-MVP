@@ -131,17 +131,6 @@ export default function BusinessProfilePage() {
                         </span>
                       </span>
                     </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
-                        Licensed Plumber
-                      </Badge>
-                      <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
-                        Certified Contractor
-                      </Badge>
-                      <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">
-                        Insured Business
-                      </Badge>
-                    </div>
                   </div>
                   <div className="flex gap-2">
                     <TooltipProvider>
@@ -371,7 +360,7 @@ export default function BusinessProfilePage() {
                     <p className="font-medium">Member Since</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(
-                        businessProfileData?.createdAt ?? ""
+                        businessProfileData?.businessProfile?.createdAt ?? ""
                       ).toLocaleDateString(undefined, {
                         year: "numeric",
                         month: "long",
@@ -415,17 +404,6 @@ export default function BusinessProfilePage() {
                   <h3 className="font-medium">Business Owner</h3>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage
-                      src="/placeholder.svg?height=48&width=48"
-                      alt={`${businessProfileData?.firstName} ${businessProfileData?.lastName}`}
-                    />
-                    <AvatarFallback>{`${businessProfileData?.firstName.charAt(
-                      0
-                    )}${businessProfileData?.lastName.charAt(
-                      0
-                    )}`}</AvatarFallback>
-                  </Avatar>
                   <div>
                     <p className="font-medium">
                       {businessProfileData?.firstName}{" "}
@@ -436,7 +414,6 @@ export default function BusinessProfilePage() {
                         ? businessProfileData.role.charAt(0) +
                           businessProfileData.role.slice(1).toLowerCase()
                         : "Owner"}{" "}
-                      Owner
                     </p>
                   </div>
                 </div>

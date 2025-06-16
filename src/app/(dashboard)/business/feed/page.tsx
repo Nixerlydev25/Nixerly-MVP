@@ -32,7 +32,6 @@ enum SortOption {
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"card" | "list">(() => {
-    // Try to get the saved view mode from localStorage during initialization
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("businessFeedViewMode");
       return saved === "card" || saved === "list" ? saved : "list";
@@ -70,7 +69,6 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  // Hook now handles all filter processing and provides currentPage
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
   const handleWorkerClick = (workerId: string) => {
     router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
@@ -85,7 +83,6 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  // Save view mode to localStorage whenever it changes
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
     localStorage.setItem("businessFeedViewMode", mode);

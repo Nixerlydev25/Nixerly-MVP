@@ -10,13 +10,9 @@ function ListCardFeeds({
   id,
   title,
   avatar,
-  successRate,
   skills,
-  rating,
   name,
   location,
-  jobsCompleted,
-  hourlyRate,
 }: CardProps) {
   return (
     <div
@@ -44,14 +40,6 @@ function ListCardFeeds({
                 </span>
               </div> */}
             </div>
-            <div className="hidden sm:block">
-              <span className="text-sm font-medium text-gray-600">
-                Success Rate:
-              </span>
-              <span className="ml-1 font-medium text-green-600">
-                {successRate}%
-              </span>
-            </div>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {skills.slice(0, 4).map((skill) => (
@@ -76,10 +64,6 @@ function ListCardFeeds({
           >
             <BookmarkIcon className="h-5 w-5" />
           </Button>
-          <div className="mt-auto text-right">
-            <div className="text-lg font-bold text-primary">${hourlyRate}</div>
-            <div className="text-sm text-gray-600">per hour</div>
-          </div>
         </div>
       </div>
       {/* <div className="flex border-t bg-gray-50 p-3 sm:w-[180px] sm:flex-col sm:justify-center sm:border-l sm:border-t-0">

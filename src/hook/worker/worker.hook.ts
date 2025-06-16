@@ -145,8 +145,13 @@ export const useWorkerProfilePicture = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: ['user'],
+      }); 
+
+      queryClient.invalidateQueries({
         queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
       });
+
     },
   });
 

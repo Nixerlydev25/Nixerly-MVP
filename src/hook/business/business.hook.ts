@@ -75,7 +75,9 @@ export const useBusinessProfilePicture = () => {
       await BusinessService.saveProfilePicture(key);
     },
     onSuccess: () => {
-      toast.success("Profile picture updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.USER],
+      });
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.BUSINESS_PROFILE_DETAILS],
       });

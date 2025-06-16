@@ -34,6 +34,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import FreelancerProfileSkeleton from "./component/Skeleton";
 
 // Helper function to safely cast WorkerProfile to ModalDataType
 const toModalData = (data: unknown): Record<string, unknown> => {
@@ -46,19 +47,16 @@ export default function FreelancerProfileSelfView() {
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   if (!workerDetail) {
-    return <div>Loading...</div>;
+    return <FreelancerProfileSkeleton />;
   }
 
-  console.log({ workerDetail });
 
   const { firstName, lastName, workerProfile } = workerDetail as WorkerUser;
   const fullName = `${firstName} ${lastName}`;
 
   // Use the state value if available, otherwise use the one from the API
   const currentProfilePicture = profilePicture || workerProfile.profilePicture;
-  console.log({ currentProfilePicture });
 
-  console.log(workerProfile.profilePicture, "profilePicture");
   const handleEditProfile = () => {
     openModal(ModalType.EDIT_PROFILE, toModalData(workerProfile));
   };

@@ -14,6 +14,7 @@ import {
   MapPin,
   Plus,
   Search,
+  MoreVertical,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +22,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useListMyJobs } from '@/hook/jobs/jobs.hooks';
 import { ROUTES } from '@/lib/routes';
 import JobsSkeleton from './_components/jobs-skeleton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface JobApplicant {
   id: string;
@@ -99,8 +117,6 @@ export default function BusinessDashboard() {
       </div>
     );
   }
-
-  console.log(jobs);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -193,11 +209,10 @@ export default function BusinessDashboard() {
                   <Card 
                     key={job.id}
                     className="cursor-pointer hover:shadow-md transition-shadow"
-                    onClick={() => handleJobClick(job.id)}
                   >
                     <CardHeader>
                       <div className="flex flex-col md:flex-row justify-between gap-4">
-                        <div className="space-y-2">
+                        <div className="space-y-2" onClick={() => handleJobClick(job.id)}>
                           <div className="flex items-center gap-2">
                             <CardTitle>{job.title}</CardTitle>
                             <Badge
@@ -249,6 +264,37 @@ export default function BusinessDashboard() {
                               .join(' ')
                               .toLowerCase()}
                           </Badge>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                    Close Job
+                                  </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Close this job posting?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      This action will mark the job as closed and it will no longer be visible to potential applicants.
+                                      You will still be able to view and contact existing applicants.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => {}} disabled={false}>
+                                      Close Job
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
                       </div>
                     </CardHeader>

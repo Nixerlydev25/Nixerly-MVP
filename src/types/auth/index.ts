@@ -101,6 +101,7 @@ export interface TBusinessProfile {
   onboardingStep?: OnboardingStepBusinessProfileB;
   profilePicture?: string | null;
   assets?: TBusinessAsset[];
+  createdAt: string;
 }
 
 export interface TBusinessProfileResponse {

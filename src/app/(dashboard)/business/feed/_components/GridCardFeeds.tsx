@@ -27,10 +27,10 @@ function CardFeeds({
 }: CardProps) {
   const router = useRouter();
   return (
-    <Card key={id} className="overflow-hidden">
+    <Card key={id} className="overflow-hidden cursor-pointer">
       <CardHeader className="p-4 pb-0">
         <div className="flex items-start justify-between">
-          <div className="flex gap-4">
+          <div className="flex gap-4"  onClick={() => router.push(`/profile/worker/${id}`)} >
             <Image
               src={avatar || '/placeholder.svg'}
               width={60}
@@ -56,25 +56,6 @@ function CardFeeds({
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <div>
-            <span className="text-sm font-medium text-gray-600">
-              Hourly Rate:
-            </span>
-            <span className="ml-1 text-lg font-bold text-primary">
-              ${hourlyRate}
-            </span>
-            <span className="text-sm text-gray-600">/hr</span>
-          </div>
-          <div className="text-right">
-            <span className="text-sm font-medium text-gray-600">
-              Success Rate:
-            </span>
-            <span className="ml-1 font-medium text-green-600">
-              {successRate}%
-            </span>
-          </div>
-        </div>
         <p className="mb-3 text-sm text-gray-600">
           <UserIcon className="mr-1 inline-block h-4 w-4" />
           {location}
@@ -89,16 +70,7 @@ function CardFeeds({
           })}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between border-t bg-gray-50 p-4">
-        <Button
-          variant="outline"
-          className="w-full cursor-pointer"
-          onClick={() => router.push(`/profile/worker/${id}`)}
-        >
-          View Profile
-        </Button>
-        {/* <Button className="w-[48%]">Contact</Button> */}
-      </CardFooter>
+
     </Card>
   );
 }

@@ -25,6 +25,27 @@ export function ImageCarouselModal() {
     }
   }, [typedModalData?.startIndex])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeModal !== ModalType.IMAGE_CAROUSEL) return
+
+      switch (e.key) {
+        case "ArrowRight":
+          goToNext()
+          break
+        case "ArrowLeft":
+          goToPrev()
+          break
+        case "Escape":
+          closeModal()
+          break
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [activeModal, closeModal])
+
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length)
   }
@@ -78,7 +99,7 @@ export function ImageCarouselModal() {
 
   return (
     <Dialog open={activeModal === ModalType.IMAGE_CAROUSEL} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-6xl p-0 bg-black/95 border-0">
+      <DialogContent className="sm:max-w-6xl shadow-none p-0 bg-transparent border-0">
         <div className="relative h-[85vh] flex items-center justify-center overflow-hidden">
           {/* Close button */}
           <Button

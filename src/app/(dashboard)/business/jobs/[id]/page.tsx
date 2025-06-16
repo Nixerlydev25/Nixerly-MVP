@@ -31,6 +31,18 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import JobApplicantsPageSkeleton from './_components/job-applicants-skeleton';
 import { useDebounce } from '@/hook/common/useDebounce';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { ROUTES } from '@/lib/routes';
 
 // const ITEMS_PER_PAGE = 10;
 
@@ -49,8 +61,6 @@ export default function JobApplicantsPage() {
 
   const { data: job } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
-
-  console.log({ applicantsData });
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -111,9 +121,9 @@ export default function JobApplicantsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
         <Button variant="ghost" size="sm" asChild className="mb-4">
-          <Link href="/business/dashboard">
+          <Link href={`${ROUTES.MY_JOBS}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
+            Back to
           </Link>
         </Button>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -121,14 +131,31 @@ export default function JobApplicantsPage() {
             <h1 className="text-2xl font-bold">{job && job?.title}</h1>
             <p className="text-muted-foreground mt-1">
               {applicantsData?.applicants?.length || 0} applicant
-              {applicantsData?.applicants?.length !== 1 ? 's' : ''}
+              {applicantsData?.applicants?.length !== 1 ? "s" : ""}
             </p>
           </div>
-          {/* <div className="flex gap-2">
-            <Button>
-              <ExternalLink className="mr-2 h-4 w-4" /> View Job Post
-            </Button>
-          </div> */}
+          <div className="flex gap-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">Close Job</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Close this job posting?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action will mark the job as closed and it will no longer be visible to potential applicants.
+                    You will still be able to view and contact existing applicants.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => {}} disabled={false}>
+                    {"Close Job"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </div>
 

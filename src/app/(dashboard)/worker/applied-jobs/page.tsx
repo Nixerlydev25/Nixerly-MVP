@@ -41,7 +41,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import JobApplicationsSkeleton from './components/JobApplicationSkeleton';
-import { Application } from '@/types/application/application.type';
+import { Application } from './types/appliedjob.types';
 
 interface FilterState {
   search: string;
@@ -66,6 +66,7 @@ function useDebounce<T>(value: T, delay: number): T {
 
 export default function AppliedJobsPage() {
   const { data, isLoading } = useGetAppliedJobs();
+  console.log({data})
   const searchParams = useSearchParams();
   const router = useRouter();
   const [filters, setFilters] = useState<FilterState>({
@@ -260,7 +261,7 @@ export default function AppliedJobsPage() {
             <span className="text-sm font-medium">Active filters:</span>
             {filters.search && (
               <Badge variant="secondary" className="gap-1">
-                Search: "{filters.search}"
+                Search: &quot;{filters.search}&quot;
                 <X
                   className="h-3 w-3 cursor-pointer"
                   onClick={() => updateFilter('search', '')}
@@ -415,34 +416,34 @@ export default function AppliedJobsPage() {
           )}
 
         {/* Pagination */}
-        {data?.applications?.length > 10 && (
+        {data?.applications && data.applications.length > 10 && (
           <div className="flex items-center justify-between mt-8">
             <div className="text-sm text-muted-foreground">
-              Showing page {data?.pagination?.currentPage} of{' '}
-              {data?.pagination?.totalPages} ({data?.applications?.length} of{' '}
-              {data?.pagination?.totalCount} applications)
+              Showing page {data.pagination?.currentPage || 1} of{' '}
+              {data.pagination?.totalPages || 1} ({data.applications.length} of{' '}
+              {data.pagination?.totalCount || 0} applications)
             </div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  handlePageChange(data.pagination.currentPage - 1)
+                  handlePageChange((data.pagination?.currentPage || 1) - 1)
                 }
-                disabled={data?.pagination?.currentPage === 1}
+                disabled={!data.pagination?.currentPage || data.pagination.currentPage <= 1}
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
                 Previous
               </Button>
               <div className="flex items-center gap-1">
-                {Array.from(
-                  { length: data?.pagination?.totalPages },
+                {data.pagination?.totalPages && Array.from(
+                  { length: data.pagination.totalPages },
                   (_, i) => i + 1
                 ).map((page) => (
                   <Button
                     key={page}
                     variant={
-                      page === data?.pagination?.currentPage
+                      page === data.pagination?.currentPage
                         ? 'default'
                         : 'outline'
                     }
@@ -458,9 +459,9 @@ export default function AppliedJobsPage() {
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  handlePageChange(data.pagination.currentPage + 1)
+                  handlePageChange((data.pagination?.currentPage || 1) + 1)
                 }
-                disabled={!data?.pagination?.hasMore}
+                disabled={!data.pagination?.hasMore}
               >
                 Next
                 <ChevronRight className="h-4 w-4 ml-1" />

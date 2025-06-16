@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import S3Service from '@/services/s3/s3.service';
 import { z } from 'zod';
 import { queryClient } from '@/providers/query.provider';
+import { AppliedJobsData, AppliedJobsResponse } from '@/app/(dashboard)/worker/applied-jobs/types/appliedjob.types';
 
 export const useGetWorkers = (enabled?: boolean) => {
   const searchParams = useSearchParams();
@@ -178,23 +179,6 @@ export const useWorkerProfilePicture = () => {
   };
 };
 
-// Define the applied jobs response type
-interface AppliedJobsResponse {
-  data: Array<{
-    id: string;
-    title: string;
-    status: string;
-    appliedAt: string;
-    // Add other fields as needed
-  }>;
-  pagination: {
-    totalCount: number;
-    totalPages: number;
-    currentPage: number;
-    hasMore: boolean;
-  };
-}
-
 export const useGetAppliedJobs = () => {
   const searchParams = useSearchParams();
 
@@ -230,14 +214,16 @@ export const useGetAppliedJobs = () => {
     return filters.page || 1;
   }, [filters.page]);
 
-  const query = useQuery<AppliedJobsResponse>({
+  const { data, ...rest } = useQuery<AppliedJobsResponse, Error, AppliedJobsResponse>({
     queryKey: [QueryKeys.GET_APPLIED_JOBS, filters],
     queryFn: () => WorkerService.getAppliedJobs(filters),
     enabled: !!filters.page,
   });
 
+  console.log(data)
   return {
-    ...query,
+    data: data,
+    ...rest,
     currentPage,
     filters,
   };

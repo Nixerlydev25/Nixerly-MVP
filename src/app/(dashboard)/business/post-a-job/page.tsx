@@ -40,7 +40,6 @@ import { useCreateJob } from "@/hook/jobs/jobs.hooks";
 import { LocationSearch } from "@/components/location-search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Define the form schema with Zod
 const formSchema = z
   .object({
     title: z
@@ -129,13 +128,12 @@ const parseInputDate = (dateString: string): Date => {
   return new Date(dateString);
 };
 
-// Section Header Component
 const SectionHeader = ({
   icon: Icon,
   title,
   description,
 }: {
-  icon: any;
+  icon: React.ElementType;
   title: string;
   description: string;
 }) => (
@@ -148,75 +146,6 @@ const SectionHeader = ({
       <p className="text-sm text-gray-600">{description}</p>
     </div>
   </div>
-);
-
-// Job Posting SVG Illustration
-const JobPostingSVG = () => (
-  <svg viewBox="0 0 400 300" className="w-full h-48 mb-6">
-    <defs>
-      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.1" />
-        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0.2" />
-      </linearGradient>
-    </defs>
-
-    {/* Background */}
-    <rect width="400" height="300" fill="url(#grad1)" rx="12" />
-
-    {/* Desk */}
-    <rect
-      x="50"
-      y="180"
-      width="300"
-      height="80"
-      fill="#8B5CF6"
-      opacity="0.3"
-      rx="8"
-    />
-
-    {/* Computer Screen */}
-    <rect x="120" y="120" width="160" height="100" fill="#1F2937" rx="8" />
-    <rect
-      x="130"
-      y="130"
-      width="140"
-      height="80"
-      fill="#3B82F6"
-      opacity="0.2"
-      rx="4"
-    />
-
-    {/* Job Posting Lines */}
-    <rect x="140" y="140" width="80" height="4" fill="#3B82F6" rx="2" />
-    <rect x="140" y="150" width="120" height="3" fill="#6B7280" rx="1.5" />
-    <rect x="140" y="160" width="100" height="3" fill="#6B7280" rx="1.5" />
-    <rect x="140" y="170" width="90" height="3" fill="#6B7280" rx="1.5" />
-
-    {/* Floating Elements */}
-    <circle cx="80" cy="80" r="20" fill="#10B981" opacity="0.3" />
-    <rect
-      x="320"
-      y="60"
-      width="30"
-      height="30"
-      fill="#F59E0B"
-      opacity="0.3"
-      rx="6"
-    />
-    <circle cx="350" cy="200" r="15" fill="#EF4444" opacity="0.3" />
-
-    {/* Person Silhouette */}
-    <circle cx="200" cy="80" r="25" fill="#6366F1" opacity="0.4" />
-    <rect
-      x="185"
-      y="100"
-      width="30"
-      height="40"
-      fill="#6366F1"
-      opacity="0.4"
-      rx="15"
-    />
-  </svg>
 );
 
 export default function PostJobPage() {
@@ -322,7 +251,6 @@ export default function PostJobPage() {
     <div className="min-h-screen bg-nixerly-form-gradient py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
           <div className="flex flex-col mb-8">
             <h1 className="text-4xl font-title text-gray-900 mb-2">
               Post a New Job
@@ -340,7 +268,6 @@ export default function PostJobPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-12"
               >
-                {/* Section 1: Job Details */}
                 <div>
                   <SectionHeader
                     icon={FileText}
@@ -382,7 +309,7 @@ export default function PostJobPage() {
                           </FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Describe the job responsibilities, requirements, and any other relevant details..."
+                              placeholder="Describe the job responsibilities, requirements, and other relevant details..."
                               className="min-h-32 text-base"
                               {...field}
                             />
@@ -424,7 +351,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 2: Job Type & Compensation */}
                 <div>
                   <SectionHeader
                     icon={DollarSign}
@@ -581,7 +507,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 3: Skills & Requirements */}
                 <div>
                   <SectionHeader
                     icon={Briefcase}
@@ -591,7 +516,6 @@ export default function PostJobPage() {
 
                   <div className="pl-13">
                     <div className="mb-4">
-                      {/* <TeamSVG /> */}
                     </div>
 
                     <FormField
@@ -676,7 +600,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 4: Timeline & Team */}
                 <div>
                   <SectionHeader
                     icon={Calendar}
@@ -744,7 +667,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 5: Location */}
                 <div>
                   <SectionHeader
                     icon={MapPin}
@@ -828,7 +750,6 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <div className="pt-8 flex justify-end">
                   <Button
                     type="submit"

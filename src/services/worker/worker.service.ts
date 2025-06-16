@@ -5,22 +5,7 @@ import {
   WorkerListResponse,
   WorkerProfileResponse,
 } from '@/types/worker.types';
-
-interface AppliedJobsResponse {
-  data: Array<{
-    id: string;
-    title: string;
-    status: string;
-    appliedAt: string;
-    // Add other fields as needed
-  }>;
-  pagination: {
-    totalCount: number;
-    totalPages: number;
-    currentPage: number;
-    hasMore: boolean;
-  };
-}
+import { AppliedJobsResponse } from '@/app/(dashboard)/worker/applied-jobs/types/appliedjob.types';
 
 class WorkerService {
   static async getWorkers(

@@ -92,7 +92,6 @@ JobApplicationFormProps) {
   });
 
   async function onSubmit(data: ApplicationFormValues) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAccepted, ...submitData } = data;
     await applyJob(
       { id: jobId, data: submitData },

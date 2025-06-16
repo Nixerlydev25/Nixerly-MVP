@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -32,6 +32,17 @@ function DashboardNav() {
   const { mutate: logout } = useLogout();
   const { user, isLoading } = useUser();
   const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (isLoading || !user) {
     return <DashboardNavSkeleton />;
@@ -52,7 +63,9 @@ function DashboardNav() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white">
+    <header className={`sticky top-0 z-50 border-b transition-colors duration-200 ${
+      scrolled ? 'bg-white/80 backdrop-blur-lg' : 'bg-white'
+    }`}>
       <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="md:hidden">

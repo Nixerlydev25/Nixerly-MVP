@@ -19,6 +19,7 @@ import { LocationSearch } from "@/components/location-search";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
 import { ChevronRight } from "lucide-react";
 import { PhoneInputComponent } from "@/components/common/phone-input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export const PersonalInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
@@ -40,11 +41,12 @@ export const PersonalInfo = () => {
       "state",
       "country",
       "phoneNumber",
+      "employmentType",
     ] as const;
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
-      const { title, description, city, state, country, phoneNumber } = formData;
+      const { title, description, city, state, country, phoneNumber, employmentType } = formData;
       
       const workerProfileData = {
         title,
@@ -53,6 +55,7 @@ export const PersonalInfo = () => {
         state,
         country,
         phoneNumber,
+        employmentType,
         onboardingStep : OnboardingStepWorkerProfileB.SKILLS_HOURLY_RATE_INFO
       };
 
@@ -65,6 +68,44 @@ export const PersonalInfo = () => {
     <Card className="p-10 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
       <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">Personal Information</h2>
       <div className="space-y-8">
+        <FormField
+          control={control}
+          name="employmentType"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel className="text-lg text-nixerly-darkgray font-medium">Employment Type</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="SELF_EMPLOYED" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Self Employed
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="PAYEE" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      PAYEE
+                    </FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormDescription>
+                Select your employment type
+              </FormDescription>
+              <FormMessage className="text-nixerly-coral mt-1" />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={control}
           name="title"

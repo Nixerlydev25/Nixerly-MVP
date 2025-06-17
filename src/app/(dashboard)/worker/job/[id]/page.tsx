@@ -288,10 +288,10 @@ export default function JobPostDetail() {
                           >
                             <DollarSign className="h-3 w-3" />
                             {job === 1
-                              ? "$40-50/hr"
+                              ? "€40-50/hr"
                               : job === 2
-                              ? "$20-25/hr"
-                              : "$30-35/hr"}
+                              ? "€20-25/hr"
+                              : "€30-35/hr"}
                           </Badge>
                           <Badge
                             variant="outline"
@@ -330,9 +330,9 @@ export default function JobPostDetail() {
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">
-                        {jobDetails?.budget ? `$${jobDetails.budget}` : ""}
+                        {jobDetails?.budget ? `€${jobDetails.budget}` : ""}
                         {jobDetails?.hourlyRateMin && jobDetails?.hourlyRateMax
-                          ? ` ($${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr)`
+                          ? ` (€${jobDetails.hourlyRateMin}-€${jobDetails.hourlyRateMax}/hr)`
                           : ""}
                       </p>
                       <p className="text-sm text-muted-foreground">

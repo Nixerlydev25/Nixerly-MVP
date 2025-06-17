@@ -230,15 +230,15 @@ export default function BusinessProfilePage() {
                             <Badge variant="outline">{job.jobType}</Badge>
                             {job.jobType === "SALARY" && (
                               <Badge variant="outline">
-                                ${job.salary}/year
+                                {job.salary}€/year
                               </Badge>
                             )}
                             {job.jobType === "CONTRACT" && (
-                              <Badge variant="outline">${job.budget}</Badge>
+                              <Badge variant="outline">{job.budget}€</Badge>
                             )}
                             {job.jobType === "HOURLY" && (
                               <Badge variant="outline">
-                                ${job.hourlyRateMin}-${job.hourlyRateMax}/hr
+                                {job.hourlyRateMin}€-{job.hourlyRateMax}€/hr
                               </Badge>
                             )}
                           </div>

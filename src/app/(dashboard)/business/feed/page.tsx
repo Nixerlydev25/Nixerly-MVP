@@ -19,7 +19,6 @@ import FiltersFeeds from "./_components/FiltersFeeds";
 import CardFeeds from "./_components/GridCardFeeds";
 import ListCardFeeds from "./_components/ListCardFeeds";
 import FeedsPagination from "./_components/FeedsPagination";
-import { ROUTES } from "@/lib/routes";
 import { SearchIcon, X, UserX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -70,9 +69,6 @@ export default function Dashboard() {
   };
 
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
-  const handleWorkerClick = (workerId: string) => {
-    router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
-  };
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
@@ -81,7 +77,7 @@ export default function Dashboard() {
       params.set("page", "1");
     }
     router.replace(`?${params.toString()}`, { scroll: false });
-  };
+  };  
 
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
@@ -200,20 +196,18 @@ export default function Dashboard() {
                       (freelancer: WorkerProfileResponse) => (
                         <div
                           key={freelancer.id}
-                          onClick={() => handleWorkerClick(freelancer.id)}
                           className="cursor-pointer"
                         >
                           <CardFeeds
                             id={freelancer.id}
+                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
                             title={freelancer.title}
                             avatar={freelancer.profilePicture}
-                            successRate={100}
-                            skills={freelancer.skills}
                             rating={freelancer.avgRating}
-                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
-                            location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
+                            location={`${freelancer.city}, ${freelancer.country}`}
+                            skills={freelancer.skills}
                           />
                         </div>
                       )
@@ -225,14 +219,12 @@ export default function Dashboard() {
                       (freelancer: WorkerProfileResponse) => (
                         <div
                           key={freelancer.id}
-                          onClick={() => handleWorkerClick(freelancer.id)}
                           className="cursor-pointer"
                         >
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
                             avatar={freelancer.profilePicture}
-                            successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
                             name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}

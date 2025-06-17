@@ -105,6 +105,7 @@ export const API_ROUTES = {
     APPLY: (id: string) => `/jobs/apply/${id}`,
     GET_MY_JOBS: `/business/get-all-business-jobs`,
     GET_DETAILS: (id?: string) => `/jobs/${id}`,
+    TOGGLE_JOB_STATUS: (jobId: string) => `/jobs/toggle-job-status/${jobId}`,
   },
   REPORT: {
     REPORT_WORKER: (workerId: string) => `/reports/report-worker/${workerId}`,

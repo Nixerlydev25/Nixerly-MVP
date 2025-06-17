@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import JobsService from '@/services/jobs/jobs.service';
 import { QueryKeys } from '@/querykey';
 import {
@@ -183,3 +183,21 @@ export const useGetJobApplicants = (jobId: string) => {
     queryFn: () => JobsService.getJobsApplicants(jobId, params),
   });
 };
+
+
+export const useToggleJobStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [QueryKeys.TOGGLE_JOB_STATUS],
+    mutationFn: (jobId: string) => JobsService.toggleClientJobVisibility(jobId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.JOB_GET_ALL] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.JOB_DETAILS] });
+    },
+
+    onError: (error) => {
+      console.error('Error toggling job status:', error);
+      throw error;
+    },
+  });
+}

@@ -8,13 +8,13 @@ import { ModalType } from "@/types/model"
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks"
 
 type FormValues = {
-  title: string
-  description: string
-  city: string
-  state: string
-  country: string
-  hourlyRate: number
-  availability: boolean
+  title?: string
+  description?: string
+  city?: string
+  state?: string
+  country?: string
+  hourlyRate?: number | string
+  availability?: boolean
 }
 
 export function EditProfileModal() {
@@ -28,10 +28,10 @@ export function EditProfileModal() {
     console.log({values})
     updateWorkerProfileDetails({
       title: values.title,
-      description : values.description,
+      description: values.description,
       city: values.city,
       country: values.country,
-      hourlyRate: values.hourlyRate,
+      hourlyRate: Number(values.hourlyRate),
       availability: values.availability
     })
     closeModal()

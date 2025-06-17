@@ -13,7 +13,7 @@ import { EditBusinessAboutForm } from '../forms/edit-business-about-form';
 import { useUpdateBusinessProfile } from '@/hook/user/user.hooks';
 
 export function EditAboutModal() {
-  const { mutateAsync } = useUpdateBusinessProfile();
+  const { mutateAsync } = useUpdateBusinessProfile(true);
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_BUSINESS_ABOUT;
   const description = ((modalData as Record<string, unknown>)?.description as string) || '';

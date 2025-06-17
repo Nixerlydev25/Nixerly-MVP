@@ -19,6 +19,7 @@ import { ImageCarouselModal } from "./image-carousel-modal";
 import { ShareModal } from "./share-modal";
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
+import ContactModal from "./contact-modal";
 
 const modalComponents = {
   [ModalType.EDIT_PROFILE]: EditProfileModal,
@@ -38,6 +39,7 @@ const modalComponents = {
   [ModalType.MANAGE_COMPANY_IMAGES]: ManageCompanyImagesModal,
   [ModalType.IMAGE_CAROUSEL]: ImageCarouselModal,
   [ModalType.SHARE_MODAL]: ShareModal,
+  [ModalType.CONTACT_MODAL]: ContactModal,
 } as const;
 
 export function Modals() {

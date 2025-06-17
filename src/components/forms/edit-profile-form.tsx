@@ -24,21 +24,24 @@ const formSchema = z.object({
     .string()
     .min(3, "Title must be at least 3 characters")
     .max(100, "Title cannot exceed 100 characters")
-    .nonempty("Title is required"),
+    .optional(),
   description: z
     .string()
     .min(20, "Description must be at least 20 characters")
     .max(1000, "Description cannot exceed 1000 characters")
-    .nonempty("Description is required"),
-  city: z.string().nonempty("City is required"),
-  state: z.string().nonempty("State is required"),
-  country: z.string().nonempty("Country is required"),
-  hourlyRate: z
-    .number()
-    .min(14, "Hourly rate must be at least $14")
-    .max(100, "Hourly rate cannot exceed $100")
-    .int("Hourly rate must be a whole number"),
-  availability: z.boolean(),
+    .optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().optional(),
+  hourlyRate: z.union([
+    z.number().min(14).max(100).int(),
+    z.string().refine((val) => {
+      if (val === "") return true;
+      const num = Number(val);
+      return Number.isInteger(num) && num >= 14 && num <= 100;
+    }, "Hourly rate must be between €14 and €100"),
+  ]).optional(),
+  availability: z.boolean().optional(),
 });
 
 interface EditProfileFormProps {
@@ -54,14 +57,14 @@ export function EditProfileForm({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: defaultValues?.title || "",
-      description: defaultValues?.description || "",
-      city: defaultValues?.city || "",
-      state: defaultValues?.state || "",
-      country: defaultValues?.country || "",
-      hourlyRate: defaultValues?.hourlyRate || 0,
-      availability: defaultValues?.availability || false,
+    defaultValues: defaultValues || {
+      title: "",
+      description: "",
+      city: "",
+      state: "",
+      country: "",
+      hourlyRate: "",
+      availability: true,
     },
   });
 
@@ -115,10 +118,17 @@ export function EditProfileForm({
               <FormLabel>Hourly Rate</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="Enter your hourly rate"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  value={field.value === 0 ? "" : field.value}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || /^\d+$/.test(value)) {
+                      field.onChange(value === "" ? "" : Number(value));
+                    }
+                  }}
                 />
               </FormControl>
               <FormMessage />

@@ -1,9 +1,32 @@
 import { create } from "zustand"
 import { ModalType } from "@/types/model"
+import { TBusinessAsset } from "@/types/auth"
 
-type ModalDataType = Record<string, unknown> | {
-  [key: string]: unknown
+interface ContactModalData {
+  applicant: {
+    workerProfile: {
+      user: {
+        firstName: string;
+        lastName: string;
+        email: string;
+      };
+      profilePicture?: string;
+      phoneNumber: string;
+    };
+    relevantExperience: string;
+  };
 }
+
+export interface ShareModalData {
+  profileUrl: string;
+  profileName: string;
+}
+
+interface CompanyImagesModalData {
+  assets: TBusinessAsset[];
+}
+
+type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | Record<string, unknown>
 
 interface ModalStore {
   activeModal: ModalType

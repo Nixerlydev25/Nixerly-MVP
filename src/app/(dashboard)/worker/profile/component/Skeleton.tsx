@@ -11,7 +11,7 @@ export default function FreelancerProfileSkeleton() {
         {/* Back to dashboard */}
         <Link href="/feed" className="mb-6 inline-flex items-center text-sm font-medium text-blue-600">
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to dashboard
+          Back to dFeed
         </Link>
 
         <div className="grid gap-8 md:grid-cols-3">

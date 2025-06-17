@@ -32,7 +32,7 @@ const getEmployeeCountNumber = (range: string): number => {
 export function Review() {
   const { getValues, trigger } = useFormContext<BusinessOnboardingSchema>();
   const { prevStep } = useBusinessOnboardingNavigation();
-  const { mutateAsync: updateBusinessProfile } = useUpdateBusinessProfile();
+  const { mutateAsync: updateBusinessProfile } = useUpdateBusinessProfile(false);
   const router = useRouter();
   const values = getValues();
 

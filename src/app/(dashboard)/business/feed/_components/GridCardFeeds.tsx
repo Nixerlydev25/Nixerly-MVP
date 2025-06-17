@@ -17,7 +17,6 @@ function CardFeeds({
   id,
   title,
   avatar,
-  successRate,
   skills,
   rating,
   name,

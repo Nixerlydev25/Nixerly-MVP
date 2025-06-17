@@ -18,7 +18,11 @@ import {
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { useGetSingleJob, useGetJobApplicants } from '@/hook/jobs/jobs.hooks';
+import {
+  useGetSingleJob,
+  useGetJobApplicants,
+  useToggleJobStatus,
+} from '@/hook/jobs/jobs.hooks';
 import {
   Dialog,
   DialogContent,
@@ -41,12 +45,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog';
 import { ROUTES } from '@/lib/routes';
+import { ModalType } from '@/types/model';
+import { useModalStore } from '@/store/modal.store';
 
 // const ITEMS_PER_PAGE = 10;
 
 export default function JobApplicantsPage() {
+  const { openModal } = useModalStore();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { id } = useParams<{ id: string }>();
@@ -61,7 +68,7 @@ export default function JobApplicantsPage() {
 
   const { data: job } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
-
+  const { mutate: toggleJobStatus, isPending } = useToggleJobStatus();
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (debouncedSearch) {
@@ -123,7 +130,7 @@ export default function JobApplicantsPage() {
         <Button variant="ghost" size="sm" asChild className="mb-4">
           <Link href={`${ROUTES.MY_JOBS}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to
+            Back to My Jobs
           </Link>
         </Button>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -131,26 +138,32 @@ export default function JobApplicantsPage() {
             <h1 className="text-2xl font-bold">{job && job?.title}</h1>
             <p className="text-muted-foreground mt-1">
               {applicantsData?.applicants?.length || 0} applicant
-              {applicantsData?.applicants?.length !== 1 ? "s" : ""}
+              {applicantsData?.applicants?.length !== 1 ? 's' : ''}
             </p>
           </div>
           <div className="flex gap-2">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive">Close Job</Button>
+                <Button variant="destructive">
+                  {job?.status === 'OPEN' ? 'Close Job' : 'Open Job'}
+                </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Close this job posting?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action will mark the job as closed and it will no longer be visible to potential applicants.
-                    You will still be able to view and contact existing applicants.
+                    This action will mark the job as closed and it will no
+                    longer be visible to potential applicants. You will still be
+                    able to view and contact existing applicants.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => {}} disabled={false}>
-                    {"Close Job"}
+                  <AlertDialogAction
+                    onClick={() => toggleJobStatus(id as string)}
+                    disabled={isPending}
+                  >
+                    {job?.status === 'OPEN' ? 'Close Job' : 'Open Job'}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -172,24 +185,6 @@ export default function JobApplicantsPage() {
                 </p>
               </div>
               <User className="h-8 w-8 text-muted-foreground" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Average Hourly Rate
-                </p>
-                <p className="text-2xl font-bold">
-                  $
-                  {applicantsData?.stats.averageHourlyRateProposed
-                    ? applicantsData?.stats.averageHourlyRateProposed
-                    : 0}
-                </p>
-              </div>
-              <Clock className="h-8 w-8 text-muted-foreground" />
             </div>
           </CardContent>
         </Card>
@@ -226,12 +221,17 @@ export default function JobApplicantsPage() {
                     <Badge variant="outline">{job?.jobType}</Badge>
                     {job?.hourlyRateMin && job?.hourlyRateMax && (
                       <Badge variant="outline">
-                        ${job.hourlyRateMin} - ${job.hourlyRateMax}/hr
+                        {job.hourlyRateMin}€ - {job.hourlyRateMax}€/hr
                       </Badge>
                     )}
                     {job?.salary && (
                       <Badge variant="outline">
-                        ${job.salary.toLocaleString()} salary
+                        {job.salary}€/year
+                      </Badge>
+                    )}
+                    {job?.budget && (
+                      <Badge variant="outline">
+                        {job.budget}€
                       </Badge>
                     )}
                   </div>
@@ -359,10 +359,10 @@ export default function JobApplicantsPage() {
                               <Clock className="h-3.5 w-3.5" />
                               <span>
                                 {job?.jobType === 'HOURLY'
-                                  ? `$${job?.hourlyRateMin}-${job?.hourlyRateMax}/hr`
+                                  ? `${job?.hourlyRateMin}€-${job?.hourlyRateMax}€/hr`
                                   : job?.jobType === 'CONTRACT'
-                                  ? `$${job?.budget} (Fixed)`
-                                  : `$${job?.salary}/year`}
+                                  ? `${job?.budget}€ (Fixed)`
+                                  : `${job?.salary}€/year`}
                               </span>
                             </span>
                             <span>•</span>
@@ -512,136 +512,13 @@ export default function JobApplicantsPage() {
                               <Separator />
 
                               <div className="flex justify-between">
-                                <Dialog>
-                                  <DialogTrigger asChild>
-                                    <Button onClick={handleContactClick}>
-                                      Contact Applicant
-                                    </Button>
-                                  </DialogTrigger>
-                                  <DialogContent className="max-w-md">
-                                    <DialogHeader>
-                                      <DialogTitle>
-                                        Contact Information
-                                      </DialogTitle>
-                                      <DialogDescription>
-                                        Contact details for{' '}
-                                        {applicant.workerProfile.user.firstName}
-                                      </DialogDescription>
-                                    </DialogHeader>
-                                    <div className="space-y-4 py-4">
-                                      <div className="flex items-center gap-4">
-                                        <Avatar className="h-16 w-16">
-                                          <AvatarImage
-                                            src={
-                                              applicant.workerProfile
-                                                .profilePicture || ''
-                                            }
-                                            alt={
-                                              applicant.workerProfile.user
-                                                .firstName +
-                                              ' ' +
-                                              applicant.workerProfile.user
-                                                .lastName
-                                            }
-                                          />
-                                          <AvatarFallback>
-                                            {applicant.workerProfile.user.firstName.charAt(
-                                              0
-                                            )}
-                                          </AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                          <h3 className="font-semibold text-lg">
-                                            {applicant.workerProfile.user
-                                              .firstName +
-                                              ' ' +
-                                              applicant.workerProfile.user
-                                                .lastName}
-                                          </h3>
-                                          <p className="text-sm text-muted-foreground">
-                                            {applicant.relevantExperience?.replace(
-                                              /_/g,
-                                              ' '
-                                            )}{' '}
-                                            Experience
-                                          </p>
-                                        </div>
-                                      </div>
-
-                                      <Separator />
-
-                                      <div className="space-y-3">
-                                        <div className="flex items-center gap-3">
-                                          <Phone className="h-5 w-5 text-muted-foreground" />
-                                          <div>
-                                            <p className="font-medium">Phone</p>
-                                            <p>
-                                              {
-                                                applicant?.workerProfile
-                                                  ?.phoneNumber
-                                              }
-                                            </p>
-                                            <div className="flex gap-2 mt-1">
-                                              <Button
-                                                size="sm"
-                                                variant="outline"
-                                                asChild
-                                              >
-                                                <a
-                                                  href={`tel:${applicant?.workerProfile?.phoneNumber}`}
-                                                >
-                                                  Call
-                                                </a>
-                                              </Button>
-                                              <Button
-                                                size="sm"
-                                                variant="outline"
-                                                asChild
-                                              >
-                                                <a
-                                                  href={`https://wa.me/${applicant?.workerProfile?.phoneNumber?.replace(
-                                                    /[^0-9]/g,
-                                                    ''
-                                                  )}`}
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                                >
-                                                  WhatsApp
-                                                </a>
-                                              </Button>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-3">
-                                          <Mail className="h-5 w-5 text-muted-foreground" />
-                                          <div>
-                                            <p className="font-medium">Email</p>
-                                            <p>
-                                              {
-                                                applicant?.workerProfile?.user
-                                                  ?.email
-                                              }
-                                            </p>
-                                            <div className="mt-1">
-                                              <Button
-                                                size="sm"
-                                                variant="outline"
-                                                asChild
-                                              >
-                                                <a
-                                                  href={`mailto:${applicant?.workerProfile?.user?.email}`}
-                                                >
-                                                  Send Email
-                                                </a>
-                                              </Button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </DialogContent>
-                                </Dialog>
+                                <Button onClick={() => {
+                                  openModal(ModalType.CONTACT_MODAL, {
+                                    applicant,
+                                  });
+                                }}>
+                                  Contact Applicant
+                                </Button>
                               </div>
                             </div>
                           </DialogContent>

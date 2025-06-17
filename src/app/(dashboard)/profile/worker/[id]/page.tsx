@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Award,
   ChevronLeft,
@@ -14,13 +14,14 @@ import {
   GraduationCap,
   MapPin,
   Share2,
-} from "lucide-react";
-import { useGetWorkerById } from "@/hook/worker/worker.hook";
-import { useParams } from "next/navigation";
-import { useModalStore } from "@/store/modal.store";
-import { ModalType } from "@/types/model";
-import { useRouter } from "next/navigation";
-import { FreelancerProfileSkeleton } from "./components/worker-profile-skeleton";
+} from 'lucide-react';
+import { useGetWorkerById } from '@/hook/worker/worker.hook';
+import { useParams } from 'next/navigation';
+import { useModalStore } from '@/store/modal.store';
+import { ModalType } from '@/types/model';
+import { useRouter } from 'next/navigation';
+import { FreelancerProfileSkeleton } from './components/worker-profile-skeleton';
+import { formatCurrency } from '@/app/(dashboard)/worker/feed/_components/utils';
 
 export default function FreelancerProfile() {
   const { id } = useParams<{ id: string }>();
@@ -29,9 +30,7 @@ export default function FreelancerProfile() {
   const router = useRouter();
 
   if (isLoading) {
-    return (
-      <FreelancerProfileSkeleton />
-    );
+    return <FreelancerProfileSkeleton />;
   }
 
   if (!worker) {
@@ -46,14 +45,14 @@ export default function FreelancerProfile() {
   const formattedSkills =
     worker.skills?.map((skill: string) => {
       return skill
-        .replace(/_/g, " ")
+        .replace(/_/g, ' ')
         .toLowerCase()
         .replace(/\b\w/g, (l: string) => l.toUpperCase());
     }) || [];
 
   // Format full name
-  const fullName = `${worker.user?.firstName || ""} ${
-    worker.user?.lastName || ""
+  const fullName = `${worker.user?.firstName || ''} ${
+    worker.user?.lastName || ''
   }`.trim();
 
   console.log(worker);
@@ -81,15 +80,21 @@ export default function FreelancerProfile() {
               <div className="relative">
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
-                    <div 
+                    <div
                       className="relative cursor-pointer group"
-                      onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
-                        images: [{url: worker.profilePicture || "/placeholder.svg"}],
-                        startIndex: 0
-                      })}
+                      onClick={() =>
+                        openModal(ModalType.IMAGE_CAROUSEL, {
+                          images: [
+                            {
+                              url: worker.profilePicture || '/placeholder.svg',
+                            },
+                          ],
+                          startIndex: 0,
+                        })
+                      }
                     >
                       <Image
-                        src={worker.profilePicture || "/placeholder.svg"}
+                        src={worker.profilePicture || '/placeholder.svg'}
                         width={120}
                         height={120}
                         alt={fullName}
@@ -118,7 +123,7 @@ export default function FreelancerProfile() {
                           size="icon"
                           onClick={() =>
                             openModal(ModalType.SHARE_MODAL, {
-                              profileUrl: "example.com",
+                              profileUrl: 'example.com',
                               profileName: fullName,
                             })
                           }
@@ -227,10 +232,10 @@ export default function FreelancerProfile() {
                           <p className="text-sm text-gray-500">
                             {new Date(edu.startDate).toLocaleDateString()} -
                             {edu.currentlyStudying
-                              ? " Present"
+                              ? ' Present'
                               : edu.endDate
                               ? ` ${new Date(edu.endDate).toLocaleDateString()}`
-                              : ""}
+                              : ''}
                           </p>
                           <p className="mt-2 text-gray-700">
                             {edu.description}
@@ -265,7 +270,7 @@ export default function FreelancerProfile() {
                                 <Badge variant="ghost">
                                   {certificate.certificateType.replace(
                                     /_/g,
-                                    " "
+                                    ' '
                                   )}
                                 </Badge>
                               </div>
@@ -273,7 +278,7 @@ export default function FreelancerProfile() {
                                 {certificate.issuingOrg}
                               </p>
                               <p className="text-sm text-gray-500">
-                                Issued:{" "}
+                                Issued:{' '}
                                 {new Date(
                                   certificate.issueDate
                                 ).toLocaleDateString()}
@@ -295,17 +300,19 @@ export default function FreelancerProfile() {
                             </div>
                             <div className="w-24 h-24 flex-shrink-0">
                               {certificate.assets?.length > 0 ? (
-                                <div 
+                                <div
                                   className="relative cursor-pointer group"
-                                  onClick={() => openModal(ModalType.IMAGE_CAROUSEL, {
-                                    images: certificate.assets,
-                                    startIndex: 0
-                                  })}
+                                  onClick={() =>
+                                    openModal(ModalType.IMAGE_CAROUSEL, {
+                                      images: certificate.assets,
+                                      startIndex: 0,
+                                    })
+                                  }
                                 >
                                   <img
                                     src={
                                       certificate.assets[0].url ||
-                                      "/placeholder.svg?height=96&width=96"
+                                      '/placeholder.svg?height=96&width=96'
                                     }
                                     alt={certificate.name}
                                     className="w-full h-full object-cover rounded-md"
@@ -313,7 +320,9 @@ export default function FreelancerProfile() {
                                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100 rounded-md">
                                     <Eye className="h-6 w-6 text-white" />
                                     {certificate.assets.length > 1 && (
-                                      <span className="text-white text-xs mt-1">1 more image</span>
+                                      <span className="text-white text-xs mt-1">
+                                        1 more image
+                                      </span>
                                     )}
                                   </div>
                                 </div>
@@ -353,10 +362,10 @@ export default function FreelancerProfile() {
                           <p className="text-sm text-gray-500">
                             {new Date(exp.startDate).toLocaleDateString()} -
                             {exp.currentlyWorking
-                              ? " Present"
+                              ? ' Present'
                               : exp.endDate
                               ? ` ${new Date(exp.endDate).toLocaleDateString()}`
-                              : ""}
+                              : ''}
                           </p>
                           <p className="text-sm text-gray-500 mt-1">
                             {exp.city}, {exp.state}, {exp.country}
@@ -382,7 +391,7 @@ export default function FreelancerProfile() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-t-lg"></div>
               <div className="mb-4 text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  ${worker.hourlyRate}
+                  {worker.hourlyRate}€
                 </div>
                 <div className="text-gray-600">per hour</div>
               </div>
@@ -391,7 +400,7 @@ export default function FreelancerProfile() {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Availability</span>
                   <span className="font-medium">
-                    {worker.availability ? "Available" : "Unavailable"}
+                    {worker.availability ? 'Available' : 'Unavailable'}
                   </span>
                 </div>
                 <Separator />
@@ -403,8 +412,18 @@ export default function FreelancerProfile() {
                 </div>
               </div>
 
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
-                Contact {worker.user?.firstName || "Worker"}
+              <Button
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+                onClick={() => {
+                  openModal(ModalType.CONTACT_MODAL, {
+                    applicant: {
+                      workerProfile: worker,
+                      relevantExperience: worker.description,
+                    },
+                  });
+                }}
+              >
+                Contact {worker.user?.firstName || 'Worker'}
               </Button>
             </div>
           </div>

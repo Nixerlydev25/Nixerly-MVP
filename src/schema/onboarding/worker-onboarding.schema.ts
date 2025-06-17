@@ -47,6 +47,9 @@ export const workerOnboardingSchema = z.object({
   phoneNumber: z
     .string({ required_error: 'Phone number is required' })
     .regex(/^\+[1-9]\d{7,14}$/, 'Invalid phone number format. Please enter a valid international phone number starting with +.'),
+  employmentType: z.enum(['SELF_EMPLOYED', 'PAYEE'], {
+    required_error: 'Please select your employment type',
+  }),
 
   // Professional Info
   title: z
@@ -54,7 +57,7 @@ export const workerOnboardingSchema = z.object({
     .min(2, 'Title must be at least 2 characters'),
   hourlyRate: z
     .number({ required_error: 'Hourly rate is required' })
-    .min(14, 'Hourly rate must be at least $14'),
+    .min(14, 'Hourly rate must be at least €14'),
   description: z
     .string({ required_error: 'Description is required' })
     .min(50, 'Description must be at least 50 characters'),

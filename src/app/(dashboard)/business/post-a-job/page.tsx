@@ -39,6 +39,7 @@ import workerData from "@/data/onboarding/worker.json";
 import { useCreateJob } from "@/hook/jobs/jobs.hooks";
 import { LocationSearch } from "@/components/location-search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const formSchema = z
   .object({
@@ -93,12 +94,12 @@ const formSchema = z
   })
   .refine(
     (data) => {
-      if (
-        data.jobType === "HOURLY" &&
-        data.hourlyRateMin !== undefined &&
-        data.hourlyRateMax !== undefined
-      ) {
-        return data.hourlyRateMax >= data.hourlyRateMin;
+      if (data.jobType === "HOURLY") {
+        return (
+          data.hourlyRateMin !== undefined &&
+          data.hourlyRateMax !== undefined &&
+          data.hourlyRateMax >= data.hourlyRateMin
+        );
       }
 
       if (data.jobType === "SALARY") {
@@ -119,14 +120,6 @@ const formSchema = z
   );
 
 type FormSchema = z.infer<typeof formSchema>;
-
-const formatDateForInput = (date: Date): string => {
-  return date.toISOString().split("T")[0];
-};
-
-const parseInputDate = (dateString: string): Date => {
-  return new Date(dateString);
-};
 
 const SectionHeader = ({
   icon: Icon,
@@ -198,7 +191,7 @@ export default function PostJobPage() {
     },
   });
 
-  const { mutateAsync: createJob } = useCreateJob();
+  const { mutateAsync: createJob, isPending } = useCreateJob();
 
   function onSubmit(values: FormSchema) {
     const {
@@ -245,6 +238,17 @@ export default function PostJobPage() {
       "skills",
       currentSkills.filter((skill) => skill !== skillToRemove)
     );
+  };
+
+  const handleJobTypeChange = (value: string) => {
+    // Reset all rate/budget/salary fields when job type changes
+    form.setValue("hourlyRateMin", undefined);
+    form.setValue("hourlyRateMax", undefined);
+    form.setValue("budget", undefined);
+    form.setValue("salary", undefined);
+    
+    // Set the new job type
+    form.setValue("jobType", value as "HOURLY" | "SALARY" | "CONTRACT");
   };
 
   return (
@@ -369,7 +373,7 @@ export default function PostJobPage() {
                           </FormLabel>
                           <Tabs
                             defaultValue={field.value}
-                            onValueChange={field.onChange}
+                            onValueChange={handleJobTypeChange}
                             className="w-full"
                           >
                             <TabsList className="grid w-full grid-cols-3">
@@ -617,13 +621,9 @@ export default function PostJobPage() {
                             Start Date
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              type="date"
-                              value={formatDateForInput(field.value)}
-                              onChange={(e) =>
-                                field.onChange(parseInputDate(e.target.value))
-                              }
-                              className="h-12 text-base"
+                            <DatePicker
+                              selected={field.value}
+                              onSelect={field.onChange}
                             />
                           </FormControl>
                           <FormDescription>
@@ -754,6 +754,7 @@ export default function PostJobPage() {
                   <Button
                     type="submit"
                     className="text-md font-semibold py-6 px-6"
+                    disabled={isPending}
                   >
                     Post Job
                   </Button>

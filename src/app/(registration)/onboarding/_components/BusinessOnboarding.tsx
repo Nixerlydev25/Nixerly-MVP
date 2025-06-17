@@ -43,7 +43,7 @@ export function BusinessOnboarding() {
   });
 
   const { currentStep } = useBusinessOnboardingNavigation();
-  const { mutateAsync: updateBusinessUser } = useUpdateBusinessProfile();
+  const { mutateAsync: updateBusinessUser } = useUpdateBusinessProfile(false);
   // const router = useRouter();
 
   const onSubmit: SubmitHandler<BusinessOnboardingSchema> = async (data) => {

@@ -6,7 +6,6 @@ export interface CardProps {
   rating: number;
   jobsCompleted: number;
   hourlyRate: number;
-  successRate: number;
   location: string;
   skills: string[];
 }

@@ -2,8 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formateSkills } from "@/lib/utils";
 import { CardProps } from "@/types/feed/feed.types";
+import { ROUTES } from "@/lib/routes";
 import { BookmarkIcon, StarIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function ListCardFeeds({
@@ -14,12 +16,13 @@ function ListCardFeeds({
   name,
   location,
 }: CardProps) {
+  const router = useRouter();
   return (
     <div
       key={id}
       className="flex flex-col border-b sm:flex-row hover:bg-gray-100 py-4"
     >
-      <div className="flex flex-1 items-start p-4">
+      <div className="flex flex-1 items-start p-4" onClick={()=>router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)} >
         <Image
           src={avatar || "/placeholder.svg"}
           width={100}
@@ -66,18 +69,6 @@ function ListCardFeeds({
           </Button>
         </div>
       </div>
-      {/* <div className="flex border-t bg-gray-50 p-3 sm:w-[180px] sm:flex-col sm:justify-center sm:border-l sm:border-t-0">
-        <div className="mr-3 block sm:hidden">
-          <div className="text-lg font-bold text-blue-600">${hourlyRate}</div>
-          <div className="text-sm text-gray-600">per hour</div>
-        </div>
-        <div className="flex flex-1 flex-col gap-2">
-          <Button className="w-full bg-blue-600">Contact</Button>
-          <Button variant="outline" className="w-full">
-            View Profile
-          </Button>
-        </div>
-      </div> */}
     </div>
   );
 }

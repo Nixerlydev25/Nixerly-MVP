@@ -83,7 +83,7 @@ export default function FreelancerProfileSelfView() {
           className="mb-6 inline-flex items-center text-sm font-medium text-blue-600"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to dashboard
+          Back to Feed
         </Link>
 
         <div className="grid gap-8 md:grid-cols-3">
@@ -156,20 +156,6 @@ export default function FreelancerProfileSelfView() {
                   </div>
 
                   <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                    <div className="flex items-center">
-                      <StarIcon className="mr-1 h-5 w-5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium">
-                        {workerProfile.avgRating.toFixed(1)}
-                      </span>
-                      <span className="ml-1 text-gray-500">
-                        ({workerProfile.completedJobs} reviews)
-                      </span>
-                    </div>
-                    <div className="flex items-center text-green-600">
-                      <CheckCircle2 className="mr-1 h-4 w-4" />
-                      {workerProfile.completedJobs > 0 ? "100%" : "0%"} Job
-                      Success
-                    </div>
                     <div className="flex items-center">
                       <Clock className="mr-1 h-4 w-4 text-gray-500" />
                       <span>

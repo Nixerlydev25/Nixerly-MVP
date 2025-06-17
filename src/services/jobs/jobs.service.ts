@@ -82,6 +82,13 @@ class JobsService {
     );
     return response.data.data;
   }
+
+  static async toggleClientJobVisibility(jobId: string) {
+    const response = await instance.post(
+      API_ROUTES.JOB.TOGGLE_JOB_STATUS(jobId)
+    );
+    return response.data;
+  }
 }
 
 export default JobsService;

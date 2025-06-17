@@ -21,5 +21,6 @@ export enum ModalType {
   MANAGE_COMPANY_IMAGES = 'MANAGE_COMPANY_IMAGES',
   IMAGE_CAROUSEL = 'IMAGE_CAROUSEL',
   SHARE_MODAL = 'SHARE_MODAL',
+  CONTACT_MODAL = 'CONTACT_MODAL',
   // Add more modal types here as needed
 }

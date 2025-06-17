@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useListMyJobs } from '@/hook/jobs/jobs.hooks';
+import { useListMyJobs, useToggleJobStatus } from '@/hook/jobs/jobs.hooks';
 import { ROUTES } from '@/lib/routes';
 import JobsSkeleton from './_components/jobs-skeleton';
 import {
@@ -72,6 +72,7 @@ export default function BusinessDashboard() {
   const jobs = data?.jobs as Job[] | undefined;
   const [searchQuery, setSearchQuery] = useState('');
   const currentStatus = searchParams.get('status') || 'ALL';
+  const { mutate: toggleJobStatus, isPending } = useToggleJobStatus();
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(window.location.search);
@@ -287,8 +288,8 @@ export default function BusinessDashboard() {
                                   </AlertDialogHeader>
                                   <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => {}} disabled={false}>
-                                      Close Job
+                                    <AlertDialogAction onClick={() => toggleJobStatus(job.id)} disabled={isPending}>
+                                      {job.status === 'OPEN' ? 'Close Job' : 'Open Job'}
                                     </AlertDialogAction>
                                   </AlertDialogFooter>
                                 </AlertDialogContent>

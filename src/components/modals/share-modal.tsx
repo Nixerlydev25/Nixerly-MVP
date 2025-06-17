@@ -7,14 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Copy, Facebook, Twitter, Linkedin, Mail, MessageCircle, Check } from "lucide-react"
-import { useModalStore } from "@/store/modal.store"
+import { useModalStore, ShareModalData } from "@/store/modal.store"
 import { ModalType } from "@/types/model"
 
 export function ShareModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
   const isOpen = activeModal === ModalType.SHARE_MODAL
-  const profileUrl = (modalData?.profileUrl ?? '') as string
-  const profileName = (modalData?.profileName ?? '') as string
+  const profileUrl = ((modalData as ShareModalData)?.profileUrl ?? '') as string
+  const profileName = ((modalData as ShareModalData)?.profileName ?? '') as string
   const [copied, setCopied] = useState(false)
 
   const handleCopyLink = async () => {

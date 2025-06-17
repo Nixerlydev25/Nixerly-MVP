@@ -180,14 +180,14 @@ export const SkillsInfo = () => {
                 <Input
                   type="number"
                   min={14}
-                  placeholder="Enter your hourly rate (minimum $14)"
+                  placeholder="Enter your hourly rate (minimum €14)"
                   {...field}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20"
                 />
               </FormControl>
               <FormDescription>
-                Specify your hourly rate in your local currency (minimum $14)
+                Specify your hourly rate in your local currency (minimum €14)
               </FormDescription>
               <FormMessage className="text-nixerly-coral mt-1" />
             </FormItem>

@@ -207,7 +207,10 @@ function DashboardNav() {
                   alt={`${user.firstName} ${user.lastName}'s avatar`}
                 />
                 <span className="hidden md:inline-block text-sm font-medium ml-2">
-                  {user.firstName} {user.lastName}
+                  {
+                    isBusinessProfile ? user.businessProfile?.companyName :
+                  `${user.firstName} ${user.lastName}`
+                  }
                 </span>
               </Button>
             </DropdownMenuTrigger>

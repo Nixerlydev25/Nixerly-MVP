@@ -49,6 +49,11 @@ export interface TUser {
   firstTimeLogin: boolean;
   businessProfile?: {
     profilePicture?: string | null;
+    city?: string | null;
+    companyName?: string | null;
+    country?: string | null;
+    industry?: string | null;
+    phoneNumber?: string | null;
   };
   workerProfile?: {
     profilePicture?: string | null;

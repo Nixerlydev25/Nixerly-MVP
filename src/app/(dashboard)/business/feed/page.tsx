@@ -19,9 +19,12 @@ import FiltersFeeds from "./_components/FiltersFeeds";
 import CardFeeds from "./_components/GridCardFeeds";
 import ListCardFeeds from "./_components/ListCardFeeds";
 import FeedsPagination from "./_components/FeedsPagination";
-import { SearchIcon, X, UserX } from "lucide-react";
+import { SearchIcon, X, UserX, Megaphone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import Link from "next/link";
+import JobBanner from "./_components/JobBanner";
 
 enum SortOption {
   RATING = "rating",
@@ -77,7 +80,7 @@ export default function Dashboard() {
       params.set("page", "1");
     }
     router.replace(`?${params.toString()}`, { scroll: false });
-  };  
+  };
 
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
@@ -91,11 +94,12 @@ export default function Dashboard() {
       ) : (
         <div className="flex min-h-screen flex-col py-10 bg-nixerly-form-gradient">
           <div className="container mx-auto px-4">
+            <JobBanner />
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
               <div>
-                <h1 className="text-4xl font-bold font-title">
+                {/* <h1 className="text-4xl font-bold font-title">
                   Find Top Talent
-                </h1>
+                </h1> */}
                 <p className="mt-1 text-gray-500 font-subtitle">
                   Browse profiles of skilled professionals ready to work on your
                   projects
@@ -188,16 +192,15 @@ export default function Dashboard() {
                   <div className="flex flex-col items-center justify-center py-12 text-gray-500">
                     <UserX className="h-16 w-16 mb-4" />
                     <h3 className="text-lg font-medium">No talent found</h3>
-                    <p className="text-sm">Please adjust your search criteria to find matching talent</p>
+                    <p className="text-sm">
+                      Please adjust your search criteria to find matching talent
+                    </p>
                   </div>
                 ) : viewMode === "card" ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div
-                          key={freelancer.id}
-                          className="cursor-pointer"
-                        >
+                        <div key={freelancer.id} className="cursor-pointer">
                           <CardFeeds
                             id={freelancer.id}
                             name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
@@ -217,10 +220,7 @@ export default function Dashboard() {
                   <div>
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div
-                          key={freelancer.id}
-                          className="cursor-pointer"
-                        >
+                        <div key={freelancer.id} className="cursor-pointer">
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}

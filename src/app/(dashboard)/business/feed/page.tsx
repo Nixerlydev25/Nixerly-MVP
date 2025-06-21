@@ -82,6 +82,7 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
+  
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
     localStorage.setItem("businessFeedViewMode", mode);

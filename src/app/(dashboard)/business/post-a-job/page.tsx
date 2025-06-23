@@ -53,22 +53,10 @@ const formSchema = z
     requirements: z
       .string()
       .min(20, { message: "Requirements must be at least 20 characters" }),
-    budget: z
-      .number()
-      .positive({ message: "Budget must be a positive number" })
-      .optional(),
-    hourlyRateMin: z
-      .number()
-      .positive({ message: "Minimum hourly rate must be a positive number" })
-      .optional(),
-    hourlyRateMax: z
-      .number()
-      .positive({ message: "Maximum hourly rate must be a positive number" })
-      .optional(),
-    salary: z
-      .number()
-      .positive({ message: "Salary must be a positive number" })
-      .optional(),
+    budget: z.number().positive({ message: "Budget must be a positive number" }).optional(),
+    hourlyRateMin: z.number().positive({ message: "Minimum hourly rate must be a positive number" }).optional(),
+    hourlyRateMax: z.number().positive({ message: "Maximum hourly rate must be a positive number" }).optional(),
+    salary: z.number().positive({ message: "Salary must be a positive number" }).optional(),
     status: z.enum(["OPEN", "CLOSED", "FILLED", "EXPIRED"], {
       required_error: "Please select a job status",
     }),
@@ -101,21 +89,35 @@ const formSchema = z
           data.hourlyRateMax >= data.hourlyRateMin
         );
       }
-
-      if (data.jobType === "SALARY") {
-        return data.salary !== undefined && data.salary > 0;
-      }
-
-      if (data.jobType === "CONTRACT") {
-        return data.budget !== undefined && data.budget > 0;
-      }
-
       return true;
     },
     {
-      message:
-        "Maximum hourly rate must be greater than or equal to minimum hourly rate",
+      message: "Maximum hourly rate must be greater than or equal to minimum hourly rate",
       path: ["hourlyRateMax"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.jobType === "SALARY") {
+        return data.salary !== undefined && data.salary > 0;
+      }
+      return true;
+    },
+    {
+      message: "Please enter a valid salary",
+      path: ["salary"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.jobType === "CONTRACT") {
+        return data.budget !== undefined && data.budget > 0;
+      }
+      return true;
+    },
+    {
+      message: "Please enter a valid budget",
+      path: ["budget"],
     }
   );
 
@@ -162,32 +164,32 @@ export default function PostJobPage() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "Experienced Electrician Needed for Residential Wiring",
-      description:
-        "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
-      requirements:
-        "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
-      budget: 1500,
-      hourlyRateMin: 25,
-      hourlyRateMax: 40,
+    //   title: "Experienced Electrician Needed for Residential Wiring",
+    //   description:
+    //     "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
+    //   requirements:
+    //     "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
+    //   budget: 1500,
+    //   hourlyRateMin: 25,
+    //   hourlyRateMax: 40,
       status: "OPEN",
-      skills: [
-        "QUALITY_CONTROL",
-        "CODE_COMPLIANCE",
-        "STRUCTURAL_ASSESSMENT",
-        "INSTRUMENT_TECHNICIAN",
-        "MAINTENANCE_TECHNICIAN",
-        "ELECTRONICS_TECHNICIAN",
-        "CALIBRATION_SPECIALIST",
-      ],
-      jobType: "HOURLY",
-      startDate: new Date(),
-      numberOfWorkersRequired: 1,
-      location: {
-        city: "New York",
-        state: "NY",
-        country: "USA",
-      },
+    //   skills: [
+    //     "QUALITY_CONTROL",
+    //     "CODE_COMPLIANCE",
+    //     "STRUCTURAL_ASSESSMENT",
+    //     "INSTRUMENT_TECHNICIAN",
+    //     "MAINTENANCE_TECHNICIAN",
+    //     "ELECTRONICS_TECHNICIAN",
+    //     "CALIBRATION_SPECIALIST",
+    //   ],
+    //   jobType: "HOURLY",
+    //   startDate: new Date(),
+    //   numberOfWorkersRequired: 1,
+    //   location: {
+    //     city: "New York",
+    //     state: "NY",
+    //     country: "USA",
+    //   },
     },
   });
 
@@ -247,10 +249,17 @@ export default function PostJobPage() {
     form.setValue("budget", undefined);
     form.setValue("salary", undefined);
     
+    // Clear errors for all compensation fields
+    form.clearErrors("hourlyRateMin");
+    form.clearErrors("hourlyRateMax");
+    form.clearErrors("budget");
+    form.clearErrors("salary");
+    
     // Set the new job type
     form.setValue("jobType", value as "HOURLY" | "SALARY" | "CONTRACT");
   };
 
+  console.log(form.formState.errors,"errors")
   return (
     <div className="min-h-screen bg-nixerly-form-gradient py-12">
       <div className="container mx-auto px-4">
@@ -694,7 +703,6 @@ export default function PostJobPage() {
                                     country: location.country,
                                   });
                                 }}
-                                defaultValue={`${field.value.city}, ${field.value.state}, ${field.value.country}`}
                               />
                             </FormControl>
                             <FormDescription>
@@ -712,7 +720,7 @@ export default function PostJobPage() {
                                 <Input
                                   placeholder="Enter street address"
                                   className="h-12 text-base"
-                                  value={field.value.street || ""}
+                                  value={field?.value?.street || ""}
                                   onChange={(e) =>
                                     field.onChange({
                                       ...field.value,
@@ -732,7 +740,7 @@ export default function PostJobPage() {
                                 <Input
                                   placeholder="Enter postal code"
                                   className="h-12 text-base"
-                                  value={field.value.postalCode || ""}
+                                  value={field.value?.postalCode || ""}
                                   onChange={(e) =>
                                     field.onChange({
                                       ...field.value,

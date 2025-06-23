@@ -15,15 +15,15 @@ export default function ProfessionalSignupForm() {
 
   const form = useForm<ProfessionalSignUpFormValues>({
     resolver: zodResolver(professionalSignUpSchema),
-    defaultValues: {
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-      confirmPassword: "password123",
-      profileType: ProfileType.WORKER,
-      acceptTerms: false,
-    }
+    // defaultValues: {
+    //   firstName: "John",
+    //   lastName: "Doe",
+    //   email: "john.doe@example.com",
+    //   password: "password123",
+    //   confirmPassword: "password123",
+    //   profileType: ProfileType.WORKER,
+    //   acceptTerms: false,
+    // }
   })
 
   const onSubmit = async (values: ProfessionalSignUpFormValues) => {

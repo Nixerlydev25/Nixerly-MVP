@@ -83,11 +83,11 @@ JobApplicationFormProps) {
   const form = useForm<ApplicationFormValues>({
     resolver: zodResolver(applicationFormSchema),
     defaultValues: {
-      coverLetter:
-        'Dear Hiring Manager,\n\nI am excited to apply for this opportunity. With my experience in web development and a strong background in delivering scalable, secure applications, I am confident in my ability to contribute effectively to your team. I am passionate about solving complex problems and delivering high-quality code.\n\nThank you for considering my application. I look forward to discussing how I can help drive success for your project.\n\nBest regards,\nJohn Doe',
+    //   coverLetter:
+    //     'Dear Hiring Manager,\n\nI am excited to apply for this opportunity. With my experience in web development and a strong background in delivering scalable, secure applications, I am confident in my ability to contribute effectively to your team. I am passionate about solving complex problems and delivering high-quality code.\n\nThank you for considering my application. I look forward to discussing how I can help drive success for your project.\n\nBest regards,\nJohn Doe',
       proposedRate: 0,
-      // availability: new Date(),
-      termsAccepted: true,
+    //   // availability: new Date(),
+    //   termsAccepted: true,
     },
   });
 
@@ -257,7 +257,7 @@ JobApplicationFormProps) {
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="jobDuration"
                 render={({ field }) => (
@@ -305,7 +305,7 @@ JobApplicationFormProps) {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
 
             <Separator />

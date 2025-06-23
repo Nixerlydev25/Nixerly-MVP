@@ -222,7 +222,7 @@ export default function JobPostDetail() {
                   </p>
                   {jobDetails?.businessProfile?.website && (
                     <p>
-                      <strong>Website:</strong>{" "}
+                      <strong>Website:</strong>
                       {jobDetails?.businessProfile?.website}
                     </p>
                   )}

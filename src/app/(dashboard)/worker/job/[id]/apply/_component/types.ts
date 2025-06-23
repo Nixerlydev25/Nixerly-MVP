@@ -32,7 +32,7 @@ export const applicationFormSchema = z.object({
   termsAccepted: z.literal(true, {
     errorMap: () => ({ message: 'You must accept the terms and conditions.' }),
   }),
-  jobDuration: z.string().min(1, 'Select a job duration'),
+  // jobDuration: z.string().min(1, 'Select a job duration'),
 });
 
 export type ApplicationFormValues = z.infer<typeof applicationFormSchema>;

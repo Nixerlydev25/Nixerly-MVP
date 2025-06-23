@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useBusinessProfilePicture } from "@/hook/business/business.hook";
 import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
+import { ImageCropper } from "@/components/common/ImageCropper";
 
 interface ChangeBusinessProfilePictureFormProps {
   currentProfilePicture: string;
@@ -22,6 +23,7 @@ export function ChangeBusinessProfilePictureForm({
 }: ChangeBusinessProfilePictureFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isCropping, setIsCropping] = useState(false);
   const { uploadProfilePicture, isPending } = useBusinessProfilePicture();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -47,6 +49,7 @@ export function ChangeBusinessProfilePictureForm({
     setSelectedFile(file);
     const objectUrl = URL.createObjectURL(file);
     setPreviewUrl(objectUrl);
+    setIsCropping(true);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -74,6 +77,17 @@ export function ChangeBusinessProfilePictureForm({
     }
     setSelectedFile(null);
     setPreviewUrl(null);
+    setIsCropping(false);
+  };
+
+  const handleCropComplete = async (croppedImageBlob: Blob) => {
+    const file = new File([croppedImageBlob], selectedFile?.name || 'cropped-image.jpg', {
+      type: 'image/jpeg'
+    });
+    setSelectedFile(file);
+    const objectUrl = URL.createObjectURL(croppedImageBlob);
+    setPreviewUrl(objectUrl);
+    setIsCropping(false);
   };
 
   return (
@@ -84,7 +98,17 @@ export function ChangeBusinessProfilePictureForm({
       </DialogDescription>
 
       <div className="flex flex-col items-center justify-center gap-4 py-4">
-        {previewUrl ? (
+        {isCropping && previewUrl ? (
+          <ImageCropper
+            imageUrl={previewUrl}
+            onCropComplete={handleCropComplete}
+            onCancel={() => {
+              removeImage();
+              setIsCropping(false);
+            }}
+            aspectRatio={1}
+          />
+        ) : previewUrl ? (
           <div className="relative h-40 w-40">
             <Image
               src={previewUrl}
@@ -123,20 +147,22 @@ export function ChangeBusinessProfilePictureForm({
         <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
         </Button>
-        <Button
-          onClick={handleUpload}
-          disabled={!selectedFile || isPending}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Uploading...
-            </>
-          ) : (
-            "Save Changes"
-          )}
-        </Button>
+        {!isCropping && (
+          <Button
+            onClick={handleUpload}
+            disabled={!selectedFile || isPending}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              "Save Changes"
+            )}
+          </Button>
+        )}
       </DialogFooter>
     </>
   );

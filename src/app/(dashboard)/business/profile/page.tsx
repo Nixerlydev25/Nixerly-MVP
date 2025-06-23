@@ -227,7 +227,7 @@ export default function BusinessProfilePage() {
 
   const renderContactInfo = () => (
     <div className="space-y-8">
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
+      <div className="rounded-lg border bg-card p-6 ">
         <h2 className="mb-6 text-xl font-semibold">Contact Information</h2>
         <div className="space-y-6">
           <div className="grid gap-4">
@@ -283,7 +283,7 @@ export default function BusinessProfilePage() {
         </div>
       </div>
 
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
+      <div className="rounded-lg border bg-card p-6">
         <h2 className="mb-6 text-xl font-semibold">Business Owner</h2>
         <div className="flex items-center gap-4">
           <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">

@@ -94,7 +94,16 @@ export const useGetCurrentUser = () => {
 export const useGetCurrentWorkerProfileDetails = () => {
   return useQuery<WorkerUser>({
     queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
-    queryFn: UserService.getCurrentWorkerProfileDetails,
+    queryFn: async () => {
+      try {
+        const data = await UserService.getCurrentWorkerProfileDetails();
+        console.log("Worker profile details response:", data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching worker profile details:", error);
+        throw error;
+      }
+    },
   });
 };
 

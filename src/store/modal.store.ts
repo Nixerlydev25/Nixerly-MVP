@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { ModalType } from "@/types/model"
 import { TBusinessAsset } from "@/types/auth"
+import { Portfolio } from "@/types/worker.types"
 
 interface ContactModalData {
   applicant: {
@@ -26,7 +27,11 @@ interface CompanyImagesModalData {
   assets: TBusinessAsset[];
 }
 
-type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | Record<string, unknown>
+interface PortfolioModalData {
+  portfolio: Portfolio[];
+}
+
+type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | PortfolioModalData | Record<string, unknown>
 
 interface ModalStore {
   activeModal: ModalType

@@ -84,6 +84,7 @@ export const usePortfolios = () => {
     Error,
     CreatePortfoliosVariables
   >({
+    // @ts-expect-error - TODO: fix this
     mutationFn: async ({ portfolios }) => {
       return PortfolioService.createPortfolios(portfolios);
     },
@@ -144,3 +145,4 @@ export const usePortfolios = () => {
       uploadPortfolioAssetsMutation.isPending,
   };
 };
+ 

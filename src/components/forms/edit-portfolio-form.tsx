@@ -87,12 +87,12 @@ export function EditPortfolioForm({
   };
 
   const handleDeleteExistingPortfolio = (portfolioId: string) => {
-    setPortfoliosToDelete(prev => [...prev, portfolioId]);
+    setPortfoliosToDelete((prev) => [...prev, portfolioId]);
   };
 
   // Filter out portfolios that are marked for deletion
   const displayedPortfolios = portfolio.filter(
-    item => !portfoliosToDelete.includes(item.id)
+    (item) => !portfoliosToDelete.includes(item.id)
   );
 
   const handleAddProject = () => {
@@ -132,7 +132,9 @@ export function EditPortfolioForm({
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-medium">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.employerName}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.employerName}
+                      </p>
                       <p className="text-sm text-gray-500">
                         {new Date(item.startDate).toLocaleDateString()} -{" "}
                         {item.endDate

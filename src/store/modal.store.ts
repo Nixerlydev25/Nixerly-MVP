@@ -27,7 +27,7 @@ interface CompanyImagesModalData {
   assets: TBusinessAsset[];
 }
 
-interface PortfolioModalData {
+export interface PortfolioModalData {
   portfolio: Portfolio[];
 }
 

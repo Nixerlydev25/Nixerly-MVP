@@ -311,16 +311,16 @@ export default function FreelancerProfileSelfView() {
             {workerProfile.education.length > 0 ? (
               workerProfile.education.map((edu: WorkerEducation, index: number) => (
                 <div key={index} className={`${index > 0 ? "border-t pt-6" : ""}`}>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-lg">{edu.school}</h4>
-                      <p className="text-gray-600 font-medium">
-                        {edu.degree} in {edu.fieldOfStudy}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {new Date(edu.startDate).getFullYear()} -{" "}
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-lg">{edu.school}</h4>
+                        <p className="text-gray-600 font-medium">
+                          {edu.degree} in {edu.fieldOfStudy}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {new Date(edu.startDate).getFullYear()} -{" "}
                         {edu.currentlyStudying ? "Present" : new Date(edu.endDate).getFullYear()}
-                      </p>
+                        </p>
                       {edu.description && <p className="mt-3 text-gray-700">{edu.description}</p>}
                     </div>
                   </div>
@@ -457,17 +457,17 @@ export default function FreelancerProfileSelfView() {
           <div className="space-y-6">
             {workerProfile.experience.map((work: WorkerExperience, index: number) => (
               <div key={index} className={`${index > 0 ? "border-t pt-6" : ""}`}>
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold">{work.title}</h3>
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold">{work.title}</h3>
                     <p className="text-gray-600 font-medium">{work.company}</p>
-                    <p className="text-sm text-gray-500">
-                      {work.city}, {work.state}, {work.country}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {new Date(work.startDate).getFullYear()} -{" "}
+                      <p className="text-sm text-gray-500">
+                        {work.city}, {work.state}, {work.country}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {new Date(work.startDate).getFullYear()} -{" "}
                       {work.currentlyWorking ? "Present" : new Date(work.endDate).getFullYear()}
-                    </p>
+                      </p>
                   </div>
                 </div>
                 {work.description && <p className="mt-3 text-gray-700">{work.description}</p>}

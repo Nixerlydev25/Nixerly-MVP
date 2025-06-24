@@ -1,10 +1,12 @@
 import { EditPortfolioForm } from "@/components/forms/edit-portfolio-form";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useModalStore } from "@/store/modal.store";
-import { ModalType } from "@/types/model";
+import { Portfolio } from "@/types/worker.types";
+import type { PortfolioModalData } from "@/store/modal.store";
 
 export function EditPortfolioModal() {
   const { closeModal, modalData } = useModalStore();
+  const portfolioData = modalData as PortfolioModalData;
 
   return (
     <Dialog open onOpenChange={closeModal}>
@@ -20,7 +22,7 @@ export function EditPortfolioModal() {
             onSuccess={() => {
               closeModal();
             }}
-            portfolio={modalData?.portfolio || []}
+            portfolio={portfolioData?.portfolio || []}
           />
         </div>
       </DialogContent>

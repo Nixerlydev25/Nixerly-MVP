@@ -25,6 +25,7 @@ import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
 import type { WorkerUser, WorkerEducation, WorkerExperience, WorkerLanguage, Portfolio } from "@/types/worker.types"
 import { useModalStore } from "@/store/modal.store"
 import { ModalType } from "@/types/model"
+import { useSearchParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import FreelancerProfileSkeleton from "./component/Skeleton"
@@ -71,10 +72,18 @@ const toModalData = (data: unknown): Record<string, unknown> => {
 }
 
 export default function FreelancerProfileSelfView() {
-  const [activeTab, setActiveTab] = useState<TabType>("overview")
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const activeTab = (searchParams.get("tab") as TabType) || "overview"
   const { openModal } = useModalStore()
   const { data: workerDetail, refetch } = useGetCurrentWorkerProfileDetails()
   const [profilePicture, setProfilePicture] = useState<string | null>(null)
+
+  const handleTabChange = (tab: TabType) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("tab", tab)
+    router.push(`?${params.toString()}`)
+  }
 
   if (!workerDetail) {
     return <FreelancerProfileSkeleton />
@@ -777,7 +786,7 @@ export default function FreelancerProfileSelfView() {
         </div>
 
         {/* Sidebar and Content Layout */}
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-8 lg:grid-cols-4">
           {/* Simple Sidebar */}
           <div className="lg:col-span-1">
             <div className="border-r pr-6">
@@ -789,7 +798,7 @@ export default function FreelancerProfileSelfView() {
                       key={item.id}
                       onClick={() => {
                         console.log("Switching to tab:", item.id)
-                        setActiveTab(item.id)
+                        handleTabChange(item.id)
                       }}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors",
@@ -810,7 +819,7 @@ export default function FreelancerProfileSelfView() {
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <div className="min-h-[600px]">{renderContent()}</div>
           </div>
         </div>

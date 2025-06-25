@@ -26,7 +26,7 @@ import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
 import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useListMyJobs } from "@/hook/jobs/jobs.hooks";
 import { ChangeBusinessProfilePictureModal } from "@/components/modals/change-business-profile-picture-modal";
 import {
@@ -68,7 +68,9 @@ const sidebarItems = [
 ];
 
 export default function BusinessProfilePage() {
-  const [activeTab, setActiveTab] = useState<TabType>("general");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const activeTab = (searchParams.get("tab") as TabType) || "general";
 
   const { data: businessProfileData, isLoading } =
     useGetCurrentBusinessProfileDetails();
@@ -76,10 +78,15 @@ export default function BusinessProfilePage() {
   const { data: jobs, isLoading: isJobsLoading } = useListMyJobs();
 
   const { openModal } = useModalStore();
-  const router = useRouter();
+
+  const handleTabChange = (tab: TabType) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tab);
+    router.push(`?${params.toString()}`);
+  };
 
   const handlePageChange = async (page: number) => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
     router.push(`?${params.toString()}`);
   };
@@ -667,7 +674,7 @@ export default function BusinessProfilePage() {
                 return (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id)}
+                    onClick={() => handleTabChange(item.id)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors",
                       activeTab === item.id

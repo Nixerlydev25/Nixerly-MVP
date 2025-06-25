@@ -9,8 +9,8 @@ export function EditPortfolioModal() {
   const portfolioData = modalData as PortfolioModalData;
 
   return (
-    <Dialog open onOpenChange={closeModal}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0">
+    <Dialog open onOpenChange={closeModal} >
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] flex flex-col p-0">
         <div className="p-6 border-b">
           <DialogTitle>Edit Portfolio</DialogTitle>
           <DialogDescription>

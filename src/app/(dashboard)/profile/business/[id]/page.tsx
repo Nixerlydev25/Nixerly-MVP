@@ -20,7 +20,7 @@ import {
   Flag,
 } from "lucide-react";
 import Image from "next/image";
-import { BusinessProfileSkeleton } from "@/app/(dashboard)/business/profile/_components/business-profile-skeleton";
+import { BusinessProfileSkeleton } from "@/app/(dashboard)/business/profile/_components/skeleton";
 import { useGetBusinessById } from "@/hook/business/business.hook";
 import { useParams } from "next/navigation";
 import { TJob } from "@/types/auth";

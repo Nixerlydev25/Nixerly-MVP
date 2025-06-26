@@ -25,7 +25,7 @@ import {
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useGetCurrentBusinessProfileDetails } from "@/hook/user/user.hooks";
-import { BusinessProfileSkeleton } from "./_components/business-profile-skeleton";
+import { BusinessProfileSkeleton } from "./_components/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useListMyJobs } from "@/hook/jobs/jobs.hooks";
 import { ChangeBusinessProfilePictureModal } from "@/components/modals/change-business-profile-picture-modal";

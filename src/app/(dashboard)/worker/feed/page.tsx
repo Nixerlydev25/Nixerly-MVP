@@ -18,6 +18,7 @@ import { type Job } from "./_components/types";
 import { useGetAllJobs } from "@/hook/jobs/jobs.hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import FeedSkeleton from "./_components/FeedSkeleton";
 
 export default function JobsPage() {
   const [viewMode, setViewMode] = React.useState<"grid" | "list">("list");
@@ -98,6 +99,10 @@ export default function JobsPage() {
     router.push(`?${params.toString()}`);
   };
 
+  if (isLoading) {
+    return <FeedSkeleton />;
+  }
+
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
@@ -175,11 +180,7 @@ export default function JobsPage() {
         </div>
 
         <div className="w-full lg:w-3/4">
-          {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-64 bg-muted rounded-lg">
-              <h3 className="text-xl font-medium mb-2">Loading jobs...</h3>
-            </div>
-          ) : jobs.length === 0 ? (
+          {jobs.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 bg-muted rounded-lg">
               <h3 className="text-xl font-medium mb-2">No jobs found</h3>
               <p className="text-muted-foreground mb-4">
@@ -191,12 +192,6 @@ export default function JobsPage() {
             </div>
           ) : (
             <>
-              {/* <div className="flex justify-between items-center mb-4">
-                <p className="text-muted-foreground">
-                  Total <span className="font-medium">{totalJobs}</span> jobs
-                </p>
-              </div> */}
-
               {viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {jobs.map((job: Job) => (

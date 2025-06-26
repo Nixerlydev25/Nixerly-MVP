@@ -1,7 +1,6 @@
 import { EditPortfolioForm } from "@/components/forms/edit-portfolio-form";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useModalStore } from "@/store/modal.store";
-import { Portfolio } from "@/types/worker.types";
 import type { PortfolioModalData } from "@/store/modal.store";
 
 export function EditPortfolioModal() {

@@ -51,7 +51,7 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">
+                  <h1 className="text-2xl font-title">
                     {jobDetails?.title || "Job Title"}
                   </h1>
                   <div className="flex flex-wrap items-center gap-2 text-muted-foreground">

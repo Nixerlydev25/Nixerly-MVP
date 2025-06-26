@@ -1,7 +1,7 @@
 import type React from "react";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "./globals.css";
-import { inter, spaceGrotesk } from "@/font/font";
+import { inter, spaceGrotesk, poppins } from "@/font/font";
 import QueryProvider from "@/providers/query.provider";
 import Footer from "@/components/common/footer";
 import { ToastProvider } from "@/providers/ToastProvider";
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${inter.className}`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${inter.className} ${poppins.className}`}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <QueryProvider>

@@ -103,6 +103,8 @@ export default function JobsPage() {
     return <FeedSkeleton />;
   }
 
+  console.log(jobsData,"jobsData")
+
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">

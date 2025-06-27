@@ -151,7 +151,7 @@ export default function FreelancerProfile() {
 
             {/* Tabs section */}
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="w-full">
+              <TabsList className="w-full flex justify-start">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="experiences">Experiences</TabsTrigger>
               </TabsList>

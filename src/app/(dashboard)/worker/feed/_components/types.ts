@@ -36,6 +36,7 @@ export interface Job {
       yearFounded: number
       postedJobs?: number
       profilePictureUrl: string
+      profilePicture: string
     }
     skills: string[]
   }

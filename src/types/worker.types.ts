@@ -82,6 +82,7 @@ export interface WorkerProfileResponse {
   education: WorkerEducation[];
   languages: WorkerLanguage[];
   certificates: Certificate[];
+  portfolio: Portfolio[];
   user: {
     id: string;
     email: string;

@@ -1,13 +1,17 @@
+import { Certificate, Portfolio } from "../worker.types";
+
 export interface CardProps {
-  id: string | number;
-  name: string;
+  id: string;
   title: string;
-  avatar?: string;
+  avatar: string;
+  skills: string[];
   rating: number;
+  name: string;
+  location: string;
   jobsCompleted: number;
   hourlyRate: number;
-  location: string;
-  skills: string[];
+  certificates: Certificate[];
+  portfolio: Portfolio[];
 }
 
 export interface FeedsFilter {
@@ -20,7 +24,7 @@ export interface FeedsFilter {
   maxTotalEarnings?: number;
   minAvgRating?: number;
   maxAvgRating?: number;
-  sort?: 'rating' | 'price_low_to_high' | 'price_high_to_low';
+  sort?: "rating" | "price_low_to_high" | "price_high_to_low";
   search?: string;
 }
 

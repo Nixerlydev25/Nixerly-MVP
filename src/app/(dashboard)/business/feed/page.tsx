@@ -22,8 +22,6 @@ import FeedsPagination from "./_components/FeedsPagination";
 import { SearchIcon, X, UserX, Megaphone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import Link from "next/link";
 import JobBanner from "./_components/JobBanner";
 
 enum SortOption {
@@ -87,6 +85,8 @@ export default function Dashboard() {
     setViewMode(mode);
     localStorage.setItem("businessFeedViewMode", mode);
   };
+
+  console.log({freelancers})
 
   return (
     <div>
@@ -212,6 +212,8 @@ export default function Dashboard() {
                             hourlyRate={freelancer.hourlyRate}
                             location={`${freelancer.city}, ${freelancer.country}`}
                             skills={freelancer.skills}
+                            certificates={freelancer.certificates}
+                            portfolio={freelancer.portfolio}
                           />
                         </div>
                       )
@@ -232,6 +234,8 @@ export default function Dashboard() {
                             location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
+                            certificates={freelancer.certificates}
+                            portfolio={freelancer.portfolio}
                           />
                         </div>
                       )

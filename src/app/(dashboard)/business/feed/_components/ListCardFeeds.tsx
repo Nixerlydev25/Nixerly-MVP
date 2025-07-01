@@ -1,12 +1,24 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { formateSkills } from "@/lib/utils";
-import { CardProps } from "@/types/feed/feed.types";
-import { ROUTES } from "@/lib/routes";
-import { BookmarkIcon, StarIcon, UserIcon } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React from "react";
+"use client"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { formateSkills } from "@/lib/utils"
+import type { CardProps } from "@/types/feed/feed.types"
+import { ROUTES } from "@/lib/routes"
+import {
+  BookmarkIcon,
+  StarIcon,
+  UserIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ScrollText,
+  FolderIcon,
+  ExternalLinkIcon,
+} from "lucide-react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 function ListCardFeeds({
   id,
@@ -15,62 +27,185 @@ function ListCardFeeds({
   skills,
   name,
   location,
+  rating,
+  jobsCompleted,
+  certificates,
+  portfolio,
 }: CardProps) {
-  const router = useRouter();
+  const router = useRouter()
+  const [isExpanded, setIsExpanded] = useState(false)
+  const hasDetailsToShow = certificates.length > 0 || portfolio.length > 0
+
   return (
-    <div
-      key={id}
-      className="flex flex-col border-b sm:flex-row hover:bg-gray-100 py-4"
-    >
-      <div className="flex flex-1 items-start p-4" onClick={()=>router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)} >
-        <Image
-          src={avatar || "/placeholder.svg"}
-          width={100}
-          height={100}
-          alt={name}
-          className="mr-4 rounded-full w-16 h-16 object-cover"
-        />
-        <div className="flex-1">
-          <div className="flex items-start justify-between">
+    <div key={id} className="flex flex-col border-b hover:bg-gray-100">
+      <div className="flex flex-1 items-start p-4">
+        <div className="flex-1 flex">
+          <div className="cursor-pointer flex" onClick={() => router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)}>
+            <Image
+              src={avatar || "/placeholder.svg"}
+              width={100}
+              height={100}
+              alt={name}
+              className="mr-4 rounded-full w-16 h-16 object-cover"
+            />
             <div>
-              <h3 className="font-semibold">{name}</h3>
-              <p className="text-sm text-gray-600">{title}</p>
-              {/* <div className="mt-1 flex items-center">
-                <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm font-medium">{rating}</span>
-                <span className="ml-2 text-xs text-gray-500">
-                  ({jobsCompleted} jobs)
-                </span>
-              </div> */}
+              <div>
+                <h3 className="font-semibold">{name}</h3>
+                <p className="text-sm text-gray-600">{title}</p>
+                <div className="mt-1 flex items-center">
+                  <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <span className="text-sm font-medium">{rating}</span>
+                  <span className="ml-2 text-xs text-gray-500">({jobsCompleted} jobs)</span>
+                </div>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {skills.slice(0, 4).map((skill) => (
+                  <Badge key={skill} variant="secondary">
+                    {formateSkills(skill)}
+                  </Badge>
+                ))}
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                <UserIcon className="mr-1 inline-block h-4 w-4" />
+                {location}
+              </p>
             </div>
           </div>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {skills.slice(0, 4).map((skill) => (
-              <Badge
-                key={skill}
-                variant="secondary"
+          <div className="ml-auto flex flex-col items-end gap-2">
+            <Button variant="ghost" size="icon" className="text-gray-400">
+              <BookmarkIcon className="h-5 w-5" />
+            </Button>
+            {hasDetailsToShow && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={() => setIsExpanded(!isExpanded)}
               >
-                {formateSkills(skill)}
-              </Badge>
-            ))}
+                {isExpanded ? (
+                  <>
+                    Hide Details <ChevronUpIcon className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    Show Details <ChevronDownIcon className="h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            )}
           </div>
-          <p className="mt-2 text-sm text-gray-600">
-            <UserIcon className="mr-1 inline-block h-4 w-4" />
-            {location}
-          </p>
-        </div>
-        <div className="ml-4 hidden flex-col items-end justify-between md:flex">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-gray-400"
-          >
-            <BookmarkIcon className="h-5 w-5" />
-          </Button>
         </div>
       </div>
+
+      {isExpanded && (
+        <div className="px-4 pb-4 border-t bg-gray-50/50">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+            {certificates.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
+                  <div className="p-1.5 bg-blue-100 rounded-md">
+                    <ScrollText className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <h4 className="font-semibold text-gray-900">Certificates</h4>
+                  <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+                    {certificates.length}
+                  </span>
+                </div>
+                <ScrollArea className="h-[180px] pr-2">
+                  <div className="space-y-2">
+                    {certificates.map((cert) => (
+                      <div
+                        key={cert.id}
+                        className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                      >
+                        {cert.assets.length > 0 ? (
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={cert.assets[0].url || "/placeholder.svg"}
+                              width={100}
+                              height={100}
+                              alt={cert.name}
+                              className="rounded-md object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
+                            <ScrollText className="h-4 w-4 text-blue-600" />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-sm text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                              {cert.name}
+                            </p>
+                            <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {cert.issuingOrg}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
+
+            {portfolio.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
+                  <div className="p-1.5 bg-purple-100 rounded-md">
+                    <FolderIcon className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <h4 className="font-semibold text-gray-900">Portfolio</h4>
+                  <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+                    {portfolio.length}
+                  </span>
+                </div>
+                <ScrollArea className="h-[180px] pr-2">
+                  <div className="space-y-2">
+                    {portfolio.map((item) => (
+                      <div
+                        key={item.id}
+                        className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                      >
+                        {item.assets.length > 0 ? (
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={item.assets[0].url || "/placeholder.svg"}
+                              width={100}
+                              height={100}
+                              alt={item.title}
+                              className="rounded-md object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
+                            <FolderIcon className="h-4 w-4 text-purple-600" />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-sm text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
+                              {item.title}
+                            </p>
+                            <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
-  );
+  )
 }
 
-export default ListCardFeeds;
+export default ListCardFeeds

@@ -29,7 +29,7 @@ export function WorkerOnboarding() {
 
   const form = useForm<WorkerOnboardingSchema>({
     resolver: typedResolver,
-    // defaultValues: {
+    defaultValues: {
     //   // Professional Info
     //   title: "Licensed Plumber for Residential & Commercial Projects",
     //   hourlyRate: 35,
@@ -48,10 +48,10 @@ export function WorkerOnboarding() {
     //   city: "New York City",
     //   state: "NY",
     //   country: "USA",
-    //   languages: [
-    //     { name: "ENGLISH", proficiency: "FLUENT" },
-    //     // { name: "SPANISH", proficiency: "CONVERSATIONAL" },
-    //   ],
+      languages: [
+        { name: "ENGLISH", proficiency: "FLUENT" },
+        // { name: "SPANISH", proficiency: "CONVERSATIONAL" },
+      ],
 
     //   // // Experience
     //   experience: [
@@ -96,7 +96,7 @@ export function WorkerOnboarding() {
     //       currentlyStudying: false,
     //     },
     //   ],
-    // },
+    },
   });
 
   const { currentStep } = useOnboardingNavigation();

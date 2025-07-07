@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { ROUTES } from "@/lib/routes";
+import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -26,32 +27,37 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-nixerly-blue text-white backdrop-blur supports-[backdrop-filter]:bg-nixerly-blue/95">
+    <header className="sticky top-0 z-50 w-full border-b border-primary bg-white">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 md:gap-4">
-            {!isOnboarding && (
+            <Link href="/" className="flex items-center ml-4">
+              <Image src="/NixerlyLogo.svg" alt="Nixerly Logo" width={126} height={42} className="mr-2" />
+            </Link>
+          </div>
+          {!isOnboarding && (
+            <>
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="md:hidden text-white"
+                    className="md:hidden text-black"
                   >
                     <Menu className="h-5 w-5" />
                     <span className="sr-only">Toggle menu</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-white text-black px-6">
                   <nav className="flex flex-col gap-4 mt-8">
                     {navLinks.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
-                        className={`text-lg font-medium ${
+                        className={`text-lg font-medium transition-colors duration-200 ${
                           isActive(link.href)
-                            ? "border-b-2 border-nixerly-blue"
-                            : "text-muted-foreground"
+                            ? "text-nixerly-blue"
+                            : "text-black "
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
@@ -79,22 +85,15 @@ export default function Navbar() {
                   </nav>
                 </SheetContent>
               </Sheet>
-            )}
-            <Link href="/" className="flex items-center ml-4">
-              <span className="font-bold text-xl">Nixerly</span>
-            </Link>
-          </div>
-          {!isOnboarding && (
-            <>
               <nav className="hidden md:flex items-center gap-10">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-base font-medium text-white ${
+                    className={`text-lg font-medium  transition-colors duration-200 ${
                       isActive(link.href)
-                        ? "border-b-2 border-white"
-                        : "hover:border-b-2 hover:border-white/70"
+                        ? "text-nixerly-blue"
+                        : "text-black"
                     }`}
                   >
                     {link.label}
@@ -103,15 +102,15 @@ export default function Navbar() {
               </nav>
               <div className="hidden md:flex items-center gap-2">
                 <Button
-                  variant="ghost"
-                  className="text-white hover:bg-primary-700"
+                variant="light"
+                  className="border rounded-full border-nixerly-gray w-28 h-10 hover:text-nixerly-blue border-gray-300"
                   asChild
                 >
                   <Link href={ROUTES.SIGNIN}>Sign In</Link>
                 </Button>
                 <Button
                   variant="secondary"
-                  className="bg-white text-primary hover:bg-gray-100"
+                  className="text-white rounded-full bg-nixerly-blue w-28 h-10"
                   asChild
                 >
                   <Link href={ROUTES.SIGNUP}>Sign Up</Link>

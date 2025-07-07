@@ -1,65 +1,89 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { CheckCircle2 } from "lucide-react"
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-nixerly-gradient py-20 md:py-32">
-      <div className="absolute inset-0 bg-pattern bg-repeat opacity-10"></div>
-      <div className="container mx-auto max-w-7xl relative px-4 md:px-6">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-          <div className="animate-fade-in space-y-6">
-            <div className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-medium text-white">
-              The Future of Construction Networking
+    <section className="bg-gray-50 py-16 md:py-24 relative overflow-hidden">
+      {/* Left decorative boxes */}
+      <div className="absolute left-70 top-0 w-72 h-72 opacity-40">
+        <Image src="/boxleft.svg" alt="" width={128} height={128} className="w-full h-full" />
+      </div>
+
+      {/* Right decorative boxes */}
+      <div className="absolute left-210 -bottom-28 -translate-y-1/2 w-96 h-72 opacity-60">
+        <Image src="/rightbox.png" alt="rightboxes" width={160} height={160} className="w-full h-full" />
+      </div>
+
+      <div className="container mx-auto max-w-7xl px-4 md:px-6 relative z-10">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="space-y-8">
+            {/* Trust Badge with Avatars */}
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                <Image src="/people.png" alt="people" width={100} height={100} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-black">The Future of Construction Networking</span>
+                <div className="flex items-center gap-1">
+                  <Image src="/stars.png" alt="star" width={100} height={100} />
+                </div>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Connecting Construction Talent with Opportunity
-            </h1>
-            <p className="max-w-[600px] text-white/90 leading-relaxed md:text-xl">
-              The premier platform for construction professionals and businesses to connect, collaborate, and build
-              the future together.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button size="lg" className="bg-white text-nixerly-darkblue shadow-nixerly-button transition-all duration-300 hover:translate-y-[-2px] hover:bg-white/90" asChild>
+
+            {/* Main Heading */}
+            <div className="space-y-4">
+              <h1 className="text-4xl font-normal tracking-tight text-gray-900 sm:text-5xl md:text-3xl lg:text-5xl leading-14">
+                Hire Trusted Blue <br />
+                <span className="text-nixerly-blue">Collar Professional</span>, <br />
+                On Demand
+              </h1>
+              <p className="max-w-[600px] text-lg text-gray-600 leading-relaxed">
+                Connect with verified blue-collar professionals for short-term gigs or long-term projects — fast, easy,
+                and reliable.
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Button
+                size="lg"
+                className="bg-nixerly-blue text-white px-6 py-3 text-base font-semibold rounded-full"
+                asChild
+              >
                 <Link href="/register">Get Started</Link>
               </Button>
               <Button
+                variant="link"
                 size="lg"
-                variant="outline"
-                className="border-white bg-white/10 text-white transition-all duration-300 hover:bg-white/20"
+                className="text-gray-600 px-6 py-3 text-base font-medium border-2 border-gray-300 rounded-full hover:no-underline"
                 asChild
               >
                 <Link href="/about">Learn More</Link>
               </Button>
             </div>
-            <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
-              <Badge variant="secondary" className="bg-white/20 text-white transition-all hover:bg-white/30">
-                <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> Trusted by 500+ Companies
-              </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white transition-all hover:bg-white/30">
-                <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> 10,000+ Professionals
-              </Badge>
-            </div>
           </div>
-          <div className="relative animate-fade-in lg:block">
-            <div className="transform rounded-xl bg-white p-6 shadow-nixerly-card transition-transform duration-500 hover:translate-y-[-5px]">
+
+          {/* Image Section */}
+          <div className="relative">
+            {/* Additional decorative boxes behind the image */}
+            <div className="absolute -left-8 top-8 w-24 h-24 opacity-20">
+              <Image src="/boxleft.svg" alt="" width={96} height={96} className="w-full h-full" />
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl">
               <Image
                 src="/collaborative-construction-planning.png"
-                alt="Construction professionals collaborating on a project"
-                width={600}
-                height={400}
-                className="mx-auto rounded-lg object-cover"
+                alt="Construction professionals collaborating on blueprints and project planning"
+                width={720}
+                height={576}
+                className="w-[700px] h-[576px] object-cover"
                 priority
               />
-              <div className="absolute -bottom-4 -right-4 rounded-lg bg-nixerly-coral-gradient p-3 text-sm font-semibold text-white shadow-lg">
-                Join Today
-              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
   )
-} 
+}

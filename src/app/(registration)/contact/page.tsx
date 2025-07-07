@@ -74,26 +74,45 @@ export default function ContactPage() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
-      <section className="bg-nixerly-gradient relative overflow-hidden py-20 md:py-32">
-        <div className="absolute inset-0 bg-pattern bg-repeat opacity-10"></div>
-        <div className="container mx-auto max-w-7xl px-4 md:px-6 relative">
-          <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-3xl mx-auto animate-fade-in">
-            <div className="inline-flex px-3 py-1 rounded-full bg-white/20 text-white text-sm font-medium mb-2">
-              Get In Touch
-            </div>
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-white">
-              Contact Us
+      <section className="bg-nixerly-gradient relative container mx-auto overflow-hidden md:py-14 my-14 rounded-2xl">
+        {/* <div className="absolute inset-0 bg-pattern bg-repeat opacity-10"></div> */}
+        <div className="container mx-auto max-w-7xl md:px-6 relative">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-3xl mx-auto animate-fade-in rounded-2xl">
+            <h1 className="text-2xl font-normal tracking-tighter sm:text-3xl md:text-5xl text-white">
+            Let’s Talk With Us
             </h1>
-            <p className="mx-auto max-w-[700px] text-white/90 md:text-xl/relaxed">
-              Have questions about Nixerly? We&apos;re here to help you connect with construction talent.
-            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-4 md:gap-6 mt-12">
+            {/* Phone */}
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                <Phone className="w-5 h-5" />
+              </div>
+              <span className="text-lg font-medium">(000) 012 345 678</span>
+            </div>
+
+            {/* Email */}
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                <Mail className="w-5 h-5" />
+              </div>
+              <span className="text-lg font-medium">youremail@gmail.com</span>
+            </div>
+
+            {/* Location */}
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <span className="text-lg font-medium">Seddon Park, Auckland, New Zealand</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Contact Form Section */}
       <section className="bg-nixerly-light-gradient py-20 md:py-28 relative">
-        <div className="absolute top-0 inset-x-0 h-20 bg-nixerly-gradient opacity-10"></div>
+        {/* <div className="absolute top-0 inset-x-0 h-20 bg-nixerly-gradient opacity-10"></div> */}
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16 animate-slide-up">
             <div className="inline-flex px-3 py-1 rounded-full bg-nixerly-ultralightblue text-nixerly-darkblue text-sm font-medium mb-2">

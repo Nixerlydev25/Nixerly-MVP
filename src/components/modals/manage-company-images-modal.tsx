@@ -12,13 +12,17 @@ import { ImagePlus, Loader2, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { TBusinessAsset } from "@/types/auth";
+export interface CompanyImagesModalData {
+  assets: TBusinessAsset[];
+}
+
 
 export function ManageCompanyImagesModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedToDelete, setSelectedToDelete] = useState<string[]>([]);
   const { uploadCompanyImages, deleteAssets, isPending } = useCompanyImages();
-  const assets = (modalData?.assets || []) as TBusinessAsset[];
+  const assets = ((modalData as CompanyImagesModalData)?.assets || []) as TBusinessAsset[];
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Validate file types

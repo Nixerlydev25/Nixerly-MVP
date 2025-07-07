@@ -1,8 +1,6 @@
-"use client";
-
-import React from 'react';
-import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+"use client"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,14 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { BriefcaseIcon, MenuIcon, UserCircle2Icon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { useLogout } from "@/hook/auth/auth.hook";
-import { useUser } from "@/hook/user/useUser";
-import { ProfileType } from "@/types/user/user.types";
-import { ROUTES } from "@/lib/routes";
+} from "@/components/ui/dropdown-menu"
+import { BriefcaseIcon, Hammer, MenuIcon, UserCircle2Icon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { useLogout } from "@/hook/auth/auth.hook"
+import { useUser } from "@/hook/user/useUser"
+import { ProfileType } from "@/types/user/user.types"
+import { ROUTES } from "@/lib/routes"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -25,31 +23,31 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu"
+import { Skeleton } from "@/components/ui/skeleton"
 
 function DashboardNav() {
-  const { mutate: logout } = useLogout();
-  const { user, isLoading } = useUser();
-  const router = useRouter();
+  const { mutate: logout } = useLogout()
+  const { user, isLoading } = useUser()
+  const router = useRouter()
 
   if (isLoading || !user) {
-    return <div></div>;
+    return <DashboardNavSkeleton />
   }
 
   const handleLogout = () => {
-    logout();
-  };
+    logout()
+  }
 
-  const isBusinessProfile = user.defaultProfile === ProfileType.BUSINESS;
+  const isBusinessProfile = user.defaultProfile === ProfileType.BUSINESS
 
   const handleProfileClick = () => {
     if (isBusinessProfile) {
-      router.push(ROUTES.MY_BUSINESS_PROFILE);
+      router.push(ROUTES.MY_BUSINESS_PROFILE)
     } else {
-      router.push(ROUTES.MY_WORKER_PROFILE);
+      router.push(ROUTES.MY_WORKER_PROFILE)
     }
-  };
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
@@ -62,8 +60,8 @@ function DashboardNav() {
             href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <BriefcaseIcon className="h-6 w-6 text-blue-600" />
-            <span className="text-xl font-bold text-blue-600">Nixerly</span>
+            <Hammer className="h-8 w-8 text-blue-600" />
+            <span className="text-lg font-bold text-blue-600">Nixerly</span>
           </Link>
 
           <NavigationMenu className="hidden md:flex">
@@ -81,9 +79,7 @@ function DashboardNav() {
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                             >
                               <BriefcaseIcon className="h-6 w-6 text-blue-600" />
-                              <div className="mb-2 mt-4 text-lg font-medium">
-                                Browse Talent
-                              </div>
+                              <div className="mb-2 mt-4 text-lg font-medium">Browse Talent</div>
                               <p className="text-sm leading-tight text-muted-foreground">
                                 Find and connect with skilled professionals for your projects
                               </p>
@@ -136,9 +132,7 @@ function DashboardNav() {
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                             >
                               <BriefcaseIcon className="h-6 w-6 text-blue-600" />
-                              <div className="mb-2 mt-4 text-lg font-medium">
-                                Browse Jobs
-                              </div>
+                              <div className="mb-2 mt-4 text-lg font-medium">Browse Jobs</div>
                               <p className="text-sm leading-tight text-muted-foreground">
                                 Discover new job opportunities that match your skills
                               </p>
@@ -182,7 +176,7 @@ function DashboardNav() {
                 />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent className="w-52" align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleProfileClick} className="cursor-pointer">
@@ -198,7 +192,38 @@ function DashboardNav() {
         </div>
       </div>
     </header>
-  );
+  )
 }
 
-export default DashboardNav;
+function DashboardNavSkeleton() {
+  return (
+    <header className="sticky top-0 z-50 border-b bg-white">
+      <div className="container mx-auto w-full flex h-16 items-center justify-between px-4">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" className="md:hidden">
+            <MenuIcon className="h-6 w-6" />
+          </Button>
+
+          {/* Logo section */}
+          <div className="flex items-center gap-2">
+            <Hammer className="h-8 w-8 text-blue-600" />
+            <span className="text-lg font-bold text-blue-600">Nixerly</span>
+          </div>
+
+          {/* Navigation menu skeleton */}
+          <div className="hidden md:flex items-center gap-6">
+            <Skeleton className="h-6 w-20" />
+            <Skeleton className="h-6 w-16" />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {/* User avatar skeleton */}
+          <Skeleton className="h-8 w-8 rounded-full" />
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export default DashboardNav

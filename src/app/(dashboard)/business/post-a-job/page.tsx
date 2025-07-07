@@ -16,13 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -46,8 +39,8 @@ import workerData from "@/data/onboarding/worker.json";
 import { useCreateJob } from "@/hook/jobs/jobs.hooks";
 import { LocationSearch } from "@/components/location-search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DatePicker } from "@/components/ui/date-picker";
 
-// Define the form schema with Zod
 const formSchema = z
   .object({
     title: z
@@ -60,22 +53,10 @@ const formSchema = z
     requirements: z
       .string()
       .min(20, { message: "Requirements must be at least 20 characters" }),
-    budget: z
-      .number()
-      .positive({ message: "Budget must be a positive number" })
-      .optional(),
-    hourlyRateMin: z
-      .number()
-      .positive({ message: "Minimum hourly rate must be a positive number" })
-      .optional(),
-    hourlyRateMax: z
-      .number()
-      .positive({ message: "Maximum hourly rate must be a positive number" })
-      .optional(),
-    salary: z
-      .number()
-      .positive({ message: "Salary must be a positive number" })
-      .optional(),
+    budget: z.number().positive({ message: "Budget must be a positive number" }).optional(),
+    hourlyRateMin: z.number().positive({ message: "Minimum hourly rate must be a positive number" }).optional(),
+    hourlyRateMax: z.number().positive({ message: "Maximum hourly rate must be a positive number" }).optional(),
+    salary: z.number().positive({ message: "Salary must be a positive number" }).optional(),
     status: z.enum(["OPEN", "CLOSED", "FILLED", "EXPIRED"], {
       required_error: "Please select a job status",
     }),
@@ -101,48 +82,53 @@ const formSchema = z
   })
   .refine(
     (data) => {
-      if (
-        data.jobType === "HOURLY" &&
-        data.hourlyRateMin !== undefined &&
-        data.hourlyRateMax !== undefined
-      ) {
-        return data.hourlyRateMax >= data.hourlyRateMin;
+      if (data.jobType === "HOURLY") {
+        return (
+          data.hourlyRateMin !== undefined &&
+          data.hourlyRateMax !== undefined &&
+          data.hourlyRateMax >= data.hourlyRateMin
+        );
       }
-
-      if (data.jobType === "SALARY") {
-        return data.salary !== undefined && data.salary > 0;
-      }
-
-      if (data.jobType === "CONTRACT") {
-        return data.budget !== undefined && data.budget > 0;
-      }
-
       return true;
     },
     {
-      message:
-        "Maximum hourly rate must be greater than or equal to minimum hourly rate",
+      message: "Maximum hourly rate must be greater than or equal to minimum hourly rate",
       path: ["hourlyRateMax"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.jobType === "SALARY") {
+        return data.salary !== undefined && data.salary > 0;
+      }
+      return true;
+    },
+    {
+      message: "Please enter a valid salary",
+      path: ["salary"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.jobType === "CONTRACT") {
+        return data.budget !== undefined && data.budget > 0;
+      }
+      return true;
+    },
+    {
+      message: "Please enter a valid budget",
+      path: ["budget"],
     }
   );
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const formatDateForInput = (date: Date): string => {
-  return date.toISOString().split("T")[0];
-};
-
-const parseInputDate = (dateString: string): Date => {
-  return new Date(dateString);
-};
-
-// Section Header Component
 const SectionHeader = ({
   icon: Icon,
   title,
   description,
 }: {
-  icon: any;
+  icon: React.ElementType;
   title: string;
   description: string;
 }) => (
@@ -156,143 +142,6 @@ const SectionHeader = ({
     </div>
   </div>
 );
-
-// Job Posting SVG Illustration
-const JobPostingSVG = () => (
-  <svg viewBox="0 0 400 300" className="w-full h-48 mb-6">
-    <defs>
-      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.1" />
-        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0.2" />
-      </linearGradient>
-    </defs>
-
-    {/* Background */}
-    <rect width="400" height="300" fill="url(#grad1)" rx="12" />
-
-    {/* Desk */}
-    <rect
-      x="50"
-      y="180"
-      width="300"
-      height="80"
-      fill="#8B5CF6"
-      opacity="0.3"
-      rx="8"
-    />
-
-    {/* Computer Screen */}
-    <rect x="120" y="120" width="160" height="100" fill="#1F2937" rx="8" />
-    <rect
-      x="130"
-      y="130"
-      width="140"
-      height="80"
-      fill="#3B82F6"
-      opacity="0.2"
-      rx="4"
-    />
-
-    {/* Job Posting Lines */}
-    <rect x="140" y="140" width="80" height="4" fill="#3B82F6" rx="2" />
-    <rect x="140" y="150" width="120" height="3" fill="#6B7280" rx="1.5" />
-    <rect x="140" y="160" width="100" height="3" fill="#6B7280" rx="1.5" />
-    <rect x="140" y="170" width="90" height="3" fill="#6B7280" rx="1.5" />
-
-    {/* Floating Elements */}
-    <circle cx="80" cy="80" r="20" fill="#10B981" opacity="0.3" />
-    <rect
-      x="320"
-      y="60"
-      width="30"
-      height="30"
-      fill="#F59E0B"
-      opacity="0.3"
-      rx="6"
-    />
-    <circle cx="350" cy="200" r="15" fill="#EF4444" opacity="0.3" />
-
-    {/* Person Silhouette */}
-    <circle cx="200" cy="80" r="25" fill="#6366F1" opacity="0.4" />
-    <rect
-      x="185"
-      y="100"
-      width="30"
-      height="40"
-      fill="#6366F1"
-      opacity="0.4"
-      rx="15"
-    />
-  </svg>
-);
-
-// Team SVG Illustration
-// const TeamSVG = () => (
-//   <svg viewBox="0 0 300 200" className="w-full h-32">
-//     <defs>
-//       <linearGradient id="teamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-//         <stop offset="0%" stopColor="#10B981" stopOpacity="0.1" />
-//         <stop offset="100%" stopColor="#059669" stopOpacity="0.2" />
-//       </linearGradient>
-//     </defs>
-
-//     <rect width="300" height="200" fill="url(#teamGrad)" rx="8" />
-
-//     {/* Team Members */}
-//     <circle cx="80" cy="80" r="20" fill="#3B82F6" opacity="0.6" />
-//     <circle cx="150" cy="80" r="20" fill="#10B981" opacity="0.6" />
-//     <circle cx="220" cy="80" r="20" fill="#F59E0B" opacity="0.6" />
-
-//     {/* Connection Lines */}
-//     <line
-//       x1="100"
-//       y1="80"
-//       x2="130"
-//       y2="80"
-//       stroke="#6B7280"
-//       strokeWidth="2"
-//       opacity="0.4"
-//     />
-//     <line
-//       x1="170"
-//       y1="80"
-//       x2="200"
-//       y2="80"
-//       stroke="#6B7280"
-//       strokeWidth="2"
-//       opacity="0.4"
-//     />
-
-//     {/* Skills Badges */}
-//     <rect
-//       x="60"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#3B82F6"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//     <rect
-//       x="130"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#10B981"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//     <rect
-//       x="200"
-//       y="110"
-//       width="40"
-//       height="15"
-//       fill="#F59E0B"
-//       opacity="0.3"
-//       rx="7"
-//     />
-//   </svg>
-// );
 
 export default function PostJobPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -315,36 +164,36 @@ export default function PostJobPage() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "Experienced Electrician Needed for Residential Wiring",
-      description:
-        "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
-      requirements:
-        "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
-      budget: 1500,
-      hourlyRateMin: 25,
-      hourlyRateMax: 40,
+    //   title: "Experienced Electrician Needed for Residential Wiring",
+    //   description:
+    //     "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
+    //   requirements:
+    //     "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
+    //   budget: 1500,
+    //   hourlyRateMin: 25,
+    //   hourlyRateMax: 40,
       status: "OPEN",
-      skills: [
-        "QUALITY_CONTROL",
-        "CODE_COMPLIANCE",
-        "STRUCTURAL_ASSESSMENT",
-        "INSTRUMENT_TECHNICIAN",
-        "MAINTENANCE_TECHNICIAN",
-        "ELECTRONICS_TECHNICIAN",
-        "CALIBRATION_SPECIALIST",
-      ],
-      jobType: "HOURLY",
-      startDate: new Date(),
-      numberOfWorkersRequired: 1,
-      location: {
-        city: "New York",
-        state: "NY",
-        country: "USA",
-      },
+    //   skills: [
+    //     "QUALITY_CONTROL",
+    //     "CODE_COMPLIANCE",
+    //     "STRUCTURAL_ASSESSMENT",
+    //     "INSTRUMENT_TECHNICIAN",
+    //     "MAINTENANCE_TECHNICIAN",
+    //     "ELECTRONICS_TECHNICIAN",
+    //     "CALIBRATION_SPECIALIST",
+    //   ],
+    //   jobType: "HOURLY",
+    //   startDate: new Date(),
+    //   numberOfWorkersRequired: 1,
+    //   location: {
+    //     city: "New York",
+    //     state: "NY",
+    //     country: "USA",
+    //   },
     },
   });
 
-  const { mutateAsync: createJob } = useCreateJob();
+  const { mutateAsync: createJob, isPending } = useCreateJob();
 
   function onSubmit(values: FormSchema) {
     const {
@@ -393,30 +242,45 @@ export default function PostJobPage() {
     );
   };
 
+  const handleJobTypeChange = (value: string) => {
+    // Reset all rate/budget/salary fields when job type changes
+    form.setValue("hourlyRateMin", undefined);
+    form.setValue("hourlyRateMax", undefined);
+    form.setValue("budget", undefined);
+    form.setValue("salary", undefined);
+    
+    // Clear errors for all compensation fields
+    form.clearErrors("hourlyRateMin");
+    form.clearErrors("hourlyRateMax");
+    form.clearErrors("budget");
+    form.clearErrors("salary");
+    
+    // Set the new job type
+    form.setValue("jobType", value as "HOURLY" | "SALARY" | "CONTRACT");
+  };
+
+  console.log(form.formState.errors,"errors")
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-12">
+    <div className="min-h-screen bg-nixerly-form-gradient py-12">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <JobPostingSVG />
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col mb-8">
+            <h1 className="text-4xl font-title text-gray-900 mb-2">
               Post a New Job
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600">
               Create a detailed job posting to attract the best talent for your
               project. Fill out each section carefully to get quality
               applications.
             </p>
           </div>
 
-          <div className="bg-white/60 p-8 border border-white/20">
+          <div className="bg-white/60 p-8 border border-white/20 rounded-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-12"
               >
-                {/* Section 1: Job Details */}
                 <div>
                   <SectionHeader
                     icon={FileText}
@@ -458,7 +322,7 @@ export default function PostJobPage() {
                           </FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Describe the job responsibilities, requirements, and any other relevant details..."
+                              placeholder="Describe the job responsibilities, requirements, and other relevant details..."
                               className="min-h-32 text-base"
                               {...field}
                             />
@@ -500,7 +364,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 2: Job Type & Compensation */}
                 <div>
                   <SectionHeader
                     icon={DollarSign}
@@ -519,7 +382,7 @@ export default function PostJobPage() {
                           </FormLabel>
                           <Tabs
                             defaultValue={field.value}
-                            onValueChange={field.onChange}
+                            onValueChange={handleJobTypeChange}
                             className="w-full"
                           >
                             <TabsList className="grid w-full grid-cols-3">
@@ -657,7 +520,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 3: Skills & Requirements */}
                 <div>
                   <SectionHeader
                     icon={Briefcase}
@@ -667,7 +529,6 @@ export default function PostJobPage() {
 
                   <div className="pl-13">
                     <div className="mb-4">
-                      {/* <TeamSVG /> */}
                     </div>
 
                     <FormField
@@ -752,7 +613,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 4: Timeline & Team */}
                 <div>
                   <SectionHeader
                     icon={Calendar}
@@ -770,13 +630,9 @@ export default function PostJobPage() {
                             Start Date
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              type="date"
-                              value={formatDateForInput(field.value)}
-                              onChange={(e) =>
-                                field.onChange(parseInputDate(e.target.value))
-                              }
-                              className="h-12 text-base"
+                            <DatePicker
+                              selected={field.value}
+                              onSelect={field.onChange}
                             />
                           </FormControl>
                           <FormDescription>
@@ -820,7 +676,6 @@ export default function PostJobPage() {
 
                 <Separator className="my-8" />
 
-                {/* Section 5: Location */}
                 <div>
                   <SectionHeader
                     icon={MapPin}
@@ -848,7 +703,6 @@ export default function PostJobPage() {
                                     country: location.country,
                                   });
                                 }}
-                                defaultValue={`${field.value.city}, ${field.value.state}, ${field.value.country}`}
                               />
                             </FormControl>
                             <FormDescription>
@@ -866,7 +720,7 @@ export default function PostJobPage() {
                                 <Input
                                   placeholder="Enter street address"
                                   className="h-12 text-base"
-                                  value={field.value.street || ""}
+                                  value={field?.value?.street || ""}
                                   onChange={(e) =>
                                     field.onChange({
                                       ...field.value,
@@ -886,7 +740,7 @@ export default function PostJobPage() {
                                 <Input
                                   placeholder="Enter postal code"
                                   className="h-12 text-base"
-                                  value={field.value.postalCode || ""}
+                                  value={field.value?.postalCode || ""}
                                   onChange={(e) =>
                                     field.onChange({
                                       ...field.value,
@@ -904,13 +758,12 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <div className="pt-8">
+                <div className="pt-8 flex justify-end">
                   <Button
                     type="submit"
-                    className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+                    className="text-md font-semibold py-6 px-6"
+                    disabled={isPending}
                   >
-                    <Briefcase className="w-5 h-5 mr-2" />
                     Post Job
                   </Button>
                 </div>

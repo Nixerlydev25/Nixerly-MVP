@@ -170,9 +170,9 @@ export function BusinessProfileForm() {
           name="website"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website</FormLabel>
+              <FormLabel>Website (Optional)</FormLabel>
               <FormControl>
-                <Input placeholder="https://example.com" {...field} />
+                <Input placeholder="example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

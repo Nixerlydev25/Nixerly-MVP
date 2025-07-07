@@ -28,22 +28,22 @@ export function BusinessOnboarding() {
 
   const form = useForm<BusinessOnboardingSchema>({
     resolver: typedResolver,
-    defaultValues: {
-      companyName: "",
-      description:
-        "Need reliable plumbing help? I'm a licensed plumber with over 5 years of experience handling everything from leak repairs and pipe installations to bathroom remodeling and emergency services. Whether it's a clogged drain or a full repiping job, I deliver fast, affordable, and high-quality work. Available for both residential and commercial projects. Satisfaction guaranteed.",
-      industry: undefined,
-      city: "",
-      state: "",
-      country: "",
-      website: "",
-      employeeCount: undefined,
-      yearFounded: new Date().getFullYear(),
-    },
+    // defaultValues: {
+    //   companyName: "",
+    //   description:
+    //     "Need reliable plumbing help? I'm a licensed plumber with over 5 years of experience handling everything from leak repairs and pipe installations to bathroom remodeling and emergency services. Whether it's a clogged drain or a full repiping job, I deliver fast, affordable, and high-quality work. Available for both residential and commercial projects. Satisfaction guaranteed.",
+    //   industry: undefined,
+    //   city: "",
+    //   state: "",
+    //   country: "",
+    //   website: "",
+    //   employeeCount: undefined,
+    //   yearFounded: new Date().getFullYear(),
+    // },
   });
 
   const { currentStep } = useBusinessOnboardingNavigation();
-  const { mutateAsync: updateBusinessUser } = useUpdateBusinessProfile();
+  const { mutateAsync: updateBusinessUser } = useUpdateBusinessProfile(false);
   // const router = useRouter();
 
   const onSubmit: SubmitHandler<BusinessOnboardingSchema> = async (data) => {

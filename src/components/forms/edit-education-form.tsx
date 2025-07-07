@@ -268,14 +268,14 @@ export function EditEducationForm({
                         <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                           <FormLabel>Start Date</FormLabel>
                           <FormControl>
-                            <div className="flex items-center border rounded-md">
-                              <Calendar className="ml-3 h-4 w-4 text-gray-500" />
-                              <DatePicker
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                className="py-2.5 pl-2 w-full border-0 focus:ring-0"
-                              />
-                            </div>
+                            <Input 
+                              type="date"
+                              onChange={(e) => {
+                                const date = new Date(e.target.value);
+                                field.onChange(date);
+                              }}
+                              value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -290,14 +290,14 @@ export function EditEducationForm({
                           <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                             <FormLabel>End Date</FormLabel>
                             <FormControl>
-                              <div className="flex items-center border rounded-md">
-                                <Calendar className="ml-3 h-4 w-4 text-gray-500" />
-                                <DatePicker
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
-                                />
-                              </div>
+                              <Input 
+                                type="date"
+                                onChange={(e) => {
+                                  const date = new Date(e.target.value);
+                                  field.onChange(date);
+                                }}
+                                value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

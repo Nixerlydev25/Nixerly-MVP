@@ -1,91 +1,91 @@
-import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
+import { useState, useEffect } from "react";
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Card, CardContent } from '@/components/ui/card';
-import { JobStatus } from './types';
-import { formatCurrency } from './utils';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { onboardingOptions } from '@/schema/onboarding/worker-onboarding.schema';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { LocationSearch } from '@/components/location-search';
+} from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
+import { JobStatus } from "./types";
+import { formatCurrency } from "./utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { LocationSearch } from "@/components/location-search";
 
 export function FilterSidebar() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState(
     onboardingOptions.skills
   );
 
   // Derive filters from URL
   const filters = {
-    status: searchParams.getAll('status'),
-    skills: searchParams.get('skills')?.split(',') ?? [],
-    minBudget: Number(searchParams.get('minBudget')) || 0,
-    maxBudget: Number(searchParams.get('maxBudget')) || 10000,
-    minHourlyRate: Number(searchParams.get('minHourlyRate')) || 0,
-    maxHourlyRate: Number(searchParams.get('maxHourlyRate')) || 100,
-    city: searchParams.get('city') || '',
-    state: searchParams.get('state') || '',
-    country: searchParams.get('country') || '',
-    search: searchParams.get('search') || '',
-    page: Number(searchParams.get('page')) || 1,
-    limit: Number(searchParams.get('limit')) || 20,
-    sortBy: (searchParams.get('sortBy') as 'createdAt') || 'createdAt',
-    sortOrder: (searchParams.get('sortOrder') as 'desc') || 'desc',
+    status: searchParams.getAll("status"),
+    skills: searchParams.get("skills")?.split(",") ?? [],
+    minBudget: Number(searchParams.get("minBudget")) || 0,
+    maxBudget: Number(searchParams.get("maxBudget")) || 10000,
+    minHourlyRate: Number(searchParams.get("minHourlyRate")) || 0,
+    maxHourlyRate: Number(searchParams.get("maxHourlyRate")) || 100,
+    city: searchParams.get("city") || "",
+    state: searchParams.get("state") || "",
+    country: searchParams.get("country") || "",
+    search: searchParams.get("search") || "",
+    page: Number(searchParams.get("page")) || 1,
+    limit: Number(searchParams.get("limit")) || 20,
+    sortBy: (searchParams.get("sortBy") as "createdAt") || "createdAt",
+    sortOrder: (searchParams.get("sortOrder") as "desc") || "desc",
   };
 
   const updateFilters = (newFilters: typeof filters) => {
     const params = new URLSearchParams();
     if (newFilters.status.length > 0)
-      newFilters.status.forEach((s) => params.append('status', s));
+      newFilters.status.forEach((s) => params.append("status", s));
     // Do NOT set skills or search here, always handle them manually below!
     if (newFilters.minBudget > 0)
-      params.set('minBudget', String(newFilters.minBudget));
+      params.set("minBudget", String(newFilters.minBudget));
     if (newFilters.maxBudget < 10000)
-      params.set('maxBudget', String(newFilters.maxBudget));
+      params.set("maxBudget", String(newFilters.maxBudget));
     if (newFilters.minHourlyRate > 0)
-      params.set('minHourlyRate', String(newFilters.minHourlyRate));
+      params.set("minHourlyRate", String(newFilters.minHourlyRate));
     if (newFilters.maxHourlyRate < 100)
-      params.set('maxHourlyRate', String(newFilters.maxHourlyRate));
-    if (newFilters.city) params.set('city', newFilters.city);
-    if (newFilters.state) params.set('state', newFilters.state);
-    if (newFilters.country) params.set('country', newFilters.country);
-    if (newFilters.page !== 1) params.set('page', String(newFilters.page));
-    if (newFilters.limit !== 20) params.set('limit', String(newFilters.limit));
-    if (newFilters.sortBy !== 'createdAt')
-      params.set('sortBy', newFilters.sortBy);
-    if (newFilters.sortOrder !== 'desc')
-      params.set('sortOrder', newFilters.sortOrder);
+      params.set("maxHourlyRate", String(newFilters.maxHourlyRate));
+    if (newFilters.city) params.set("city", newFilters.city);
+    if (newFilters.state) params.set("state", newFilters.state);
+    if (newFilters.country) params.set("country", newFilters.country);
+    if (newFilters.page !== 1) params.set("page", String(newFilters.page));
+    if (newFilters.limit !== 20) params.set("limit", String(newFilters.limit));
+    if (newFilters.sortBy !== "createdAt")
+      params.set("sortBy", newFilters.sortBy);
+    if (newFilters.sortOrder !== "desc")
+      params.set("sortOrder", newFilters.sortOrder);
 
     // Always remove any skills/search param that might have been added by URLSearchParams
     let query = params
       .toString()
-      .replace(/(^|&)skills=[^&]*/g, '')
-      .replace(/(^|&)search=[^&]*/g, '');
+      .replace(/(^|&)skills=[^&]*/g, "")
+      .replace(/(^|&)search=[^&]*/g, "");
 
     // Append skills with literal comma if present (and do NOT encode)
     if (newFilters.skills.length > 0) {
-      if (query && !query.endsWith('&')) query += '&';
-      query += `skills=${newFilters.skills.join(',')}`;
+      if (query && !query.endsWith("&")) query += "&";
+      query += `skills=${newFilters.skills.join(",")}`;
     }
     // Append search as literal (not encoded)
     if (newFilters.search) {
-      if (query && !query.endsWith('&')) query += '&';
+      if (query && !query.endsWith("&")) query += "&";
       query += `search=${newFilters.search}`;
     }
     // Remove any trailing & or ? if query is empty
-    router.push(query ? `?${query}` : '?');
+    router.push(query ? `?${query}` : "?");
   };
 
   const handleSkillChange = (skill: string) => {
@@ -95,11 +95,18 @@ export function FilterSidebar() {
     updateFilters({ ...filters, skills: newSkills });
   };
 
-  const [budgetRange, setBudgetRange] = useState([filters.minBudget, filters.maxBudget]);
+  const [budgetRange, setBudgetRange] = useState([
+    filters.minBudget,
+    filters.maxBudget,
+  ]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      updateFilters({ ...filters, minBudget: budgetRange[0], maxBudget: budgetRange[1] });
+      updateFilters({
+        ...filters,
+        minBudget: budgetRange[0],
+        maxBudget: budgetRange[1],
+      });
     }, 500);
 
     return () => clearTimeout(timeoutId);
@@ -111,7 +118,7 @@ export function FilterSidebar() {
 
   const [hourlyRateRange, setHourlyRateRange] = useState([
     filters.minHourlyRate,
-    filters.maxHourlyRate
+    filters.maxHourlyRate,
   ]);
 
   useEffect(() => {
@@ -119,7 +126,7 @@ export function FilterSidebar() {
       updateFilters({
         ...filters,
         minHourlyRate: hourlyRateRange[0],
-        maxHourlyRate: hourlyRateRange[1]
+        maxHourlyRate: hourlyRateRange[1],
       });
     }, 500);
 
@@ -144,7 +151,7 @@ export function FilterSidebar() {
   };
 
   const clearFilters = () => {
-    router.push('?');
+    router.push("?");
   };
 
   // const hasActiveFilters =
@@ -167,14 +174,14 @@ export function FilterSidebar() {
   }) => {
     updateFilters({
       ...filters,
-      city: data.city || '',
-      state: data.state || '',
-      country: data.country || '',
+      city: data.city || "",
+      state: data.state || "",
+      country: data.country || "",
     });
   };
 
   return (
-    <Card className="sticky top-4 rounded-md">
+    <Card className="sticky top-4 rounded-md border-none">
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
@@ -198,7 +205,7 @@ export function FilterSidebar() {
               onLocationSelect={handleLocationSelect}
               className="w-full"
               defaultValue={
-                filters.city || filters.state || filters.country || ''
+                filters.city || filters.state || filters.country || ""
               }
             />
           </div>
@@ -206,7 +213,7 @@ export function FilterSidebar() {
 
         <Accordion
           type="multiple"
-          defaultValue={['status', 'budget', 'hourlyRate', 'skills']}
+          defaultValue={["status", "budget", "hourlyRate", "skills"]}
           className="w-full"
         >
           {/* Job Status filter */}
@@ -216,7 +223,7 @@ export function FilterSidebar() {
             </AccordionTrigger>
             <AccordionContent>
               <RadioGroup
-                value={filters.status[0] || ''}
+                value={filters.status[0] || ""}
                 onValueChange={(value) =>
                   updateFilters({ ...filters, status: value ? [value] : [] })
                 }

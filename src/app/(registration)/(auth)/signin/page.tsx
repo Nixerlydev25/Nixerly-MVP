@@ -33,10 +33,10 @@ export default function LoginPage() {
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: "john.doe@example.com",
-      password: "password123",
-    },
+    // defaultValues: {
+    //   email: "john.doe@example.com",
+    //   password: "password123",
+    // },
   });
 
   const onSubmit = async (values: SignInFormValues) => {

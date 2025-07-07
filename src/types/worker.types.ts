@@ -44,25 +44,22 @@ export interface WorkerProfile {
   id: string;
   title: string;
   description: string;
-  hourlyRate: number;
-  availability: boolean;
   city: string;
   state: string;
   country: string;
-  profilePicture: string;
-  avgRating: number;
+  availability: boolean;
+  hourlyRate: number;
   completedJobs: number;
+  profilePicture: string;
+  phoneNumber: string;
+  skills: string[];
+  languages: WorkerLanguage[];
+  education: WorkerEducation[];
+  experience: WorkerExperience[];
+  certificates: Certificate[];
+  portfolio: Portfolio[];
   createdAt: string;
   updatedAt: string;
-  totalEarnings: number;
-  onboardingStep: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
-  skills: string[];
-  experience: WorkerExperience[];
-  education: WorkerEducation[];
-  languages: WorkerLanguage[];
-  certificates: Certificate[];
-  portfolio: Record<string, unknown>;
-  isVerified: boolean;
 }
 
 export interface WorkerProfileResponse {
@@ -85,6 +82,7 @@ export interface WorkerProfileResponse {
   education: WorkerEducation[];
   languages: WorkerLanguage[];
   certificates: Certificate[];
+  portfolio: Portfolio[];
   user: {
     id: string;
     email: string;
@@ -170,6 +168,53 @@ export interface UploadCertificateAssetPayload {
 
 export interface SaveCertificateAssetsPayload {
   certificateId: string;
+  assets: Array<{
+    s3Key: string;
+    mediaType: string;
+  }>;
+}
+
+export interface PortfolioAsset {
+  id: string;
+  url: string;
+  mediaType: string;
+  s3Key: string;
+}
+
+export interface Portfolio {
+  id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string | null;
+  employerName: string;
+  employerWebsite?: string;
+  projectUrl?: string;
+  assets: PortfolioAsset[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreatePortfolioPayload {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate?: string | null;
+  employerName: string;
+  employerWebsite?: string;
+  projectUrl?: string;
+}
+
+export interface UploadPortfolioAssetPayload {
+  portfolioId: string;
+  files: Array<{
+    fileName: string;
+    contentType: string;
+  }>;
+}
+
+export interface SavePortfolioAssetsPayload {
+  portfolioId: string;
   assets: Array<{
     s3Key: string;
     mediaType: string;

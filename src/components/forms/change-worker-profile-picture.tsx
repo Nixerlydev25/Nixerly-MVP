@@ -8,6 +8,7 @@ import { DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useWorkerProfilePicture } from "@/hook/worker/worker.hook";
+import { ImageCropper } from "@/components/common/ImageCropper";
 
 interface ChangeWorkerProfilePictureFormProps {
   currentProfilePicture: string;
@@ -21,6 +22,7 @@ export function ChangeWorkerProfilePictureForm({
 }: ChangeWorkerProfilePictureFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isCropping, setIsCropping] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadProfilePicture, isPending } = useWorkerProfilePicture();
 
@@ -44,6 +46,7 @@ export function ChangeWorkerProfilePictureForm({
     setSelectedFile(file);
     const objectUrl = URL.createObjectURL(file);
     setPreviewUrl(objectUrl);
+    setIsCropping(true);
 
     // Clean up the object URL when component unmounts
     return () => URL.revokeObjectURL(objectUrl);
@@ -64,6 +67,25 @@ export function ChangeWorkerProfilePictureForm({
     fileInputRef.current?.click();
   };
 
+  const handleCropComplete = async (croppedImageBlob: Blob) => {
+    const file = new File([croppedImageBlob], selectedFile?.name || 'cropped-image.jpg', {
+      type: 'image/jpeg'
+    });
+    setSelectedFile(file);
+    const objectUrl = URL.createObjectURL(croppedImageBlob);
+    setPreviewUrl(objectUrl);
+    setIsCropping(false);
+  };
+
+  const removeImage = () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setIsCropping(false);
+  };
+
   return (
     <>
       <DialogDescription>
@@ -72,47 +94,63 @@ export function ChangeWorkerProfilePictureForm({
       </DialogDescription>
 
       <div className="flex flex-col items-center justify-center gap-4 py-4">
-        <div className="relative h-40 w-40 overflow-hidden rounded-full border-2 border-gray-200">
-          <Image
-            src={previewUrl || currentProfilePicture || "/placeholder.svg"}
-            alt="Profile preview"
-            fill
-            className="object-cover"
+        {isCropping && previewUrl ? (
+          <ImageCropper
+            imageUrl={previewUrl}
+            onCropComplete={handleCropComplete}
+            onCancel={() => {
+              removeImage();
+              setIsCropping(false);
+            }}
+            aspectRatio={1}
           />
-        </div>
+        ) : (
+          <>
+            <div className="relative h-40 w-40 overflow-hidden rounded-full border-2 border-gray-200">
+              <Image
+                src={previewUrl || currentProfilePicture || "/placeholder.svg"}
+                alt="Profile preview"
+                fill
+                className="object-cover"
+              />
+            </div>
 
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept="image/*"
-          className="hidden"
-        />
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
 
-        <Button onClick={triggerFileInput} variant="outline" className="gap-2">
-          <Upload className="h-4 w-4" />
-          Select Image
-        </Button>
+            <Button onClick={triggerFileInput} variant="outline" className="gap-2">
+              <Upload className="h-4 w-4" />
+              Select Image
+            </Button>
+          </>
+        )}
       </div>
 
       <DialogFooter className="flex flex-col sm:flex-row sm:justify-between">
         <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
         </Button>
-        <Button
-          onClick={handleUpload}
-          disabled={!selectedFile || isPending}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Uploading...
-            </>
-          ) : (
-            "Save Changes"
-          )}
-        </Button>
+        {!isCropping && selectedFile && (
+          <Button
+            onClick={handleUpload}
+            disabled={isPending}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              "Save Changes"
+            )}
+          </Button>
+        )}
       </DialogFooter>
     </>
   );

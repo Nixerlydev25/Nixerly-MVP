@@ -94,6 +94,10 @@ export const API_ROUTES = {
     DELETE_CERTIFICATES: '/certificate/delete',
     GET_CERTIFICATE_UPLOAD_URL: '/certificate/get-asset-upload-url',
     SAVE_CERTIFICATE_ASSETS: '/certificate/save-assets',
+    CREATE_PORTFOLIOS: '/portfolio/create',
+    DELETE_PORTFOLIOS: '/portfolio/delete',
+    GET_PORTFOLIO_UPLOAD_URL: '/portfolio/get-asset-upload-url',
+    SAVE_PORTFOLIO_ASSETS: '/portfolio/save-assets',
   },
   JOB: {
     ROOT: '/jobs',
@@ -105,6 +109,7 @@ export const API_ROUTES = {
     APPLY: (id: string) => `/jobs/apply/${id}`,
     GET_MY_JOBS: `/business/get-all-business-jobs`,
     GET_DETAILS: (id?: string) => `/jobs/${id}`,
+    TOGGLE_JOB_STATUS: (jobId: string) => `/jobs/toggle-job-status/${jobId}`,
   },
   REPORT: {
     REPORT_WORKER: (workerId: string) => `/reports/report-worker/${workerId}`,

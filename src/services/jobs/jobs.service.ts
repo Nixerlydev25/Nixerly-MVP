@@ -6,9 +6,13 @@ import { JobApplicationSubmitData } from '@/app/(dashboard)/worker/job/[id]/appl
 interface GetAllJobsParams {
   page?: number;
   limit?: number;
-  sortBy?: string;
   sortOrder?: 'asc' | 'desc';
   search?: string;
+  budget?: number;
+  skills?: string[];
+  country?: string;
+  state?: string;
+  city?: string;
   minHourlyRate?: number;
   maxHourlyRate?: number;
   status?: string;
@@ -77,6 +81,13 @@ class JobsService {
       { params }
     );
     return response.data.data;
+  }
+
+  static async toggleClientJobVisibility(jobId: string) {
+    const response = await instance.post(
+      API_ROUTES.JOB.TOGGLE_JOB_STATUS(jobId)
+    );
+    return response.data;
   }
 }
 

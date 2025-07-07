@@ -14,20 +14,22 @@ import { ImageUpload } from "../common/image-upload"
 import { useModalStore } from "@/store/modal.store"
 import { ModalType } from "@/types/model"
 
+interface ProfileImageModalData {
+  currentImage?: string;
+}
+
+
 export function ImageUploadModal() {
   const { activeModal, closeModal, modalData } = useModalStore()
   const isOpen = activeModal === ModalType.EDIT_PROFILE_IMAGE
 
-  const [imageUrl, setImageUrl] = useState(modalData?.currentImage || "")
+  const [imageUrl, setImageUrl] = useState((modalData as ProfileImageModalData)?.currentImage || "")
 
   const handleImageUpload = (url: unknown) => {
     setImageUrl(url as string)
   }
 
   const handleSave = () => {
-
-    // You can handle save logic here, e.g., call an API or update store
-    // Example: onSave(imageUrl)
     closeModal()
   }
 

@@ -115,6 +115,8 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: #1e64d3;
+  --boldgray:#303236;
+  --lightgray:#E2E6EA;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: #0a3b8f;
   --secondary-foreground: oklch(0.985 0 0);
@@ -160,7 +162,10 @@
   --nixerly-darkcoral: #e05a3d;
   --nixerly-lightcoral: #ffded8;
   --nixerly-darkgray: #4a5568;
+  --nixerly-gray:#E2E6EA;
+  --nixerly-boldgray:#303236;
 }
+
 
 /* Custom Gradients */
 .bg-nixerly-gradient {

@@ -48,7 +48,7 @@ export default function BusinessSignupForm() {
                   />
                 </FormControl>
                 <FormMessage />
-              </FormItem>
+              </FormItem> 
             )}
           />
 

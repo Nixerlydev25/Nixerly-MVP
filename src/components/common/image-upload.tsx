@@ -1,8 +1,11 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { Upload, X } from "lucide-react"
+import { Upload, X, ImagePlus } from "lucide-react"
 import Image from "next/image"
+import { useDropzone } from "react-dropzone"
+import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 interface ImageUploadProps {
     value: string   
@@ -11,50 +14,34 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ value, onChange, label }:ImageUploadProps) {
-  const [isDragging, setIsDragging] = useState(false)
   const [preview, setPreview] = useState(value)
 
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(true)
-  }, [])
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Validate file types
+    const validFiles = acceptedFiles.filter(file => 
+      file.type.startsWith('image/')
+    );
 
-  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(false)
-  }, [])
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setIsDragging(false)
-
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        const file = e.dataTransfer.files[0]
-        handleFile(file)
-      }
-    },
-    [onChange],
-  )
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      handleFile(file)
+    if (validFiles.length !== acceptedFiles.length) {
+      toast.error("Some files were rejected. Only images are allowed.");
+      return;
     }
-  }
+
+    if (validFiles[0]) {
+      handleFile(validFiles[0])
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+    },
+    maxSize: 5 * 1024 * 1024, // 5MB
+    maxFiles: 1
+  });
 
   const handleFile = (file: File) => {
-    // In a real app, you would upload the file to a server or cloud storage
-    // For this example, we'll create a local object URL
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file")
-      return
-    }
-
     const reader = new FileReader()
     reader.onload = (e) => {
       const target = e.target as FileReader | null
@@ -87,20 +74,20 @@ export function ImageUpload({ value, onChange, label }:ImageUploadProps) {
         </div>
       ) : (
         <div
-          className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center h-32 w-32 mx-auto transition-colors ${
-            isDragging ? "border-primary bg-primary/10" : "border-muted-foreground/20"
-          }`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
+          {...getRootProps()}
+          className={cn(
+            "border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center h-32 w-32 mx-auto transition-colors",
+            isDragActive ? "border-primary bg-primary/5" : "border-muted-foreground/20"
+          )}
         >
-          <Upload className="h-10 w-10 text-muted-foreground mb-2" />
-          <div className="flex items-center gap-2">
-            <label htmlFor="image-upload" className="text-xs text-primary cursor-pointer hover:underline">
-              Upload
-            </label>
-            <input id="image-upload" type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-          </div>
+          <input {...getInputProps()} />
+          <ImagePlus className="h-10 w-10 text-muted-foreground mb-2" />
+          <p className="text-xs text-muted-foreground text-center">
+            Drag & drop or click to upload
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Max 5MB
+          </p>
         </div>
       )}
     </div>

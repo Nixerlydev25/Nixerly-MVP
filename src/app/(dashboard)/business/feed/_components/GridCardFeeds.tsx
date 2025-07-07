@@ -1,36 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { BookmarkIcon, StarIcon, UserIcon } from 'lucide-react';
+import { BookmarkIcon, StarIcon, UserIcon, ChevronDownIcon, ChevronUpIcon, ScrollText, FolderIcon, ExternalLinkIcon } from 'lucide-react';
 import { CardProps } from '@/types/feed/feed.types';
 import { formateSkills } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 function CardFeeds({
   id,
   title,
   avatar,
-  successRate,
   skills,
   rating,
   name,
   location,
   jobsCompleted,
   hourlyRate,
+  certificates,
+  portfolio,
 }: CardProps) {
   const router = useRouter();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasDetailsToShow = certificates.length > 0 || portfolio.length > 0;
+
   return (
     <Card key={id} className="overflow-hidden">
       <CardHeader className="p-4 pb-0">
         <div className="flex items-start justify-between">
-          <div className="flex gap-4">
+          <div className="flex gap-4 cursor-pointer" onClick={() => router.push(`/profile/worker/${id}`)}>
             <Image
               src={avatar || '/placeholder.svg'}
               width={60}
@@ -56,49 +60,140 @@ function CardFeeds({
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <div>
-            <span className="text-sm font-medium text-gray-600">
-              Hourly Rate:
-            </span>
-            <span className="ml-1 text-lg font-bold text-primary">
-              ${hourlyRate}
-            </span>
-            <span className="text-sm text-gray-600">/hr</span>
-          </div>
-          <div className="text-right">
-            <span className="text-sm font-medium text-gray-600">
-              Success Rate:
-            </span>
-            <span className="ml-1 font-medium text-green-600">
-              {successRate}%
-            </span>
-          </div>
-        </div>
         <p className="mb-3 text-sm text-gray-600">
           <UserIcon className="mr-1 inline-block h-4 w-4" />
           {location}
         </p>
         <div className="flex flex-wrap gap-2">
-          {skills.slice(0, 4).map((skill) => {
-            return (
-              <Badge key={skill} variant="secondary">
-                {formateSkills(skill)}
-              </Badge>
-            );
-          })}
+          {skills.slice(0, 4).map((skill) => (
+            <Badge key={skill} variant="secondary">
+              {formateSkills(skill)}
+            </Badge>
+          ))}
         </div>
+        
+        {hasDetailsToShow && (
+          <Button 
+            variant="ghost" 
+            className="w-full mt-4 flex items-center justify-center gap-2"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? (
+              <>Hide Details <ChevronUpIcon className="h-4 w-4" /></>
+            ) : (
+              <>Show Details <ChevronDownIcon className="h-4 w-4" /></>
+            )}
+          </Button>
+        )}
+
+        {isExpanded && (
+          <div className="mt-4 border-t bg-gray-50/50">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+              {certificates.length > 0 && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
+                    <div className="p-1.5 bg-blue-100 rounded-md">
+                      <ScrollText className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <h4 className="font-semibold text-gray-900">Certificates</h4>
+                    <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+                      {certificates.length}
+                    </span>
+                  </div>
+                  <ScrollArea className="h-[180px] pr-2">
+                    <div className="space-y-2">
+                      {certificates.map((cert) => (
+                        <div
+                          key={cert.id}
+                          className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                        >
+                          {cert.assets.length > 0 ? (
+                            <div className="relative flex-shrink-0">
+                              <Image
+                                src={cert.assets[0].url || "/placeholder.svg"}
+                                width={100}
+                                height={100}
+                                alt={cert.name}
+                                className="rounded-md object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
+                              <ScrollText className="h-4 w-4 text-blue-600" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium text-sm text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                                {cert.name}
+                              </p>
+                              <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              {cert.issuingOrg}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+
+              {portfolio.length > 0 && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
+                    <div className="p-1.5 bg-purple-100 rounded-md">
+                      <FolderIcon className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <h4 className="font-semibold text-gray-900">Portfolio</h4>
+                    <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+                      {portfolio.length}
+                    </span>
+                  </div>
+                  <ScrollArea className="h-[180px] pr-2">
+                    <div className="space-y-2">
+                      {portfolio.map((item) => (
+                        <div
+                          key={item.id}
+                          className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                        >
+                          {item.assets.length > 0 ? (
+                            <div className="relative flex-shrink-0">
+                              <Image
+                                src={item.assets[0].url || "/placeholder.svg"}
+                                width={100}
+                                height={100}
+                                alt={item.title}
+                                className="rounded-md object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
+                              <FolderIcon className="h-4 w-4 text-purple-600" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium text-sm text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
+                                {item.title}
+                              </p>
+                              <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </CardContent>
-      <CardFooter className="flex justify-between border-t bg-gray-50 p-4">
-        <Button
-          variant="outline"
-          className="w-full cursor-pointer"
-          onClick={() => router.push(`/profile/worker/${id}`)}
-        >
-          View Profile
-        </Button>
-        {/* <Button className="w-[48%]">Contact</Button> */}
-      </CardFooter>
     </Card>
   );
 }

@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from 'date-fns';
-import { Building2, DollarSign, Clock } from 'lucide-react';
+import { DollarSign, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
@@ -12,6 +12,7 @@ import { type Job } from './types';
 import { formatCurrency } from './utils';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface JobListItemProps {
   job: Job;
@@ -33,21 +34,27 @@ export function JobListItem({ job }: JobListItemProps) {
   return (
     <div
       onClick={handleJobClick}
-      className="border-b p-10 cursor-pointer hover:bg-gray-100 transition"
+      className="border-b p-6 cursor-pointer hover:bg-gray-100 transition"
     >
-      <div className="flex flex-col md:flex-row md:items-start gap-4">
+      <div className="flex gap-6">
+        <div className="flex-shrink-0">
+          <Avatar className="h-16 w-16 rounded-sm">
+            <AvatarImage src={job.businessProfile.profilePictureUrl} alt={job.businessProfile.companyName} />
+            <AvatarFallback className="text-lg">{job.businessProfile.companyName.charAt(0)}</AvatarFallback>
+          </Avatar>
+        </div>
+        
         <div className="flex-grow">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
             <div>
               <h3 className="font-semibold text-lg">{job.title}</h3>
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Building2 className="h-3 w-3 mr-1" />
-                <span>{job.businessProfile.companyName}</span>
-                <span className="mx-1">•</span>
+              <div className="flex items-center text-sm text-muted-foreground flex-wrap gap-x-2">
+                <span className="font-medium">{job.businessProfile.companyName}</span>
+                <span>•</span>
                 <span>
                   {job.location.city}, {job.location.state}
                 </span>
-                <span className="mx-1">•</span>
+                <span>•</span>
                 <span>Posted {timeAgo}</span>
               </div>
             </div>
@@ -105,16 +112,6 @@ export function JobListItem({ job }: JobListItemProps) {
             )}
           </div>
         </div>
-
-        {/* <div className="flex md:flex-col gap-2 justify-end items-end">
-          <Button className="w-full md:w-auto bg-blue-600">
-            Apply Now
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-          <Button variant="outline" className="w-full md:w-auto">
-            View Details
-          </Button>
-        </div> */}
       </div>
     </div>
   );

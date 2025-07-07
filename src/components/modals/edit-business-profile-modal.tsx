@@ -18,7 +18,7 @@ export interface EditBusinessProfileModalData {
   city?: string;
   state?: string;
   country?: string;
-  website?: string;
+  website?: string | null;
   employeeCount: number | string;
   yearFounded: number;
 }
@@ -29,7 +29,7 @@ const getEmployeeCountNumber = (range: string | number): number => {
 };
 
 export function EditBusinessProfileModal() {
-  const { mutateAsync } = useUpdateBusinessProfile();
+  const { mutateAsync } = useUpdateBusinessProfile(true);
   const { activeModal, closeModal, modalData } = useModalStore();
   const isOpen = activeModal === ModalType.EDIT_BUSINESS_PROFILE;
   const profileData = modalData as unknown as EditBusinessProfileModalData;

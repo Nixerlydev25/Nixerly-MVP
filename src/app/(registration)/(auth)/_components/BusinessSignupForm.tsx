@@ -16,13 +16,13 @@ export default function BusinessSignupForm() {
   const form = useForm<BusinessSignUpFormValues>({
     resolver: zodResolver(businessSignUpSchema),
     defaultValues: {
-      firstName: "Naveed",
-      lastName: "Ali",
-      email: "test@gmail.com",
-      password: "passpass",
-      confirmPassword: "passpass",
+    //   firstName: "Naveed",
+    //   lastName: "Ali",
+    //   email: "test@gmail.com",
+    //   password: "passpass",
+    //   confirmPassword: "passpass",
       profileType: ProfileType.BUSINESS,
-      acceptTerms: false
+    //   acceptTerms: false
     }
   })
 

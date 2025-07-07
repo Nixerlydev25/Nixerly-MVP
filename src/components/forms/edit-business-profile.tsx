@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Form,
   FormControl,
@@ -23,30 +23,23 @@ import { LocationDetails, LocationSearch } from '../location-search';
 import { DialogFooter } from '../ui/dialog';
 import { Button } from '../ui/button';
 
+interface BusinessData {
+  employeeRanges: Array<{ value: string; label: string }>;
+  industryOptions: Array<{ value: string; label: string }>;
+}
+
+import data from '@/data/onboarding/business.json' assert { type: 'json' };
+
 const profileFormSchema = z.object({
   industry: z.string().min(1, { message: 'Please select an industry' }),
-  location: z
-    .string()
-    .min(3, { message: 'Location must be at least 3 characters' }),
+  location: z.string().min(3, { message: 'Location must be at least 3 characters' }),
   city: z.string().optional(),
   state: z.string().optional(),
   country: z.string().optional(),
-  website: z.string().url({ message: 'Please enter a valid URL' }).optional(),
-  employeeCount: z.union([
-    z.number().int().positive(),
-    z.string().refine((val) => {
-      const num = Number(val);
-      return Number.isInteger(num) && num > 0;
-    }, 'Must be a positive integer string'),
-  ]),
-  yearFounded: z.coerce
-    .number()
-    .int()
-    .min(1800, { message: 'Year must be 1800 or later' })
-    .max(new Date().getFullYear(), {
-      message: 'Year cannot be in the future',
-    }),
-});
+  website: z.string().nullable().optional(),
+  employeeCount: z.union([z.number(), z.string()]),
+  yearFounded: z.number().int().min(1800).max(new Date().getFullYear()),
+}) satisfies z.ZodType<EditBusinessProfileModalData>;
 
 interface EditBusinessProfileFormProps {
   onSubmit: (data: EditBusinessProfileModalData) => void;
@@ -59,7 +52,7 @@ export function EditBusinessProfileForm({
   onSubmit,
   onCancel,
 }: EditBusinessProfileFormProps) {
-  const form = useForm({
+  const form = useForm<EditBusinessProfileModalData>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: defaultValues || {
       industry: '',
@@ -68,7 +61,7 @@ export function EditBusinessProfileForm({
       state: '',
       country: '',
       website: '',
-      employeeCount: 0,
+      employeeCount: '',
       yearFounded: new Date().getFullYear(),
     },
   });
@@ -78,7 +71,14 @@ export function EditBusinessProfileForm({
     form.setValue('city', locationDetails.city);
     form.setValue('state', locationDetails.state);
     form.setValue('country', locationDetails.country);
-  };
+  };  
+
+  useEffect(() => {
+    if (defaultValues) {
+      form.setValue('location', `${defaultValues.city}, ${defaultValues.state}, ${defaultValues.country}`);
+    }
+  }, [defaultValues]);
+
 
   return (
     <Form {...form}>
@@ -100,14 +100,11 @@ export function EditBusinessProfileForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="technology">Technology</SelectItem>
-                    <SelectItem value="construction">Construction</SelectItem>
-                    <SelectItem value="healthcare">Healthcare</SelectItem>
-                    <SelectItem value="retail">Retail</SelectItem>
-                    <SelectItem value="hospitality">Hospitality</SelectItem>
-                    <SelectItem value="education">Education</SelectItem>
-                    <SelectItem value="finance">Finance</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    {(data as BusinessData).industryOptions.map((industry) => (
+                      <SelectItem key={industry.value} value={industry.value}>
+                        {industry.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -123,9 +120,9 @@ export function EditBusinessProfileForm({
                 <FormLabel>Location</FormLabel>
                 <FormControl>
                   <LocationSearch
-                    defaultValue={`${form.getValues("city")}, ${form.getValues(
-                      "state"
-                    )}, ${form.getValues("country")}`}
+                    defaultValue={`${form.getValues('city')}, ${form.getValues(
+                      'state'
+                    )}, ${form.getValues('country')}`}
                     onLocationSelect={handleLocationSelect}
                     className="w-full"
                   />
@@ -142,7 +139,7 @@ export function EditBusinessProfileForm({
               <FormItem>
                 <FormLabel>Website (optional)</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="https://example.com" />
+                  <Input {...field} placeholder="https://example.com" value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -157,7 +154,19 @@ export function EditBusinessProfileForm({
                 <FormItem>
                   <FormLabel>Number of Employees</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" />
+                    <Input
+                      {...field}
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={field.value === 0 ? '' : field.value}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '' || /^\d+$/.test(value)) {
+                          field.onChange(value === '' ? '' : Number(value));
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -170,7 +179,21 @@ export function EditBusinessProfileForm({
                 <FormItem>
                   <FormLabel>Year Founded</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" />
+                    <Input
+                      {...field}
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={field.value || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '' || /^\d+$/.test(value)) {
+                          field.onChange(
+                            value === '' ? undefined : Number(value)
+                          );
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -8,9 +8,6 @@ export const ToastProvider = () => {
       richColors
       closeButton
       theme="light"
-      style={{
-        marginTop: '4rem',
-      }}
     />
   );
 }; 

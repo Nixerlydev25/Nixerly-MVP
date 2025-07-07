@@ -19,10 +19,10 @@ import FiltersFeeds from "./_components/FiltersFeeds";
 import CardFeeds from "./_components/GridCardFeeds";
 import ListCardFeeds from "./_components/ListCardFeeds";
 import FeedsPagination from "./_components/FeedsPagination";
-import { ROUTES } from "@/lib/routes";
-import { SearchIcon, X } from "lucide-react";
+import { SearchIcon, X, UserX, Megaphone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import JobBanner from "./_components/JobBanner";
 
 enum SortOption {
   RATING = "rating",
@@ -32,7 +32,6 @@ enum SortOption {
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"card" | "list">(() => {
-    // Try to get the saved view mode from localStorage during initialization
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("businessFeedViewMode");
       return saved === "card" || saved === "list" ? saved : "list";
@@ -70,11 +69,7 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  // Hook now handles all filter processing and provides currentPage
   const { data: freelancers, isLoading, currentPage } = useGetWorkers();
-  const handleWorkerClick = (workerId: string) => {
-    router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${workerId}`);
-  };
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
@@ -85,25 +80,28 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  // Save view mode to localStorage whenever it changes
+  
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
     localStorage.setItem("businessFeedViewMode", mode);
   };
+
+  console.log({freelancers})
 
   return (
     <div>
       {isLoading ? (
         <SkeletonFeed />
       ) : (
-        <div className="flex min-h-screen flex-col py-10">
+        <div className="flex min-h-screen flex-col py-10 bg-nixerly-form-gradient">
           <div className="container mx-auto px-4">
+            <JobBanner />
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+                {/* <h1 className="text-4xl font-bold font-title">
                   Find Top Talent
-                </h1>
-                <p className="mt-1 text-gray-600">
+                </h1> */}
+                <p className="mt-1 text-gray-500 font-subtitle">
                   Browse profiles of skilled professionals ready to work on your
                   projects
                 </p>
@@ -191,26 +189,31 @@ export default function Dashboard() {
                 <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
               </div>
               <div className="w-full lg:w-3/4">
-                {viewMode === "card" ? (
+                {!freelancers?.data?.length ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                    <UserX className="h-16 w-16 mb-4" />
+                    <h3 className="text-lg font-medium">No talent found</h3>
+                    <p className="text-sm">
+                      Please adjust your search criteria to find matching talent
+                    </p>
+                  </div>
+                ) : viewMode === "card" ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div
-                          key={freelancer.id}
-                          onClick={() => handleWorkerClick(freelancer.id)}
-                          className="cursor-pointer"
-                        >
+                        <div key={freelancer.id} className="cursor-pointer">
                           <CardFeeds
                             id={freelancer.id}
+                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
                             title={freelancer.title}
                             avatar={freelancer.profilePicture}
-                            successRate={100}
-                            skills={freelancer.skills}
                             rating={freelancer.avgRating}
-                            name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
-                            location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
+                            location={`${freelancer.city}, ${freelancer.country}`}
+                            skills={freelancer.skills}
+                            certificates={freelancer.certificates}
+                            portfolio={freelancer.portfolio}
                           />
                         </div>
                       )
@@ -220,22 +223,19 @@ export default function Dashboard() {
                   <div>
                     {freelancers?.data.map(
                       (freelancer: WorkerProfileResponse) => (
-                        <div
-                          key={freelancer.id}
-                          onClick={() => handleWorkerClick(freelancer.id)}
-                          className="cursor-pointer"
-                        >
+                        <div key={freelancer.id} className="cursor-pointer">
                           <ListCardFeeds
                             id={freelancer.id}
                             title={freelancer.title}
                             avatar={freelancer.profilePicture}
-                            successRate={100}
                             skills={freelancer.skills}
                             rating={freelancer.avgRating}
                             name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
                             location={`${freelancer.city}, ${freelancer.country}`}
                             jobsCompleted={freelancer.completedJobs}
                             hourlyRate={freelancer.hourlyRate}
+                            certificates={freelancer.certificates}
+                            portfolio={freelancer.portfolio}
                           />
                         </div>
                       )

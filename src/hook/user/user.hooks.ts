@@ -53,7 +53,7 @@ export const useUpdateWorkerProfile = () => {
   });
 };
 
-export const useUpdateBusinessProfile = () => {
+export const useUpdateBusinessProfile = (already_onboarded?: boolean) => {
   const router = useRouter()
   return useMutation({
     mutationKey: [QueryKeys.UPDATE_BUSINESS_PROFILE],
@@ -66,7 +66,9 @@ export const useUpdateBusinessProfile = () => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.BUSINESS_PROFILE_DETAILS],
       });
-      router.push(ROUTES.BUSINESS_FEED);
+      if (!already_onboarded) {
+        router.push(ROUTES.BUSINESS_FEED);
+      }
     },
     onError: (error: unknown) => {
       console.error('Error during updating business profile:', error);
@@ -92,7 +94,16 @@ export const useGetCurrentUser = () => {
 export const useGetCurrentWorkerProfileDetails = () => {
   return useQuery<WorkerUser>({
     queryKey: [QueryKeys.WORKER_PROFILE_DETAILS],
-    queryFn: UserService.getCurrentWorkerProfileDetails,
+    queryFn: async () => {
+      try {
+        const data = await UserService.getCurrentWorkerProfileDetails();
+        console.log("Worker profile details response:", data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching worker profile details:", error);
+        throw error;
+      }
+    },
   });
 };
 

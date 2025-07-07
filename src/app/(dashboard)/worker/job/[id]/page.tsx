@@ -8,12 +8,6 @@ import { ROUTES } from "@/lib/routes";
 import { ModalType } from "@/types/model";
 import { useModalStore } from "@/store/modal.store";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Briefcase,
   Building2,
   Calendar,
@@ -22,7 +16,6 @@ import {
   Flag,
   Heart,
   MapPin,
-  MoreHorizontal,
   Share2,
   PenToolIcon as Tool,
   User,
@@ -58,7 +51,7 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">
+                  <h1 className="text-2xl font-title">
                     {jobDetails?.title || "Job Title"}
                   </h1>
                   <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
@@ -103,25 +96,18 @@ export default function JobPostDetail() {
                   <span className="sr-only">Share job</span>
                 </Button>
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon">
-                      <MoreHorizontal className="h-5 w-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => {
-                        openModal(ModalType.REPORT_JOB_MODAL, {
-                          jobId: jobDetails?.id,
-                        });
-                      }}
-                    >
-                      <Flag className="mr-2 h-4 w-4" />
-                      Report this Job
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    openModal(ModalType.REPORT_JOB_MODAL, {
+                      jobId: jobDetails?.id,
+                    });
+                  }}
+                >
+                  <Flag className="h-5 w-5" />
+                  <span className="sr-only">Report job</span>
+                </Button>
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -236,7 +222,7 @@ export default function JobPostDetail() {
                   </p>
                   {jobDetails?.businessProfile?.website && (
                     <p>
-                      <strong>Website:</strong>{" "}
+                      <strong>Website:</strong>
                       {jobDetails?.businessProfile?.website}
                     </p>
                   )}
@@ -302,10 +288,10 @@ export default function JobPostDetail() {
                           >
                             <DollarSign className="h-3 w-3" />
                             {job === 1
-                              ? "$40-50/hr"
+                              ? "€40-50/hr"
                               : job === 2
-                              ? "$20-25/hr"
-                              : "$30-35/hr"}
+                              ? "€20-25/hr"
+                              : "€30-35/hr"}
                           </Badge>
                           <Badge
                             variant="outline"
@@ -344,9 +330,9 @@ export default function JobPostDetail() {
                     <DollarSign className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">
-                        {jobDetails?.budget ? `$${jobDetails.budget}` : ""}
+                        {jobDetails?.budget ? `€${jobDetails.budget}` : ""}
                         {jobDetails?.hourlyRateMin && jobDetails?.hourlyRateMax
-                          ? ` ($${jobDetails.hourlyRateMin}-$${jobDetails.hourlyRateMax}/hr)`
+                          ? ` (€${jobDetails.hourlyRateMin}-€${jobDetails.hourlyRateMax}/hr)`
                           : ""}
                       </p>
                       <p className="text-sm text-muted-foreground">

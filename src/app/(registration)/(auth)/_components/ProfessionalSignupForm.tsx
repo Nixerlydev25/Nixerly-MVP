@@ -183,7 +183,7 @@ export default function ProfessionalSignupForm() {
               Creating Account...
             </>
           ) : (
-            "Create Account"
+            "Create Professional Account"
           )}
         </Button>
       </form>

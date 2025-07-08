@@ -1,8 +1,8 @@
 "use client"
-
+import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import {Star } from "lucide-react"
 
 const testimonials = [
   {
@@ -110,12 +110,12 @@ export default function TestimonialsSection() {
 
   return (
     <section className="bg-blue-50 py-20 md:py-28">
-      <div className="container mx-auto max-w-7xl px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Header Section */}
         <div className="flex items-start justify-between mb-16">
           <div className="space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-blue-600">What Our customer Say!</h2>
-            <p className="text-gray-600 text-lg max-w-2xl">
+            <p className="text-gray-600 text-lg">
               Hear from professionals and businesses who found success on our platform.
             </p>
           </div>
@@ -123,13 +123,13 @@ export default function TestimonialsSection() {
           {/* Navigation Arrows */}
           <div className="flex gap-3">
             <Button
-              variant="outline"
+              // variant="outline"
               size="icon"
-              className="h-14 w-14 rounded-full border-gray-200 bg-white hover:bg-gray-50"
+              className="h-14 w-14 rounded-full border-gray-300 bg-white hover:bg-gray-50"
               onClick={prevSlide}
               disabled={isTransitioning}
             >
-              <ChevronLeft className="h-6 w-6 text-gray-600" />
+              <Image  src="/arrowLeft.svg" alt="arrowleft" width={30} height={30}/>
             </Button>
             <Button
               size="icon"
@@ -137,7 +137,7 @@ export default function TestimonialsSection() {
               onClick={nextSlide}
               disabled={isTransitioning}
             >
-              <ChevronRight className="h-6 w-6 text-white" />
+              <Image src="/arrowRight.svg" alt="arrowright" width={30} height={30} />
             </Button>
           </div>
         </div>

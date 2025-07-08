@@ -20,7 +20,7 @@ export default function HowItWorksSection() {
 
         <div className="mt-16">
           <div className="grid gap-8 md:grid-cols-3">
-            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-white p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-slate-50 p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
               <div className="flex items-center justify-between">
               <Image src="/eye.svg" alt="eye" width={112} height={112}/>
               </div>
@@ -29,13 +29,13 @@ export default function HowItWorksSection() {
                 Sign up and build your professional portfolio with your skills and experience.
               </p>
               <div className="flex justify-end pt-4">
-                <div className="bg-slate-100 rounded-full w-10 h-10 flex items-center justify-center">
+                <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
                   <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
 
-            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-white p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-slate-50 p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
               <div className="flex items-center justify-between">
               <Image src="/hand.svg" alt="eye" width={112} height={112}/>
               </div>
@@ -44,13 +44,13 @@ export default function HowItWorksSection() {
                 Explore job listings that match your skills and experience level.
               </p>
               <div className="flex justify-end pt-4">
-                <div className="bg-slate-100 rounded-full w-10 h-10 flex items-center justify-center">
+                <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
                   <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
 
-            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-[#FFFFFF] p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-slate-50 p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
               <div className="flex items-center justify-between">
               <Image src="/touch.svg" alt="eye" width={112} height={112}/>
               </div>
@@ -59,7 +59,7 @@ export default function HowItWorksSection() {
                 Apply to jobs and connect directly with construction businesses.
               </p>
               <div className="flex justify-end pt-4">
-                <div className="bg-slate-100 rounded-full w-10 h-10 flex items-center justify-center">
+                <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
                   <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
@@ -71,7 +71,7 @@ export default function HowItWorksSection() {
               className="bg-white not-last-of-type text-primary hover:bg-blue-50 shadow-sm px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
               asChild
             >
-              <Link href="/register" className="flex items-center gap-2 text-sm">
+              <Link href="/signup" className="flex items-center gap-2 text-sm">
                 Sign up for Professional
               </Link>
             </Button>
@@ -79,7 +79,7 @@ export default function HowItWorksSection() {
               className="text-white border border-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
               asChild
             >
-              <Link href="/register" className="flex items-center gap-2">
+              <Link href="/signup" className="flex items-center gap-2">
                 Sign up for Business
               </Link>
             </Button>

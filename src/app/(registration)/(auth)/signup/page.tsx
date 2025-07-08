@@ -24,6 +24,7 @@ export default function RegisterPage() {
     "professional"
   );
 
+
   return (
     <div className="flex min-h-screen ">
       <section className="flex flex-1 items-center justify-center py-12 px-4">
@@ -63,9 +64,22 @@ export default function RegisterPage() {
                       />
                       <Label
                         htmlFor="professional"
-                        className="flex justify-center items-center text-center  rounded-md border-2 border-nixerly-lightblue bg-white  text-black py-3 border-gray-100 "
+                        className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
+        ${profileType === "professional"
+          ? "bg-primary text-white border-primary"
+          : "bg-white text-black border-gray-100"}`}
                       >
-                        <Image src="/blackCheck.svg" alt="Professional"  width={16} height={16} className="text-black"/>
+                        <Image
+                          src={
+          profileType === "professional"
+            ? "/blackCheck.svg"
+            : "/checkhuman.png"
+        }
+                          alt="Professional"
+                          width={16}
+                          height={16}
+                          className="text-black"
+                        />
                         <span
                           className="font-inter text-base font-medium leading-5
 "
@@ -73,7 +87,6 @@ export default function RegisterPage() {
                           Professional
                         </span>
                       </Label>
-                   
                     </div>
                     <div>
                       <RadioGroupItem
@@ -83,9 +96,22 @@ export default function RegisterPage() {
                       />
                       <Label
                         htmlFor="business"
-                        className="flex justify-center items-center text-center  rounded-md border-2 text-white  bg-primary p-3 "
+                        className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
+        ${profileType === "business"
+          ? "bg-primary text-white border-primary"
+          : "bg-white text-black border-gray-100"}`}
                       >
-                   <Image src="/buildingWhite.svg" alt="Professional" width={16} height={16} className="text-white" />
+                        <Image
+                          src={
+          profileType === "business"
+            ? "/buildingWhite.svg"
+            : "/building.png"
+        }
+                          alt="Professional"
+                          width={16}
+                          height={16}
+                          className="text-white"
+                        />
                         <span
                           className="font-inter text-base font-medium leading-5
 "
@@ -104,7 +130,6 @@ export default function RegisterPage() {
                     <p className="px-2 text-gray-200">OR</p>
                     <p className="h-[2px] bg-gray-200 w-full" />
                   </div>
-                  
                 </div>
 
                 {profileType === "professional" ? (

@@ -33,7 +33,7 @@ export default function BusinessSignupForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 ">
           <FormField
             control={form.control}
             name="firstName"
@@ -43,7 +43,7 @@ export default function BusinessSignupForm() {
                 <FormControl>
                   <Input
                     placeholder="John"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                     {...field}
                   />
                 </FormControl>
@@ -61,7 +61,7 @@ export default function BusinessSignupForm() {
                 <FormControl>
                   <Input
                     placeholder="Doe"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                     {...field}
                   />
                 </FormControl>
@@ -94,12 +94,12 @@ export default function BusinessSignupForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Email</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Email</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="name@example.com"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -108,17 +108,18 @@ export default function BusinessSignupForm() {
           )}
         />
 
+<div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -132,12 +133,12 @@ export default function BusinessSignupForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Confirm Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Confirm Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -145,6 +146,7 @@ export default function BusinessSignupForm() {
             </FormItem>
           )}
         />
+        </div>
 
         <FormField
           control={form.control}
@@ -161,7 +163,7 @@ export default function BusinessSignupForm() {
               <div className="space-y-1 leading-none">
                 <label
                   htmlFor="terms"
-                  className="text-sm font-medium leading-none text-nixerly-darkgray"
+                  className="text-nixerly-darkgray font-inter text-sm font-medium leading-5"
                 >
                   I agree to the{" "}
                   <Link 
@@ -170,33 +172,26 @@ export default function BusinessSignupForm() {
                     tabIndex={0}
                     aria-label="Terms of Service"
                   >
-                    Terms of Service
+                    Terms and Conditions
                   </Link>{" "}
-                  and{" "}
-                  <Link 
-                    href="/privacy" 
-                    className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
-                    tabIndex={0}
-                    aria-label="Privacy Policy"
-                  >
-                    Privacy Policy
-                  </Link>
+                  
+                 
                 </label>
                 <FormMessage />
-              </div>
+              </div> 
             </FormItem>
           )}
         />
 
         <Button
           type="submit"
-          className="w-full bg-nixerly-gradient hover:opacity-90 text-white font-semibold py-2.5 rounded-md shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
+          className="w-full bg-nixerly-gradient hover:opacity-90 hover:translate-y-[-1px] text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform "
           disabled={isPending}
         >
           {isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Creating Business Account...
+              Creating Account...
             </>
           ) : (
             "Create Business Account"

@@ -6,7 +6,7 @@ export default function HeroSection() {
   return (
     <section className="bg-gray-50 py-16 md:py-24 relative overflow-hidden">
       {/* Left decorative boxes */}
-      <div className="absolute left-70 top-0 w-72 h-72 opacity-40">
+      <div className="absolute left-40 top-0 w-72 h-72 opacity-40">
         <Image src="/boxleft.svg" alt="" width={128} height={128} className="w-full h-full" />
       </div>
 
@@ -15,18 +15,18 @@ export default function HeroSection() {
         <Image src="/rightbox.png" alt="rightboxes" width={160} height={160} className="w-full h-full" />
       </div>
 
-      <div className="container mx-auto max-w-7xl px-4 md:px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-8">
             {/* Trust Badge with Avatars */}
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
-                <Image src="/people.png" alt="people" width={100} height={100} />
+                <Image src="/people.svg" alt="people" width={100} height={100} />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-black">The Future of Construction Networking</span>
                 <div className="flex items-center gap-1">
-                  <Image src="/stars.png" alt="star" width={100} height={100} />
+                  <Image src="/stars.svg" alt="star" width={100} height={100} />
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ export default function HeroSection() {
               <Button
                 variant="link"
                 size="lg"
-                className="text-gray-600 px-6 py-3 text-base font-medium border-2 border-gray-300 rounded-full hover:no-underline"
+                className="text-gray-600 px-6 py-3 text-base font-medium border-1 border-gray-300 rounded-full hover:no-underline"
                 asChild
               >
                 <Link href="/about">Learn More</Link>
@@ -71,13 +71,13 @@ export default function HeroSection() {
               <Image src="/boxleft.svg" alt="" width={96} height={96} className="w-full h-full" />
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl">
+            <div className="relative overflow-hidden rounded-2xl">
               <Image
                 src="/collaborative-construction-planning.png"
                 alt="Construction professionals collaborating on blueprints and project planning"
                 width={720}
                 height={576}
-                className="w-[700px] h-[576px] object-cover"
+                className="w-[700px] h-[576px] object-cover rounded-2xl"
                 priority
               />
             </div>

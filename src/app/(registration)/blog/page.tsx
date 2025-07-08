@@ -108,8 +108,8 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen ">
       {/* Most Popular Blogs Section */}
-      <section className="py-12 px-4 md:px-6 bg-gray-100">
-        <div className="container mx-auto max-w-7xl ">
+      <section className="py-12 px-4 md:px-10 bg-gray-100">
+        <div className="container mx-auto ">
           <h2 className="text-black font-inter text-4xl font-light mb-8  ">
             Most <span className="text-primary font-inter text-4xl font-semibold">Popular Blogs</span>
           </h2>
@@ -158,8 +158,8 @@ export default function BlogPage() {
       </section>
 
       {/* Our Recent Publications Section */}
-      <section className="py-12 px-4 md:px-6">
-        <div className="container mx-auto max-w-7xl">
+      <section className="py-12 px-4 md:px-10">
+        <div className="container mx-auto">
           <h2 className="text-[#26344E] font-inter text-4xl font-semibold mb-8">
             Our Recent <span className="text-primary font-inter text-4xl font-semibold">Publications</span>
           </h2>
@@ -226,7 +226,7 @@ export default function BlogPage() {
 
       {/* Newsletter Section */}
          <section className="py-16 px-4 md:px-6 my-10 bg-gray-100">
-      <div className="container mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold leading-tight">

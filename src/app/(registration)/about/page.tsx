@@ -171,7 +171,7 @@ export default function LandingPage() {
 
       {/* Benefits Section */}
       <section className="bg-primary  py-20 md:py-28">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
             <div className="inline-flex px-3 py-1 gap-2 text-white  mb-4 text-center font-inter text-[20px] font-normal leading-[20px] tracking-[2.4px]">
               Why Choose    <span className="text-white font-inter text-[20px] font-bold leading-[20px] tracking-[2.4px]">Nixerly</span>

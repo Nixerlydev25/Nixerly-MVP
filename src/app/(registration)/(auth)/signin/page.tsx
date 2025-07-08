@@ -44,20 +44,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-nixerly-light-gradient bg-pattern">
+    <div className="flex min-h-screen ">
       <section className="flex flex-1 items-center justify-center py-12 px-4">
-        <div className="w-full max-w-md animate-fade-in">
-          <Card className="shadow-nixerly-card border-nixerly-lightblue hover-card-rise">
+        <div className="w-full max-w-2xl animate-fade-in">
+          <Card className="shadow-nixerly-card hover-card-rise rounded-2xl">
             <CardHeader className="space-y-2 pb-6">
-              <div className="flex justify-center mb-2">
-                <div className="bg-nixerly-blue p-3 rounded-full">
-                  <LogIn className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <CardTitle className="nixerly-heading text-2xl font-bold text-center text-nixerly-darkblue">
-                Welcome back
+              {/* <div className="flex justify-center mb-2"> */}
+              {/* <div className="bg-nixerly-blue p-3 rounded-full"> */}
+              {/* <LogIn className="h-6 w-6 text-white" /> */}
+              {/* </div>/ */}
+              {/* </div> */}
+              <CardTitle
+                className="text-center text-black font-inter text-4xl font-bold leading-[normal]
+  mt-10 "
+              >
+                Sign In
               </CardTitle>
-              <CardDescription className="text-center text-nixerly-darkgray">
+              <CardDescription
+                className="text-center text-nixerly-darkgray font-inter text-sm font-normal leading-5
+"
+              >
                 Enter your credentials to access your account
               </CardDescription>
             </CardHeader>
@@ -65,21 +71,21 @@ export default function LoginPage() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-5"
+                  className="space-y-5 w-[500px] mx-auto container"
                 >
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem className="space-y-2">
-                        <FormLabel className="text-nixerly-darkgray font-medium">
-                          Email
+                        <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
+                          E-mail Or phone number
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="name@example.com"
                             type="email"
-                            className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                            className="  p-4 rounded-md border border-nixerly-border !bg-blue-50 text-black "
                             {...field}
                           />
                         </FormControl>
@@ -93,33 +99,38 @@ export default function LoginPage() {
                     render={({ field }) => (
                       <FormItem className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <FormLabel className="text-nixerly-darkgray font-medium">
+                          <FormLabel
+                            className="text-nixerly-darkgray font-inter text-sm font-medium leading-5
+"
+                          >
                             Password
                           </FormLabel>
-                          <Link
-                            href="/forgot-password"
-                            className="text-sm text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
-                            tabIndex={0}
-                            aria-label="Forgot password"
-                          >
-                            Forgot password?
-                          </Link>
+                         
                         </div>
                         <FormControl>
                           <Input
                             type="password"
                             placeholder="••••••••"
-                            className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                            className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                             {...field}
                           />
                         </FormControl>
+                         <Link
+                            href="/forgot-password"
+                            className=" text-nixerly-darkgray font-inter text-sm text-right font-medium leading-5
+"
+                            tabIndex={0}
+                            aria-label="Forgot password"
+                          >
+                            Forgot password?
+                          </Link> 
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <Button
                     type="submit"
-                    className="w-full bg-nixerly-gradient hover:opacity-90 text-white font-semibold py-2.5 rounded-md shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
+                    className="w-full bg-nixerly-gradient hover:opacity-90 text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
                     disabled={isPending}
                   >
                     {isPending ? (
@@ -135,19 +146,23 @@ export default function LoginPage() {
               </Form>
             </CardContent>
             <CardFooter className="flex flex-col">
-              <Separator className="my-4 bg-nixerly-lightblue" />
-              <p className="text-center text-sm text-nixerly-darkgray">
+              {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
+              <p
+                className="text-center text-sm text-nixerly-darkgray font-inter font-normal leading-5
+"
+              >
                 Don&apos;t have an account?{" "}
                 <Link
                   href={ROUTES.SIGNUP}
-                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors font-inter text-sm leading-5
+"
                   tabIndex={0}
                   aria-label="Sign up for an account"
                 >
                   Sign up
                 </Link>
               </p>
-              <p className="mt-2 text-center text-xs text-nixerly-darkgray">
+              {/* <p className="mt-2 text-center text-xs text-nixerly-darkgray">
                 By signing in, you agree to our{" "}
                 <Link
                   href="/terms"
@@ -167,7 +182,7 @@ export default function LoginPage() {
                   Privacy Policy
                 </Link>
                 .
-              </p>
+              </p> */}
             </CardFooter>
           </Card>
         </div>

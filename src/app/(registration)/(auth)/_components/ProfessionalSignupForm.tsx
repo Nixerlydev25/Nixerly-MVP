@@ -35,18 +35,18 @@ export default function ProfessionalSignupForm() {
   
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="grid gap-4 sm:grid-cols-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-[500px] mx-auto container">
+        <div className="grid gap-4 ">
           <FormField
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-nixerly-darkgray font-medium">First Name</FormLabel>
+              <FormItem className="space-y-2 ">
+                <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">First Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                     {...field}
                   />
                 </FormControl>
@@ -60,11 +60,11 @@ export default function ProfessionalSignupForm() {
             name="lastName"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-nixerly-darkgray font-medium">Last Name</FormLabel>
+                <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Last Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Doe"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                     {...field}
                   />
                 </FormControl>
@@ -79,12 +79,12 @@ export default function ProfessionalSignupForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Email</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Email</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="name@example.com"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -93,17 +93,20 @@ export default function ProfessionalSignupForm() {
           )}
         />
 
-        <FormField
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+
+
+   <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -117,12 +120,12 @@ export default function ProfessionalSignupForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-medium">Confirm Password</FormLabel>
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Confirm Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue"
+                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
                   {...field}
                 />
               </FormControl>
@@ -130,12 +133,15 @@ export default function ProfessionalSignupForm() {
             </FormItem>
           )}
         />
+        </div>
+
+     
 
         <FormField
           control={form.control}
           name="acceptTerms"
           render={({ field }) => (
-            <FormItem className="flex items-center space-x-2">
+            <FormItem className="flex items-center space-x-2 ">
               <FormControl>
                 <Checkbox
                   id="terms"
@@ -147,7 +153,7 @@ export default function ProfessionalSignupForm() {
               <div className="space-y-1 leading-none">
                 <label
                   htmlFor="terms"
-                  className="text-sm font-medium leading-none text-nixerly-darkgray"
+                  className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 "
                 >
                   I agree to the{" "}
                   <Link 
@@ -156,17 +162,9 @@ export default function ProfessionalSignupForm() {
                     tabIndex={0}
                     aria-label="Terms of Service"
                   >
-                    Terms of Service
+                    Terms of Conditions
                   </Link>{" "}
-                  and{" "}
-                  <Link 
-                    href="/privacy" 
-                    className="text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
-                    tabIndex={0}
-                    aria-label="Privacy Policy"
-                  >
-                    Privacy Policy
-                  </Link>
+                 
                 </label>
                 <FormMessage />
               </div>
@@ -176,7 +174,7 @@ export default function ProfessionalSignupForm() {
 
         <Button
           type="submit"
-          className="w-full bg-nixerly-gradient hover:opacity-90 text-white font-semibold py-2.5 rounded-md shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
+          className="w-full bg-nixerly-gradient hover:opacity-90 text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
           disabled={isPending}
         >
           {isPending ? (

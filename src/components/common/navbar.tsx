@@ -21,17 +21,18 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
+    { href: "/about", label: "About Us" },
+    {href:"/prices",label:"Prices"},
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary bg-white">
-      <div className="mx-auto w-full container sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
+      <div className="mx-auto w-full container px-4 lg:px-0">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/" className="flex items-center ml-4">
+            <Link href="/" className="flex items-center">
               <Image src="/NixerlyLogo.svg" alt="Nixerly Logo" width={126} height={42} className="mr-2" />
             </Link>
           </div>
@@ -42,7 +43,7 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="md:hidden text-black"
+                    className="lg:hidden text-black"
                   >
                     <Menu className="h-5 w-5" />
                     <span className="sr-only">Toggle menu</span>
@@ -65,7 +66,7 @@ export default function Navbar() {
                       </Link>
                     ))}
                     <div className="flex flex-col gap-2 mt-4">
-                      <Button asChild>
+                      <Button asChild className="text-white bg-primary">
                         <Link
                           href={ROUTES.SIGNIN}
                           onClick={() => setIsOpen(false)}
@@ -73,7 +74,7 @@ export default function Navbar() {
                           Sign In
                         </Link>
                       </Button>
-                      <Button variant="outline" asChild>
+                      <Button variant="light" asChild className="border border-gray-300 ">
                         <Link
                           href={ROUTES.SIGNUP}
                           onClick={() => setIsOpen(false)}
@@ -85,7 +86,7 @@ export default function Navbar() {
                   </nav>
                 </SheetContent>
               </Sheet>
-              <nav className="hidden md:flex items-center gap-10">
+              <nav className="hidden lg:flex items-center gap-10">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
@@ -100,7 +101,7 @@ export default function Navbar() {
                   </Link>
                 ))}
               </nav>
-              <div className="hidden md:flex items-center gap-2">
+              <div className="hidden lg:flex items-center gap-2">
                 <Button
                 variant="light"
                   className="border rounded-full border-nixerly-gray w-28 h-10 hover:text-nixerly-blue border-gray-300"

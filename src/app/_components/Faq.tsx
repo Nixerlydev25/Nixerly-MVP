@@ -50,21 +50,23 @@ export default function Faq(){
   
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={index} className="bg-white rounded-lg border border-gray-200 py-6">
                 <div
-                  className="flex items-center justify-between cursor-pointer"
+                  className="flex items-center justify-between cursor-pointer px-6"
                   onClick={() => toggleFAQ(index)}
                 >
-                  <h3 className=" text-gray-900 font-plusjakarta text-[20px] font-semibold leading-normal">{faq.question}</h3>
+                  <h3 className={`text-gray-900 font-plusjakarta text-xl leading-normal ${openIndex === index ? 'font-semibold' : 'font-normal'}`}>{faq.question}</h3>
                   <ChevronDown
                     className={`h-5 w-5 text-gray-500 transform transition-transform duration-300 ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
                   />
                 </div>
-  
                 {openIndex === index && (
-                  <p className="text-gray-600 mt-4 font-plusjakarta text-base font-normal leading-[26px]">{faq.answer}</p>
+                  <>
+                    <div className="border-t border-gray-200 my-4"></div>
+                    <p className="text-gray-600 font-plusjakarta text-base font-normal leading-[26px] px-6">{faq.answer}</p>
+                  </>
                 )}
               </div>
             ))}

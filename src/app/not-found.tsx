@@ -12,34 +12,9 @@ export default function NotFound() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full text-center">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex justify-center items-center gap-2 mb-6">
-            <Hammer className="h-8 w-8 text-blue-600" />
-            <span className="text-lg font-bold text-blue-600">Nixerly</span>
-          </div>
-        </div>
 
         {/* Main 404 Content */}
         <div className="mb-12">
-          {/* Construction Scene Illustration */}
-          <div className="flex justify-center items-end mb-8 relative">
-            <div className="flex justify-center items-end mb-8 relative">
-              <div className="relative">
-                <div className="absolute -left-16 top-20">
-                  <Wrench className="h-8 w-8 text-gray-600 rotate-45" />
-                </div>
-                {/* Construction crane */}
-                <div className="w-2 h-32 bg-yellow-500 mx-auto mb-4"></div>
-                <div className="w-16 h-2 bg-yellow-500 absolute top-8 left-1/2 transform -translate-x-1/2"></div>
-
-                {/* Tools scattered around */}
-
-                <div className="absolute -right-12 top-24">
-                  <HardHat className="h-8 w-8 text-blue-600" />
-                </div>
-              </div>
-            </div>
-          </div>
 
           <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
           <h2 className="text-3xl font-semibold text-gray-800 mb-4">
@@ -63,10 +38,10 @@ export default function NotFound() {
               Go Home
             </Button>
           </Link>
-          <Button variant="outline" onClick={() => router.back()}>
+          <button className='text-black border-gray-300 flex items-center border px-2 rounded-md hover:text-white hover:bg-primary' onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Go Back
-          </Button>
+          </button>
         </div>
 
         {/* Footer */}

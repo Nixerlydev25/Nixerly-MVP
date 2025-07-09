@@ -27,8 +27,8 @@ export default function Contact() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-10 lg:gap-60 lg:grid-cols-2">
           <div className=" ">
-            <p className="text-xl flex gap-6 leading-5 font-medium text-primary tracking-tighter ">Contact Us <span className="w-12 h-1 rounded-full bg-primary mt-2"></span> </p>
-            <h1 className="text-4xl font-bold leading-12 text-primary mt-6">Get In Touch</h1>
+            <p className="text-xl flex gap-6 leading-5 font-medium text-nixerly-blue tracking-tighter ">Contact Us <span className="w-12 h-1 rounded-full bg-nixerly-blue mt-2"></span> </p>
+            <h1 className="text-4xl font-bold leading-12 text-nixerly-blue mt-6">Get In Touch</h1>
             <form className="mt-10 text-black" onSubmit={handleSubmit}>
               <div className=" ">
                 <div>
@@ -63,7 +63,7 @@ export default function Contact() {
                   style={{ height: "180px", resize: "none" }}
                 ></textarea>
               </div>
-              <Button type="submit" className="bg-primary hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter  mt-6 ">
+              <Button type="submit" className="bg-nixerly-blue hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter  mt-6 ">
                 Contact Us
               </Button>
             </form>
@@ -81,7 +81,7 @@ export default function Contact() {
                   alt="location icon"
                   width={13}
                   height={20}
-                  className="mr-1 h-5 w-5 text-primary shrink-0 mt-0.5"
+                  className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
                 <span className="text-gray-600 font-inter text-base font-normal leading-6">Nixerly Ltd,
                         123 Business Park,
@@ -93,7 +93,7 @@ export default function Contact() {
                   alt="phone icon"
                   width={13}
                   height={20}
-                  className="mr-1 h-5 w-5 text-primary shrink-0 mt-0.5"
+                  className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
                 <span className="text-gray-600 font-inter text-base font-normal leading-6">+353 (0) 1 234 5678</span>
               </div>
@@ -103,7 +103,7 @@ export default function Contact() {
                   alt="message  icon"
                   width={13}
                   height={20}
-                  className="mr-1 h-5 w-5 text-primary shrink-0 mt-0.5"
+                  className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
                 <span className="text-gray-600">mailto:info@nixerly.com</span>
               </div>

@@ -27,16 +27,22 @@ import { LogIn, Loader2 } from "lucide-react";
 import { useSignIn } from "@/hook/auth/auth.hook";
 import { signInSchema, type SignInFormValues } from "@/schema/auth/auth.schema";
 import { ROUTES } from "@/lib/routes";
+import Image from "next/image";
+
+import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
 
 export default function LoginPage() {
   const { mutateAsync: SignIn, isPending } = useSignIn();
+  const [showPassword, setShowPassword] = useState(false);
+  
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
-    // defaultValues: {
-    //   email: "john.doe@example.com",
-    //   password: "password123",
-    // },
+    defaultValues: {
+      // email: "john.doe@example.com",
+      // password: "password123",
+    },
   });
 
   const onSubmit = async (values: SignInFormValues) => {
@@ -44,8 +50,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen ">
-      <section className="flex flex-1 items-center justify-center py-12 px-4">
+    <div className="flex mt-32">
+      <section className="flex flex-1 items-center justify-center px-4">
         <div className="w-full max-w-2xl animate-fade-in">
           <Card className="shadow-nixerly-card hover-card-rise rounded-2xl">
             <CardHeader className="space-y-2 pb-6">
@@ -71,13 +77,13 @@ export default function LoginPage() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-5 w-[500px] mx-auto container"
+                  className="space-y-5 max-w-[500px] mx-auto container"
                 >
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem className="space-y-2">
+                      <FormItem className="">
                         <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
                           E-mail Or phone number
                         </FormLabel>
@@ -85,7 +91,7 @@ export default function LoginPage() {
                           <Input
                             placeholder="name@example.com"
                             type="email"
-                            className="  p-4 rounded-md border border-nixerly-border !bg-blue-50 text-black "
+                            className="   focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
                             {...field}
                           />
                         </FormControl>
@@ -97,33 +103,40 @@ export default function LoginPage() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem className="space-y-2">
+                      <FormItem className="">
                         <div className="flex items-center justify-between">
                           <FormLabel
-                            className="text-nixerly-darkgray font-inter text-sm font-medium leading-5
-"
-                          >
+                            className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">
                             Password
                           </FormLabel>
-                         
                         </div>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
-                            {...field}
-                          />
+                        <FormControl className="flex  justify-between">
+                              <div className="relative">
+      <Input
+        type={showPassword ? "text" : "password"}
+        placeholder="ahmed234$#"
+        className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+        {...field}
+      />
+      <span
+        onClick={() => setShowPassword(!showPassword)}
+        className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+      >
+        {showPassword ?  <EyeOff size={16} className="text-black" /> : <Eye size={16} className="text-black" />}
+      </span>
+    </div>
+
                         </FormControl>
-                         <Link
-                            href="/forgot-password"
-                            className=" text-nixerly-darkgray font-inter text-sm text-right font-medium leading-5
+
+                        <Link
+                          href="/forgot-password"
+                          className=" text-nixerly-darkgray pt-2 font-inter text-sm text-right font-medium leading-5
 "
-                            tabIndex={0}
-                            aria-label="Forgot password"
-                          >
-                            Forgot password?
-                          </Link> 
+                          tabIndex={0}
+                          aria-label="Forgot password"
+                        >
+                          Forgot password?
+                        </Link>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -159,7 +172,7 @@ export default function LoginPage() {
                   tabIndex={0}
                   aria-label="Sign up for an account"
                 >
-                  Sign up
+                  Sign Up
                 </Link>
               </p>
               {/* <p className="mt-2 text-center text-xs text-nixerly-darkgray">

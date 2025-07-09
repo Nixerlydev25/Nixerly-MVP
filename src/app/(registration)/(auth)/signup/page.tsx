@@ -44,10 +44,10 @@ export default function RegisterPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-5 w-[500px] mx-auto container">
+              <div className="space-y-5  max-w-[500px] mx-auto container">
                 <div className="space-y-2">
                   <Label className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
-                    I am a:
+                    You Name
                   </Label>
                   <RadioGroup
                     defaultValue={profileType}
@@ -66,7 +66,7 @@ export default function RegisterPage() {
                         htmlFor="professional"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "professional"
-          ? "bg-primary text-white border-primary"
+          ? "bg-primary text-white "
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                         htmlFor="business"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "business"
-          ? "bg-primary text-white border-primary"
+          ? "bg-primary text-white"
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
@@ -127,11 +127,11 @@ export default function RegisterPage() {
                   </RadioGroup>
                   <div className="flex items-center justify-center my-4">
                     <p className="h-[2px] bg-gray-200 w-full " />
-                    <p className="px-2 text-gray-200">OR</p>
+                    <p className="px-2 text-[#6F767E]">OR</p>
                     <p className="h-[2px] bg-gray-200 w-full" />
                   </div>
                 </div>
-
+        
                 {profileType === "professional" ? (
                   <ProfessionalSignupForm />
                 ) : (
@@ -149,7 +149,7 @@ export default function RegisterPage() {
                   tabIndex={0}
                   aria-label="Sign in to your account"
                 >
-                  Sign in
+                  Sign In
                 </Link>
               </p>
             </CardFooter>

@@ -30,6 +30,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { CalendarDays } from 'lucide-react';
+
+
 interface BusinessData {
   employeeRanges: Array<{ value: string; label: string }>;
   industryOptions: Array<{ value: string; label: string }>;
@@ -47,22 +50,43 @@ export function BusinessProfileForm() {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Business Profile</CardTitle>
-        <CardDescription>
-          Enter your business information to complete your profile.
-        </CardDescription>
-      </CardHeader>
+    <Card className=" max-w-2xl mx-auto container border border-nixerly-bussinessborder shadow-2xl shadow-nixerly-card hover-card-rise rounded-2xl ">
+
+
+        <div className="flex items-start gap-4 px-6">
+          {/* Number Badge */}
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+              <span className="text-black font-semibold text-lg p-2">01</span>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 space-y-1">
+            <h3 className="text-lg font-bold text-primary leading-tight">Complete Your Business Profile</h3>
+            <p className="text-sm  text-nixerly-businesslabel leading-relaxed">
+              Enter Your Business Information To Complete Your Profile
+            </p>
+          </div>
+        </div>
+      
+
+
+      <div className="w-full border  border-nixerly-bussinessborder "  />
       <CardContent className="space-y-6">
         <FormField
           control={form.control}
           name="companyName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Company Name</FormLabel>
+              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Company Name</FormLabel>
               <FormControl>
-                <Input placeholder="Acme Inc." {...field} />
+                <Input
+                 className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5 " placeholder="Acme Inc." {...field} 
+
+      
+
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,17 +98,17 @@ export function BusinessProfileForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Description</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us about your business..."
-                  className="min-h-[120px]"
+                  className="min-h-[120px] font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">
                 A brief description of your company and what you do.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -96,9 +120,9 @@ export function BusinessProfileForm() {
             name="industry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Industry</FormLabel>
+                <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Industry</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl className="w-full">
+                  <FormControl className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5">
                     <SelectTrigger>
                       <SelectValue placeholder="Select an industry" />
                     </SelectTrigger>
@@ -121,10 +145,10 @@ export function BusinessProfileForm() {
             name="employeeCount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Number of Employees</FormLabel>
+                <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Number of Employees</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5">
                       <SelectValue placeholder="Select employee range" />
                     </SelectTrigger>
                   </FormControl>
@@ -144,12 +168,14 @@ export function BusinessProfileForm() {
 
         <div className="space-y-6">
           <FormItem>
-            <FormLabel>Location</FormLabel>
+            <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Location</FormLabel>
             <FormControl>
               <LocationSearch
                 onLocationSelect={handleLocationSelect}
                 defaultValue=""
+                className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
               />
+            
             </FormControl>
             <div className="space-y-1">
               {(form.formState.errors.city || form.formState.errors.country) && (
@@ -170,9 +196,9 @@ export function BusinessProfileForm() {
           name="website"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website (Optional)</FormLabel>
+              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Website</FormLabel>
               <FormControl>
-                <Input placeholder="example.com" {...field} />
+                <Input placeholder="example.com" {...field} className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -184,9 +210,11 @@ export function BusinessProfileForm() {
           name="yearFounded"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Year Founded</FormLabel>
+              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Founded</FormLabel>
               <FormControl>
+                <div className="relative ">
                 <Input
+                className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
                   type="number"
                   placeholder="2010"
                   {...field}
@@ -195,21 +223,27 @@ export function BusinessProfileForm() {
                       e.target.value === ""
                         ? undefined
                         : Number.parseInt(e.target.value, 10);
-                    field.onChange(value);
+                    field.onChange(value); 
                   }}
+
+                  
                 />
+   <CalendarDays className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+   </div>
               </FormControl>
               <FormMessage />
+              
             </FormItem>
           )}
         />
 
         <CardFooter className="px-0 pt-6">
-          <Button type="submit" className="ml-auto" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? "Saving..." : "Go To Feed"}
+          <Button type="submit" className="ml-auto rounder-full bg-primary gap-4 p-2  text-white font-medium" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Saving..." : "Get Started"}
           </Button>
         </CardFooter>
       </CardContent>
     </Card>
   );
 }
+ 

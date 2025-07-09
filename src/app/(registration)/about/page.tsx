@@ -3,9 +3,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { CheckCircle2, Users, Building2, Award, Briefcase, ChevronDown, Phone, Mail, MapPin } from "lucide-react"
+// import { Input } from "@/components/ui/input"
+// import { Textarea } from "@/components/ui/textarea"
+// import { CheckCircle2, Users, Building2, Award, Briefcase, ChevronDown, Phone, Mail, MapPin } from "lucide-react"
 import Faq from "@/app/_components/Faq"
 import Contact from "@/app/_components/Contact"
 import Stats from "@/app/_components/Stats"
@@ -159,7 +159,7 @@ export default function LandingPage() {
                 need them, helping to address Ireland's housing and infrastructure challenges through better workforce
                 connections. 
               </p>
-              <Button className="bg-blue-600 hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter mt-6" asChild>
+              <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter mt-6" asChild>
                 <Link href="/register" className="flex items-center gap-2 ">
                   Learn More 
                 </Link>
@@ -171,7 +171,7 @@ export default function LandingPage() {
 
       {/* Benefits Section */}
       <section className="bg-primary  py-20 md:py-28">
-        <div className="container mx-auto px-4 md:px-10">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <div className="inline-flex px-3 py-1 gap-2 text-white  mb-4 text-center font-inter text-[20px] font-normal leading-[20px] tracking-[2.4px]">
               Why Choose    <span className="text-white font-inter text-[20px] font-bold leading-[20px] tracking-[2.4px]">Nixerly</span>
@@ -211,14 +211,14 @@ export default function LandingPage() {
               alt="arrow"
               width={25}
               height={25}
-              className="mr-3 h-5 w-5 text-blue-600 shrink-0 mt-0.5"
+              className="mr-3 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
             />
             <span className="text-gray-600 font-montserrat text-base font-medium leading-[16px]">{point}</span>
           </li>
         ))}
       </ul>
       <div className="mt-6">
-        <Button className="bg-blue-600 hover:bg-blue-700 rounded-full text-white font-inter text-sm font-medium leading-normal" asChild>
+        <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full text-white font-inter text-sm font-medium leading-normal" asChild>
           <Link href={card.href}>{card.buttonLabel}</Link>
         </Button>
       </div>

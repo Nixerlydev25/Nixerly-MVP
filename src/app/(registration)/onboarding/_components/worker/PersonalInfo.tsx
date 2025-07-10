@@ -91,7 +91,7 @@ export const PersonalInfo = () => {
       {/* Progress Indicator */}
       <ProgressIndicator currentStep={1} totalSteps={4} hasStartedFilling={hasStartedFilling} />
 
-      <Card className="shadow-nixerly-card border border-gray-300 text-nixerly-businesslabel bg-white rounded-lg animate-fade-in py-0 gap-0">
+      <Card className="shadow-nixerly-card border border-gray-300 text-nixerly-businesslabel bg-white animate-fade-in py-0 gap-0">
         {/* Step Header */}
         <div className="gap-5 flex border-b border-gray-300 px-6 py-4">
         <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
@@ -109,11 +109,11 @@ export const PersonalInfo = () => {
             name="employmentType"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="font-inter text-base font-medium leading-5 tracking-tight text-nixerly-businesslabel">Employment Type</FormLabel>
+                <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Employment Type</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5">
-                      <SelectValue placeholder="Select employment type" />
+                    <SelectTrigger className="w-full border border-nixerly-bussinessborder">
+                      <SelectValue placeholder="Select Your Employment Type"  className=""/>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -135,7 +135,7 @@ export const PersonalInfo = () => {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-base text-nixerly-businesslabel font-medium">Phone Number</FormLabel>
+                <FormLabel className="text-sm text-nixerly-businesslabel font-medium">Phone Number</FormLabel>
                 <FormControl>
                   <PhoneInputComponent
                     value={field.value}
@@ -161,7 +161,7 @@ export const PersonalInfo = () => {
                   <Input
                     placeholder="E.g. Senior Plumber, Master Electrician"
                     {...field}
-                    className="font-inter text-base font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
+                    className="w-full"
                   />
                 </FormControl>
                 {/* <FormDescription>Enter your professional title that best describes your role</FormDescription>
@@ -180,7 +180,7 @@ export const PersonalInfo = () => {
                   <LocationSearch
                     onLocationSelect={handleLocationSelect}
                     defaultValue={field.value}
-                    className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
+                    className="w-full"
                   />
                 </FormControl>
                 {/* <FormDescription>Search and select your location</FormDescription> */}
@@ -208,7 +208,7 @@ export const PersonalInfo = () => {
                   {/* <FormDescription>
                     Provide a detailed description of your professional background and services
                   </FormDescription> */}
-                  <span className="text-xs absolute right-4 bottom-4">Max 1000</span>
+                  <span className="text-xs text-[#99A0AE] font-normal absolute right-4 bottom-4">Max 1000</span>
                 </div>
                 <FormMessage className="text-nixerly-coral mt-1" />
               </FormItem>

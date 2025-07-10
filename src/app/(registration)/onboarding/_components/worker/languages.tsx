@@ -33,6 +33,8 @@ export const LanguagesInfo = () => {
     watch,
     trigger,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useFormContext<WorkerOnboardingSchema>();
   const { mutateAsync: updateWorker, isPending } = useUpdateWorkerProfile();
@@ -64,6 +66,7 @@ export const LanguagesInfo = () => {
   };
 
   const handleAddLanguage = () => {
+    clearErrors("languages"); // <-- clear error when adding
     const currentLanguages = formData.languages || [];
     if (currentLanguages.length < 4) {
       setValue("languages", [
@@ -84,7 +87,7 @@ export const LanguagesInfo = () => {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <ProgressIndicator currentStep={3} totalSteps={4} hasStartedFilling={Boolean(formData.languages && formData.languages.length > 0)} />
-      <Card className="shadow-nixerly-card border border-gray-300 bg-white text-nixerly-darkgray rounded-lg animate-fade-in py-0 gap-0">
+      <Card className="shadow-nixerly-card border border-gray-300 bg-white text-nixerly-darkgray animate-fade-in py-0 gap-0">
       <div className="flex gap-5 border-b border-gray-300 px-6 py-4">
       <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">03</span>
@@ -102,12 +105,23 @@ export const LanguagesInfo = () => {
               <FormItem className="w-full">
                 <div className="flex items-center gap-2 mb-4 border">
                   <FormLabel className="text-lg text-nixerly-darkgray font-medium">Add a language</FormLabel>
-                  <Image src="/info.svg" alt="info" width={14} height={14} />
+                  <Image 
+                    src="/info.svg" 
+                    alt="info" 
+                    width={14} 
+                    height={14} 
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      if (!field.value || field.value.length === 0) {
+                        setError("languages", { type: "manual", message: "Please add at least one language." });
+                      }
+                    }}
+                  />
                 </div>
 
                 <FormControl>
                   <div className="space-y-4">
-                    {/* Add Language Button - shown when no languages or as first item */}
+                    {/* Add Language Button - shown when no languages or as first item
                     {(!field.value || field.value.length === 0) && (
                       <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                         <Button
@@ -120,16 +134,16 @@ export const LanguagesInfo = () => {
                           Add Language
                         </Button>
                       </div>
-                    )}
+                    )} */}
 
 
                          {/* Add More Languages Button */}
-                         {field.value && field.value.length > 0 && field.value.length < 4 && (
+                         {field.value.length < 4 && (
                       <Button
                         type="button"
-                        variant="ghost"
+                        variant="light"
                         onClick={handleAddLanguage}
-                        className="w-full font-inter text-nixerly-businesslabel text-sm font-normal tracking-tight focus:border-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5 hover:decoration-none"
+                        className="w-full font-inter hover:bg-nixerly-blue text-nixerly-businesslabel text-sm font-normal tracking-tight focus:border-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5 hover:decoration-none"
                       >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Language
@@ -160,7 +174,7 @@ export const LanguagesInfo = () => {
                                 }}
                               >
                                 <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="English" />
+                                  <SelectValue placeholder="Languages" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   {availableLanguages.map((lang) => (

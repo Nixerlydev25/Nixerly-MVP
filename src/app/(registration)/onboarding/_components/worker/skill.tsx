@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -13,7 +14,7 @@ import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigati
 import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
 import { Input } from "@/components/ui/input";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
-import { ChevronRight, Check, X } from "lucide-react";
+import { ChevronRight, Check, X, Info } from "lucide-react";
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { useState, useRef, useEffect } from "react";
+import { ProgressIndicator } from "../progress-indicator";
 
 export const SkillsInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
@@ -37,6 +39,19 @@ export const SkillsInfo = () => {
   const formData = watch();
   const [isOpen, setIsOpen] = useState(false);
   const commandRef = useRef<HTMLDivElement>(null);
+  const [hasStartedFilling, setHasStartedFilling] = useState(false);
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (
+        (value.skills && value.skills.length > 0) ||
+        (typeof value.hourlyRate === "number" && value.hourlyRate > 0)
+      ) {
+        setHasStartedFilling(true);
+      }
+    });
+    return () => subscription.unsubscribe && subscription.unsubscribe();
+  }, [watch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -94,22 +109,32 @@ export const SkillsInfo = () => {
   };
 
   return (
-    <Card className="p-10 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
-      <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">
-        Skills & Rate
-      </h2>
-      <div className="space-y-8">
+    <div className="max-w-2xl mx-auto p-4">
+      <ProgressIndicator currentStep={2} totalSteps={4} hasStartedFilling={hasStartedFilling} />
+      <Card className="shadow-nixerly-card rounded-lg text-nixerly-businesslabel md:border border-gray-300 py-0 gap-0">
+      <div className="flex items-center border-b border-gray-300 gap-3 px-6 py-4">
+      <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+            <span className="text-lg sm:text-base font-medium">02</span>
+          </div> 
+        <div>
+          <h1 className="text-lg font-bold my-1 text-nixerly-blue">Skills & Hourly Rate</h1>
+          <p className="text-base font-medium">Please Provide The Following Information To Get Started</p>
+        </div>
+      </div>
+
+      <div className="space-y-8 px-6 py-4">
         <FormField
           control={control}
           name="skills"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel className="text-lg text-nixerly-darkgray font-medium">
-                Skills
+              <FormLabel className="flex text-lg text-nixerly-darkgray font-medium">
+              Skill Levels (max. 4)
+           <Image src="/info.svg" alt="info" width={14} height={14}/>
               </FormLabel>
               <FormControl>
                 <div ref={commandRef}>
-                  <Command className="border rounded-md py-1">
+                  <Command className="border rounded-md py-1 bg-white text-nixerly-businesslabel border-gray-300">
                     <CommandInput
                       placeholder="Search skills..."
                       onFocus={() => setIsOpen(true)}
@@ -129,7 +154,11 @@ export const SkillsInfo = () => {
                                   setIsOpen(false);
                                 }
                               }}
-                              className="flex items-center justify-between"
+                              className={`flex items-center justify-between ${
+                                field.value?.includes(skill.value)
+                                  ? "text-nixerly-businesslabel font-medium"
+                                  : "text-nixerly-businesslabel font-medium"
+                              }`}
                             >
                               <span>{skill.label}</span>
                               {field.value?.includes(skill.value) && (
@@ -145,7 +174,7 @@ export const SkillsInfo = () => {
               </FormControl>
               <div className="flex flex-wrap gap-2 mt-2">
                 {field.value?.map((skill) => (
-                  <Badge key={skill} variant="secondary" className="px-3 py-2">
+                  <Badge key={skill} variant="outline" className="px-3 py-2 font-medium text-nixerly-businesslabel border border-gray-300">
                     {
                       onboardingOptions.skills.find((s) => s.value === skill)
                         ?.label
@@ -160,52 +189,55 @@ export const SkillsInfo = () => {
                   </Badge>
                 ))}
               </div>
-              <FormDescription>
+              {/* <FormDescription>
                 Select up to 8 skills that best represent your expertise
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-nixerly-coral mt-1" />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={control}
-          name="hourlyRate"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className="text-lg text-nixerly-darkgray font-medium">
-                Hourly Rate
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min={14}
-                  placeholder="Enter your hourly rate (minimum €14)"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  className="w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20"
-                />
-              </FormControl>
-              <FormDescription>
-                Specify your hourly rate in your local currency (minimum €14)
-              </FormDescription>
-              <FormMessage className="text-nixerly-coral mt-1" />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex justify-end pt-8">
+          <FormField
+            control={control}
+            name="hourlyRate"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <FormLabel className="text-base font-medium text-gray-900">Hourly Rate</FormLabel>
+               <Image src="/info.svg" alt="info" width={14} height={14}/>
+                </div>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      min={14}
+                      placeholder="32"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
+                    />
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                      <span className="text-gray-500 font-medium">€</span>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage className="text-red-500 mt-2" />
+              </FormItem>
+            )}
+          />
+   </div>
+        <div className="flex justify-end border-t border-gray-300 px-6 py-4">
           <Button
             type="button"
             onClick={handleContinue}
             disabled={isPending || skillPending}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-3 h-12 rounded-full text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
             {isPending || skillPending ? "Saving..." : "Continue"}
-            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
-      </div>
+   
     </Card>
+    </div>
   );
 };

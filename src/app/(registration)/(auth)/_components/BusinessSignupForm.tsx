@@ -9,20 +9,24 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { businessSignUpSchema, type BusinessSignUpFormValues } from "@/schema/auth/auth.schema"
 import { useBusinessSignUp } from "@/hook/auth/auth.hook"
 import { ProfileType } from "@/types/user/user.types"
+import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react"
 
 export default function BusinessSignupForm() {
   const { mutateAsync: SignupBusiness, isPending } = useBusinessSignUp()
+    const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const form = useForm<BusinessSignUpFormValues>({
     resolver: zodResolver(businessSignUpSchema),
     defaultValues: {
-    //   firstName: "Naveed",
-    //   lastName: "Ali",
-    //   email: "test@gmail.com",
-    //   password: "passpass",
-    //   confirmPassword: "passpass",
+      // firstName: "Naveed",
+      // lastName: "Ali",
+      // email: "test@gmail.com",
+      // password: "passpass",
+      // confirmPassword: "passpass",
       profileType: ProfileType.BUSINESS,
-    //   acceptTerms: false
+      // acceptTerms: false
     }
   })
 
@@ -38,12 +42,12 @@ export default function BusinessSignupForm() {
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem className="space-y-2">
+              <FormItem className="">
                 <FormLabel className="text-nixerly-darkgray font-medium">First Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
+                    className="focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
                     {...field}
                   />
                 </FormControl>
@@ -52,7 +56,7 @@ export default function BusinessSignupForm() {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="lastName"
             render={({ field }) => (
@@ -68,7 +72,7 @@ export default function BusinessSignupForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         {/* <FormField
@@ -93,13 +97,13 @@ export default function BusinessSignupForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="space-y-2">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Email</FormLabel>
+            <FormItem className="">
+              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">E-mail Or phone number</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="name@example.com"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
+                  className="focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
                   {...field}
                 />
               </FormControl>
@@ -111,17 +115,26 @@ export default function BusinessSignupForm() {
 <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={form.control}
-          name="password"
+          name="password"   
           render={({ field }) => (
-            <FormItem className="space-y-2">
+            <FormItem className="">
               <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
-                  {...field}
-                />
+                    <div className="relative">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder="Enter password"
+          className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+          {...field}
+        />
+        <span
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+        >
+          {showPassword ? <EyeOff size={16} className="text-black" /> : <Eye size={16} className="text-black" />}
+        </span>
+      </div>
+
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,15 +145,23 @@ export default function BusinessSignupForm() {
           control={form.control}
           name="confirmPassword"
           render={({ field }) => (
-            <FormItem className="space-y-2">
+            <FormItem className="">
               <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Confirm Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
-                  {...field}
-                />
+                <div className="relative ">
+        <Input
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="Confirm password"
+          className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+          {...field}
+        />
+        <span
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+        >
+          {showConfirmPassword ? <EyeOff size={16} className="text-black" /> : <Eye size={16} className="text-black" />}
+        </span>
+      </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -172,7 +193,7 @@ export default function BusinessSignupForm() {
                     tabIndex={0}
                     aria-label="Terms of Service"
                   >
-                    Terms and Conditions
+                    Terms & Conditions
                   </Link>{" "}
                   
                  
@@ -194,7 +215,7 @@ export default function BusinessSignupForm() {
               Creating Account...
             </>
           ) : (
-            "Create Business Account"
+            "Sign Up"
           )}
         </Button>
       </form>

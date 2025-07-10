@@ -5,7 +5,7 @@ import { ArrowRight, Eye, Lightbulb, Users } from "lucide-react"
 
 export default function HowItWorksSection() {
   return (
-    <section className="relative bg-primary py-20 md:py-28">
+    <section className="relative bg-nixerly-blue py-20 md:py-28">
       <div className="container mx-auto max-w-7xl relative px-4 md:px-6">
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
           <div className="flex justify-center mb-4">
@@ -30,7 +30,7 @@ export default function HowItWorksSection() {
               </p>
               <div className="flex justify-end pt-4">
                 <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
-                  <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-5 w-5 text-nixerly-blue transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@ export default function HowItWorksSection() {
               </p>
               <div className="flex justify-end pt-4">
                 <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
-                  <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-5 w-5 text-nixerly-blue transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function HowItWorksSection() {
               </p>
               <div className="flex justify-end pt-4">
                 <div className="bg-white rounded-full w-12 h-12 flex items-center justify-center">
-                  <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-5 w-5 text-nixerly-blue transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
-              className="bg-white not-last-of-type text-primary hover:bg-blue-50 shadow-sm px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
+              className="bg-white not-last-of-type text-nixerly-blue hover:bg-blue-50 shadow-sm px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
               asChild
             >
               <Link href="/signup" className="flex items-center gap-2 text-sm">

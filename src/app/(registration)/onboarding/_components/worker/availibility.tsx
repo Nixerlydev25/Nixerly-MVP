@@ -17,6 +17,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { ProgressIndicator } from "../progress-indicator"
 
 export function AvailabilityInfo() {
   const { goToNextStep } = useOnboardingNavigation();
@@ -45,44 +46,46 @@ export function AvailabilityInfo() {
   };
 
   return (
-    <Card className="p-10 shadow-nixerly-card border border-nixerly-lightblue bg-white rounded-lg animate-fade-in">
-      <h2 className="text-3xl font-semibold mb-8 text-nixerly-darkblue">
-        Availability
-      </h2>
-      <div className="space-y-8">
+    <div className="max-w-2xl mx-auto p-4">
+      <ProgressIndicator currentStep={4} totalSteps={4} hasStartedFilling={Boolean(formData.availability !== undefined)} />
+      <Card className="border border-gray-300 bg-white rounded-lg text-nixerly-businesslabel animate-fade-in py-0 gap-0">
+      <div className="gap-5 flex border-b border-gray-300 px-6 py-4">
+        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+            <span className="text-lg sm:text-base font-medium">04</span>
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold my-1 text-nixerly-blue">Availability</h2>
+            <p className="text-nixerly-darkgray text-base">Please Provide The Following Information To Get Started</p>
+          </div>
+        </div>
+
+      <div className="space-y-8 px-6 py-4">
         <FormField
           control={control}
           name="availability"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center space-x-4">
+            <FormItem className="flex flex-row items-center space-x-4 p-6">
               <FormControl>
-                <Switch
-                  id="availability"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                <Switch id="availability" checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
-              <FormLabel
-                htmlFor="availability"
-                className="text-lg text-nixerly-darkgray font-medium"
-              >
-                I am currently available for work
+              <FormLabel htmlFor="availability" className="text-lg font-semibold text-[#0E121B]">
+                I am Currently Available for Work
               </FormLabel>
             </FormItem>
           )}
         />
-
-        <div className="flex justify-end pt-8">
+    </div>
+        <div className="flex justify-end border-t border-gray-300 px-6 py-4">
           <Button
             type="button"
             onClick={handleContinue}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-10 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-3 h-12 rounded-full text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
-            Continue to Profile
-            <ChevronRight className="ml-2 h-4 w-4" />
+            Continue To Profile
           </Button>
         </div>
-      </div>
+  
     </Card>
+    </div>
   );
 }

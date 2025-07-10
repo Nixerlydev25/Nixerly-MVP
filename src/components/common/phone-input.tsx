@@ -39,11 +39,7 @@ export function PhoneInputComponent({
     <div className={cn("grid w-full gap-1.5", className)}>
       <div
         className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-          "file:border-0 file:bg-transparent file:text-sm file:font-medium",
-          "placeholder:text-muted-foreground",
-          "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          "font-inter text-sm font-normal leading-5 tracking-tight text-black rounded-md border border-nixerly-bussinessborder p-3 focus-within:border-black focus-within:border-3 ",
           error && "border-red-500 focus-within:ring-red-500",
         )}
       >

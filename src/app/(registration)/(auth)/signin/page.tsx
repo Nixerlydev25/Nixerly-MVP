@@ -67,7 +67,7 @@ export default function LoginPage() {
                 Sign In
               </CardTitle>
               <CardDescription
-                className="text-center text-nixerly-darkgray font-inter text-sm font-normal leading-5
+                className=" text-center font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel
 "
               >
                 Enter your credentials to access your account
@@ -84,14 +84,14 @@ export default function LoginPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem className="">
-                        <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
+                        <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
                           E-mail Or phone number
                         </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="name@example.com"
                             type="email"
-                            className="   focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                            className="  font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                             {...field}
                           />
                         </FormControl>
@@ -106,7 +106,7 @@ export default function LoginPage() {
                       <FormItem className="">
                         <div className="flex items-center justify-between">
                           <FormLabel
-                            className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">
+                            className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
                             Password
                           </FormLabel>
                         </div>
@@ -115,14 +115,14 @@ export default function LoginPage() {
       <Input
         type={showPassword ? "text" : "password"}
         placeholder="ahmed234$#"
-        className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+        className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
         {...field}
       />
       <span
         onClick={() => setShowPassword(!showPassword)}
         className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
       >
-        {showPassword ?  <EyeOff size={16} className="text-black" /> : <Eye size={16} className="text-black" />}
+        {showPassword ?  <EyeOff size={16} className="text-[#172327]"/> : <Eye size={16} className="text-[#172327]" />}
       </span>
     </div>
 
@@ -130,8 +130,8 @@ export default function LoginPage() {
 
                         <Link
                           href="/forgot-password"
-                          className=" text-nixerly-darkgray pt-2 font-inter text-sm text-right font-medium leading-5
-"
+                          className="   pt-2 font-inter text-sm text-right font-medium leading-5
+font-inter  tracking-tight text-[#172327]"
                           tabIndex={0}
                           aria-label="Forgot password"
                         >
@@ -154,15 +154,14 @@ export default function LoginPage() {
                     ) : (
                       "Sign In"
                     )}
-                  </Button>
+                  </Button> 
                 </form>
               </Form>
             </CardContent>
             <CardFooter className="flex flex-col">
               {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
               <p
-                className="text-center text-sm text-nixerly-darkgray font-inter font-normal leading-5
-"
+                className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel" 
               >
                 Don&apos;t have an account?{" "}
                 <Link

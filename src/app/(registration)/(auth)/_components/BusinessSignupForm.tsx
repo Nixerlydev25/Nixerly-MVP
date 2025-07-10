@@ -43,11 +43,11 @@ export default function BusinessSignupForm() {
             name="firstName"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel className="text-nixerly-darkgray font-medium">First Name</FormLabel>
+                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">First Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John"
-                    className="focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                     {...field}
                   />
                 </FormControl>
@@ -56,26 +56,27 @@ export default function BusinessSignupForm() {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-nixerly-darkgray font-medium">Last Name</FormLabel>
+              <FormItem className="">
+                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Last Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Doe"
-                    className="focus-visible:ring-nixerly-blue border-nixerly-lightblue rounded-md border border-nixerly-border p-4 !bg-blue-50  text-black"
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                     {...field}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
         </div>
 
-        {/* <FormField
+
+         {/* <FormField
           control={form.control}
           name="companyName"
           render={({ field }) => (
@@ -91,19 +92,19 @@ export default function BusinessSignupForm() {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />  */}
 
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">E-mail Or phone number</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">E-mail Or phone number</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="name@example.com"
-                  className="focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                  className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
                 />
               </FormControl>
@@ -118,13 +119,13 @@ export default function BusinessSignupForm() {
           name="password"   
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Password</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Password</FormLabel>
               <FormControl>
                     <div className="relative">
         <Input
           type={showPassword ? "text" : "password"}
           placeholder="Enter password"
-          className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+          className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
           {...field}
         />
         <span
@@ -146,20 +147,20 @@ export default function BusinessSignupForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5">Confirm Password</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Confirm Password</FormLabel>
               <FormControl>
                 <div className="relative ">
         <Input
           type={showConfirmPassword ? "text" : "password"}
           placeholder="Confirm password"
-          className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
-          {...field}
+          className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
+          {...field} 
         />
         <span
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
         >
-          {showConfirmPassword ? <EyeOff size={16} className="text-black" /> : <Eye size={16} className="text-black" />}
+          {showConfirmPassword ? <EyeOff size={16} className="text-[#172327]" /> : <Eye size={16} className="text-[#172327]" />}
         </span>
       </div>
               </FormControl>
@@ -184,7 +185,7 @@ export default function BusinessSignupForm() {
               <div className="space-y-1 leading-none">
                 <label
                   htmlFor="terms"
-                  className="text-nixerly-darkgray font-inter text-sm font-medium leading-5"
+                  className="font-inter text-sm font-normal leading-5 tracking-tight text-[#172327]"
                 >
                   I agree to the{" "}
                   <Link 

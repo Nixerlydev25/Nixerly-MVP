@@ -39,16 +39,16 @@ export default function RegisterPage() {
               <CardTitle className="text-center text-black font-inter text-4xl font-bold leading-[normal] mt-10">
                 Sign Up
               </CardTitle>
-              <CardDescription className="text-center text-nixerly-darkgray font-inter text-sm font-normal leading-5">
+              <CardDescription className="text-center  text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel">
                 Join Nixerly to connect in the construction industry
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-5  max-w-[500px] mx-auto container">
                 <div className="space-y-2">
-                  <Label className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
+                  {/* <Label className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
                     You Name
-                  </Label>
+                  </Label> */}
                   <RadioGroup
                     defaultValue={profileType}
                     onValueChange={(value) =>
@@ -66,7 +66,7 @@ export default function RegisterPage() {
                         htmlFor="professional"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "professional"
-          ? "bg-primary text-white "
+          ? "bg-primary text-white , border-none "
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                         htmlFor="business"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "business"
-          ? "bg-primary text-white"
+          ? "bg-primary text-white border-none "
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
@@ -141,7 +141,7 @@ export default function RegisterPage() {
             </CardContent>
             <CardFooter className="flex flex-col">
               {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
-              <p className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
+              <p className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel ">
                 Already have an account?{" "}
                 <Link
                   href="/signin"

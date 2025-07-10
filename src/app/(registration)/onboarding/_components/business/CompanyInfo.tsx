@@ -79,10 +79,10 @@ export function BusinessProfileForm() {
           name="companyName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Company Name</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Company Name</FormLabel>
               <FormControl>
                 <Input
-                 className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5 " placeholder="Acme Inc." {...field} 
+                 className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5 " placeholder="Acme Inc." {...field} 
 
       
 
@@ -98,11 +98,11 @@ export function BusinessProfileForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Description</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Description</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us about your business..."
-                  className="min-h-[120px] font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
+                  className="min-h-[120px] font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
                 />
               </FormControl>
@@ -122,7 +122,7 @@ export function BusinessProfileForm() {
               <FormItem>
                 <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Industry</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5">
+                  <FormControl className=" w-full font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5">
                     <SelectTrigger>
                       <SelectValue placeholder="Select an industry" />
                     </SelectTrigger>
@@ -145,10 +145,10 @@ export function BusinessProfileForm() {
             name="employeeCount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Number of Employees</FormLabel>
+                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Number of Employees</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5">
+                    <SelectTrigger className="w-full font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5">
                       <SelectValue placeholder="Select employee range" />
                     </SelectTrigger>
                   </FormControl>
@@ -168,12 +168,12 @@ export function BusinessProfileForm() {
 
         <div className="space-y-6">
           <FormItem>
-            <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Location</FormLabel>
+            <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Location</FormLabel>
             <FormControl>
               <LocationSearch
                 onLocationSelect={handleLocationSelect}
                 defaultValue=""
-                className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
+                className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
               />
             
             </FormControl>
@@ -196,7 +196,7 @@ export function BusinessProfileForm() {
           name="website"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Website</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Website</FormLabel>
               <FormControl>
                 <Input placeholder="example.com" {...field} className="font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5" />
               </FormControl>
@@ -210,7 +210,7 @@ export function BusinessProfileForm() {
           name="yearFounded"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">Founded</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Founded</FormLabel>
               <FormControl>
                 <div className="relative ">
                 <Input

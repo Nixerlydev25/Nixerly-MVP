@@ -51,11 +51,11 @@ const [showPassword, setShowPassword] = useState(false)
             name="firstName"
             render={({ field }) => (
               <FormItem className=" ">
-                <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">First Name</FormLabel>
+                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">First Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John"
-                    className=" focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                     {...field}
                   />
                 </FormControl>
@@ -64,23 +64,23 @@ const [showPassword, setShowPassword] = useState(false)
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="lastName"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Last Name</FormLabel>
+                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel ">Last Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Doe"
-                    className=" focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5 "
                     {...field}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
         </div>
 
         <FormField
@@ -88,12 +88,12 @@ const [showPassword, setShowPassword] = useState(false)
           name="email"
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">E-mail Or phone number</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">E-mail Or phone number</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="name@example.com"
-                  className=" focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-border p-5 !bg-[#E9F3FF] "
+                  className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
                 />
               </FormControl>
@@ -110,20 +110,20 @@ const [showPassword, setShowPassword] = useState(false)
           name="password"
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Password</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Password</FormLabel>
               <FormControl>
                    <div className="relative">
       <Input
         type={showPassword ? "text" : "password"}
         placeholder="Enter password"
-        className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+        className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
         {...field}
       />
       <span
         onClick={() => setShowPassword(!showPassword)}
         className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
       >
-        {showPassword ? <EyeOff size={16}  className="text-black"/> : <Eye size={16} className="text-black" />}
+        {showPassword ? <EyeOff size={16}  className="text-[#172327]"/> : <Eye size={16} className="text-[#172327]" />}
       </span>
     </div>
 
@@ -138,13 +138,13 @@ const [showPassword, setShowPassword] = useState(false)
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="">
-              <FormLabel className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">Confirm Password</FormLabel>
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel ">Confirm Password</FormLabel>
               <FormControl>
               <div className="relative">
         <Input
           type={showConfirmPassword ? "text" : "password"}
           placeholder="Confirm password"
-          className="w-full pr-12 rounded-md border border-nixerly-border p-5 text-black focus:border-black focus-visible:ring-nixerly-blue !bg-[#E9F3FF]"
+          className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
           {...field}
         />
         <span
@@ -180,7 +180,7 @@ const [showPassword, setShowPassword] = useState(false)
               <div className="space-y-1 leading-none">
                 <label
                   htmlFor="terms"
-                  className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 "
+                  className="font-inter text-sm font-normal leading-5 tracking-tight text-[#172327]"
                 >
                   I agree to the{" "}
                   <Link 
@@ -201,7 +201,7 @@ const [showPassword, setShowPassword] = useState(false)
 
         <Button
           type="submit"
-          className="w-full bg-nixerly-gradient hover:opacity-90 text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
+          className="w-full bg-nixerly-gradient hover:opacity-90 hover:translate-y-[-1px] text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform"
           disabled={isPending}
         >
           {isPending ? (

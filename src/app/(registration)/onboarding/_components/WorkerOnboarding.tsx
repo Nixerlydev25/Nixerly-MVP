@@ -114,12 +114,12 @@ export function WorkerOnboarding() {
 
   return (
     <div className="space-y-6">
-      <div>
+      {/* <div>
         <h1 className="text-2xl font-bold">Complete Your Worker Profile</h1>
         <p className="text-muted-foreground">
           Please provide the following information to get started
         </p>
-      </div>
+      </div> */}
 
       <Form {...form}>
         <form className="space-y-8">

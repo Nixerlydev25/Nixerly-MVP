@@ -9,12 +9,12 @@ export default function FeaturesSection() {
     <section className="py-20 md:pt-28">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="mb-2 px-3 py-1 text-xl font-bold text-primary">
+          <div className="mb-2 px-3 py-1 text-xl font-bold text-nixerly-blue">
             Platform Features
           </div>
           <div className="space-y-3">
             <h2 className="text-3xl font-normal tracking-tighter text-black sm:text-4xl md:text-5xl">
-              Why <span className="text-primary font-semibold">Choose</span> Our Platform
+              Why <span className="text-nixerly-blue font-semibold">Choose</span> Our Platform
             </h2>
             <p className="mx-auto max-w-[700px] text-nixerly-darkgray md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               We&apos;ve built a comprehensive solution for the construction industry, connecting talent with
@@ -109,7 +109,7 @@ export default function FeaturesSection() {
           </Card>
         </div>
         <div className="w-full mx-auto flex justify-center py-12">
-        <Button asChild className="text-white rounded-full p-4 mx-auto justify-center items-center">
+        <Button asChild className="text-white rounded-full p-4 mx-auto justify-center items-center bg-nixerly-blue">
           <Link href="/about">Learn More</Link>
         </Button>
         </div>

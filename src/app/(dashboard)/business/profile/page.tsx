@@ -494,14 +494,14 @@ export default function BusinessProfilePage() {
                               </Badge>
                             )}
                           </div>
+                          <p className="text-sm font-normal leading-4 mt-3">{job.description}</p>
                         </div>
                       </div>
-                      <p className="text-sm font-normal leading-4">{job.description}</p>
                       <button
                       className=" flex items-center cursor-pointer"
                         onClick={() => router.push(`/business/jobs/${job.id}`)}
                       >
-                      <span className="border-b">View Details</span>
+                      <span className="border-b whitespace-nowrap">View Details</span>
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </button>
                     </div>
@@ -604,143 +604,165 @@ export default function BusinessProfilePage() {
       <ChangeBusinessProfilePictureModal />
 
       {/* Profile Banner - Full Width at Top */}
-      <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 shadow-sm border border-blue-100">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
-          <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
-            {businessProfileData?.businessProfile?.profilePicture ? (
-              <img
-                src={
-                  businessProfileData?.businessProfile?.profilePicture ||
-                  "/placeholder.svg"
-                }
-                alt={businessProfileData?.businessProfile.companyName || ""}
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <img
-                src="/placeholder.svg?height=128&width=128"
-                alt={businessProfileData?.businessProfile.companyName || ""}
-                width={128}
-                height={128}
-                className="object-cover"
-              />
-            )}
+      <div className="mx-auto pb-10">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">My Profile</h1>
+          <p className="text-gray-600">Welcome back, {businessProfileData?.businessProfile?.companyName}!</p>
+        </div>
+
+        {/* Profile Card */}
+        <div
+          className="relative bg-[#1E64D31A] overflow-hidden rounded-xl border"
+          style={{
+            backgroundImage: "url('/gredientProfile.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "right",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Overlay if any */}
+          <div className="absolute top-4 right-4 z-20">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
+                  <Button
+                    variant="outline"
+                    className="border border-nixerly-bussinessborder rounded-full"
                     onClick={() =>
-                      openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
-                        profilePicture:
-                          businessProfileData?.businessProfile?.profilePicture,
-                      })
+                      openModal(
+                        ModalType.EDIT_BUSINESS_PROFILE,
+                        businessProfileData?.businessProfile as unknown as {
+                          [key: string]: unknown
+                        },
+                      )
                     }
-                    className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
-                    aria-label="Change profile picture"
                   >
-                    <Camera className="h-4 w-4" />
-                  </button>
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Profile
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Update your company profile picture</p>
+                  <p>Edit your business profile details</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="flex-1">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-              <div>
-                <h1 className="text-3xl font-bold">
-                  {businessProfileData?.businessProfile.companyName}
-                </h1>
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    <span>
-                      {businessProfileData?.businessProfile.city},{" "}
-                      {businessProfileData?.businessProfile.state},{" "}
-                      {businessProfileData?.businessProfile.country}
-                    </span>
-                  </span>
-                  <span className="hidden md:inline">•</span>
-                  <span className="flex items-center gap-1">
-                    <Building2 className="h-4 w-4" />
-                    <span>{businessProfileData?.businessProfile.industry}</span>
-                  </span>
-                  <span className="hidden md:inline">•</span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>
-                      Est. {businessProfileData?.businessProfile.yearFounded}
-                    </span>
-                  </span>
+          <div className="relative p-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              {/* Left side - Profile info */}
+              <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
+                {/* Profile Picture */}
+                <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32">
+                  {businessProfileData?.businessProfile?.profilePicture ? (
+                    <img
+                      src={businessProfileData?.businessProfile?.profilePicture || "/placeholder.svg"}
+                      alt={businessProfileData?.businessProfile.companyName || ""}
+                      className="h-full w-full object-cover rounded-full border-1 border-blue-400"
+                    />
+                  ) : (
+                    <img
+                      src="/placeholder.svg?height=128&width=128"
+                      alt={businessProfileData?.businessProfile.companyName || ""}
+                      width={128}
+                      height={128}
+                      className="object-cover"
+                    />
+                  )}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() =>
+                            openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
+                              profilePicture: businessProfileData?.businessProfile?.profilePicture,
+                            })
+                          }
+                          className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel shadow-lg border border-nixerly-blue"
+                          aria-label="Change profile picture"
+                        >
+                          <Camera className="h-5 w-5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Update your company profile picture</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="outline"
-                        onClick={() =>
-                          openModal(
-                            ModalType.EDIT_BUSINESS_PROFILE,
-                            businessProfileData?.businessProfile as unknown as {
-                              [key: string]: unknown;
-                            }
-                          )
-                        }
-                      >
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit Profile
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Edit your business profile details</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+
+                {/* Company Details */}
+                <div className="flex-1">
+                  <h2 className="text-3xl font-medium text-nixerly-blue leading-5 tracking-wide ">
+                    {businessProfileData?.businessProfile.companyName}
+                  </h2>
+                  <div className="mt-2 flex flex-col flex-wrapr text-base font-medium text-nixerly-blue leading-5 tracking-wide">
+                    <span className="flex items-center gap-1">
+                      <span className="text-base font-medium">
+                        {businessProfileData?.businessProfile.city}, {businessProfileData?.businessProfile.state},{" "}
+                        {businessProfileData?.businessProfile.country}
+                      </span>
+                    </span>
+                    <span className="text-base font-medium">
+                      <span>{businessProfileData?.businessProfile.industry}</span>
+                    </span>
+                    {/* <span className="flex items-center gap-1">
+                      <span>Est. {businessProfileData?.businessProfile.yearFounded}</span>
+                    </span> */}
+                  </div>
+                </div>
+
+              {/* Right side - Edit Button */}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Sidebar and Content Layout */}
-      <div className="grid gap-8 lg:grid-cols-4">
-        {/* Simple Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="border-r pr-6">
-            <nav className="space-y-1">
-              {sidebarItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleTabChange(item.id)}
+    {/* Sidebar and Content Layout */}
+    <div className="grid gap-8 lg:grid-cols-4">
+      {/* Simple Sidebar */}
+      <div className="lg:col-span-1 bg-[#F5F7FA] rounded-xl">
+        <div className="px-8">
+          <nav className="space-y-1">
+            <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
+            {sidebarItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleTabChange(item.id)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                    isActive
+                      ? "bg-white text-nixerly-blue"
+                      : "hover:bg-white text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <span
                     className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors",
-                      activeTab === item.id
-                        ? "bg-primary/10 text-primary"
-                        : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                      "h-8 w-8 flex items-center justify-center rounded-md border transition-colors",
+                      isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{item.label}</p>
-                    </div>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="lg:col-span-3">
-          <div className="min-h-[600px]">{renderContent()}</div>
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm">{item.label}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
+
+      {/* Main Content */}
+      <div className="lg:col-span-3">
+        <div className="min-h-[600px]">{renderContent()}</div>
+      </div>
     </div>
+  </div>
   );
 }

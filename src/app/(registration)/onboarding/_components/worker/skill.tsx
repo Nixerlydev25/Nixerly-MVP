@@ -131,7 +131,7 @@ export const SkillsInfo = () => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel className="flex text-sm text-nixerly-businesslabel font-medium">
-              Skill Levels (max. 4)
+              Skill Levels (max. 8)
            <Image 
              src="/info.svg" 
              alt="info" 

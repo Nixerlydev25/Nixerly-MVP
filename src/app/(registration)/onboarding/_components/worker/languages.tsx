@@ -103,7 +103,7 @@ export const LanguagesInfo = () => {
             name="languages"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex items-center gap-2 mb-4 border">
+                <div className="flex items-center gap-2 mb-4">
                   <FormLabel className="text-lg text-nixerly-darkgray font-medium">Add a language</FormLabel>
                   <Image 
                     src="/info.svg" 

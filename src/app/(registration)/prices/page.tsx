@@ -42,11 +42,11 @@ export default function Prices() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mt-15 bg-white">
+        <div className="grid md:grid-cols-3 gap-6 mt-15">
           {plans.map((plan, index) => (
-            <Card key={plan.name} className="relative bg-white overflow-hidden border-0 shadow-md py-0">
+            <Card key={plan.name} className="relative bg-white overflow-hidden border-0 shadow-md py-0 rounded-none">
               {/* Blue Header */}
-              <div className="bg-primary text-white p-8 h-56 flex flex-col justify-between">
+              <div className="bg-nixerly-blue text-white p-8 h-56 flex flex-col justify-between">
                 <div>
                   <div className="text-4xl font-bold mb-6">
                     ${plan.price}

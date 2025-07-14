@@ -94,13 +94,13 @@ export function BusinessOnboarding() {
   console.log(form.formState.errors);
 
   return (
-    <div className="space-y-6">
-      <div>
+    <div className="py-8">
+      {/* <div>
         <h1 className="text-2xl font-bold">Complete Your Business Profile</h1>
         <p className="text-muted-foreground">
           Please provide the following information to get started
         </p>
-      </div>
+      </div> */}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

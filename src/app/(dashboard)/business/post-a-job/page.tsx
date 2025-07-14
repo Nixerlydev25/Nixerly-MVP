@@ -40,6 +40,7 @@ import { useCreateJob } from "@/hook/jobs/jobs.hooks";
 import { LocationSearch } from "@/components/location-search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DatePicker } from "@/components/ui/date-picker";
+import Image from "next/image";
 
 const formSchema = z
   .object({
@@ -53,10 +54,22 @@ const formSchema = z
     requirements: z
       .string()
       .min(20, { message: "Requirements must be at least 20 characters" }),
-    budget: z.number().positive({ message: "Budget must be a positive number" }).optional(),
-    hourlyRateMin: z.number().positive({ message: "Minimum hourly rate must be a positive number" }).optional(),
-    hourlyRateMax: z.number().positive({ message: "Maximum hourly rate must be a positive number" }).optional(),
-    salary: z.number().positive({ message: "Salary must be a positive number" }).optional(),
+    budget: z
+      .number()
+      .positive({ message: "Budget must be a positive number" })
+      .optional(),
+    hourlyRateMin: z
+      .number()
+      .positive({ message: "Minimum hourly rate must be a positive number" })
+      .optional(),
+    hourlyRateMax: z
+      .number()
+      .positive({ message: "Maximum hourly rate must be a positive number" })
+      .optional(),
+    salary: z
+      .number()
+      .positive({ message: "Salary must be a positive number" })
+      .optional(),
     status: z.enum(["OPEN", "CLOSED", "FILLED", "EXPIRED"], {
       required_error: "Please select a job status",
     }),
@@ -92,7 +105,8 @@ const formSchema = z
       return true;
     },
     {
-      message: "Maximum hourly rate must be greater than or equal to minimum hourly rate",
+      message:
+        "Maximum hourly rate must be greater than or equal to minimum hourly rate",
       path: ["hourlyRateMax"],
     }
   )
@@ -164,32 +178,32 @@ export default function PostJobPage() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-    //   title: "Experienced Electrician Needed for Residential Wiring",
-    //   description:
-    //     "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
-    //   requirements:
-    //     "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
-    //   budget: 1500,
-    //   hourlyRateMin: 25,
-    //   hourlyRateMax: 40,
+      //   title: "Experienced Electrician Needed for Residential Wiring",
+      //   description:
+      //     "Looking for a licensed electrician to help with rewiring a residential home. Tasks include installing outlets, switches, light fixtures, and ensuring all work meets safety codes. Tools and transportation required. Project expected to last 2 weeks.",
+      //   requirements:
+      //     "- Valid electrician license\n- 5+ years of residential wiring experience\n- Own tools and transportation\n- Availability for 2 weeks\n- Strong knowledge of local electrical codes",
+      //   budget: 1500,
+      //   hourlyRateMin: 25,
+      //   hourlyRateMax: 40,
       status: "OPEN",
-    //   skills: [
-    //     "QUALITY_CONTROL",
-    //     "CODE_COMPLIANCE",
-    //     "STRUCTURAL_ASSESSMENT",
-    //     "INSTRUMENT_TECHNICIAN",
-    //     "MAINTENANCE_TECHNICIAN",
-    //     "ELECTRONICS_TECHNICIAN",
-    //     "CALIBRATION_SPECIALIST",
-    //   ],
-    //   jobType: "HOURLY",
-    //   startDate: new Date(),
-    //   numberOfWorkersRequired: 1,
-    //   location: {
-    //     city: "New York",
-    //     state: "NY",
-    //     country: "USA",
-    //   },
+      //   skills: [
+      //     "QUALITY_CONTROL",
+      //     "CODE_COMPLIANCE",
+      //     "STRUCTURAL_ASSESSMENT",
+      //     "INSTRUMENT_TECHNICIAN",
+      //     "MAINTENANCE_TECHNICIAN",
+      //     "ELECTRONICS_TECHNICIAN",
+      //     "CALIBRATION_SPECIALIST",
+      //   ],
+      //   jobType: "HOURLY",
+      //   startDate: new Date(),
+      //   numberOfWorkersRequired: 1,
+      //   location: {
+      //     city: "New York",
+      //     state: "NY",
+      //     country: "USA",
+      //   },
     },
   });
 
@@ -248,147 +262,200 @@ export default function PostJobPage() {
     form.setValue("hourlyRateMax", undefined);
     form.setValue("budget", undefined);
     form.setValue("salary", undefined);
-    
+
     // Clear errors for all compensation fields
     form.clearErrors("hourlyRateMin");
     form.clearErrors("hourlyRateMax");
     form.clearErrors("budget");
     form.clearErrors("salary");
-    
+
     // Set the new job type
     form.setValue("jobType", value as "HOURLY" | "SALARY" | "CONTRACT");
   };
 
-  console.log(form.formState.errors,"errors")
+  console.log(form.formState.errors, "errors");
   return (
-    <div className="min-h-screen bg-nixerly-form-gradient py-12">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col mb-8">
-            <h1 className="text-4xl font-title text-gray-900 mb-2">
+    <div className="min-h-screen bg-white py-6  ">
+      <div className="container mx-auto px-4 ">
+        <div className=" max-w-8xl mx-auto">
+          <div className="flex flex-col mb-8 ">
+            <h1 className="text-black font-sans text-2xl   not-italic font-semibold leading-7 py-2">
               Post a New Job
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className=" font-sans text-sm md:text-lg  font-normal leading-4 not-italic text-nixerly-businesslabel  ">
               Create a detailed job posting to attract the best talent for your
               project. Fill out each section carefully to get quality
               applications.
             </p>
           </div>
 
-          <div className="bg-white/60 p-8 border border-white/20 rounded-lg">
+          <div className="border border-nixerly-bussinessborder  rounded-3xl shadow-2xl shadow-nixerly-card hover-card-rise ">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-12"
+                className="space-y-8 "
               >
                 <div>
-                  <SectionHeader
+                  {/* <SectionHeader
                     icon={FileText}
                     title="Job Details"
                     description="Provide the basic information about your job posting"
-                  />
+                  /> */}
 
-                  <div className="space-y-6 pl-13">
+                  <div className="flex flex-col sm:flex-row md:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6">
+      {/* Number Badge */}
+      <div className="flex-shrink-0">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+          <span className="text-black font-semibold text-base sm:text-lg p-2">01</span>
+        </div>
+      </div>
+      {/* Content */}
+      <div className="flex-1 space-y-1">
+        <h3 className="text-base sm:text-lg font-bold text-primary leading-tight">Job Details</h3>
+        <p className="text-xs sm:text-sm text-nixerly-businesslabel leading-relaxed">
+          Provide the basic information about your job posting
+        </p>
+      </div>
+    </div>
+
+                  <Separator className="mt-1  w-full " />
+                  <div className="space-y-6  px-6 ">
                     <FormField
                       control={form.control}
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">
+                          <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                             Job Title
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g. Senior React Developer"
-                              className="h-12 text-base"
+                              placeholder="e.g. senior plumber..."
+                              className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                               {...field}
                             />
                           </FormControl>
-                          <FormDescription>
+                          {/* <FormDescription>
                             A clear and concise title for the job position.
-                          </FormDescription>
+                          </FormDescription> */}
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base font-medium">
-                            Job Description
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Describe the job responsibilities, requirements, and other relevant details..."
-                              className="min-h-32 text-base"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            Provide a detailed description of the job, including
-                            responsibilities and requirements.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                 <FormField
+  control={form.control}
+  name="description"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
+        Job Description
+      </FormLabel>
+      <FormControl>
+        <div className="relative">
+          <Textarea
+            placeholder="Describe your Job Responsibilities, Requirement and Other Related Details..."
+            className="min-h-32 text-base shadow-sm pr-20 pb-6"
+            {...field}
+          />
+          <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
+            Max 1000
+          </span>
+        </div>
+      </FormControl>
+      {/* <FormDescription>
+        Provide a detailed description of the job, including
+        responsibilities and requirements.
+      </FormDescription> */}
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
 
                     <FormField
-                      control={form.control}
-                      name="requirements"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base font-medium">
-                            Job Requirements
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="List the required qualifications, experience, certifications, etc..."
-                              className="min-h-32 text-base"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            List all mandatory and preferred requirements for
-                            the position.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+  control={form.control}
+  name="requirements"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
+        Job Requirements
+      </FormLabel>
+      <FormControl>
+        <div className="relative">
+          <Textarea
+            placeholder="Describe the required qualification, experience, certifications etc..."
+            className="min-h-32 text-base shadow-sm pr-20 pb-6"
+            {...field}
+          />
+          <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
+            Max 1000
+          </span>
+        </div>
+      </FormControl>
+      {/* <FormDescription>
+        List all mandatory and preferred requirements for
+        the position.
+      </FormDescription> */}
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
                   </div>
                 </div>
 
-                <Separator className="my-8" />
+                {/* <Separator className="my-8" /> */}
 
                 <div>
-                  <SectionHeader
+                  {/* <SectionHeader
                     icon={DollarSign}
                     title="Compensation & Job Type"
                     description="Define the employment type and compensation structure"
-                  />
+                  /> */}
 
-                  <div className="space-y-6 pl-13">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                    {/* Number Badge */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <Image
+                          src="/doolericon.svg"
+                          alt="dooler"
+                          width={22}
+                          height={22}
+                        ></Image>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-lg font-bold text-black leading-tight">
+                        Compensation & Job Type
+                      </h3>
+                      <p className="text-sm  text-nixerly-businesslabel leading-relaxed">
+                        Define the employment type and compensation structure
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 px-6">
                     <FormField
                       control={form.control}
                       name="jobType"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">
+                          {/* <FormLabel className="text-base font-medium">
                             Job Type
-                          </FormLabel>
+                          </FormLabel> */}
                           <Tabs
                             defaultValue={field.value}
                             onValueChange={handleJobTypeChange}
                             className="w-full"
                           >
-                            <TabsList className="grid w-full grid-cols-3">
+                            <TabsList className="grid  grid-cols-3 ">
                               <TabsTrigger value="HOURLY">Hourly</TabsTrigger>
                               <TabsTrigger value="SALARY">Salary</TabsTrigger>
-                              <TabsTrigger value="CONTRACT">Contract</TabsTrigger>
+                              <TabsTrigger value="CONTRACT">Contract  </TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="HOURLY">
@@ -398,23 +465,25 @@ export default function PostJobPage() {
                                   name="hourlyRateMin"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel className="text-base font-medium">
+                                      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
                                         Minimum Hourly Rate
                                       </FormLabel>
                                       <FormControl>
                                         <Input
                                           type="number"
                                           placeholder="e.g. 25"
-                                          className="h-12 text-base"
+                                          className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                           {...field}
                                           onChange={(e) =>
-                                            field.onChange(Number(e.target.value))
+                                            field.onChange(
+                                              Number(e.target.value)
+                                            )
                                           }
                                         />
                                       </FormControl>
-                                      <FormDescription>
+                                      {/* <FormDescription>
                                         The minimum hourly rate for the job.
-                                      </FormDescription>
+                                      </FormDescription> */}
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -425,23 +494,25 @@ export default function PostJobPage() {
                                   name="hourlyRateMax"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel className="text-base font-medium">
+                                      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
                                         Maximum Hourly Rate
                                       </FormLabel>
                                       <FormControl>
                                         <Input
                                           type="number"
                                           placeholder="e.g. 50"
-                                          className="h-12 text-base"
+                                          className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                           {...field}
                                           onChange={(e) =>
-                                            field.onChange(Number(e.target.value))
+                                            field.onChange(
+                                              Number(e.target.value)
+                                            )
                                           }
                                         />
                                       </FormControl>
-                                      <FormDescription>
+                                      {/* <FormDescription>
                                         The maximum hourly rate for the job.
-                                      </FormDescription>
+                                      </FormDescription> */}
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -456,23 +527,25 @@ export default function PostJobPage() {
                                   name="salary"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel className="text-base font-medium">
+                                      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
                                         Annual Salary
                                       </FormLabel>
                                       <FormControl>
                                         <Input
                                           type="number"
                                           placeholder="e.g. 75000"
-                                          className="h-12 text-base"
+                                          className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                           {...field}
                                           onChange={(e) =>
-                                            field.onChange(Number(e.target.value))
+                                            field.onChange(
+                                              Number(e.target.value)
+                                            )
                                           }
                                         />
                                       </FormControl>
-                                      <FormDescription>
+                                      {/* <FormDescription>
                                         The annual salary for this position.
-                                      </FormDescription>
+                                      </FormDescription> */}
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -487,23 +560,25 @@ export default function PostJobPage() {
                                   name="budget"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel className="text-base font-medium">
+                                      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
                                         Total Budget
                                       </FormLabel>
                                       <FormControl>
                                         <Input
                                           type="number"
                                           placeholder="e.g. 5000"
-                                          className="h-12 text-base"
+                                          className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                           {...field}
                                           onChange={(e) =>
-                                            field.onChange(Number(e.target.value))
+                                            field.onChange(
+                                              Number(e.target.value)
+                                            )
                                           }
                                         />
                                       </FormControl>
-                                      <FormDescription>
+                                      {/* <FormDescription>
                                         The total budget for this contract.
-                                      </FormDescription>
+                                      </FormDescription> */}
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -518,25 +593,49 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
-                <Separator className="my-8" />
+                {/* <Separator className="my-8" /> */}
 
                 <div>
-                  <SectionHeader
+                  {/* <SectionHeader
                     icon={Briefcase}
                     title="Skills & Expertise"
                     description="Select the skills and expertise required for this position"
-                  />
+                  /> */}
 
-                  <div className="pl-13">
-                    <div className="mb-4">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7 ">
+                    {/* Number Badge */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <Image
+                          src="/stareicon.svg"
+                          alt="dooler"
+                          width={25}
+                          height={25}
+                        ></Image>
+                      </div>
                     </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-lg font-bold text-black leading-tight">
+                        Skills & Expertise
+                      </h3>
+                      <p className="text-sm  text-nixerly-businesslabel leading-relaxed">
+                        Select the skills and expertise required for this
+                        position Required Skills
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-6">
+                    <div className=""></div>
 
                     <FormField
                       control={form.control}
                       name="skills"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">
+                          <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                             Required Skills
                           </FormLabel>
                           <FormControl>
@@ -545,7 +644,7 @@ export default function PostJobPage() {
                                 <CommandInput
                                   placeholder="Search skills..."
                                   onFocus={() => setIsOpen(true)}
-                                  className="h-12 text-base"
+                                  className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                 />
                                 {isOpen && (
                                   <CommandList>
@@ -601,9 +700,9 @@ export default function PostJobPage() {
                               </Badge>
                             ))}
                           </div>
-                          <FormDescription>
+                          {/* <FormDescription>
                             Select up to 8 skills that are required for this job
-                          </FormDescription>
+                          </FormDescription> */}
                           <FormMessage />
                         </FormItem>
                       )}
@@ -611,34 +710,58 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
-                <Separator className="my-8" />
+                {/* <Separator className="my-8" /> */}
 
                 <div>
-                  <SectionHeader
+                  {/* <SectionHeader
                     icon={Calendar}
                     title="Timeline & Team Size"
                     description="Set the project timeline and team requirements"
-                  />
+                  /> */}
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-13">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                    {/* Number Badge */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <Image
+                          src="/calandericon.svg"
+                          alt="dooler"
+                          width={22}
+                          height={22}
+                        ></Image>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-lg font-bold text-black leading-tight">
+                        Timeline & Team Size
+                      </h3>
+                      <p className="text-sm  text-nixerly-businesslabel leading-relaxed">
+                        Set the project timeline and team requirements
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
                     <FormField
                       control={form.control}
                       name="startDate"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">
+                          <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                             Start Date
                           </FormLabel>
-                          <FormControl>
+                          <FormControl className="h-10 text-base border-nixerly-bussinessborder shadow-sm">
                             <DatePicker
                               selected={field.value}
                               onSelect={field.onChange}
                             />
                           </FormControl>
-                          <FormDescription>
+                          {/* <FormDescription>
                             When the job should start. Select today for
                             immediate start.
-                          </FormDescription>
+                          </FormDescription> */}
                           <FormMessage />
                         </FormItem>
                       )}
@@ -649,7 +772,7 @@ export default function PostJobPage() {
                       name="numberOfWorkersRequired"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">
+                          <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                             Number of Professionals Required
                           </FormLabel>
                           <FormControl>
@@ -657,16 +780,16 @@ export default function PostJobPage() {
                               type="number"
                               min="1"
                               placeholder="e.g. 1"
-                              className="h-12 text-base"
+                              className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                               {...field}
                               onChange={(e) =>
                                 field.onChange(Number(e.target.value))
                               }
                             />
                           </FormControl>
-                          <FormDescription>
+                          {/* <FormDescription>
                             How many professionals do you need for this job?
-                          </FormDescription>
+                          </FormDescription> */}
                           <FormMessage />
                         </FormItem>
                       )}
@@ -674,23 +797,47 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
-                <Separator className="my-8" />
+                {/* <Separator className="my-8" /> */}
 
                 <div>
-                  <SectionHeader
+                  {/* <SectionHeader
                     icon={MapPin}
                     title="Job Location"
                     description="Specify where the work will be performed"
-                  />
+                  /> */}
 
-                  <div className="space-y-6 pl-13">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                    {/* Number Badge */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <Image
+                          src="/loctionicon.svg"
+                          alt="dooler"
+                          width={22}
+                          height={22}
+                        ></Image>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-lg font-bold text-black leading-tight">
+                        Job Location
+                      </h3>
+                      <p className="text-sm  text-nixerly-businesslabel leading-relaxed">
+                        Specify where the work will be performed
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 px-6">
                     <FormField
                       control={form.control}
                       name="location"
                       render={({ field }) => (
                         <div className="space-y-6">
                           <FormItem>
-                            <FormLabel className="text-base font-medium">
+                            <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                               City, State, Country
                             </FormLabel>
                             <FormControl>
@@ -705,21 +852,21 @@ export default function PostJobPage() {
                                 }}
                               />
                             </FormControl>
-                            <FormDescription>
+                            {/* <FormDescription>
                               Enter the city, state, and country for this job
-                            </FormDescription>
+                            </FormDescription> */}
                             <FormMessage />
                           </FormItem>
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormItem>
-                              <FormLabel className="text-base font-medium">
+                              <FormLabel className="font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                                 Street Address (Optional)
                               </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="Enter street address"
-                                  className="h-12 text-base"
+                                  className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                   value={field?.value?.street || ""}
                                   onChange={(e) =>
                                     field.onChange({
@@ -733,13 +880,13 @@ export default function PostJobPage() {
                             </FormItem>
 
                             <FormItem>
-                              <FormLabel className="text-base font-medium">
+                              <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                                 Postal Code (Optional)
                               </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="Enter postal code"
-                                  className="h-12 text-base"
+                                  className="h-10 text-base border-nixerly-bussinessborder shadow-sm"
                                   value={field.value?.postalCode || ""}
                                   onChange={(e) =>
                                     field.onChange({
@@ -761,7 +908,7 @@ export default function PostJobPage() {
                 <div className="pt-8 flex justify-end">
                   <Button
                     type="submit"
-                    className="text-md font-semibold py-6 px-6"
+                    className=" mr-12 mb-6  font-sans text-sm font-medium leading-5 not-italic  text-white bg-nixerly-blue rounded-full"
                     disabled={isPending}
                   >
                     Post Job

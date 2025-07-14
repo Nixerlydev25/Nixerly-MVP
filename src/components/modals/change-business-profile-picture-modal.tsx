@@ -21,9 +21,9 @@ export function ChangeBusinessProfilePictureModal() {
   
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md p-6">
         <DialogHeader>
-          <DialogTitle>Change Profile Picture</DialogTitle>
+          <DialogTitle className="text-nixerly-blue">Change Profile Picture</DialogTitle>
         </DialogHeader>
         <div>
           <ChangeBusinessProfilePictureForm

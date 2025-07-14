@@ -11,7 +11,7 @@ export default function RootLayout({
       <DashboardHeader />
       <div className="flex">
         <DashboardSidebar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 bg-white">{children}</main>
       </div>
     </div>
   );

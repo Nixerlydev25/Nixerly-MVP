@@ -59,7 +59,7 @@ export function EditBusinessProfileModal() {
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader className="flex flex-row items-center gap-3 px-6 pt-6">
-          <div className="flex items-center justify-center h-10 w-10 md:w-14 md:h-14 border border-gray-300 rounded-full">
+        <div className="flex items-center justify-center h-10 w-10 md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">01</span>
           </div>
           <div>

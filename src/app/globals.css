@@ -72,6 +72,7 @@
   --radius-xl: calc(var(--radius) + 4px);
  --color-nixerly-businesslabel:var(--text-sub-600, #525866);
  --color-nixerly-bussinessborder:var(--stroke-soft-200, #E1E4EA);
+
 }
 
 :root {
@@ -305,4 +306,20 @@
 .PhoneInputInput:focus {
   box-shadow: none !important;
   outline: none !important;
+}
+
+/* the worker block gradient */
+.custom-gradient-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%; /* adjust as needed */
+  height: 100%;
+  background-image: url('/gredientProfile.svg');
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
 }

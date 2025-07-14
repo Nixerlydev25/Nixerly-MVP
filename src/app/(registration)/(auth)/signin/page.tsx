@@ -143,7 +143,7 @@ font-inter  tracking-tight text-[#172327]"
                   />
                   <Button
                     type="submit"
-                    className="w-full bg-nixerly-gradient hover:opacity-90 text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform hover:translate-y-[-1px]"
+                    className="text-lg font-medium  leading-6 w-full text-white  rounded-full  p-5  bg-nixerly-blue"
                     disabled={isPending}
                   >
                     {isPending ? (

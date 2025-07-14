@@ -29,6 +29,7 @@ interface BusinessData {
 }
 
 import data from '@/data/onboarding/business.json' assert { type: 'json' };
+import { Separator } from '../ui/separator';
 
 const profileFormSchema = z.object({
   industry: z.string().min(1, { message: 'Please select an industry' }),
@@ -83,7 +84,7 @@ export function EditBusinessProfileForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
+        <div className="space-y-4 px-6">
           <FormField
             control={form.control}
             name="industry"
@@ -118,7 +119,7 @@ export function EditBusinessProfileForm({
             render={() => (
               <FormItem>
                 <FormLabel>Location</FormLabel>
-                <FormControl>
+                <FormControl className='text-nixerly-businesslabel'>
                   <LocationSearch
                     defaultValue={`${form.getValues('city')}, ${form.getValues(
                       'state'
@@ -138,7 +139,7 @@ export function EditBusinessProfileForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Website (optional)</FormLabel>
-                <FormControl>
+                <FormControl className='text-nixerly-businesslabel'>
                   <Input {...field} placeholder="https://example.com" value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
@@ -153,7 +154,7 @@ export function EditBusinessProfileForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number of Employees</FormLabel>
-                  <FormControl>
+                  <FormControl className='text-nixerly-businesslabel'>
                     <Input
                       {...field}
                       type="text"
@@ -178,7 +179,7 @@ export function EditBusinessProfileForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Year Founded</FormLabel>
-                  <FormControl>
+                  <FormControl className='text-nixerly-businesslabel'>
                     <Input
                       {...field}
                       type="text"
@@ -201,11 +202,12 @@ export function EditBusinessProfileForm({
             />
           </div>
         </div>
+        <Separator/>
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button className='rounded-full' type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit">Save Changes</Button>
+          <Button className='rounded-full bg-nixerly-blue' type="submit">Save Changes</Button>
         </DialogFooter>
       </form>
     </Form>

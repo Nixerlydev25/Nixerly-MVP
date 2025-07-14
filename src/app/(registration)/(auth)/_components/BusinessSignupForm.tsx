@@ -37,7 +37,7 @@ export default function BusinessSignupForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="grid gap-4 ">
+        <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="firstName"
@@ -113,7 +113,7 @@ export default function BusinessSignupForm() {
           )}
         />
 
-<div className="grid gap-4 sm:grid-cols-2">
+
         <FormField
           control={form.control}
           name="password"   
@@ -126,7 +126,7 @@ export default function BusinessSignupForm() {
           type={showPassword ? "text" : "password"}
           placeholder="Enter password"
           className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
-          {...field}
+          {...field}  
         />
         <span
           onClick={() => setShowPassword(!showPassword)}
@@ -168,7 +168,7 @@ export default function BusinessSignupForm() {
             </FormItem>
           )}
         />
-        </div>
+        
 
         <FormField
           control={form.control}
@@ -207,7 +207,7 @@ export default function BusinessSignupForm() {
 
         <Button
           type="submit"
-          className="w-full bg-nixerly-gradient hover:opacity-90 hover:translate-y-[-1px] text-white  py-2.5 rounded-full font-open-sans text-base font-medium leading-7 shadow-nixerly-button transition-all duration-200 ease-in-out transform "
+          className="text-lg font-medium  leading-6 w-full text-white  rounded-full  p-5 bg-nixerly-blue "
           disabled={isPending}
         >
           {isPending ? (

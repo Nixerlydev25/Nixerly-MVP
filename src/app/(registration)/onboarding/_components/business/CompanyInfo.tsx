@@ -72,7 +72,7 @@ export function BusinessProfileForm() {
       
 
 
-      <div className="w-full border  border-nixerly-bussinessborder "  />
+      <div className="w-full border border-nixerly-bussinessborder "  />
       <CardContent className="space-y-6">
         <FormField
           control={form.control}
@@ -101,10 +101,14 @@ export function BusinessProfileForm() {
               <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Description</FormLabel>
               <FormControl>
                 <Textarea
+                 maxLength={100}
                   placeholder="Tell us about your business..."
                   className="min-h-[120px] font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
+                  
                 />
+
+                
               </FormControl>
               {/* <FormDescription className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">
                 A brief description of your company and what you do.
@@ -237,8 +241,8 @@ export function BusinessProfileForm() {
           )}
         />
 
-        <CardFooter className="px-0 pt-6">
-          <Button type="submit" className="ml-auto rounder-full bg-primary gap-4 p-2  text-white font-medium" disabled={form.formState.isSubmitting}>
+        <CardFooter className="px-0 pt-4">
+          <Button type="submit" className="ml-auto  text-lg font-medium  leading-6 bg-nixerly-blue text-white  rounded-full  p-5" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Saving..." : "Get Started"}
           </Button>
         </CardFooter>

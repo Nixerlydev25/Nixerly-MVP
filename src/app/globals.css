@@ -72,6 +72,7 @@
   --radius-xl: calc(var(--radius) + 4px);
  --color-nixerly-businesslabel:var(--text-sub-600, #525866);
  --color-nixerly-bussinessborder:var(--stroke-soft-200, #E1E4EA);
+
 }
 
 :root {

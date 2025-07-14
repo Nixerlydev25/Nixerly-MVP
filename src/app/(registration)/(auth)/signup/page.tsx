@@ -66,14 +66,14 @@ export default function RegisterPage() {
                         htmlFor="professional"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "professional"
-          ? "bg-primary text-white , border-none "
+          ? " bg-nixerly-blue text-white border-nixerly-blue "
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
                           src={
           profileType === "professional"
-            ? "/blackCheck.svg"
-            : "/checkhuman.png"
+            ?"/whitecheckHuman.svg"
+            :"/blackCheck.svg"
         }
                           alt="Professional"
                           width={16}
@@ -98,14 +98,14 @@ export default function RegisterPage() {
                         htmlFor="business"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
         ${profileType === "business"
-          ? "bg-primary text-white border-none "
+          ? "bg-nixerly-blue  text-white border-nixerly-blue "
           : "bg-white text-black border-gray-100"}`}
                       >
                         <Image
                           src={
           profileType === "business"
             ? "/buildingWhite.svg"
-            : "/building.png"
+            : "/buildingBlack.svg"
         }
                           alt="Professional"
                           width={16}

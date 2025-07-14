@@ -151,7 +151,7 @@ export function ChangeBusinessProfilePictureForm({
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-nixerly-blue"
           >
             {isPending ? (
               <>

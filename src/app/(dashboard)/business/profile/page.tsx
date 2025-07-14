@@ -47,25 +47,25 @@ const sidebarItems = [
   {
     id: "general" as TabType,
     label: "General Details",
-    icon: User,
+    icon: "/infoBusiness.svg",
     description: "Basic company information",
   },
   {
     id: "contact" as TabType,
     label: "Contact Information",
-    icon: Mail,
+    icon: "/contactInfo.svg",
     description: "Contact details and website",
   },
   {
     id: "stats" as TabType,
     label: "Statistics",
-    icon: BarChart3,
+    icon: "/static.svg",
     description: "Company metrics and data",
   },
   {
     id: "jobs" as TabType,
     label: "Job Postings",
-    icon: Briefcase,
+    icon: "/jobPost.svg",
     description: "Manage job listings",
   },
 ];
@@ -337,7 +337,7 @@ export default function BusinessProfilePage() {
   );
 
   const renderStats = () => (
-    <div className="space-y-8 p-6">
+    <div className="space-y-8">
     {/* Stats Cards with Blue Container */}
     <div className="bg-nixerly-blue rounded-2xl p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -607,19 +607,13 @@ export default function BusinessProfilePage() {
       <div className="mx-auto pb-10">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-gray-900">My Profile</h1>
+          <h1 className="text-[22px] font-semibold text-[#525866] leading-8">My Profile</h1>
           <p className="text-gray-600">Welcome back, {businessProfileData?.businessProfile?.companyName}!</p>
         </div>
 
         {/* Profile Card */}
         <div
-          className="relative bg-[#1E64D31A] overflow-hidden rounded-xl border"
-          style={{
-            backgroundImage: "url('/gredientProfile.svg')",
-            backgroundSize: "cover",
-            backgroundPosition: "right",
-            backgroundRepeat: "no-repeat",
-          }}
+          className="relative bg-[#1E64D31A] overflow-hidden rounded-xl border custom-gradient-right"
         >
           {/* Overlay if any */}
           <div className="absolute top-4 right-4 z-20">
@@ -742,11 +736,17 @@ export default function BusinessProfilePage() {
                 >
                   <span
                     className={cn(
-                      "h-8 w-8 flex items-center justify-center rounded-md border transition-colors",
+                      "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
                       isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-white"
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Image
+                      src={item.icon}
+                      alt={item.label}
+                      width={18}
+                      height={18}
+                      className={isActive ? "filter invert brightness-0" : ""}
+                    />
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm">{item.label}</p>

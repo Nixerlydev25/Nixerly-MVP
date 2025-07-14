@@ -306,3 +306,19 @@
   box-shadow: none !important;
   outline: none !important;
 }
+
+/* the worker block gradient */
+.custom-gradient-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%; /* adjust as needed */
+  height: 100%;
+  background-image: url('/gredientProfile.svg');
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+}

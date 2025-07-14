@@ -12,6 +12,7 @@ import {
   SearchIcon,
   UserCircle2Icon,
 } from "lucide-react";
+import { UpgradePro } from "./upgrade-pro";
 
 export function DashboardSidebar() {
   const { user, isLoading } = useUser();
@@ -36,7 +37,7 @@ export function DashboardSidebar() {
   const businessLinks = [
     {
       href: ROUTES.MY_BUSINESS_PROFILE,
-      label: "Company Profile",
+      label: "Business profile",
       icon: UserCircle2Icon,
     },
     {
@@ -77,7 +78,7 @@ export function DashboardSidebar() {
   const links = isBusinessProfile ? businessLinks : workerLinks;
 
   return (
-    <aside className="w-64 border-r bg-white min-h-[calc(100vh-4rem)]">
+    <aside className="w-64 border-r bg-white min-h-[calc(100vh-4rem)] flex flex-col overflow-hidden">
       <div className="p-6">
         <nav className="space-y-1">
           {links.map((link) => {
@@ -89,7 +90,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                   pathname === link.href
-                    ? "bg-blue-50 text-blue-600"
+                    ? "bg-blue-50 text-blue-600 text-base font-medium"
                     : "text-gray-700 hover:bg-gray-100"
                 )}
               >
@@ -99,6 +100,10 @@ export function DashboardSidebar() {
             );
           })}
         </nav>
+      </div>
+      {/* Upgrade Pro Card at the bottom */}
+      <div className="mt-auto">
+        <UpgradePro />
       </div>
     </aside>
   );

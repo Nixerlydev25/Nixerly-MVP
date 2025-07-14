@@ -37,6 +37,9 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 type TabType = "general" | "contact" | "stats" | "jobs";
 
@@ -96,25 +99,26 @@ export default function BusinessProfilePage() {
   }
 
   const renderGeneralDetails = () => (
-    <div className="space-y-8">
-      {/* About Section */}
-      <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">About</h2>
+    <div className="space-y-6">
+    {/* About Section */}
+    <Card>
+      <CardHeader className="px-0">
+        <div className="flex items-center justify-between px-6 pb-4">
+          <CardTitle className="text-lg font-semibold text-nixerly-blue">About Us</CardTitle>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={() =>
                     openModal(ModalType.EDIT_BUSINESS_ABOUT, {
-                      description:
-                        businessProfileData?.businessProfile.description,
+                      description: businessProfileData?.businessProfile.description,
                     })
                   }
+                  className="text-nixerly-businesslabel border-nixerly-bussinessborder hover:bg-gray-50 rounded-full"
                 >
-                  <Pencil className="mr-2 h-4 w-4" />
+                 <Image src="/editPara.svg" alt="image" width={14} height={14} />
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -124,28 +128,35 @@ export default function BusinessProfilePage() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p className="text-muted-foreground">
+        <Separator/>
+      </CardHeader>
+      <CardContent>
+        <p className="text-nixerly-businesslabel leading-relaxed">
           {businessProfileData?.businessProfile.description}
         </p>
-      </section>
+      </CardContent>
+    </Card>
 
-      {/* Company Images */}
-      <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Company Images</h2>
+    {/* Company Images */}
+    <Card className="">
+      <CardHeader className="px-0">
+        <div className="flex items-center justify-between px-6 pb-4">
+          <CardTitle className="text-lg font-semibold text-nixerly-blue">Company Images</CardTitle>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() =>
                     openModal(ModalType.MANAGE_COMPANY_IMAGES, {
-                      assets:
-                        businessProfileData?.businessProfile?.assets || [],
+                      assets: businessProfileData?.businessProfile?.assets || [],
                     })
                   }
+                  className="text-nixerly-businesslabel rounded-full border-nixerly-bussinessborder"
                 >
-                  <ImagePlus className="mr-2 h-4 w-4" />
-                  Manage Images
+                  <Image src="/editImage.svg" alt="image" width={14} height={14} />
+                  Edit
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -154,7 +165,10 @@ export default function BusinessProfilePage() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <Separator/>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {businessProfileData?.businessProfile?.assets?.length ? (
             businessProfileData.businessProfile.assets.length > 6 ? (
               <>
@@ -169,7 +183,7 @@ export default function BusinessProfilePage() {
                           startIndex: index,
                         })
                       }
-                      className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                      className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer shadow-sm border border-gray-200"
                     >
                       <img
                         src={asset.url || "/placeholder.svg"}
@@ -188,13 +202,12 @@ export default function BusinessProfilePage() {
                       startIndex: 0,
                     })
                   }
-                  className="relative aspect-square overflow-hidden rounded-md group cursor-pointer bg-black/10 flex items-center justify-center"
+                  className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer bg-gray-100 flex items-center justify-center border border-gray-200 shadow-sm"
                 >
                   <div className="text-center">
-                    <Eye className="h-6 w-6 mx-auto text-muted-foreground" />
-                    <span className="text-sm mt-2 block text-muted-foreground">
-                      +{businessProfileData.businessProfile.assets.length - 5}{" "}
-                      more
+                    <Eye className="h-6 w-6 mx-auto text-gray-500" />
+                    <span className="text-sm mt-2 block text-gray-500">
+                      +{businessProfileData.businessProfile.assets.length - 5} more
                     </span>
                   </div>
                 </div>
@@ -209,7 +222,7 @@ export default function BusinessProfilePage() {
                       startIndex: index,
                     })
                   }
-                  className="relative aspect-square overflow-hidden rounded-md group cursor-pointer"
+                  className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer shadow-sm border border-gray-200"
                 >
                   <img
                     src={asset.url || "/placeholder.svg"}
@@ -223,321 +236,351 @@ export default function BusinessProfilePage() {
               ))
             )
           ) : (
-            <p className="col-span-2 md:col-span-3 text-center text-muted-foreground py-8">
+            <p className="col-span-2 md:col-span-4 text-center text-gray-500 py-12">
               No company images uploaded yet.
             </p>
           )}
         </div>
-      </section>
-    </div>
+      </CardContent>
+    </Card>
+  </div>
   );
 
   const renderContactInfo = () => (
-    <div className="space-y-8">
-      <div className="rounded-lg border bg-card p-6 ">
-        <h2 className="mb-6 text-xl font-semibold">Contact Information</h2>
-        <div className="space-y-6">
-          <div className="grid gap-4">
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-              <Mail className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Email Address</p>
-                <p className="text-sm text-muted-foreground">
-                  {businessProfileData?.email}
-                </p>
-              </div>
-            </div>
-
-            {businessProfileData?.businessProfile.website && (
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-                <Globe className="h-5 w-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Website</p>
-                  <a
-                    href={businessProfileData?.businessProfile.website}
-                    className="text-sm text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {businessProfileData?.businessProfile.website}
-                  </a>
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-              <Phone className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Phone Number</p>
-                <p className="text-sm text-muted-foreground">
-                  Contact for phone number
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-              <MapPin className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">
-                  {businessProfileData?.businessProfile.city},{" "}
-                  {businessProfileData?.businessProfile.state},{" "}
-                  {businessProfileData?.businessProfile.country}
-                </p>
-              </div>
-            </div>
+    <div className="space-y-6">
+    {/* Contact Information Section */}
+    <Card className="border-nixerly-businessborder">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <CardTitle className="text-xl font-semibold text-nixerly-blue">Contact Information</CardTitle>
+        <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground border border-nixerly-bussinessborder rounded-full p-4">
+          <Image src="/editPara.svg" alt="hello" width={14} height={14}/>
+          Edit
+        </Button>
+      </CardHeader>
+      <Separator/>
+      <CardContent className="space-y-4">
+        {/* Email Address */}
+        <div>
+          <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">Email Address</label>
+          <div className="flex items-center gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
+            <span className="text-sm text-muted-foreground">{businessProfileData?.email || "test@gmail.com"}</span>
           </div>
         </div>
-      </div>
 
-      <div className="rounded-lg border bg-card p-6">
-        <h2 className="mb-6 text-xl font-semibold">Business Owner</h2>
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <User className="h-6 w-6 text-primary" />
-          </div>
+        {/* Website */}
+        {businessProfileData?.businessProfile.website && (
           <div>
-            <p className="font-medium">
-              {businessProfileData?.firstName} {businessProfileData?.lastName}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {businessProfileData?.role
-                ? businessProfileData.role.charAt(0) +
-                  businessProfileData.role.slice(1).toLowerCase()
-                : "Owner"}
-            </p>
+            <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">Website</label>
+            <div className="flex items-center gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
+              <a
+                href={businessProfileData.businessProfile.website}
+                className="text-sm text-muted-foreground hover:underline truncate"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {businessProfileData.businessProfile.website}
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Phone Number */}
+        <div>
+          <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">Phone Number</label>
+          <div className="flex items-center gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
+            <span className="text-sm text-muted-foreground">Contact for phone number</span>
           </div>
         </div>
-      </div>
-    </div>
+
+        {/* Location */}
+        <div>
+          <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">Location</label>
+          <div className="flex items-center gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
+            <span className="text-sm text-muted-foreground">
+              {businessProfileData?.businessProfile.city}, {businessProfileData?.businessProfile.state},{" "}
+              {businessProfileData?.businessProfile.country}
+            </span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+
+    {/* Business Owner Section */}
+    <Card className="border-nixerly-businessborder">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-xl font-semibold text-nixerly-blue">Business Owner</CardTitle>
+        <Button variant="outline" size="sm" className="text-muted-foreground hover:text-foreground border border-nixerly-bussinessborder rounded-full p-4">
+          <Image src="/editPara.svg" alt="hello" width={14} height={14}/>
+          Edit
+        </Button>
+      </CardHeader>
+      <Separator/>
+      <CardContent>
+        <div>
+          <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">Business Owner</label>
+          <div className="flex items-center gap-4 p-3 rounded-lg border border-nixerly-bussinessborder">
+            <div>
+              <p className="text-sm text-muted-foreground">
+                {businessProfileData?.firstName} {businessProfileData?.lastName}
+              </p>
+              <p className="text-lg text-muted-foreground ">
+                {businessProfileData?.role
+                  ? businessProfileData.role.charAt(0) + businessProfileData.role.slice(1).toLowerCase()
+                  : ""}
+              </p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
   );
 
   const renderStats = () => (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="rounded-lg border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <Users className="h-8 w-8 text-blue-500" />
-            <div>
-              <p className="text-2xl font-bold">
-                {businessProfileData?.businessProfile.employeeCount}
-              </p>
-              <p className="text-sm text-muted-foreground">Employees</p>
+    <div className="space-y-8 p-6">
+    {/* Stats Cards with Blue Container */}
+    <div className="bg-nixerly-blue rounded-2xl p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="bg-white border-0 shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-[#996CFF] rounded-lg">
+                <Image src="/employe.svg" alt="employe" width={22} height={16}/>
+              </div>
+              <div className="space-y-2.5">
+                <p className="text-2xl font-bold leading-10">
+                  {businessProfileData?.businessProfile.employeeCount}
+                </p>
+                <p className="text-base font-medium leading-4 text-muted-foreground">Employees</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-lg border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <Calendar className="h-8 w-8 text-green-500" />
-            <div>
-              <p className="text-2xl font-bold">
-                {new Date().getFullYear() -
-                  (businessProfileData?.businessProfile.yearFounded || 0)}
-              </p>
-              <p className="text-sm text-muted-foreground">Years Active</p>
+        <Card className="bg-white border-0 shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-[#FEC960] rounded-lg">
+              <Image src="/calender.svg" alt="employe" width={22} height={16}/>
+              </div>
+              <div className="space-y-2.5">
+                <p className="text-2xl font-bold leading-10">
+                  {new Date().getFullYear() - (businessProfileData?.businessProfile.yearFounded || 0)}
+                </p>
+                <p className="text-base font-medium leading-4 text-muted-foreground">Years Active</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-lg border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <Briefcase className="h-8 w-8 text-purple-500" />
-            <div>
-              <p className="text-2xl font-bold">
-                {businessProfileData?.businessProfile.postedJobs}
-              </p>
-              <p className="text-sm text-muted-foreground">Jobs Posted</p>
+        <Card className="bg-white border-0 shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-[#55C8FF] rounded-lg">
+              <Image src="/jobs.svg" alt="employe" width={22} height={16}/>
+              </div>
+              <div className="space-y-2.5">
+                <p className="text-2xl font-bold leading-10">{businessProfileData?.businessProfile.postedJobs}</p>
+                <p className="text-base font-medium leading-4 text-muted-foreground">Jobs Posted</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-lg border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <Clock className="h-8 w-8 text-orange-500" />
-            <div>
-              <p className="text-2xl font-bold">
-                {new Date(
-                  businessProfileData?.businessProfile?.createdAt ?? ""
-                ).toLocaleDateString(undefined, {
-                  month: "short",
-                  year: "numeric",
-                })}
-              </p>
-              <p className="text-sm text-muted-foreground">Member Since</p>
+        <Card className="bg-white border-0 shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-[#56A2F2] rounded-lg">
+              <Image src="/clock.svg" alt="employe" width={22} height={16}/>
+              </div>
+              <div className="space-y-2.5">
+                <p className="text-2xl font-bold leading-10">
+                  {new Date(businessProfileData?.businessProfile?.createdAt ?? "").toLocaleDateString(undefined, {
+                    year: "numeric",
+                  })}
+                </p>
+                <p className="text-base font-medium leading-4 text-muted-foreground">Member Since</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-lg border bg-card p-6">
-        <h2 className="mb-6 text-xl font-semibold">Company Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-medium mb-3">Industry</h3>
-            <p className="text-muted-foreground">
-              {businessProfileData?.businessProfile.industry}
-            </p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-3">Founded</h3>
-            <p className="text-muted-foreground">
-              {businessProfileData?.businessProfile.yearFounded}
-            </p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-3">Company Size</h3>
-            <p className="text-muted-foreground">
-              {businessProfileData?.businessProfile.employeeCount} employees
-            </p>
-          </div>
-          <div>
-            <h3 className="font-medium mb-3">Location</h3>
-            <p className="text-muted-foreground">
-              {businessProfileData?.businessProfile.city},{" "}
-              {businessProfileData?.businessProfile.state},{" "}
-              {businessProfileData?.businessProfile.country}
-            </p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
+
+    {/* Company Overview Section */}
+    <Card className="">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-nixerly-blue">Company Overview</CardTitle>
+      </CardHeader>
+      <Separator/>
+      <CardContent className="pt-0 py-0">
+        <div className="">
+          <p className="font-medium text-lg leading-7 mb-4">Company Overview</p>
+        <div className="flex justify-between px-5">
+            <h3 className="text-lg font-normal text-muted-foreground mb-2">Industry</h3>
+            <p className="text-lg font-medium capitalize">{businessProfileData?.businessProfile.industry}</p>
+          </div>
+          <div  className="flex justify-between px-5">
+            <h3 className="text-lg font-normal text-muted-foreground mb-2">Founded</h3>
+            <p className="text-blue-600 text-lg font-medium ">{businessProfileData?.businessProfile.yearFounded}</p>
+          </div>
+
+          <div  className="flex justify-between px-5">
+            <h3 className="text-lg normal text-muted-foreground mb-2">Company Size</h3>
+            <p className="text-lg font-medium">{businessProfileData?.businessProfile.employeeCount} employees</p>
+          </div>
+
+          <div  className="flex justify-between px-5">
+            <h3 className="text-lg font-normal text-muted-foreground mb-2">Location</h3>
+            <p className="text-lg font-medium">
+              {businessProfileData?.businessProfile.city}, {businessProfileData?.businessProfile.country}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+      <Separator/>
+    </Card>
+  </div>
   );
 
   const renderJobs = () => (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Job Postings</h2>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button onClick={() => router.push("/business/post-a-job")}>
-                <Pencil className="mr-2 h-4 w-4" />
-                Post New Job
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Create a new job posting</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-
-      {(jobs?.jobs?.length ?? 0) > 0 ? (
-        <>
-          <div className="space-y-4">
-            {jobs?.jobs?.map((job) => (
-              <div
-                key={job.id}
-                className="rounded-lg border p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <FileText className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg">{job.title}</h4>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Posted {job.createdAt}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline">{job.jobType}</Badge>
-                        {job.jobType === "SALARY" && (
-                          <Badge variant="outline">{job.salary}€/year</Badge>
-                        )}
-                        {job.jobType === "CONTRACT" && (
-                          <Badge variant="outline">{job.budget}€</Badge>
-                        )}
-                        {job.jobType === "HOURLY" && (
-                          <Badge variant="outline">
-                            {job.hourlyRateMin}€-{job.hourlyRateMax}€/hr
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => router.push(`/business/jobs/${job.id}`)}
-                  >
-                    View Details
-                    <ChevronRight className="ml-2 h-4 w-4" />
+    <div className="space-y-8 ">
+      <Card>
+        <CardContent className="px-0">
+          <div className="flex items-center justify-between p-5">
+            <h2 className="text-xl font-semibold lead-5 text-nixerly-blue">Job Postings</h2>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" className="rounded-full" onClick={() => router.push("/business/post-a-job")}> 
+                    <Image src="/editPara.svg" alt="edit" width={14} height={14}/>
+                    Post New Job
                   </Button>
-                </div>
-              </div>
-            ))}
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Create a new job posting</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
+          <Separator/>
 
-          {(jobs?.pagination?.totalCount ?? 0) > 10 && (
-            <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    handlePageChange((jobs?.pagination?.currentPage ?? 1) - 1)
-                  }
-                  disabled={jobs?.pagination?.currentPage === 1}
-                >
-                  <ChevronLeft className="h-4 w-4 mr-1" />
-                  Previous
-                </Button>
+          {(jobs?.jobs?.length ?? 0) > 0 ? (
+            <>
+              <div className="space-y-4">
+                {jobs?.jobs?.map((job) => (
+                  <div
+                    key={job.id}
+                    className="p-6"
+                  >
+                    <div className="flex items-start justify-between pb-5">
+                      <div className="flex items-start gap-4">
+                        <div>
+                          <h4 className="font-medium text-base leading-5 tracking-wide">{job.title}</h4>
+                          <p className="text-[9px] text-muted-foreground mb-3 tracking-wide">
+                            POSTED {job.createdAt}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            <Badge variant="outline">{job.jobType}</Badge>
+                            {job.jobType === "SALARY" && (
+                              <Badge variant="outline">{job.salary}€/year</Badge>
+                            )}
+                            {job.jobType === "CONTRACT" && (
+                              <Badge variant="outline">{job.budget}€</Badge>
+                            )}
+                            {job.jobType === "HOURLY" && (
+                              <Badge variant="outline">
+                                {job.hourlyRateMin}€-{job.hourlyRateMax}€/hr
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-sm font-normal leading-4 mt-3">{job.description}</p>
+                        </div>
+                      </div>
+                      <button
+                      className=" flex items-center cursor-pointer"
+                        onClick={() => router.push(`/business/jobs/${job.id}`)}
+                      >
+                      <span className="border-b whitespace-nowrap">View Details</span>
+                        <ChevronRight className="ml-2 h-4 w-4" />
+                      </button>
+                    </div>
+                    <Separator/>
+                  </div>
+                ))}
+              </div>
 
-                <div className="flex items-center gap-1">
-                  {Array.from(
-                    { length: jobs?.pagination?.totalPages ?? 0 },
-                    (_, i) => i + 1
-                  ).map((pageNum) => (
+              {(jobs?.pagination?.totalCount ?? 0) > 10 && (
+                <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
+                  <div className="flex items-center gap-2">
                     <Button
-                      key={pageNum}
-                      variant={
-                        pageNum === (jobs?.pagination?.currentPage ?? 1)
-                          ? "default"
-                          : "outline"
-                      }
+                      variant="outline"
                       size="sm"
-                      className="w-8 h-8 p-0"
-                      onClick={() => handlePageChange(pageNum)}
+                      onClick={() =>
+                        handlePageChange((jobs?.pagination?.currentPage ?? 1) - 1)
+                      }
+                      disabled={jobs?.pagination?.currentPage === 1}
                     >
-                      {pageNum}
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
                     </Button>
-                  ))}
-                </div>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    handlePageChange((jobs?.pagination?.currentPage ?? 1) + 1)
-                  }
-                  disabled={!jobs?.pagination?.hasMore}
-                >
-                  Next
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Page {jobs?.pagination?.currentPage} of{" "}
-                {jobs?.pagination?.totalPages} • {jobs?.pagination?.totalCount}{" "}
-                total jobs
-              </div>
+                    <div className="flex items-center gap-1">
+                      {Array.from(
+                        { length: jobs?.pagination?.totalPages ?? 0 },
+                        (_, i) => i + 1
+                      ).map((pageNum) => (
+                        <Button
+                          key={pageNum}
+                          variant={
+                            pageNum === (jobs?.pagination?.currentPage ?? 1)
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          className="w-8 h-8 p-0"
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </Button>
+                      ))}
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handlePageChange((jobs?.pagination?.currentPage ?? 1) + 1)
+                      }
+                      disabled={!jobs?.pagination?.hasMore}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Page {jobs?.pagination?.currentPage} of{" "}
+                    {jobs?.pagination?.totalPages} • {jobs?.pagination?.totalCount}{" "}
+                    total jobs
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-lg font-medium mb-2">No job postings yet</p>
+              <p className="text-muted-foreground mb-4">
+                Start by creating your first job posting to attract talent.
+              </p>
+              <Button onClick={() => router.push("/business/post-a-job")}> 
+                <Pencil className="mr-2 h-4 w-4" />
+                Post Your First Job
+              </Button>
             </div>
           )}
-        </>
-      ) : (
-        <div className="text-center py-12">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-lg font-medium mb-2">No job postings yet</p>
-          <p className="text-muted-foreground mb-4">
-            Start by creating your first job posting to attract talent.
-          </p>
-          <Button onClick={() => router.push("/business/post-a-job")}>
-            <Pencil className="mr-2 h-4 w-4" />
-            Post Your First Job
-          </Button>
-        </div>
-      )}
+        </CardContent>
+      </Card>
     </div>
   );
 
@@ -561,143 +604,165 @@ export default function BusinessProfilePage() {
       <ChangeBusinessProfilePictureModal />
 
       {/* Profile Banner - Full Width at Top */}
-      <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 shadow-sm border border-blue-100">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
-          <div className="relative h-24 w-24 overflow-hidden rounded-xl border-4 border-white bg-white shadow-sm md:h-32 md:w-32">
-            {businessProfileData?.businessProfile?.profilePicture ? (
-              <img
-                src={
-                  businessProfileData?.businessProfile?.profilePicture ||
-                  "/placeholder.svg"
-                }
-                alt={businessProfileData?.businessProfile.companyName || ""}
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <img
-                src="/placeholder.svg?height=128&width=128"
-                alt={businessProfileData?.businessProfile.companyName || ""}
-                width={128}
-                height={128}
-                className="object-cover"
-              />
-            )}
+      <div className="mx-auto pb-10">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">My Profile</h1>
+          <p className="text-gray-600">Welcome back, {businessProfileData?.businessProfile?.companyName}!</p>
+        </div>
+
+        {/* Profile Card */}
+        <div
+          className="relative bg-[#1E64D31A] overflow-hidden rounded-xl border"
+          style={{
+            backgroundImage: "url('/gredientProfile.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "right",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Overlay if any */}
+          <div className="absolute top-4 right-4 z-20">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
+                  <Button
+                    variant="outline"
+                    className="border border-nixerly-bussinessborder rounded-full"
                     onClick={() =>
-                      openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
-                        profilePicture:
-                          businessProfileData?.businessProfile?.profilePicture,
-                      })
+                      openModal(
+                        ModalType.EDIT_BUSINESS_PROFILE,
+                        businessProfileData?.businessProfile as unknown as {
+                          [key: string]: unknown
+                        },
+                      )
                     }
-                    className="absolute bottom-0 right-0 rounded-full bg-primary p-1.5 text-primary-foreground shadow-sm"
-                    aria-label="Change profile picture"
                   >
-                    <Camera className="h-4 w-4" />
-                  </button>
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Profile
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Update your company profile picture</p>
+                  <p>Edit your business profile details</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="flex-1">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-              <div>
-                <h1 className="text-3xl font-bold">
-                  {businessProfileData?.businessProfile.companyName}
-                </h1>
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    <span>
-                      {businessProfileData?.businessProfile.city},{" "}
-                      {businessProfileData?.businessProfile.state},{" "}
-                      {businessProfileData?.businessProfile.country}
-                    </span>
-                  </span>
-                  <span className="hidden md:inline">•</span>
-                  <span className="flex items-center gap-1">
-                    <Building2 className="h-4 w-4" />
-                    <span>{businessProfileData?.businessProfile.industry}</span>
-                  </span>
-                  <span className="hidden md:inline">•</span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>
-                      Est. {businessProfileData?.businessProfile.yearFounded}
-                    </span>
-                  </span>
+          <div className="relative p-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              {/* Left side - Profile info */}
+              <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
+                {/* Profile Picture */}
+                <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32">
+                  {businessProfileData?.businessProfile?.profilePicture ? (
+                    <img
+                      src={businessProfileData?.businessProfile?.profilePicture || "/placeholder.svg"}
+                      alt={businessProfileData?.businessProfile.companyName || ""}
+                      className="h-full w-full object-cover rounded-full border-1 border-blue-400"
+                    />
+                  ) : (
+                    <img
+                      src="/placeholder.svg?height=128&width=128"
+                      alt={businessProfileData?.businessProfile.companyName || ""}
+                      width={128}
+                      height={128}
+                      className="object-cover"
+                    />
+                  )}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() =>
+                            openModal(ModalType.CHANGE_BUSINESS_PROFILE_PICTURE, {
+                              profilePicture: businessProfileData?.businessProfile?.profilePicture,
+                            })
+                          }
+                          className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel shadow-lg border border-nixerly-blue"
+                          aria-label="Change profile picture"
+                        >
+                          <Camera className="h-5 w-5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Update your company profile picture</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="outline"
-                        onClick={() =>
-                          openModal(
-                            ModalType.EDIT_BUSINESS_PROFILE,
-                            businessProfileData?.businessProfile as unknown as {
-                              [key: string]: unknown;
-                            }
-                          )
-                        }
-                      >
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit Profile
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Edit your business profile details</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+
+                {/* Company Details */}
+                <div className="flex-1">
+                  <h2 className="text-3xl font-medium text-nixerly-blue leading-5 tracking-wide ">
+                    {businessProfileData?.businessProfile.companyName}
+                  </h2>
+                  <div className="mt-2 flex flex-col flex-wrapr text-base font-medium text-nixerly-blue leading-5 tracking-wide">
+                    <span className="flex items-center gap-1">
+                      <span className="text-base font-medium">
+                        {businessProfileData?.businessProfile.city}, {businessProfileData?.businessProfile.state},{" "}
+                        {businessProfileData?.businessProfile.country}
+                      </span>
+                    </span>
+                    <span className="text-base font-medium">
+                      <span>{businessProfileData?.businessProfile.industry}</span>
+                    </span>
+                    {/* <span className="flex items-center gap-1">
+                      <span>Est. {businessProfileData?.businessProfile.yearFounded}</span>
+                    </span> */}
+                  </div>
+                </div>
+
+              {/* Right side - Edit Button */}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Sidebar and Content Layout */}
-      <div className="grid gap-8 lg:grid-cols-4">
-        {/* Simple Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="border-r pr-6">
-            <nav className="space-y-1">
-              {sidebarItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleTabChange(item.id)}
+    {/* Sidebar and Content Layout */}
+    <div className="grid gap-8 lg:grid-cols-4">
+      {/* Simple Sidebar */}
+      <div className="lg:col-span-1 bg-[#F5F7FA] rounded-xl">
+        <div className="px-8">
+          <nav className="space-y-1">
+            <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
+            {sidebarItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleTabChange(item.id)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                    isActive
+                      ? "bg-white text-nixerly-blue"
+                      : "hover:bg-white text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <span
                     className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors",
-                      activeTab === item.id
-                        ? "bg-primary/10 text-primary"
-                        : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                      "h-8 w-8 flex items-center justify-center rounded-md border transition-colors",
+                      isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{item.label}</p>
-                    </div>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="lg:col-span-3">
-          <div className="min-h-[600px]">{renderContent()}</div>
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm">{item.label}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
+
+      {/* Main Content */}
+      <div className="lg:col-span-3">
+        <div className="min-h-[600px]">{renderContent()}</div>
+      </div>
     </div>
+  </div>
   );
 }

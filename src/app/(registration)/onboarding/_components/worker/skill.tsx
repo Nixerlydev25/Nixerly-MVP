@@ -96,6 +96,7 @@ export const SkillsInfo = () => {
     const currentSkills = formData.skills || [];
     if (currentSkills.length < 8 && !currentSkills.includes(value)) {
       setValue("skills", [...currentSkills, value]);
+      trigger("skills");
     }
     // Removed setIsOpen(false) to keep dropdown open after selection
   };
@@ -106,12 +107,13 @@ export const SkillsInfo = () => {
       "skills",
       currentSkills.filter((skill) => skill !== skillToRemove)
     );
+    trigger("skills");
   };
 
   return (
     <div className="max-w-2xl mx-auto p-4">
       <ProgressIndicator currentStep={2} totalSteps={4} hasStartedFilling={hasStartedFilling} />
-      <Card className="shadow-nixerly-card rounded-lg text-nixerly-businesslabel md:border border-gray-300 py-0 gap-0">
+      <Card className="shadow-nixerly-card text-nixerly-businesslabel md:border border-gray-300 py-0 gap-0">
       <div className="flex items-center border-b border-gray-300 gap-3 px-6 py-4">
       <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">02</span>
@@ -128,13 +130,20 @@ export const SkillsInfo = () => {
           name="skills"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel className="flex text-lg text-nixerly-darkgray font-medium">
-              Skill Levels (max. 4)
-           <Image src="/info.svg" alt="info" width={14} height={14}/>
+              <FormLabel className="flex text-sm text-nixerly-businesslabel font-medium">
+              Skill Levels (max. 8)
+           <Image 
+             src="/info.svg" 
+             alt="info" 
+             width={14} 
+             height={14}
+             onClick={() => trigger("skills")}
+             className="cursor-pointer"
+           />
               </FormLabel>
               <FormControl>
                 <div ref={commandRef}>
-                  <Command className="border rounded-md py-1 bg-white text-nixerly-businesslabel border-gray-300">
+                  <Command className="border rounded-md py-1 bg-white text-nixerly-darkgray border-gray-300">
                     <CommandInput
                       placeholder="Search skills..."
                       onFocus={() => setIsOpen(true)}
@@ -174,7 +183,7 @@ export const SkillsInfo = () => {
               </FormControl>
               <div className="flex flex-wrap gap-2 mt-2">
                 {field.value?.map((skill) => (
-                  <Badge key={skill} variant="outline" className="px-3 py-2 font-medium text-nixerly-businesslabel border border-gray-300">
+                  <Badge key={skill} variant="outline" className="px-2 py-1 font-medium text-nixerly-businesslabel border border-gray-300">
                     {
                       onboardingOptions.skills.find((s) => s.value === skill)
                         ?.label
@@ -182,7 +191,7 @@ export const SkillsInfo = () => {
                     <button
                       type="button"
                       onClick={() => handleSkillRemove(skill)}
-                      className="ml-2 hover:text-nixerly-coral cursor-pointer"
+                      className="ml-1 hover:text-nixerly-coral cursor-pointer"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -202,9 +211,16 @@ export const SkillsInfo = () => {
             name="hourlyRate"
             render={({ field }) => (
               <FormItem className="w-full">
-                <div className="flex items-center gap-2 mb-4">
-                  <FormLabel className="text-base font-medium text-gray-900">Hourly Rate</FormLabel>
-               <Image src="/info.svg" alt="info" width={14} height={14}/>
+                <div className="flex items-center gap-2">
+                  <FormLabel className="text-sm font-medium text-nixerly-businesslabel">Hourly Rate</FormLabel>
+                  <Image 
+                    src="/info.svg" 
+                    alt="info" 
+                    width={14} 
+                    height={14}
+                    onClick={() => trigger("hourlyRate")}
+                    className="cursor-pointer"
+                  />
                 </div>
                 <FormControl>
                   <div className="relative">
@@ -213,11 +229,14 @@ export const SkillsInfo = () => {
                       min={14}
                       placeholder="32"
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      onChange={(e) => {
+                        field.onChange(Number(e.target.value));
+                        trigger("hourlyRate");
+                      }}
                       className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                      <span className="text-gray-500 font-medium">€</span>
+                    <Image src="/euro.svg" alt="euro" width={16} height={16}/>
                     </div>
                   </div>
                 </FormControl>
@@ -233,7 +252,7 @@ export const SkillsInfo = () => {
             disabled={isPending || skillPending}
             className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-3 h-12 rounded-full text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
-            {isPending || skillPending ? "Saving..." : "Continue"}
+            {isPending || skillPending ? "Saving..." : "Next"}
           </Button>
         </div>
    

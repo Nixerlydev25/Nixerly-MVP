@@ -48,7 +48,7 @@ export function AvailabilityInfo() {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <ProgressIndicator currentStep={4} totalSteps={4} hasStartedFilling={Boolean(formData.availability !== undefined)} />
-      <Card className="border border-gray-300 bg-white rounded-lg text-nixerly-businesslabel animate-fade-in py-0 gap-0">
+      <Card className="border border-gray-300 bg-white text-nixerly-businesslabel animate-fade-in py-0 gap-0">
       <div className="gap-5 flex border-b border-gray-300 px-6 py-4">
         <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">04</span>

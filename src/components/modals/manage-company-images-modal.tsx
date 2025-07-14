@@ -2,7 +2,7 @@
 
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useCompanyImages } from "@/hook/business/business.hook";
 import { useCallback, useState } from "react";
@@ -12,6 +12,7 @@ import { ImagePlus, Loader2, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { TBusinessAsset } from "@/types/auth";
+import { Separator } from "../ui/separator";
 export interface CompanyImagesModalData {
   assets: TBusinessAsset[];
 }
@@ -82,26 +83,34 @@ export function ManageCompanyImagesModal() {
   return (
     <Dialog open={activeModal === ModalType.MANAGE_COMPANY_IMAGES} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Manage Company Images</DialogTitle>
+      <DialogHeader className='px-6 pt-6 flex flex-row items-center gap-3 '>
+        <div className="flex items-center justify-center h-10 w-10 md:w-14 md:h-14 border border-gray-300 rounded-full">
+            <span className="text-lg sm:text-base font-medium">01</span>
+          </div>
+          <div className="w-4/5">
+          <DialogTitle className="text-nixerly-blue">Manage Company Images</DialogTitle>
+          <DialogDescription>Drag & drop images here, or click to select files
+          Supported formats: JPEG, PNG, GIF, WebP (max 5MB)</DialogDescription>
+          </div>
         </DialogHeader>
-
+        <Separator/>
         <div className="space-y-6">
+          <div className="px-6">
           {/* Upload Section */}
           <div
             {...getRootProps()}
             className={cn(
-              "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors",
+              "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors pb-4",
               isDragActive ? "border-primary bg-primary/5" : "border-muted-foreground/20"
             )}
           >
             <input {...getInputProps()} />
-            <ImagePlus className="mx-auto h-12 w-12 text-muted-foreground" />
+            <Image src="/placeholderImg.png" alt="321pily" width={75} height={68} className="mx-auto"/>
             <p className="mt-2 text-sm text-muted-foreground">
-              Drag & drop images here, or click to select files
+            Drop your image here, or <span className="text-nixerly-blue text-sm font-medium">Browser</span>
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              Supported formats: JPEG, PNG, GIF, WebP (max 5MB)
+            Supports: PNG, JPG, JPEG, WEBP (max 5MB)
             </p>
           </div>
 
@@ -132,8 +141,8 @@ export function ManageCompanyImagesModal() {
 
           {/* Existing Images */}
           {assets.length > 0 ? (
-            <div className="space-y-2">
-              <h4 className="font-medium">Existing Images</h4>
+            <div className="space-y-2 pt-3">
+              <h4 className="font-medium text-nixerly-blue">Existing Images</h4>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {assets.map((asset) => (
                   <div key={asset.id} className="relative group aspect-square">
@@ -163,12 +172,14 @@ export function ManageCompanyImagesModal() {
           ) : (
             <p className="text-center text-muted-foreground">No company images uploaded yet.</p>
           )}
+          </div>
+          <Separator className="p-0"/>
 
-          <div className="flex justify-end gap-4">
-            <Button variant="outline" onClick={closeModal}>
+          <div className="flex justify-end gap-4 px-6 pb-6">
+            <Button className="rounded-full" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button onClick={handleSave} disabled={isPending}>
+            <Button className="rounded-full bg-nixerly-blue" onClick={handleSave} disabled={isPending}>
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Changes
             </Button>

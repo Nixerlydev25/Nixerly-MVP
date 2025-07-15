@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Hammer, UserCircle2Icon } from "lucide-react";
+import { UserCircle2Icon } from "lucide-react";
 import Link from "next/link";
 
 export function DashboardHeader() {
@@ -25,9 +25,8 @@ export function DashboardHeader() {
 
   if (isLoading || !user) {
     return (
-      <header className="h-16 border-b bg-white">
-        <div className="container mx-auto h-full flex items-center justify-between px-4">
-          <div className="h-8 w-32 bg-gray-200 rounded animate-pulse" />
+      <header className="h-16 bg-white">
+        <div className="container mx-auto h-full flex items-center justify-end px-4">
           <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse" />
         </div>
       </header>
@@ -49,13 +48,8 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="h-16 border-b bg-white">
-      <div className="mx-4 h-full flex items-center justify-between px-4">
-        <Link href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED} className="flex items-center gap-2">
-          <Hammer className="h-8 w-8 text-blue-600" />
-          <span className="text-lg font-bold text-blue-600">Nixerly</span>
-        </Link>
-        
+    <header className="h-16 bg-white border-l border-t rounded-tl-2xl">
+      <div className="mx-4 h-full flex items-center justify-end px-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

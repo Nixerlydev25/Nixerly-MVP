@@ -11,6 +11,7 @@ import {
   BuildingIcon,
   SearchIcon,
   UserCircle2Icon,
+  Hammer,
 } from "lucide-react";
 import { UpgradePro } from "./upgrade-pro";
 
@@ -20,7 +21,7 @@ export function DashboardSidebar() {
 
   if (isLoading || !user) {
     return (
-      <aside className="w-64 border-r bg-white min-h-[calc(100vh-4rem)]">
+      <aside className="w-64 bg-[#F8F8FC] min-h-[calc(100vh-4rem)]">
         <div className="p-6">
           <nav className="space-y-6">
             {[1, 2, 3].map((i) => (
@@ -78,7 +79,13 @@ export function DashboardSidebar() {
   const links = isBusinessProfile ? businessLinks : workerLinks;
 
   return (
-    <aside className="w-64 border-r bg-white min-h-[calc(100vh-4rem)] flex flex-col overflow-hidden">
+    <aside className="w-64 bg-[#F8F8FC] min-h-screen flex flex-col overflow-hidden">
+      <div className="p-4">
+        <Link href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED} className="flex items-center gap-2">
+          <Hammer className="h-8 w-8 text-blue-600" />
+          <span className="text-lg font-bold text-blue-600">Nixerly</span>
+        </Link>
+      </div>
       <div className="p-6">
         <nav className="space-y-1">
           {links.map((link) => {

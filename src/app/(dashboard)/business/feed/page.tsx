@@ -93,7 +93,7 @@ export default function Dashboard() {
       {isLoading ? (
         <SkeletonFeed />
       ) : (
-        <div className="flex min-h-screen flex-col py-10 bg-nixerly-form-gradient">
+        <div className="flex min-h-screen flex-col py-10">
           <div className="container mx-auto px-4">
             <JobBanner />
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">

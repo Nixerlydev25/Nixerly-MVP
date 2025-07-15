@@ -97,34 +97,40 @@ export default function Dashboard() {
           <div className="container mx-auto px-4">
             <JobBanner />
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
-              <div>
-                {/* <h1 className="text-4xl font-bold font-title">
-                  Find Top Talent
-                </h1> */}
-                <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight ">
-                  Browse profiles of skilled professionals ready to work on your
+
+
+               <div>
+        <h1 className="text-black text-xl font-semibold leading-8 font-inter">
+          Find Talent
+        </h1>
+        <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight">Browse profiles of skilled professionals ready to work on your
                   projects
-                </p>
-              </div>
+        </p>
+      </div>
               <div className="hidden items-center justify-between lg:flex gap-2">
                 <div className="relative hidden md:block">
-                  <div className="flex items-center">
-                    <Input
-                      type="search"
-                      placeholder="Search for talent..."
-                      className="w-[300px] rounded-r-none border-r-0 h-9 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]"
-                      value={searchValue}
-                      onChange={handleInputChange}
-                      onKeyDown={handleInputKeyDown}
-                    />
-                    <Button
-                      type="button"
-                      className="h-10 flex items-center justify-center rounded-l-none px-4 bg-nixerly-blue "
-                      onClick={() => updateSearchParam(searchValue)}
-                    >
-                      <SearchIcon className="h-4 w-4 text-whire z-10" />
-                    </Button>
-                  </div>
+
+<div className="relative w-[300px]">
+  <Button
+    type="button"
+    className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none  s"
+    onClick={() => updateSearchParam(searchValue)}
+  >
+    <SearchIcon className="h-10 w-10 text-[#99A0AE] " />
+  </Button>
+
+  <Input
+    type="search"
+    placeholder="Search for talent..."
+    className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
+    value={searchValue}
+    onChange={handleInputChange}
+    onKeyDown={handleInputKeyDown}
+  />
+</div>
+
+
+
                   {searchParams.get("search") && (
                     <X
                       className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
@@ -144,7 +150,7 @@ export default function Dashboard() {
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={SortOption.RATING}>Rating</SelectItem>
+                      <SelectItem className="text-[#99A0AE]" value={SortOption.RATING}>Rating</SelectItem>
                       <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
                         Hourly Rate: Low to High
                       </SelectItem>
@@ -157,19 +163,19 @@ export default function Dashboard() {
                     <Button
                       variant={viewMode === "card" ? "default" : "ghost"}
                       size="sm"
-                      className={`rounded-none  ${
+                      className={`rounded-none hover:bg-transparent ${
                         viewMode === "card" ? "bg-nixerly-blue" : ""
                       }`}
                       onClick={() => handleViewModeChange("card")}
                     >
                       <GridIcon />
-                      Grid
+                      Grid  
                     </Button>
                     <Separator orientation="vertical" className="h-8" />
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="sm"
-                      className={`rounded-none ${
+                      className={`rounded-none hover:bg-transparent ${
                         viewMode === "list" ? "bg-nixerly-blue" : ""
                       }`}
                       onClick={() => handleViewModeChange("list")}

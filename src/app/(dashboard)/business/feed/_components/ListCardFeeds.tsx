@@ -38,6 +38,7 @@ function ListCardFeeds({
 
   return (
     <div key={id} className="flex flex-col border-b hover:bg-gray-100">
+      
       <div className="flex flex-1 items-start p-4">
         <div className="flex-1 flex">
           <div className="cursor-pointer flex" onClick={() => router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)}>
@@ -50,31 +51,34 @@ function ListCardFeeds({
             />
             <div>
               <div>
-                <h3 className="font-semibold">{name}</h3>
-                <p className="text-sm text-gray-600">{title}</p>
-                <div className="mt-1 flex items-center">
+                <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none ">{name}</h3>
+                <p className="text-sm text-[#0E121B] font-sans pt-2 not-italic font-normal leading-none tracking-tight">{title}</p>
+                {/* <div className="mt-1 flex items-center">
                   <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
                   <span className="text-sm font-medium">{rating}</span>
                   <span className="ml-2 text-xs text-gray-500">({jobsCompleted} jobs)</span>
-                </div>
+                </div> */}
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap gap-2">
+               
                 {skills.slice(0, 4).map((skill) => (
-                  <Badge key={skill} variant="secondary">
+                  <Badge key={skill} variant="outline" className="font-sans text-xs not-italic font-medium leading-[14.05px] text--nixerly-businesslabel  ">
                     {formateSkills(skill)}
                   </Badge>
                 ))}
               </div>
-              <p className="mt-2 text-sm text-gray-600">
-                <UserIcon className="mr-1 inline-block h-4 w-4" />
+              <p className="mt-4 text-[#0E121B] font-sans text-base not-italic font-normal leading-[17.56px] tracking-tight">
+                <Image src="/locationblack.svg" alt="location icon" width={12} height={12} className="mr-1 inline-block " />
                 {location}
               </p>
             </div>
           </div>
           <div className="ml-auto flex flex-col items-end gap-2">
-            <Button variant="ghost" size="icon" className="text-gray-400">
+            {/* <Button variant="ghost" size="icon" className="text-gray-400">
               <BookmarkIcon className="h-5 w-5" />
-            </Button>
+            </Button> */}
+
+
             {hasDetailsToShow && (
               <Button
                 variant="ghost"

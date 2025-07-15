@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import {Info} from "lucide-react"
 
 interface FiltersFeedsProps {
   viewMode: 'card' | 'list';
@@ -225,10 +226,12 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 defaultValue={['skills', 'hourlyRate']}
                 // collapsible
               >
-                <AccordionItem value="skills">
+                <AccordionItem  value="skills ">
                   <AccordionTrigger className="text-sm font-medium py-2">
                     Skills
+                        {/* <Info /> */}
                   </AccordionTrigger>
+               
                   <AccordionContent>
                     <div className="space-y-4 p-0.5">
                       <div className="relative">

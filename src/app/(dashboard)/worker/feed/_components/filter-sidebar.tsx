@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { LocationSearch } from "@/components/location-search";
+import Image from "next/image";
 
 export function FilterSidebar() {
   const searchParams = useSearchParams();
@@ -181,7 +182,7 @@ export function FilterSidebar() {
   };
 
   return (
-    <Card className="sticky top-4 rounded-md border-none">
+    <Card className="sticky top-4 rounded-xl">
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
@@ -217,7 +218,7 @@ export function FilterSidebar() {
           className="w-full"
         >
           {/* Job Status filter */}
-          <AccordionItem value="status">
+          {/* <AccordionItem value="status">
             <AccordionTrigger className="text-sm font-medium py-2">
               Job Status
             </AccordionTrigger>
@@ -242,10 +243,10 @@ export function FilterSidebar() {
                 ))}
               </RadioGroup>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
 
           {/* Budget Range filter */}
-          <AccordionItem value="budget">
+          {/* <AccordionItem value="budget">
             <AccordionTrigger className="text-sm font-medium py-2">
               Budget Range
             </AccordionTrigger>
@@ -269,10 +270,10 @@ export function FilterSidebar() {
                 />
               </div>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
 
           {/* Hourly Rate filter */}
-          <AccordionItem value="hourlyRate">
+          {/* <AccordionItem value="hourlyRate">
             <AccordionTrigger className="text-sm font-medium py-2">
               Hourly Rate
             </AccordionTrigger>
@@ -296,42 +297,48 @@ export function FilterSidebar() {
                 />
               </div>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
 
           {/* Skills filter */}
           <AccordionItem value="skills">
-            <AccordionTrigger className="text-sm font-medium py-2">
-              Skills
-            </AccordionTrigger>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium py-2">Skills</span>
+              <Image src="/infoBusiness.svg" alt="hello" width={12} height={12}/>
+            </div>
+            <div className="space-y-4 p-0.5">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search skills..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={handleSkillSearchChange}
+                />
+              </div>
+              {/* AccordionTrigger always visible */}
+              <AccordionTrigger className="font-medium text-sm leading-5 tracking-wide flex items-center gap-2 px-0 py-2">
+                Select Specialist
+              </AccordionTrigger>
+            </div>
             <AccordionContent>
-              <div className="space-y-4 p-0.5">
-                <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search skills..."
-                    className="pl-8"
-                    value={searchTerm}
-                    onChange={handleSkillSearchChange}
-                  />
-                </div>
-                <div className="max-h-[400px] overflow-y-auto">
-                  <div className="flex flex-col space-y-2">
-                    {filteredSkills.map((skill, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`skill-${skill.value}`}
-                          checked={filters.skills.includes(skill.value)}
-                          onCheckedChange={() => handleSkillChange(skill.value)}
-                        />
-                        <Label
-                          htmlFor={`skill-${skill}`}
-                          className="text-sm font-normal cursor-pointer"
-                        >
-                          {skill.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
+              <div className="max-h-[400px] overflow-y-auto">
+                <div className="flex flex-col space-y-2">
+                  {filteredSkills.map((skill, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`skill-${skill.value}`}
+                        checked={filters.skills.includes(skill.value)}
+                        onCheckedChange={() => handleSkillChange(skill.value)}
+                        className={filters.skills.includes(skill.value) ? "bg-nixerly-blue border-nixerly-blue" : "border-nixerly-bussinessborder"}
+                      />
+                      <Label
+                        htmlFor={`skill-${skill}`}
+                        className={`text-sm font-normal cursor-pointer ${filters.skills.includes(skill.value) ? "text-nixerly-blue" : ""}`}
+                      >
+                        {skill.label}
+                      </Label>
+                    </div>
+                  ))}
                 </div>
               </div>
             </AccordionContent>

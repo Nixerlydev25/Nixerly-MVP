@@ -323,3 +323,14 @@
   pointer-events: none;
   z-index: 1;
 }
+
+
+/* Hide the native clear button in Chrome, Safari, Edge, Opera */
+input[type="search"]::-webkit-search-clear-button {
+  display: none;
+}
+
+/* Hide the native clear button in Firefox */
+input[type="search"]::-ms-clear {
+  display: none;
+}

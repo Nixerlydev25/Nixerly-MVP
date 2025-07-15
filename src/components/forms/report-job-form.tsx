@@ -127,7 +127,7 @@ export function ReportJobForm({ jobId, onSuccess }: ReportJobFormProps) {
           <Button
             type="submit"
             disabled={isReportJobPending}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-nixerly-blue rounded-full"
           >
             {isReportJobPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />

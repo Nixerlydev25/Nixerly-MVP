@@ -8,6 +8,7 @@ import { ROUTES } from "@/lib/routes";
 import { ModalType } from "@/types/model";
 import { useModalStore } from "@/store/modal.store";
 import {
+  ArrowLeft,
   Briefcase,
   Building2,
   Calendar,
@@ -24,6 +25,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 export default function JobPostDetail() {
   const { id } = useParams<{ id: string }>();
@@ -34,11 +36,18 @@ export default function JobPostDetail() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4">
+          <Button variant="outline" className="flex items-center gap-2 rounded-full text-muted-foreground hover:text-foreground ">
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+        </div>
+
       <div className="grid gap-6 md:grid-cols-3">
         {/* Main Content */}
-        <div className="md:col-span-2 space-y-6">
+        <div className="md:col-span-2 space-y-6 border rounded-2xl">
           {/* Job Header */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 px-4 pt-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative h-16 w-16 overflow-hidden rounded-md border bg-muted">
@@ -51,28 +60,26 @@ export default function JobPostDetail() {
                   />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-title">
+                  <h1 className="text-base font-bold leading-5 text-nixerly-blue">
                     {jobDetails?.title || "Job Title"}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-xs font-normal leading-5 ">
                     <span className="flex items-center gap-1">
-                      <Building2 className="h-4 w-4" />
+                    <Image src="/building.svg" alt="building" width={10} height={10}/>
                       <span>
                         {jobDetails?.businessProfile?.companyName ||
                           "Company Name"}
                       </span>
                     </span>
-                    <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
+                    <Image src="/locationblack.svg" alt="calender" width={10} height={10}/>
                       <span>
                         {jobDetails?.businessProfile?.city || ""},{" "}
                         {jobDetails?.businessProfile?.state || ""}
                       </span>
                     </span>
-                    <span className="hidden md:inline">•</span>
                     <span className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
+                    <Image src="/clanderblack.svg" alt="calender" width={10} height={10}/>
                       <span>
                         Posted{" "}
                         {jobDetails
@@ -140,36 +147,35 @@ export default function JobPostDetail() {
             </div>
           </div>
 
+          <Separator/>
+
           {/* Job Details Tabs */}
-          <div className="space-y-8">
+          <div className="space-y-5 p-4">
             {/* Description Section */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">
+            <div className="space-y-1">
+              <h2 className="text-sm font-bold leading-5 text-nixerly-blue">
                 Job Description
               </h2>
-              <div className="space-y-3 text-muted-foreground">
+              <div className="text-sm font-normal leading-5 text-muted-foreground">
                 <p>{jobDetails?.description || "No description available."}</p>
               </div>
             </div>
 
             {/* Requirements Section */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">
+            <div className="space-y-1">
+              <h2 className="text-sm font-bold leading-5 text-nixerly-blue">
                 Job Requirements
               </h2>
               <div className="space-y-3 text-muted-foreground">
-                <h3 className="text-base font-medium text-foreground mb-2">
-                  Requirements:
-                </h3>
-                <div className="whitespace-pre-line">
+                <div className="whitespace-pre-line text-sm font-normal leading-5 text-muted-foreground">
                   {jobDetails?.requirements || "No requirements specified."}
                 </div>
               </div>
             </div>
 
             {jobDetails?.skills && jobDetails.skills.length > 0 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold border-b pb-2">
+              <div className="space-y-1">
+                <h2 className="text-sm font-bold leading-5 text-nixerly-blue">
                   Required Skills
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -177,9 +183,8 @@ export default function JobPostDetail() {
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="flex items-center gap-1 text-sm bg-blue-50 text-blue-700 hover:bg-blue-100"
+                      className="flex items-center gap-1 text-xs font-medium leading-5 bg-blue-50 text-blue-700 hover:bg-blue-100"
                     >
-                      <Tool className="h-3.5 w-3.5" />
                       {skill
                         .replace(/_/g, " ")
                         .replace(/\b\w/g, (l) => l.toUpperCase())}
@@ -191,38 +196,38 @@ export default function JobPostDetail() {
 
             {/* Company Section */}
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">
+              <h2 className="text-sm font-bold leading-5">
                 About {jobDetails?.businessProfile?.companyName || "Company"}
               </h2>
-              <div className="space-y-3 text-muted-foreground">
+              <div className="space-y-3 text-sm font-normal leading-5 text-muted-foreground border p-4 border-nixerly-bussinessborder rounded-2xl">
                 <p>
                   {jobDetails?.businessProfile?.description ||
                     "No company description available."}
                 </p>
                 <div className="mt-4">
                   <p>
-                    <strong>Industry:</strong>{" "}
+                    <span className="text-nixerly-blue">Industry:</span>{" "}
                     {jobDetails?.businessProfile?.industry || "Not specified"}
                   </p>
                   <p>
-                    <strong>Location:</strong>{" "}
+                    <span className="text-nixerly-blue">Location:</span>{" "}
                     {jobDetails?.businessProfile?.city || ""},{" "}
                     {jobDetails?.businessProfile?.state || ""},{" "}
                     {jobDetails?.businessProfile?.country || ""}
                   </p>
                   <p>
-                    <strong>Employee Count:</strong>{" "}
+                    <span className="text-nixerly-blue">Employee Count:</span>{" "}
                     {jobDetails?.businessProfile?.employeeCount ||
                       "Not specified"}
                   </p>
                   <p>
-                    <strong>Year Founded:</strong>{" "}
+                    <span className="text-nixerly-blue">Year Founded:</span>{" "}
                     {jobDetails?.businessProfile?.yearFounded ||
                       "Not specified"}
                   </p>
                   {jobDetails?.businessProfile?.website && (
                     <p>
-                      <strong>Website:</strong>
+                      <span className="text-nixerly-blue">Website:</span>
                       {jobDetails?.businessProfile?.website}
                     </p>
                   )}
@@ -230,6 +235,8 @@ export default function JobPostDetail() {
               </div>
             </div>
           </div>
+
+          {/* <Separator/> */}
 
           {/* Similar Jobs */}
           {/* <div className="space-y-4">
@@ -317,8 +324,8 @@ export default function JobPostDetail() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Apply Card */}
-          <Card>
-            <CardContent className="p-6 space-y-4">
+          <Card className="p-0">
+            <CardContent className="p-4 space-y-4">
               <div className="space-y-2">
                 {/* <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Job Details</h3>
@@ -327,23 +334,25 @@ export default function JobPostDetail() {
                 {/* <Separator /> */}
                 <div className="grid gap-3">
                   <div className="flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-muted-foreground" />
+                  <span className="flex items-center justify-center w-12 h-12 border rounded-full">
+                        <Image src="/dollar.svg" alt="dollar" width={20} height={20}/>
+                      </span>
                     <div>
-                      <p className="font-medium">
+                      {/* <p className="font-medium">
                         {jobDetails?.budget ? `€${jobDetails.budget}` : ""}
                         {jobDetails?.hourlyRateMin && jobDetails?.hourlyRateMax
                           ? ` (€${jobDetails.hourlyRateMin}-€${jobDetails.hourlyRateMax}/hr)`
                           : ""}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
+                      </p> */}
+                      <p className="text-sm  font-bold leading-5 text-nixerly-blue ml-2">
                         Based on experience
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="h-5 w-5 text-muted-foreground" />
+                  <Image src="/briefcase.svg" alt="calender" width={20} height={20}/>
                     <div>
-                      <p className="font-medium">
+                      <p className="text-sm leading-5 font-bold text-nixerly-blue">
                         {jobDetails?.employmentType
                           ? jobDetails.employmentType
                               .split("_")
@@ -351,16 +360,16 @@ export default function JobPostDetail() {
                               .replace(/^\w/, (c) => c.toUpperCase())
                           : "Full-time"}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs font-normal text-muted-foreground">
                         {jobDetails?.jobType || "."}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
+                    <Image src="/calen.svg" alt="calender" width={20} height={20}/>
                     <div>
-                      <p className="font-medium">Start date</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm leading-5 font-bold text-nixerly-blue">Start date</p>
+                      <p className="text-xs font-normal text-muted-foreground">
                         {jobDetails?.startDate
                           ? new Date(jobDetails.startDate).toLocaleDateString(
                               "en-US",
@@ -375,10 +384,10 @@ export default function JobPostDetail() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <User className="h-5 w-5 text-muted-foreground" />
+                  <Image src="/user.svg" alt="calender" width={20} height={20}/>
                     <div>
-                      <p className="font-medium">Professionals</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm leading-5 font-bold text-nixerly-blue">Professionals</p>
+                      <p className="text-xs font-normal text-muted-foreground">
                         {jobDetails?.numberOfWorkersRequired ||
                           jobDetails?.numberOfPositions ||
                           1}{" "}
@@ -389,7 +398,7 @@ export default function JobPostDetail() {
                 </div>
               </div>
               <Button
-                className="w-full bg-blue-700 text-white hover:bg-blue-800"
+                className="w-full font-bold bg-blue-700 text-white hover:bg-blue-800"
                 onClick={() =>
                   router.push(`${ROUTES.WORKER_JOB}/${jobDetails?.id}/apply`)
                 }
@@ -405,14 +414,14 @@ export default function JobPostDetail() {
 
           {/* Employer Card */}
           <Card>
-            <CardContent className="p-6 space-y-4">
+            <CardContent className="p-4 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 overflow-hidden rounded-md border bg-muted">
                   <Image
                     src={jobDetails?.businessProfile?.profilePicture || "/placeholder.svg?height=48&width=48"}
                     alt="Company logo"
-                    width={48}
-                    height={48}
+                    width={36}
+                    height={36}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -420,12 +429,12 @@ export default function JobPostDetail() {
                   <Link
                     href={`${ROUTES.OTHER_BUSINESS_PROFILE}/${jobDetails?.businessProfile?.id}`}
                   >
-                    <h3 className="font-semibold">
+                    <h3 className="font-bold text-sm text-nixerly-blue leading-5 mb-1">
                       {jobDetails?.businessProfile?.companyName ||
                         "Company Name"}
                     </h3>
                   </Link>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm font-normal leading-5 text-muted-foreground">
                     Member since{" "}
                     {jobDetails?.businessProfile?.yearFounded || "N/A"}
                   </p>
@@ -468,9 +477,9 @@ export default function JobPostDetail() {
 
           {/* Job Location */}
           <Card>
-            <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold">Job Location</h3>
-              <div className="aspect-video w-full overflow-hidden rounded-md bg-muted">
+            <CardContent className="p-4 space-y-4">
+              <h3 className="text-sm font-bold leading-5 text-nixerly-blue">Job Location</h3>
+              {/* <div className="aspect-video w-full overflow-hidden rounded-md bg-muted">
                 <Image
                   src="/placeholder.svg?height=200&width=400"
                   alt="Map location"
@@ -478,8 +487,8 @@ export default function JobPostDetail() {
                   height={200}
                   className="h-full w-full object-cover"
                 />
-              </div>
-              <p className="text-sm text-muted-foreground">
+              </div> */}
+              <p className="text-sm font-normal leading-5">
                 {jobDetails?.businessProfile?.city || ""},{" "}
                 {jobDetails?.businessProfile?.state || ""},{" "}
                 {jobDetails?.businessProfile?.country || ""}

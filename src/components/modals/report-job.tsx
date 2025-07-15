@@ -48,7 +48,7 @@ export function ReportJobModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md p-6">
         <DialogHeader>
           <DialogTitle>Report Job</DialogTitle>
           <DialogDescription>

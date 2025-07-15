@@ -26,7 +26,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <QueryProvider>
-            <div className="flex min-h-screen flex-col bg-nixerly-form-gradient">
+            <div className="flex min-h-screen flex-col pt-3 bg-[#F8F8FC]">
               <main>{children}</main>
               <Footer />
             </div>

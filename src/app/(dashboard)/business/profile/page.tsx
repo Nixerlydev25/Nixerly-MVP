@@ -501,8 +501,8 @@ export default function BusinessProfilePage() {
                       className=" flex items-center cursor-pointer"
                         onClick={() => router.push(`/business/jobs/${job.id}`)}
                       >
-                      <span className="border-b whitespace-nowrap">View Details</span>
-                        <ChevronRight className="ml-2 h-4 w-4" />
+                      <span className="border-b whitespace-nowrap text-sm">View Details</span>
+                        <ChevronRight className="ml-1 mb-1 h-3 w-3 items-center" />
                       </button>
                     </div>
                     <Separator/>
@@ -632,7 +632,7 @@ export default function BusinessProfilePage() {
                       )
                     }
                   >
-                    <Edit className="mr-2 h-4 w-4" />
+                <Image src="/editPara.svg" alt="image" width={16} height={16} />
                     Edit Profile
                   </Button>
                 </TooltipTrigger>
@@ -648,21 +648,13 @@ export default function BusinessProfilePage() {
               <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
                 {/* Profile Picture */}
                 <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32">
-                  {businessProfileData?.businessProfile?.profilePicture ? (
-                    <img
-                      src={businessProfileData?.businessProfile?.profilePicture || "/placeholder.svg"}
-                      alt={businessProfileData?.businessProfile.companyName || ""}
-                      className="h-full w-full object-cover rounded-full border-1 border-blue-400"
-                    />
-                  ) : (
-                    <img
-                      src="/placeholder.svg?height=128&width=128"
-                      alt={businessProfileData?.businessProfile.companyName || ""}
-                      width={128}
-                      height={128}
-                      className="object-cover"
-                    />
-                  )}
+                  <img
+                    src={businessProfileData?.businessProfile?.profilePicture || "/placeholder.svg?height=128&width=128"}
+                    alt={businessProfileData?.businessProfile.companyName || ""}
+                    width={128}
+                    height={128}
+                    className="h-full w-full object-cover rounded-full border-1 border-blue-500"
+                  />
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -751,6 +743,9 @@ export default function BusinessProfilePage() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm">{item.label}</p>
                   </div>
+                  {isActive && (
+                    <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto" />
+                  )}
                 </button>
               );
             })}

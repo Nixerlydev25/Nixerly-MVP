@@ -38,7 +38,7 @@ const faqs = [
 const benefitCards = [
   {
     title: "For Construction Professional",
-    image: "/frame17.png",
+    image: "/Professional.png",
     buttonLabel: "Join as Professional",
     href: "/register",
     points: [
@@ -50,7 +50,7 @@ const benefitCards = [
   },
   {
     title: "For Construction Businesses",
-    image: "/frame18.png",
+    image: "/Businesses.png",
     buttonLabel: "Join as Business",
     href: "/register",
     points: [
@@ -188,7 +188,7 @@ export default function LandingPage() {
   {benefitCards.map((card, index) => (
     <div
       key={index}
-      className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+      className="bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
     >
       <div className="flex items-center mb-6">
         <Image

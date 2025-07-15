@@ -113,7 +113,7 @@ export default function BusinessDashboard() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 ">
         <div className="flex justify-center items-center min-h-[400px]">
           <JobsSkeleton />
         </div>
@@ -124,7 +124,7 @@ export default function BusinessDashboard() {
   let jobTypes="text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-black font-inter text-2xl font-semibold leading-8 not-italic">
@@ -264,7 +264,7 @@ export default function BusinessDashboard() {
                           onClick={() => handleJobClick(job.id)}
                         >
                           <div className="flex items-center gap-2   pb-2">
-                            <CardTitle className="text-xl font-medium leading-5 text-[#0E121B]  ">{job.title}</CardTitle>
+                            <CardTitle className=" text-base md:text-xl font-medium leading-5 text-[#0E121B]  ">{job.title}</CardTitle>
                             <Badge
                             className="rounded-full bg-nixerly-blue text-white mt-1 ml-2"
                               variant={
@@ -309,11 +309,13 @@ export default function BusinessDashboard() {
                        
 
                         <div className="flex items-center gap-2 mt-8 ">
+
+                          
                           <div className="  border bg-[#F6F8FA] p-1 px-2 rounded-full font-inter text-[11px] font-normal  uppercase not-italic text-nixerly-businesslabel">
                             {job.totalApplications || 0} applicant
                             {job.totalApplications !== 1 ? "s" : ""}
                           </div>
-                          <Badge variant="outline" className="ml-2  border bg-[#F6F8FA] p-1 px-2 rounded-full font-inter text-[11px] font-normal  uppercase not-italic text-nixerly-businesslabel ">
+                          <Badge variant="outline" className="md:ml-2  border bg-[#F6F8FA] p-1 md:px-2 rounded-full font-inter text-[11px] font-normal  uppercase not-italic text-nixerly-businesslabel ">
                             {job.employmentType
                               .split("_")
                               .join(" ")
@@ -321,7 +323,7 @@ export default function BusinessDashboard() {
                           </Badge>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button  className="h-7 w-7 p-0 ml-2  rounded-full bg-nixerly-blue border ">
+                              <Button  className="h-7 w-7 w p-0 ml-2  rounded-full bg-nixerly-blue border ">
                                 <MoreVertical className="h-2 w-2" />
                               </Button>
                             </DropdownMenuTrigger>

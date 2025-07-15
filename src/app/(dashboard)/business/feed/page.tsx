@@ -101,7 +101,7 @@ export default function Dashboard() {
                 {/* <h1 className="text-4xl font-bold font-title">
                   Find Top Talent
                 </h1> */}
-                <p className="mt-1 text-gray-500 font-subtitle">
+                <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight ">
                   Browse profiles of skilled professionals ready to work on your
                   projects
                 </p>
@@ -112,14 +112,14 @@ export default function Dashboard() {
                     <Input
                       type="search"
                       placeholder="Search for talent..."
-                      className="w-[300px] rounded-r-none border-r-0"
+                      className="w-[300px] rounded-r-none border-r-0 h-9 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]"
                       value={searchValue}
                       onChange={handleInputChange}
                       onKeyDown={handleInputKeyDown}
                     />
                     <Button
                       type="button"
-                      className="h-10 flex items-center justify-center rounded-l-none px-4"
+                      className="h-10 flex items-center justify-center rounded-l-none px-4 bg-nixerly-blue "
                       onClick={() => updateSearchParam(searchValue)}
                     >
                       <SearchIcon className="h-4 w-4 text-whire z-10" />
@@ -140,7 +140,7 @@ export default function Dashboard() {
                     defaultValue={searchParams.get("sort") || SortOption.RATING}
                     onValueChange={handleSortChange}
                   >
-                    <SelectTrigger className="w-[220px]">
+                    <SelectTrigger className="w-[220px] font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
@@ -157,8 +157,8 @@ export default function Dashboard() {
                     <Button
                       variant={viewMode === "card" ? "default" : "ghost"}
                       size="sm"
-                      className={`rounded-none ${
-                        viewMode === "card" ? "bg-primary" : ""
+                      className={`rounded-none  ${
+                        viewMode === "card" ? "bg-nixerly-blue" : ""
                       }`}
                       onClick={() => handleViewModeChange("card")}
                     >
@@ -170,7 +170,7 @@ export default function Dashboard() {
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="sm"
                       className={`rounded-none ${
-                        viewMode === "list" ? "bg-primary" : ""
+                        viewMode === "list" ? "bg-nixerly-blue" : ""
                       }`}
                       onClick={() => handleViewModeChange("list")}
                     >
@@ -182,7 +182,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <Separator className="mb-8" />
+            <Separator className="mb-8 " />
 
             <div className="flex flex-col gap-6 lg:flex-row">
               <div className="w-full lg:w-1/4">

@@ -201,10 +201,10 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
   return (
     <div>
       {/* Filters - Desktop */}
-      <div className="hidden w-full lg:block">
-        <Card className="sticky top-4 rounded-md border-none">
-          <div className="p-4">
-            <div className="flex items-center justify-between">
+      <div className="hidden w-full lg:block ">
+        <Card className="sticky top-4   border rounded-3xl border-nixerly-bussinessborder">
+          <div className="">
+            <div className="flex items-center justify-between px-4">
               <h2 className="text-lg font-semibold">Filters</h2>
               <Button
                 variant="ghost"
@@ -215,9 +215,11 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 Clear All
               </Button>
             </div>
-            <Separator className="my-4" />
+            <Separator className="my-4 w-full"  />
 
-            <div className="space-y-6">
+   
+
+            <div className="space-y-6 px-4">
               <Accordion
                 type="multiple"
                 defaultValue={['skills', 'hourlyRate']}
@@ -266,7 +268,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem value="hourlyRate">
+                {/* <AccordionItem value="hourlyRate">
                   <AccordionTrigger className="text-sm font-medium py-2">
                     Hourly Rate
                   </AccordionTrigger>
@@ -304,7 +306,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                       </div>
                     </div>
                   </AccordionContent>
-                </AccordionItem>
+                </AccordionItem> */}
               </Accordion>
             </div>
           </div>

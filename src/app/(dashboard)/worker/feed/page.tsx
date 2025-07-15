@@ -19,6 +19,7 @@ import { useGetAllJobs } from "@/hook/jobs/jobs.hooks";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import FeedSkeleton from "./_components/FeedSkeleton";
+import Image from "next/image";
 
 export default function JobsPage() {
   const [viewMode, setViewMode] = React.useState<"grid" | "list">("list");
@@ -118,23 +119,18 @@ export default function JobsPage() {
         <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
           <div className="relative hidden md:block">
             <div className="flex items-center">
+              {/* Search icon inside input */}
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
                 placeholder="Search for talent..."
-                className="w-[300px] rounded-r-none border-r-0 focus:border-blue-600 "
+                className="w-[284px] focus:border-blue-600 pl-8"
                 value={searchValue}
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
               />
-              <Button
-                type="button"
-                className="h-10 rounded-l-none px-4 flex items-center justify-center "
-                onClick={() => updateSearchParam(searchValue)}
-              >
-                <Search className="h-4 w-4 text-white z-10" />
-              </Button>
             </div>
-            {searchParams.get("search") && (
+            {/* {searchParams.get("search") && (
               <X
                 className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
                 onClick={() => {
@@ -142,39 +138,33 @@ export default function JobsPage() {
                   updateSearchParam("");
                 }}
               />
-            )}
+            )} */}
           </div>
           <div className="flex items-center space-x-2">
             <div className="flex border rounded-md overflow-hidden">
               <Button
                 variant={viewMode === "grid" ? "default" : "ghost"}
                 size="sm"
-                className={`rounded-none ${
-                  viewMode === "grid" ? "bg-primary" : ""
-                }`}
+                className={`rounded-none ${viewMode === "grid" ? "bg-nixerly-blue" : ""}`}
                 onClick={() => handleViewModeChange("grid")}
               >
-                <Grid3x3 className="h-4 w-4 mr-2" />
+                <Image src="/grid.svg" alt="grid" width={15} height={15} className={viewMode === "grid" ? "invert" : ""}/>
                 Grid
               </Button>
               <Separator orientation="vertical" className="h-8" />
               <Button
                 variant={viewMode === "list" ? "default" : "ghost"}
                 size="sm"
-                className={`rounded-none ${
-                  viewMode === "list" ? "bg-primary" : ""
-                }`}
+                className={`rounded-none ${viewMode === "list" ? "bg-nixerly-blue" : ""}`}  
                 onClick={() => handleViewModeChange("list")}
               >
-                <List className="h-4 w-4 mr-2" />
+                <List className={`h-4 w-4 mr-2 ${viewMode === "list" ? "text-white" : ""}`} />
                 List
               </Button>
             </div>
           </div>
         </div>
       </div>
-
-      <Separator className="mb-8" />
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-1/4">

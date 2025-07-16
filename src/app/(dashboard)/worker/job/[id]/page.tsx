@@ -12,6 +12,7 @@ import {
   Briefcase,
   Building2,
   Calendar,
+  ChevronLeft,
   Clock,
   DollarSign,
   Flag,
@@ -35,12 +36,17 @@ export default function JobPostDetail() {
   const { data: jobDetails } = useGetSingleJob(id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="container mx-auto px-4 py-4">
-          <Button variant="outline" className="flex items-center gap-2 rounded-full text-muted-foreground hover:text-foreground ">
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Button>
+    <div className="min-h-screen px-6 py-8">
+      <div className="mx-auto px-4 py-4">
+      <Button
+      asChild
+      variant="outline"
+      className="mb-4 rounded-full">
+           <Link href="/feed" className="flex items-center gap-2">
+          <ChevronLeft className="h-4 w-4" />
+          Back
+         </Link>
+        </Button>
         </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -50,7 +56,7 @@ export default function JobPostDetail() {
           <div className="flex flex-col gap-4 px-4 pt-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative h-16 w-16 overflow-hidden rounded-md border bg-muted">
+              <div className="relative h-16 w-16 overflow-hidden rounded-md border bg-muted">
                   <Image
                     src={jobDetails?.businessProfile?.profilePicture || "/placeholder.svg?height=64&width=64"}
                     alt="Company logo"

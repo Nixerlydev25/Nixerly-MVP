@@ -255,7 +255,7 @@ export default function BusinessDashboard() {
                 {filteredJobs.map((job: Job) => (
                   <Card
                     key={job.id}
-                    className="cursor-pointer hover:shadow-md transition-shadow border-none rounded-none  "
+                    className="cursor-pointer  transition-shadow border-0 border-b border-nixerly-bussinessborder rounded-none  hover:bg-gray-50 my-2 "
                   >
                     <CardHeader>
                       <div className="flex flex-col md:flex-row justify-between">
@@ -369,7 +369,7 @@ export default function BusinessDashboard() {
                         </div>
                       </div>
                    
-                          <div className="w-full h-[1px] bg-nixerly-bussinessborder mt-8"></div>          
+                        
                     </CardHeader>
                   </Card>
                   

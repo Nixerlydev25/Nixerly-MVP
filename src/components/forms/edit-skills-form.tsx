@@ -38,11 +38,13 @@ const formSchema = z.object({
 interface EditSkillsFormProps {
   onSubmit: (values: z.infer<typeof formSchema>) => void;
   defaultValues?: Partial<z.infer<typeof formSchema>>;
+  onClose?: () => void;
 }
 
 export function EditSkillsForm({
   onSubmit,
   defaultValues,
+  onClose,
 }: EditSkillsFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,7 +87,7 @@ export function EditSkillsForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-4">
         <FormField
           control={form.control}
           name="skills"
@@ -129,7 +131,7 @@ export function EditSkillsForm({
               </FormControl>
               <div className="flex flex-wrap gap-2 mt-2">
                 {field.value?.map((skill) => (
-                  <Badge key={skill} variant="secondary" className="px-3 py-2">
+                  <Badge key={skill} variant="outline" className="px-3 py-1">
                     {
                       onboardingOptions.skills.find((s) => s.value === skill)
                         ?.label
@@ -151,10 +153,19 @@ export function EditSkillsForm({
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="w-full">
-          Save Skills
-        </Button>
+     <div className="flex justify-end gap-2 mt-8">
+      <Button
+        variant="outline"
+        type="button"
+        className="rounded-full"
+        onClick={() => onClose && onClose()}
+      >
+        Cancel
+      </Button>
+      <Button type="submit" className="rounded-full bg-nixerly-blue">
+        Save Changes
+      </Button>
+    </div>
       </form>
     </Form>
   );

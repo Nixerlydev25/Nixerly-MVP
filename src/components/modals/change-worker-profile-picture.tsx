@@ -5,6 +5,7 @@ import { useModalStore } from "@/store/modal.store"
 import type { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { ChangeWorkerProfilePictureForm } from "../forms/change-worker-profile-picture"
+import { Separator } from "../ui/separator"
 
 export function ChangeWorkerProfilePictureModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
@@ -21,9 +22,10 @@ export function ChangeWorkerProfilePictureModal() {
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+        <DialogHeader className="p-4">
           <DialogTitle>Change Profile Picture</DialogTitle>
         </DialogHeader>
+        <Separator/>
         <div>
           <ChangeWorkerProfilePictureForm
             currentProfilePicture={profile?.profilePicture || ""}

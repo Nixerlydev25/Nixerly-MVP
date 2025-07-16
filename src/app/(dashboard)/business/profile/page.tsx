@@ -262,12 +262,15 @@ export default function BusinessProfilePage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() =>
-              openModal(ModalType.EDIT_BUSINESS_PHONE, {
-                phoneNumber: businessProfileData?.businessProfile.phoneNumber,
-              })
-            }
             className="text-muted-foreground hover:text-foreground border border-nixerly-bussinessborder rounded-full p-4"
+            onClick={() =>
+              openModal(
+                ModalType.EDIT_BUSINESS_PROFILE,
+                businessProfileData?.businessProfile as unknown as {
+                  [key: string]: unknown;
+                }
+              )
+            }
           >
             <Image src="/editPara.svg" alt="hello" width={14} height={14} />
             Edit
@@ -311,10 +314,9 @@ export default function BusinessProfilePage() {
             <label className="text-sm font-medium text-nixerly-businesslabel mb-2 block">
               Phone Number
             </label>
-            <div className="flex items-center justify-between gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
+            <div className="flex items-center gap-3 p-3 rounded-lg border border-nixerly-bussinessborder">
               <span className="text-sm text-muted-foreground">
-                {businessProfileData?.businessProfile.phoneNumber ||
-                  "No phone number added"}
+                {businessProfileData?.businessProfile.phoneNumber}
               </span>
             </div>
           </div>
@@ -344,9 +346,15 @@ export default function BusinessProfilePage() {
           <Button
             variant="outline"
             size="sm"
+            onClick={() =>
+              openModal(ModalType.EDIT_BUSINESS_OWNER, {
+                firstName: businessProfileData?.firstName,
+                lastName: businessProfileData?.lastName,
+              })
+            }
             className="text-muted-foreground hover:text-foreground border border-nixerly-bussinessborder rounded-full p-4"
           >
-            <Image src="/editPara.svg" alt="hello" width={14} height={14} />
+            <Image src="/editPara.svg" alt="edit" width={14} height={14} />
             Edit
           </Button>
         </CardHeader>

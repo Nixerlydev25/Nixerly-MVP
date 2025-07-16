@@ -191,7 +191,7 @@ export function EditLanguagesForm({
                       )}
                     />
 
-                    <button
+                    <Button
                       type="button"
                       variant="outline"
                       size="icon"
@@ -199,7 +199,7 @@ export function EditLanguagesForm({
                       className="mt-1 h-8 w-8 p-0 text-nixerly-blue items-center border-none bg-transparent"
                     >
                       <X className="h-4 w-4" />
-                    </button>
+                    </Button>
                   </div>
                 );
               })}

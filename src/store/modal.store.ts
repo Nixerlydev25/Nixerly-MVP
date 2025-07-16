@@ -31,7 +31,11 @@ export interface PortfolioModalData {
   portfolio: Portfolio[];
 }
 
-type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | PortfolioModalData | Record<string, unknown>
+interface BusinessPhoneModalData {
+  phoneNumber?: string;
+}
+
+type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | PortfolioModalData | BusinessPhoneModalData | Record<string, unknown>
 
 interface ModalStore {
   activeModal: ModalType

@@ -23,5 +23,5 @@ export enum ModalType {
   SHARE_MODAL = 'SHARE_MODAL',
   CONTACT_MODAL = 'CONTACT_MODAL',
   EDIT_PORTFOLIO = 'EDIT_PORTFOLIO',
-  // Add more modal types here as needed
+  EDIT_BUSINESS_PHONE = 'EDIT_BUSINESS_PHONE',
 }

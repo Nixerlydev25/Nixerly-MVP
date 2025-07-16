@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
+import { Separator } from "../ui/separator";
 
 const LanguageSchema = z.object({
   name: z.string({ required_error: "Required" }).min(1, "Required"),
@@ -38,6 +39,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface EditLanguagesFormProps {
   onSubmit: (data: FormValues) => void;
+  onCancel?: () => void;
   defaultValues?: {
     languages: Array<{
       id?: string;
@@ -49,6 +51,7 @@ interface EditLanguagesFormProps {
 
 export function EditLanguagesForm({
   onSubmit,
+  onCancel,
   defaultValues,
 }: EditLanguagesFormProps) {
   const form = useForm<FormValues>({
@@ -81,19 +84,19 @@ export function EditLanguagesForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full">
-        <div className="flex-none border-b px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">Languages</h3>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full rounded-2xl">
+        <div className="flex-none  px-4">
+          <div className="items-center">
+            <h3 className="text-lg font-medium mb-2">Languages</h3>
             {languages.length !== 0 && (
               <Button
                 type="button"
                 onClick={handleAddLanguage}
                 variant="outline"
-                className="border-blue-200 hover:bg-blue-50"
+                className="border-nixerly-blue text-shadow-nixerly-businesslabel  w-full"
                 disabled={languages.length >= 4}
               >
-                <Plus className="h-4 w-4 mr-2" /> Add Language
+                <Plus className="h-4 w-4 mr-2 " /> Add Language
               </Button>
             )}
           </div>
@@ -132,13 +135,13 @@ export function EditLanguagesForm({
                       name={`languages.${index}.name`}
                       render={({ field }) => (
                         <FormItem className="flex-1">
-                          <FormLabel>Language</FormLabel>
+                          {/* <FormLabel>Language</FormLabel> */}
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select language" />
                               </SelectTrigger>
                             </FormControl>
@@ -160,13 +163,13 @@ export function EditLanguagesForm({
                       name={`languages.${index}.proficiency`}
                       render={({ field }) => (
                         <FormItem className="flex-1">
-                          <FormLabel>Proficiency</FormLabel>
+                          {/* <FormLabel>Proficiency</FormLabel> */}
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select proficiency" />
                               </SelectTrigger>
                             </FormControl>
@@ -188,25 +191,34 @@ export function EditLanguagesForm({
                       )}
                     />
 
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       size="icon"
                       onClick={() => handleRemoveLanguage(index)}
-                      className="mt-8 h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                      className="mt-1 h-8 w-8 p-0 text-nixerly-blue items-center border-none bg-transparent"
                     >
                       <X className="h-4 w-4" />
-                    </Button>
+                    </button>
                   </div>
                 );
               })}
             </div>
           )}
         </div>
-
-        <div className="flex-none border-t px-6 py-4">
-          <Button type="submit" className="w-full">
-            Save Languages
+        <Separator/>
+        {/* Footer Buttons */}
+        <div className="px-4 py-4 border-gray-100 flex gap-3 justify-end">
+          <Button
+            type="button"
+            variant="outline"
+            className="px-6 rounded-full"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" className="px-6 bg-nixerly-blue rounded-full text-white">
+            Save Changes
           </Button>
         </div>
       </form>

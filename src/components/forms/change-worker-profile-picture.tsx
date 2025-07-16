@@ -9,6 +9,7 @@ import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useWorkerProfilePicture } from "@/hook/worker/worker.hook";
 import { ImageCropper } from "@/components/common/ImageCropper";
+import { Separator } from "../ui/separator";
 
 interface ChangeWorkerProfilePictureFormProps {
   currentProfilePicture: string;
@@ -88,7 +89,7 @@ export function ChangeWorkerProfilePictureForm({
 
   return (
     <>
-      <DialogDescription>
+      <DialogDescription className="p-4">
         Upload a new profile picture. The image should be square and at least
         400x400 pixels.
       </DialogDescription>
@@ -130,8 +131,9 @@ export function ChangeWorkerProfilePictureForm({
           </>
         )}
       </div>
+<Separator/>
 
-      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between">
+      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between mt-4">
         <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
         </Button>

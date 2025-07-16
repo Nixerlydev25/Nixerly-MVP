@@ -1,11 +1,12 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { EditProfileForm } from "@/components/forms/edit-profile-form"
 import { useModalStore } from "@/store/modal.store"
 import { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks"
+import { Separator } from "../ui/separator"
 
 type FormValues = {
   title?: string
@@ -40,9 +41,17 @@ export function EditProfileModal() {
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
+        <DialogHeader className="flex flex-row px-4 pt-4">
+        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+            <span className="text-lg sm:text-base font-medium">01</span>
+          </div>
+          <div>
+          <DialogTitle className="text-nixerly-blue mb-2">Edit Profile</DialogTitle>
+          <DialogDescription>Update your business profile information. Click save  <br />
+          when you're done.</DialogDescription>
+          </div>
         </DialogHeader>
+        <Separator/>
         <EditProfileForm
           onSubmit={handleSubmit}
           defaultValues={{

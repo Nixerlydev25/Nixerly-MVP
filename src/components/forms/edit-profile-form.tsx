@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { LocationSearch, LocationDetails } from "@/components/location-search";
 import { useState } from "react";
+import { Separator } from "../ui/separator";
 
 const formSchema = z.object({
   title: z
@@ -77,101 +78,119 @@ export function EditProfileForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your professional title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>About</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us about yourself"
-                  className="min-h-[100px]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="hourlyRate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hourly Rate</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="Enter your hourly rate"
-                  value={field.value === 0 ? "" : field.value}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value === "" || /^\d+$/.test(value)) {
-                      field.onChange(value === "" ? "" : Number(value));
-                    }
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="availability"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="text-base">Availability</FormLabel>
-                <FormDescription>
-                  Toggle your availability status
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <div className="space-y-4">
-          <FormLabel>Location</FormLabel>
-          <LocationSearch
-            onLocationSelect={handleLocationSelect}
-            defaultValue={`${form.getValues("city")}, ${form.getValues(
-              "state"
-            )}, ${form.getValues("country")}`}
+     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <div className="px-4">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">Title</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your professional title"
+                    {...field}
+                    className="bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors mb-5"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <FormDescription>Search and select your location</FormDescription>
-        </div>
 
-        <Button type="submit" className="w-full">
-          Save Changes
-        </Button>
-      </form>
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">About Us</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Tell us about yourself"
+                    className="min-h-[100px] bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors  mb-5"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="hourlyRate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">Hourly</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="Enter your hourly rate"
+                    className="bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors mb-5"
+                    value={field.value === 0 ? "" : field.value}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      if (value === "" || /^\d+$/.test(value)) {
+                        field.onChange(value === "" ? "" : Number(value))
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="space-y-3">
+            <FormLabel className="text-sm font-medium text-gray-700">Location</FormLabel>
+            <LocationSearch
+              onLocationSelect={handleLocationSelect}
+              defaultValue={`${form.getValues("city")}, ${form.getValues("state")}, ${form.getValues("country")}`}
+              className="bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors mb-5"
+            />
+            <FormDescription className="text-xs text-gray-500">Search and select your location</FormDescription>
+          </div>
+
+          <FormField
+            control={form.control}
+            name="availability"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className="data-[state=checked]:bg-blue-600"
+                    />
+                  </FormControl>
+                  <FormLabel className="text-sm font-medium text-gray-700 cursor-pointer">
+                    I am Currently Available for Work
+                  </FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+          </div>
+        <Separator/>
+          <div className="flex justify-end space-x-3 p-4">
+            <Button
+              type="button"
+              variant="outline"
+              className="border rounded-full bg-transparent"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="bg-nixerly-blue text-white rounded-full"
+            >
+              Save Changes
+            </Button>
+          </div>
+        </form>
     </Form>
   );
 }

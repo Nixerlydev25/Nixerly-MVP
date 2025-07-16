@@ -20,6 +20,8 @@ import {
   Eye,
   Calendar,
   ExternalLink,
+  Camera,
+  Star,
 } from "lucide-react"
 import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
 import type { WorkerUser, WorkerEducation, WorkerExperience, WorkerLanguage, Portfolio } from "@/types/worker.types"
@@ -30,6 +32,8 @@ import { useState } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import FreelancerProfileSkeleton from "./component/Skeleton"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
+import { Separator } from "@/components/ui/separator"
 
 type TabType = "overview" | "experience" | "education" | "skills" | "portfolio"
 
@@ -37,31 +41,31 @@ const sidebarItems = [
   {
     id: "overview" as TabType,
     label: "Overview",
-    icon: User,
+    icon: "/infoBusiness.svg",
     description: "About and general information",
   },
   {
     id: "skills" as TabType,
     label: "Skills & Languages",
-    icon: Award,
+    icon: "/skillset.svg",
     description: "Technical skills and languages",
   },
   {
     id: "education" as TabType,
     label: "Education & Certificates",
-    icon: GraduationCap,
+    icon: "/education.svg",
     description: "Academic and professional credentials",
   },
   {
     id: "experience" as TabType,
     label: "Work Experience",
-    icon: Briefcase,
+    icon: "/suitcase.svg",
     description: "Professional work history",
   },
   {
     id: "portfolio" as TabType,
     label: "Portfolio",
-    icon: FileEdit,
+    icon: "/person.svg",
     description: "Portfolio projects and work samples",
   },
 ]
@@ -118,109 +122,100 @@ export default function FreelancerProfileSelfView() {
   console.log(workerProfile.portfolio, "workerProfile.portfolio")
 
   const renderOverview = () => (
-    <div className="space-y-8">
-      {/* About section */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">About</h2>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button size="sm" variant="ghost" className="h-8 gap-1" onClick={handleEditProfile}>
-                  <PencilIcon className="h-3 w-3" />
-                  Edit
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Edit your about section</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+    <div className="space-y-6">
+    {/* Top stats section with light blue background */}
+    <div className="bg-[#55C8FF40] rounded-2xl p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Availability */}
+        <div className="bg-white rounded-lg p-4 border">
+          <div className="flex items-center gap-3 px-4 py-7">
+            <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
+              <Clock className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-900 mb-1">Availability</p>
+              <p className={`text-sm ${workerProfile.availability ? "text-nixerly-businesslabel" : ""}`}>
+                {workerProfile.availability ? "Available Now" : "Not Available"}
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="bg-white rounded-lg p-6 border">
-          <div className="whitespace-pre-line text-gray-700">{workerProfile.description}</div>
-        </div>
-      </section>
 
-      {/* Availability and Rate */}
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Availability & Rate</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white rounded-lg p-6 border">
-            <div className="flex items-center gap-3">
-              <Clock className="h-8 w-8 text-blue-500" />
-              <div>
-                <p className="font-medium">Availability</p>
-                <p className={`text-sm ${workerProfile.availability ? "text-green-600" : "text-amber-600"}`}>
-                  {workerProfile.availability ? "Available Now" : "Not Available"}
-                </p>
-              </div>
+        {/* Member Since */}
+        <div className="bg-white rounded-lg p-4 border">
+          <div className="flex items-center gap-3 px-4 py-7">
+            <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
+              <Clock className="h-5 w-5 text-white" />
             </div>
-          </div>
-          <div className="bg-white rounded-lg p-6 border">
-            <div className="flex items-center gap-3">
-              <StarIcon className="h-8 w-8 text-green-500" />
-              <div>
-                <p className="font-medium">Hourly Rate</p>
-                <p className="text-sm text-blue-600 font-semibold">${workerProfile.hourlyRate}/hr</p>
-              </div>
+            <div>
+              <p className="font-medium text-gray-900 mb-1">Member Since</p>
+              <p className="text-sm text-gray-600">{new Date(workerProfile.createdAt).toLocaleDateString()}</p>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Profile Statistics */}
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Profile Statistics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-lg p-6 border">
-            <div className="flex items-center gap-3">
-              <Clock className="h-8 w-8 text-orange-500" />
-              <div>
-                <p className="font-medium">Member Since</p>
-                <p className="text-sm text-gray-600">{new Date(workerProfile.createdAt).toLocaleDateString()}</p>
-              </div>
+        {/* Hourly Rate */}
+        <div className="bg-white rounded-lg p-4 border">
+          <div className="flex items-center gap-3 px-4 py-7">
+            <div className="w-10 h-10 bg-[#FEC960] rounded-full flex items-center justify-center">
+              <Star className="h-5 w-5 text-white" />
             </div>
-          </div>
-          <div className="bg-white rounded-lg p-6 border">
-            <div className="flex items-center gap-3">
-              <Briefcase className="h-8 w-8 text-purple-500" />
-              <div>
-                <p className="font-medium">Jobs Completed</p>
-                <p className="text-sm text-gray-600">{workerProfile.completedJobs}</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg p-6 border">
-            <div className="flex items-center gap-3">
-              <StarIcon className="h-8 w-8 text-yellow-500" />
-              <div>
-                <p className="font-medium">Success Rate</p>
-                <p className="text-sm text-gray-600">100%</p>
-              </div>
+            <div>
+              <p className="font-medium text-gray-900 mb-1">Hourly Rate</p>
+              <p className="text-sm  text-nixerly-businesslabel">${workerProfile.hourlyRate}/hr</p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
+
+    {/* About Us section */}
+    <section className="border rounded-2xl">
+      <div className="flex items-center justify-between mb-4 p-4">
+        <h2 className="text-xl font-semibold text-blue-600">About Us</h2>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 gap-1 text-gray-600 rounded-full hover:text-gray-900"
+                onClick={handleEditProfile}
+              >
+                <Image src="/editPara.svg" alt="edit" width={16} height={16}/>
+                Edit
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit your about section</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <Separator/>
+      <div className="rounded-lg px-4 pt-4 pb-10">
+        <div className="whitespace-pre-line text-gray-700">{workerProfile.description}</div>
+      </div>
+    </section>
+  </div>
   )
 
   const renderSkills = () => (
     <div className="space-y-8">
       {/* Skills section */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Skills</h2>
+      <section className="border rounded-2xl">
+        <div className="flex items-center justify-between p-4">
+          <h2 className="text-xl font-semibold text-nixerly-blue">Skills</h2>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
-                  variant="ghost"
-                  className="h-8 gap-1"
+                  variant="outline"
+                  className="h-8 gap-1 border rounded-full px-4"
                   onClick={() => openModal(ModalType.EDIT_SKILLS, toModalData(workerProfile))}
                 >
-                  <PencilIcon className="h-3 w-3" />
+                  <Image src="/editPara.svg" alt="hello" width={16} height={16}/>
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -230,10 +225,11 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="bg-white rounded-lg p-6 border">
+        <Separator/>
+        <div className="p-4">
           <div className="flex flex-wrap gap-2">
             {workerProfile.skills.map((skill: string) => (
-              <Badge key={skill} variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 p-2">
+              <Badge key={skill} variant="secondary" className="px-3 py-1">
                 {skill.replace(/_/g, " ")}
               </Badge>
             ))}
@@ -242,10 +238,9 @@ export default function FreelancerProfileSelfView() {
       </section>
 
       {/* Languages */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center">
-            <Globe className="mr-2 h-5 w-5 text-green-600" />
+      <section className="border rounded-2xl">
+        <div className="flex items-center justify-between p-4">
+          <h2 className="text-xl font-semibold text-nixerly-blue flex items-center">
             Languages
           </h2>
           <TooltipProvider>
@@ -253,11 +248,11 @@ export default function FreelancerProfileSelfView() {
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
-                  variant="ghost"
-                  className="h-8 gap-1"
+                  variant="outline"
+                  className="h-8 gap-1 px-4 rounded-full"
                   onClick={() => openModal(ModalType.EDIT_LANGUAGES, toModalData(workerProfile))}
                 >
-                  <PencilIcon className="h-3 w-3" />
+                  <Image src="/editPara.svg" alt="hello" width={16} height={16}/>
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -267,7 +262,8 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="bg-white rounded-lg p-6 border">
+        <Separator/>
+        <div className="p-4">
           <div className="space-y-3">
             {workerProfile.languages.map((language: WorkerLanguage) => (
               <div key={language.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -290,10 +286,9 @@ export default function FreelancerProfileSelfView() {
   const renderEducation = () => (
     <div className="space-y-8">
       {/* Education */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center">
-            <GraduationCap className="mr-2 h-5 w-5 text-blue-600" />
+      <section className="border rounded-2xl" >
+        <div className="flex items-center justify-between p-4">
+          <h2 className="text-xl font-semibold flex items-center text-nixerly-blue">
             Education
           </h2>
           <TooltipProvider>
@@ -301,11 +296,11 @@ export default function FreelancerProfileSelfView() {
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
-                  variant="ghost"
-                  className="h-8 gap-1"
+                  variant="outline"
+                  className="px-4 gap-2 border rounded-full"
                   onClick={() => openModal(ModalType.EDIT_EDUCATION, toModalData(workerProfile))}
                 >
-                  <PencilIcon className="h-3 w-3" />
+                <Image src="/editPara.svg" alt="edit" width={16} height={16}/>
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -315,22 +310,24 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="bg-white rounded-lg p-6 border">
+        <Separator/>
+        <div className="p-4">
           <div className="space-y-6">
             {workerProfile.education.length > 0 ? (
               workerProfile.education.map((edu: WorkerEducation, index: number) => (
-                <div key={index} className={`${index > 0 ? "border-t pt-6" : ""}`}>
+                <div key={index} className={`${index > 0 ? "pt-6" : ""}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-lg">{edu.school}</h4>
-                        <p className="text-gray-600 font-medium">
+                        <h4 className="font-medium text-2xl">{edu.school}</h4>
+                        <p className="text-sm font-medium text-nixerly-businesslabel">
                           {edu.degree} in {edu.fieldOfStudy}
                         </p>
-                        <p className="text-sm text-gray-500 mt-1">
+                        {edu.description && <p className="text-sm text-nixerly-businesslabel">{edu.description}</p>}
+                        <p className="text-sm text-shadow-nixerly-businesslabel mt-1 flex gap-2">
+                          <Image src="/calen.svg" alt="calen" width={12} height={12}/>
                           {new Date(edu.startDate).getFullYear()} -{" "}
                         {edu.currentlyStudying ? "Present" : new Date(edu.endDate).getFullYear()}
                         </p>
-                      {edu.description && <p className="mt-3 text-gray-700">{edu.description}</p>}
                     </div>
                   </div>
                 </div>
@@ -347,10 +344,9 @@ export default function FreelancerProfileSelfView() {
       </section>
 
       {/* Certifications */}
-      <section>
+      <section className="border rounded-2xl">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center">
-            <Award className="mr-2 h-5 w-5 text-purple-600" />
+          <h2 className="text-xl font-semibold flex items-center text-nixerly-blue">
             Certifications
           </h2>
           <TooltipProvider>
@@ -379,7 +375,7 @@ export default function FreelancerProfileSelfView() {
         <div className="space-y-4">
           {workerProfile.certificates.length > 0 ? (
             workerProfile.certificates.map((certificate) => (
-              <div key={certificate.id} className="bg-white rounded-lg p-6 border">
+              <div key={certificate.id} className="p-4">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -422,8 +418,8 @@ export default function FreelancerProfileSelfView() {
               </div>
             ))
           ) : (
-            <div className="bg-white rounded-lg p-6 border">
-              <div className="text-center py-8 text-gray-500">
+            <div className="p-4">
+              <div className="text-center py-8 text-nixerly-blue">
                 <Award className="mx-auto h-12 w-12 mb-4 opacity-50" />
                 <p className="font-medium">No certificates added yet</p>
                 <p className="text-sm mt-1">Add your professional certificates to enhance your profile</p>
@@ -712,107 +708,120 @@ export default function FreelancerProfileSelfView() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-6 md:py-8">
+    <div className="min-h-screen">
+      <div className="mx-auto px-6 pt-6">
         {/* Back to dashboard */}
-        <Link href="/feed" className="mb-6 inline-flex items-center text-sm font-medium text-blue-600">
+        <Link href="/feed" className="mb-6 inline-flex items-center text-sm font-medium border rounded-full px-4 py-2">
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to Feed
+          Back
         </Link>
 
-        {/* Profile Banner - Full Width at Top */}
-        <div className="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 shadow-sm border border-blue-100">
-          <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-indigo-500"></div>
-
-          <div className="flex flex-col gap-6 sm:flex-row">
-            <div
-              className="flex-shrink-0 relative group cursor-pointer w-[120px] h-[120px]"
-              onClick={handleProfilePictureClick}
-            >
+          {/* Profile Card */}
+          <div
+          className="relative bg-[#1E64D3] overflow-hidden rounded-xl border custom-gradient-right h-52"
+        >
+          <div className="flex flex-col gap-6 sm:flex-row items-center p-4">
+            <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32 ml-6" onClick={handleProfilePictureClick}>
               <img
-                src={currentProfilePicture || "/placeholder.svg"}
+                src={currentProfilePicture || "/placeholder.svg?height=128&width=128"}
                 alt={fullName}
-                className="rounded-full border-2 border-white  object-cover w-full h-full"
+                width={128}
+                height={128}
+                className="h-full w-full object-cover mt-5 rounded-full"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 rounded-full flex items-center justify-center opacity-0 group-hover:bg-opacity-30 group-hover:opacity-100 transition-all duration-200">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost" className="h-10 w-10 text-white">
-                        <PencilIcon className="h-5 w-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Change profile picture</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel shadow-lg border border-nixerly-blue"
+                      aria-label="Change profile picture"
+                    >
+                      <Camera className="h-5 w-5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Update your profile picture</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
 
             <div className="flex-1">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-2xl font-bold text-gray-900">{fullName}</h1>
+                  <div className="flex items-center gap-2 mt-5">
+                    <h1 className="text-2xl font-bold text-white">{fullName}</h1>
                   </div>
-                  <p className="text-lg text-gray-600">{workerProfile.title}</p>
-                  <div className="mt-2 flex items-center text-sm text-gray-500">
-                    <MapPin className="mr-1 h-4 w-4" />
+                  <p className="text-lg text-white">{workerProfile.title}</p>
+                  <div className="mt-2 flex items-center text-sm text-white">
+                    <MapPin className="mr-1 h-4 w-4 text-white" />
                     {`${workerProfile.city}, ${workerProfile.state}, ${workerProfile.country}`}
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="ghost" size="sm" className="gap-1">
+                <div className="flex gap-4">
+                  <Button variant="outline" size="sm" className="rounded-full border-none">
                     <Share2 className="h-4 w-4" />
                     Share
                   </Button>
-                  <Button className="bg-blue-600 hover:bg-blue-700" size="sm" onClick={handleEditProfile}>
-                    <FileEdit className="mr-2 h-4 w-4" />
+                  <Button variant="outline" className="rounded-full border-none" size="sm" onClick={handleEditProfile}>
+                    <Image src="/editPara.svg" alt="helo" width={16} height={16}/>
                     Edit Profile
                   </Button>
                 </div>
               </div>
-
+{/* 
               <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-4 w-4 text-gray-500" />
+                <div className="flex items-center text-white">
+                  <Clock className="mr-1 h-4 w-4 text-white" />
                   <span>Available {workerProfile.availability ? "Now" : "Soon"}</span>
                 </div>
-                <div className="flex items-center font-medium text-blue-600">${workerProfile.hourlyRate}/hr</div>
-              </div>
+                <div className="flex items-center font-medium text-white">${workerProfile.hourlyRate}/hr</div>
+              </div> */}
             </div>
           </div>
         </div>
-
         {/* Sidebar and Content Layout */}
-        <div className="grid gap-8 lg:grid-cols-4">
+        <div className="grid gap-8 lg:grid-cols-4 mt-10">
           {/* Simple Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="border-r pr-6">
+          <div className="lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl">
+            <div className="px-8">
               <nav className="space-y-1">
+                <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
                 {sidebarItems.map((item) => {
-                  const Icon = item.icon
+                  const isActive = activeTab === item.id;
                   return (
                     <button
                       key={item.id}
-                      onClick={() => {
-                        console.log("Switching to tab:", item.id)
-                        handleTabChange(item.id)
-                      }}
+                      onClick={() => handleTabChange(item.id)}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors",
-                        activeTab === item.id
-                          ? "bg-primary/10 text-primary"
-                          : "hover:bg-muted/50 text-muted-foreground hover:text-foreground",
+                        "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                        isActive
+                          ? "bg-white text-nixerly-blue"
+                          : "hover:bg-white text-muted-foreground hover:text-foreground"
                       )}
                     >
-                      <Icon className="h-4 w-4" />
+                      <span
+                        className={cn(
+                          "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
+                          isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-white"
+                        )}
+                      >
+                        <Image
+                          src={item.icon}
+                          alt={item.label}
+                          width={18}
+                          height={18}
+                          className={isActive ? "filter invert brightness-0" : ""}
+                        />
+                      </span>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-sm">{item.label}</p>
                       </div>
+                      {isActive && (
+                        <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto" />
+                      )}
                     </button>
-                  )
+                  );
                 })}
               </nav>
             </div>

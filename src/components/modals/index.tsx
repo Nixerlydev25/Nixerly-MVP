@@ -21,6 +21,7 @@ import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import ContactModal from "./contact-modal";
 import { EditPortfolioModal } from "./edit-portfolio-modal";
+import { EditBusinessOwnerModal } from './edit-business-owner-modal';
 
 const modalComponents = {
   [ModalType.EDIT_PROFILE]: EditProfileModal,
@@ -42,6 +43,7 @@ const modalComponents = {
   [ModalType.SHARE_MODAL]: ShareModal,
   [ModalType.CONTACT_MODAL]: ContactModal,
   [ModalType.EDIT_PORTFOLIO]: EditPortfolioModal,
+  [ModalType.EDIT_BUSINESS_OWNER]: EditBusinessOwnerModal,
 } as const;
 
 export function Modals() {

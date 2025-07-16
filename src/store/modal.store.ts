@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { ModalType } from "@/types/model"
 import { TBusinessAsset } from "@/types/auth"
 import { Portfolio } from "@/types/worker.types"
+import { EditBusinessOwnerData } from "@/components/forms/edit-business-owner-form"
 
 interface ContactModalData {
   applicant: {
@@ -31,7 +32,7 @@ export interface PortfolioModalData {
   portfolio: Portfolio[];
 }
 
-type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | PortfolioModalData | Record<string, unknown>
+type ModalDataType = ContactModalData | ShareModalData | CompanyImagesModalData | PortfolioModalData | EditBusinessOwnerData | Record<string, unknown>
 
 interface ModalStore {
   activeModal: ModalType

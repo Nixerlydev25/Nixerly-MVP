@@ -43,34 +43,38 @@ function CardFeeds({
               className="rounded-full object-cover w-16 h-16"
             />
             <div>
-              <h3 className="font-semibold">{name}</h3>
-              <p className="text-sm text-gray-600">{title}</p>
-              <div className="mt-1 flex items-center">
+              <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none">{name}</h3>
+              <p className="text-sm text-[#0E121B] font-sans pt-2 not-italic font-normal leading-none tracking-tight">{title}</p>
+              {/* <div className="mt-1 flex items-center">
                 <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
                 <span className="text-sm font-medium">{rating}</span>
                 <span className="ml-2 text-xs text-gray-500">
                   ({jobsCompleted} jobs)
                 </span>
-              </div>
+              </div> */}
             </div>
+            
           </div>
-          <Button variant="ghost" size="icon">
+          {/* <Button variant="ghost" size="icon">
             <BookmarkIcon className="h-5 w-5" />
-          </Button>
+          </Button> */}
         </div>
-      </CardHeader>
-      <CardContent className="p-4">
-        <p className="mb-3 text-sm text-gray-600">
-          <UserIcon className="mr-1 inline-block h-4 w-4" />
-          {location}
-        </p>
-        <div className="flex flex-wrap gap-2">
+
+        <div className="flex flex-wrap gap-x-3 gap-y-2 mt-3 ">
           {skills.slice(0, 4).map((skill) => (
-            <Badge key={skill} variant="secondary">
+            <Badge key={skill} variant="outline" className='font-sans text-xs not-italic font-medium leading-[14.05px]  text-nixerly-businesslabel  '>
               {formateSkills(skill)}
             </Badge>
           ))}
         </div>
+      </CardHeader>
+      <CardContent className="">
+        <p className=" text-[#0E121B] font-sans text-base not-italic font-normal leading-[17.56px] tracking-tight">
+          {/* <UserIcon className="mr-1 inline-block h-4 w-4" /> */}
+            <Image src="/locationblack.svg" alt="location icon" width={12} height={12} className="mr-1 inline-block " />
+          {location}
+        </p>
+        
         
         {hasDetailsToShow && (
           <Button 

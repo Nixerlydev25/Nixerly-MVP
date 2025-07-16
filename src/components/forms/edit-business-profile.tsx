@@ -22,6 +22,7 @@ import { EditBusinessProfileModalData } from '../modals/edit-business-profile-mo
 import { LocationDetails, LocationSearch } from '../location-search';
 import { DialogFooter } from '../ui/dialog';
 import { Button } from '../ui/button';
+import { PhoneInputComponent } from '@/components/common/phone-input';
 
 interface BusinessData {
   employeeRanges: Array<{ value: string; label: string }>;
@@ -40,6 +41,7 @@ const profileFormSchema = z.object({
   website: z.string().nullable().optional(),
   employeeCount: z.union([z.number(), z.string()]),
   yearFounded: z.number().int().min(1800).max(new Date().getFullYear()),
+  phoneNumber: z.string().nullable().optional(),
 }) satisfies z.ZodType<EditBusinessProfileModalData>;
 
 interface EditBusinessProfileFormProps {
@@ -64,6 +66,7 @@ export function EditBusinessProfileForm({
       website: '',
       employeeCount: '',
       yearFounded: new Date().getFullYear(),
+      phoneNumber: '',
     },
   });
 
@@ -85,6 +88,25 @@ export function EditBusinessProfileForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4 px-6">
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <PhoneInputComponent
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    error={form.formState.errors.phoneNumber?.message}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="industry"

@@ -107,6 +107,7 @@ export interface TBusinessProfile {
   profilePicture?: string | null;
   assets?: TBusinessAsset[];
   createdAt?: string;
+  phoneNumber?: string | null;
 }
 
 export interface TBusinessProfileResponse {

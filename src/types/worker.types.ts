@@ -128,7 +128,7 @@ export enum CertificateType {
   QQI_CARPENTER = "QQI_CARPENTER",
   QQI_BRICKLAYER = "QQI_BRICKLAYER",
   QQI_PLASTERER = "QQI_PLASTERER",
-  OTHER = "OTHER"
+  OTHER = "OTHER",
 }
 
 export interface Certificate {
@@ -183,16 +183,28 @@ export interface PortfolioAsset {
 
 export interface Portfolio {
   id: string;
+  workerId: string;
   title: string;
   description: string;
   startDate: string;
-  endDate: string | null;
+  endDate: string;
   employerName: string;
-  employerWebsite?: string;
-  projectUrl?: string;
-  assets: PortfolioAsset[];
+  employerWebsite: string;
+  projectUrl: string;
   createdAt: string;
   updatedAt: string;
+  assets: PortfolioAsset[];
+}
+
+export interface PortfolioResponse {
+  id: string;
+  key: string;
+  mediaType: string;
+  portfolioId: string;
+  certificateId: string | null;
+  businessProfileId: string | null;
+  createdAt: string;
+  url: string;
 }
 
 export interface CreatePortfolioPayload {

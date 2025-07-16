@@ -59,7 +59,7 @@ export function BusinessProfileForm() {
             <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
               <span className="text-black font-semibold text-lg p-2">01</span>
             </div>
-          </div>
+           </div>
 
           {/* Content */}
           <div className="flex-1 space-y-1">

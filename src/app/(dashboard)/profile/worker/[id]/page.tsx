@@ -21,7 +21,6 @@ import { useModalStore } from '@/store/modal.store';
 import { ModalType } from '@/types/model';
 import { useRouter } from 'next/navigation';
 import { FreelancerProfileSkeleton } from './components/worker-profile-skeleton';
-import { formatCurrency } from '@/app/(dashboard)/worker/feed/_components/utils';
 
 export default function FreelancerProfile() {
   const { id } = useParams<{ id: string }>();
@@ -337,6 +336,92 @@ export default function FreelancerProfile() {
                       ))
                     ) : (
                       <p className="text-gray-500">No Certifications</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Portfolio */}
+                <div className="space-y-3 mt-8">
+                  <h3 className="flex items-center text-xl font-semibold text-emerald-700 border-b pb-2">
+                    <Globe className="mr-2 h-5 w-5 text-emerald-600" />
+                    Portfolio
+                  </h3>
+                  <div className="space-y-6 py-2">
+                    {worker.portfolio?.length ? (
+                      worker.portfolio.map((item) => (
+                        <div
+                          key={item.id}
+                          className="border-l-2 border-emerald-200 pl-4 py-1"
+                        >
+                          <div className="flex gap-4">
+                            <div className="space-y-2 flex-1">
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium">{item.title}</h4>
+                              </div>
+                              <p className="text-gray-600">{item.employerName}</p>
+                              <p className="text-sm text-gray-500">
+                                {new Date(item.startDate).toLocaleDateString()} -
+                                {item.endDate
+                                  ? ` ${new Date(item.endDate).toLocaleDateString()}`
+                                  : ' Present'}
+                              </p>
+                              {item.employerWebsite && (
+                                <a
+                                  href={item.employerWebsite}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-blue-600 hover:underline block"
+                                >
+                                  Employer Website
+                                </a>
+                              )}
+                              {item.projectUrl && (
+                                <a
+                                  href={item.projectUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-blue-600 hover:underline block"
+                                >
+                                  Project URL
+                                </a>
+                              )}
+                              <p className="mt-2 text-gray-700">{item.description}</p>
+                            </div>
+                            {item.assets?.length > 0 && (
+                              <div className="w-24 h-24 flex-shrink-0">
+                                <div
+                                  className="relative cursor-pointer group"
+                                  onClick={() =>
+                                    openModal(ModalType.IMAGE_CAROUSEL, {
+                                      images: item.assets.map(asset => ({
+                                        url: asset.url,
+                                        key: asset.s3Key
+                                      })),
+                                      startIndex: 0,
+                                    })
+                                  }
+                                >
+                                  <img
+                                    src={item.assets[0].url}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover rounded-md"
+                                  />
+                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100 rounded-md">
+                                    <Eye className="h-6 w-6 text-white" />
+                                    {item.assets.length > 1 && (
+                                      <span className="text-white text-xs mt-1">
+                                        +{item.assets.length - 1} more
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500">No Portfolio Items</p>
                     )}
                   </div>
                 </div>

@@ -118,7 +118,7 @@ export function JobCard({ job }: JobCardProps) {
                     {job.skills.slice(3).map((skill) => (
                       <span key={skill}>{skill.replace(/_/g, " ")}</span>
                     ))}
-                  </div>
+                  </div> <span className="font-medium">{job.businessProfile.companyName}</span>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

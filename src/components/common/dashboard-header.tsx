@@ -48,8 +48,9 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="h-16 bg-white border rounded-tl-2xl">
-      <div className="mx-4 h-full flex items-center justify-end px-4">
+    <header className="h-16 bg-white border-l border-t rounded-tl-2xl">
+      <div className=" h-full flex items-center justify-end border-b">
+        <div className="px-6">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -92,6 +93,7 @@ export function DashboardHeader() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </div>
     </header>
   );

@@ -37,7 +37,7 @@ function ListCardFeeds({
   const hasDetailsToShow = certificates.length > 0 || portfolio.length > 0
 
   return (
-    <div key={id} className="flex flex-col border-b hover:bg-gray-100">
+    <div key={id} className="flex flex-col border-b hover:bg-gray-50">
       
       <div className="flex flex-1 items-start p-4">
         <div className="flex-1 flex">
@@ -62,7 +62,7 @@ function ListCardFeeds({
               <div className="mt-3 flex flex-wrap gap-2">
                
                 {skills.slice(0, 4).map((skill) => (
-                  <Badge key={skill} variant="outline" className="font-sans text-xs not-italic font-medium leading-[14.05px] text--nixerly-businesslabel  ">
+                  <Badge key={skill} variant="outline" className="font-sans text-xs not-italic font-medium leading-[14.05px] text-nixerly-businesslabel  ">
                     {formateSkills(skill)}
                   </Badge>
                 ))}
@@ -81,9 +81,10 @@ function ListCardFeeds({
 
             {hasDetailsToShow && (
               <Button
-                variant="ghost"
+                variant="outline"
+                
                 size="sm"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 border rounded-full font-sans text-sm not-italic font-medium leading-4 text-nixerly-businesslabel tracking-tight border-nixerly-bussinessborder"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? (

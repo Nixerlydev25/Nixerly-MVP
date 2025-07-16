@@ -63,19 +63,17 @@ export default function FreelancerProfile() {
         {/* Back to search results */}
         <div
           onClick={() => router.back()}
-          className="mb-6 inline-flex cursor-pointer items-center text-sm font-medium text-blue-600"
+          className="mb-6 inline-flex cursor-pointer items-center text-sm font-medium py-2 px-3 border rounded-full font-sans text-nixerly-businesslabel leading-5 tracking-tight border--nixerly-bussinessborder "
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+        <div className="grid gap-8 ">
           {/* Main content */}
           <div className="space-y-8">
             {/* Profile header */}
-            <div className="relative rounded-lg border bg-white p-6 shadow-sm overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-blue-100 to-indigo-50 opacity-70"></div>
-              <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+            <div className="relative rounded-lg border border-nixerly-blue  bg-[#E9F3FF] p-6 shadow-sm overflow-hidden">
               <div className="relative">
                 <div className="flex flex-col gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
@@ -116,7 +114,7 @@ export default function FreelancerProfile() {
                           {worker.city}, {worker.state}, {worker.country}
                         </div>
                       </div>
-                      <div className="flex gap-2">
+                      {/* <div className="flex gap-2">
                         <Button
                           variant="outline"
                           size="icon"
@@ -141,9 +139,10 @@ export default function FreelancerProfile() {
                         >
                           <Flag className="h-5 w-5" />
                         </Button>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -470,8 +469,7 @@ export default function FreelancerProfile() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Hire card */}
+          {/* <div className="space-y-6">
             <div className="sticky top-24 rounded-lg border bg-gradient-to-b from-white to-blue-50 p-6 shadow-sm">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-t-lg"></div>
               <div className="mb-4 text-center">
@@ -511,7 +509,7 @@ export default function FreelancerProfile() {
                 Contact {worker.user?.firstName || 'Worker'}
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

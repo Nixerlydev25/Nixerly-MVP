@@ -31,7 +31,7 @@ function CardFeeds({
   const hasDetailsToShow = certificates.length > 0 || portfolio.length > 0;
 
   return (
-    <Card key={id} className="overflow-hidden">
+    <Card key={id} className="overflow-hidden hover:bg-gray-50">
       <CardHeader className="p-4 pb-0">
         <div className="flex items-start justify-between">
           <div className="flex gap-4 cursor-pointer" onClick={() => router.push(`/profile/worker/${id}`)}>
@@ -78,8 +78,8 @@ function CardFeeds({
         
         {hasDetailsToShow && (
           <Button 
-            variant="ghost" 
-            className="w-full mt-4 flex items-center justify-center gap-2"
+            variant="outline" 
+            className="w-full mt-4 justify-center  flex items-center gap-1 border rounded-full font-sans text-sm not-italic font-medium leading-4 text-nixerly-businesslabel tracking-tight border-nixerly-bussinessborder"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (

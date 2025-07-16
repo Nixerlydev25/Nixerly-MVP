@@ -113,7 +113,7 @@ export default function Dashboard() {
 <div className="relative w-[300px]">
   <Button
     type="button"
-    className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none  s"
+    className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none "
     onClick={() => updateSearchParam(searchValue)}
   >
     <SearchIcon className="h-10 w-10 text-[#99A0AE] " />

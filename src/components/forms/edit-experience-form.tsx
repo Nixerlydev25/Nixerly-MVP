@@ -18,6 +18,7 @@ import { Switch } from '@/components/ui/switch';
 import { Plus, Trash2, Briefcase } from 'lucide-react';
 import { DatePicker } from '@/components/ui/date-picker';
 import { LocationSearch, LocationDetails } from '@/components/location-search';
+import { Separator } from '../ui/separator';
 
 const experienceSchema = z
   .object({
@@ -71,11 +72,13 @@ interface EditExperienceFormProps {
   defaultValues?: {
     experience: ExperienceData[];
   };
+  onCancel?: () => void;
 }
 
 export function EditExperienceForm({
   onSubmit,
   defaultValues,
+  onCancel,
 }: EditExperienceFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -139,10 +142,9 @@ export function EditExperienceForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-6">
-          <div className="flex items-center justify-between sticky top-0 bg-white py-2 z-10">
-            <h3 className="text-lg font-medium flex items-center gap-2">
-              <Briefcase className="h-5 w-5" />
+        <div className="space-y-6 px-4">
+          <div className="tems-center justify-between sticky top-0 bg-white py-2 z-10">
+            <h3 className="text-lg font-medium flex items-center gap-2 text-nixerly-businesslabel">
               Work Experience
             </h3>
             {experience.length !== 0 && (
@@ -150,7 +152,7 @@ export function EditExperienceForm({
                 type="button"
                 onClick={addExperience}
                 variant="outline"
-                className="border-blue-200 hover:bg-blue-50"
+                className="mt-2 w-full"
               >
                 <Plus className="h-4 w-4 mr-2" /> Add Experience
               </Button>
@@ -174,7 +176,7 @@ export function EditExperienceForm({
               {experience.map((_, index) => (
                 <div
                   key={index}
-                  className="p-5 border border-blue-200 rounded-lg bg-white"
+                  className=""
                 >
                   <div className="flex justify-between items-start mb-4">
                     <h4 className="font-medium">Experience {index + 1}</h4>
@@ -260,25 +262,26 @@ export function EditExperienceForm({
                       control={form.control}
                       name={`experience.${index}.current`}
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg p-3 h-[72px] flex-1 min-w-[calc(50%-8px)]">
-                          <div className="space-y-0.5">
-                            <FormLabel>Current Position</FormLabel>
-                          </div>
+                        <FormItem className="flex items-center justify-between rounded-lg p-3 h-[72px] flex-1 min-w-[calc(50%-8px)]">
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={(checked) => {
-                                field.onChange(checked);
-                                handleCurrentPositionChange(index, checked);
-                              }}
-                              disabled={experience.some(
-                                (exp, i) => i !== index && exp.current
-                              )}
-                            />
+                            <div className="flex items-center gap-4 pt-8">
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={(checked) => {
+                                  field.onChange(checked);
+                                  handleCurrentPositionChange(index, checked);
+                                }}
+                                disabled={experience.some(
+                                  (exp, i) => i !== index && exp.current
+                                )}
+                              />
+                              <FormLabel className="m-0">Current Position</FormLabel>
+                            </div>
                           </FormControl>
                         </FormItem>
                       )}
                     />
+
                   </div>
 
                   <div className="flex flex-wrap gap-4 mt-4 items-start">
@@ -349,10 +352,25 @@ export function EditExperienceForm({
             </div>
           )}
         </div>
-
-        <div className="sticky bottom-0 bg-white pt-4 border-t">
-          <Button type="submit" className="w-full">
-            Save Experience
+        <Separator />
+        <div className="flex justify-end px-4 pb-4 gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onCancel}
+            className='rounded-full'
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="rounded-full bg-nixerly-blue"
+            onContextMenu={e => {
+              e.preventDefault();
+              onCancel?.();
+            }}
+          >
+            Save Changes
           </Button>
         </div>
       </form>

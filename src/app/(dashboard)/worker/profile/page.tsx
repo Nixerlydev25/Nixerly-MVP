@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Award,
   ChevronLeft,
@@ -22,6 +23,7 @@ import {
   ExternalLink,
   Camera,
   Star,
+  Building,
 } from "lucide-react"
 import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
 import type { WorkerUser, WorkerEducation, WorkerExperience, WorkerLanguage, Portfolio } from "@/types/worker.types"
@@ -82,6 +84,23 @@ export default function FreelancerProfileSelfView() {
   const { openModal } = useModalStore()
   const { data: workerDetail, refetch } = useGetCurrentWorkerProfileDetails()
   const [profilePicture, setProfilePicture] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false)
+
+  const openImageModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl)
+    setIsImageModalOpen(true)
+  }
+
+  const closeImageModal = () => {
+    setSelectedImage(null)
+    setIsImageModalOpen(false)
+  }
+
+  // Mock functions - replace with your actual functions
+  const openModals = (modalType: any, data: any) => {
+    console.log("Opening modal:", modalType, data)
+  }
 
   const handleTabChange = (tab: TabType) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -96,7 +115,6 @@ export default function FreelancerProfileSelfView() {
   const { firstName, lastName, workerProfile } = workerDetail as WorkerUser
   console.log("Worker Profile Data:", workerProfile)
   console.log("Portfolio:", workerProfile.portfolio)
-
   const fullName = `${firstName} ${lastName}`
 
   // Use the state value if available, otherwise use the one from the API
@@ -123,81 +141,81 @@ export default function FreelancerProfileSelfView() {
 
   const renderOverview = () => (
     <div className="space-y-6">
-    {/* Top stats section with light blue background */}
-    <div className="bg-[#55C8FF40] rounded-2xl p-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Availability */}
-        <div className="bg-white rounded-lg p-4 border">
-          <div className="flex items-center gap-3 px-4 py-7">
-            <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
-              <Clock className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <p className="font-medium text-gray-900 mb-1">Availability</p>
-              <p className={`text-sm ${workerProfile.availability ? "text-nixerly-businesslabel" : ""}`}>
-                {workerProfile.availability ? "Available Now" : "Not Available"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Member Since */}
-        <div className="bg-white rounded-lg p-4 border">
-          <div className="flex items-center gap-3 px-4 py-7">
-            <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
-              <Clock className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <p className="font-medium text-gray-900 mb-1">Member Since</p>
-              <p className="text-sm text-gray-600">{new Date(workerProfile.createdAt).toLocaleDateString()}</p>
+      {/* Top stats section with light blue background */}
+      <div className="bg-[#55C8FF40] rounded-2xl p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Availability */}
+          <div className="bg-white rounded-lg p-4 border">
+            <div className="flex items-center gap-3 px-4 py-7">
+              <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
+                <Clock className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-medium text-nixerly-businesslabel mb-1">Availability</p>
+                <p className={`text-sm ${workerProfile.availability ? "text-nixerly-businesslabel" : ""}`}>
+                  {workerProfile.availability ? "Available Now" : "Not Available"}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Hourly Rate */}
-        <div className="bg-white rounded-lg p-4 border">
-          <div className="flex items-center gap-3 px-4 py-7">
-            <div className="w-10 h-10 bg-[#FEC960] rounded-full flex items-center justify-center">
-              <Star className="h-5 w-5 text-white" />
+          {/* Member Since */}
+          <div className="bg-white rounded-lg p-4 border">
+            <div className="flex items-center gap-3 px-4 py-7">
+              <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
+                <Clock className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-medium text-nixerly-businesslabel mb-1">Member Since</p>
+                <p className="text-sm text-nixerly-businesslabel">{new Date(workerProfile.createdAt).toLocaleDateString()}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-medium text-gray-900 mb-1">Hourly Rate</p>
-              <p className="text-sm  text-nixerly-businesslabel">${workerProfile.hourlyRate}/hr</p>
+          </div>
+
+          {/* Hourly Rate */}
+          <div className="bg-white rounded-lg p-4 border">
+            <div className="flex items-center gap-3 px-4 py-7">
+              <div className="w-10 h-10 bg-[#FEC960] rounded-full flex items-center justify-center">
+                <Star className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-medium text-nixerly-businesslabel mb-1">Hourly Rate</p>
+                <p className="text-sm  text-nixerly-businesslabel">${workerProfile.hourlyRate}/hr</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* About Us section */}
+      <section className="border rounded-2xl">
+        <div className="flex items-center justify-between mb-4 p-4">
+          <h2 className="text-xl font-semibold text-blue-600">About Us</h2>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-8 gap-1 text-nixerly-businesslabel rounded-full hover:text-nixerly-businesslabel"
+                  onClick={handleEditProfile}
+                >
+                  <Image src="/editPara.svg" alt="edit" width={16} height={16} />
+                  Edit
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Edit your about section</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <Separator />
+        <div className="rounded-lg px-4 pt-4 pb-10">
+          <div className="whitespace-pre-line text-nixerly-businesslabel">{workerProfile.description}</div>
+        </div>
+      </section>
     </div>
-
-    {/* About Us section */}
-    <section className="border rounded-2xl">
-      <div className="flex items-center justify-between mb-4 p-4">
-        <h2 className="text-xl font-semibold text-blue-600">About Us</h2>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="sm"
-                variant="outline"
-                className="h-8 gap-1 text-gray-600 rounded-full hover:text-gray-900"
-                onClick={handleEditProfile}
-              >
-                <Image src="/editPara.svg" alt="edit" width={16} height={16}/>
-                Edit
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Edit your about section</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <Separator/>
-      <div className="rounded-lg px-4 pt-4 pb-10">
-        <div className="whitespace-pre-line text-gray-700">{workerProfile.description}</div>
-      </div>
-    </section>
-  </div>
   )
 
   const renderSkills = () => (
@@ -215,7 +233,7 @@ export default function FreelancerProfileSelfView() {
                   className="h-8 gap-1 border rounded-full px-4"
                   onClick={() => openModal(ModalType.EDIT_SKILLS, toModalData(workerProfile))}
                 >
-                  <Image src="/editPara.svg" alt="hello" width={16} height={16}/>
+                  <Image src="/editPara.svg" alt="hello" width={16} height={16} />
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -225,7 +243,7 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Separator/>
+        <Separator />
         <div className="p-4">
           <div className="flex flex-wrap gap-2">
             {workerProfile.skills.map((skill: string) => (
@@ -252,7 +270,7 @@ export default function FreelancerProfileSelfView() {
                   className="h-8 gap-1 px-4 rounded-full"
                   onClick={() => openModal(ModalType.EDIT_LANGUAGES, toModalData(workerProfile))}
                 >
-                  <Image src="/editPara.svg" alt="hello" width={16} height={16}/>
+                  <Image src="/editPara.svg" alt="hello" width={16} height={16} />
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -262,7 +280,7 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Separator/>
+        <Separator />
         <div className="p-4">
           <div className="space-y-3">
             {workerProfile.languages.map((language: WorkerLanguage) => (
@@ -300,7 +318,7 @@ export default function FreelancerProfileSelfView() {
                   className="px-4 gap-2 border rounded-full"
                   onClick={() => openModal(ModalType.EDIT_EDUCATION, toModalData(workerProfile))}
                 >
-                <Image src="/editPara.svg" alt="edit" width={16} height={16}/>
+                  <Image src="/editPara.svg" alt="edit" width={16} height={16} />
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -310,30 +328,30 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Separator/>
+        <Separator />
         <div className="p-4">
           <div className="space-y-6">
             {workerProfile.education.length > 0 ? (
               workerProfile.education.map((edu: WorkerEducation, index: number) => (
                 <div key={index} className={`${index > 0 ? "pt-6" : ""}`}>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-2xl">{edu.school}</h4>
-                        <p className="text-sm font-medium text-nixerly-businesslabel">
-                          {edu.degree} in {edu.fieldOfStudy}
-                        </p>
-                        {edu.description && <p className="text-sm text-nixerly-businesslabel">{edu.description}</p>}
-                        <p className="text-sm text-shadow-nixerly-businesslabel mt-1 flex gap-2">
-                          <Image src="/calen.svg" alt="calen" width={12} height={12}/>
-                          {new Date(edu.startDate).getFullYear()} -{" "}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-2xl">{edu.school}</h4>
+                      <p className="text-sm font-medium text-nixerly-businesslabel">
+                        {edu.degree} in {edu.fieldOfStudy}
+                      </p>
+                      {edu.description && <p className="text-sm text-nixerly-businesslabel">{edu.description}</p>}
+                      <p className="text-sm text-shadow-nixerly-businesslabel mt-1 flex gap-2">
+                        <Image src="/calen.svg" alt="calen" width={12} height={12} />
+                        {new Date(edu.startDate).getFullYear()} -{" "}
                         {edu.currentlyStudying ? "Present" : new Date(edu.endDate).getFullYear()}
-                        </p>
+                      </p>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-nixerly-businesslabel">
                 <GraduationCap className="mx-auto h-12 w-12 mb-4 opacity-50" />
                 <p className="font-medium">No education added yet</p>
                 <p className="text-sm mt-1">Add your educational background to enhance your profile</p>
@@ -345,24 +363,22 @@ export default function FreelancerProfileSelfView() {
 
       {/* Certifications */}
       <section className="border rounded-2xl">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center text-nixerly-blue">
-            Certifications
-          </h2>
+        <div className="flex items-center justify-between p-4">
+          <h2 className="text-xl font-semibold flex items-center text-nixerly-blue">Certifications</h2>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
-                  variant="ghost"
-                  className="h-8 gap-1"
+                  variant="outline"
+                  className="h-8 gap-1 px-4 border rounded-full"
                   onClick={() =>
                     openModal(ModalType.EDIT_CERTIFICATES, {
                       certificates: workerProfile.certificates,
                     })
                   }
                 >
-                  <PencilIcon className="h-3 w-3" />
+                  <Image src="/editPara.svg" alt="edit" width={16} height={16} />
                   Edit
                 </Button>
               </TooltipTrigger>
@@ -372,51 +388,64 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="space-y-4">
+        <Separator />
+        <div className="space-y-4 p-4">
           {workerProfile.certificates.length > 0 ? (
-            workerProfile.certificates.map((certificate) => (
-              <div key={certificate.id} className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-semibold">{certificate.name}</h4>
-                        <Badge variant="outline">{certificate.certificateType.replace(/_/g, " ")}</Badge>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {workerProfile.certificates.slice(0, 4).map((certificate) => (
+                <Card key={certificate.id} className="h-full">
+                  <CardContent className="p-4 flex flex-col h-full">
+                    {/* Text content at the top */}
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-semibold text-sm leading-tight">{certificate.name}</h4>
+                        {certificate.credentialUrl && (
+                          <a
+                            href={certificate.credentialUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=""
+                          >
+                            <Image src="/link.svg" alt="credential link" width={16} height={16} />
+                          </a>
+                        )}
                       </div>
-                      <p className="text-gray-600 font-medium">{certificate.issuingOrg}</p>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <Badge variant="outline" className="text-xs">
+                        {certificate.certificateType.replace(/_/g, " ")}
+                      </Badge>
+                      <p className="text-nixerly-businesslabel font-medium text-sm">{certificate.issuingOrg}</p>
+                      <p className="text-xs text-nixerly-businesslabel mb-2">
                         Issued: {new Date(certificate.issueDate).toLocaleDateString()}
-                        {certificate.expiryDate &&
-                          ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`}
+                        {certificate.expiryDate && ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`}
                       </p>
-                      {certificate.credentialUrl && (
-                        <a
-                          href={certificate.credentialUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-blue-600 hover:underline mt-2 inline-block"
-                        >
-                          View Credential
-                        </a>
-                      )}
                     </div>
-                  </div>
-                  {certificate.assets?.length > 0 && (
-                    <div className="grid grid-cols-3 gap-3 mt-4">
-                      {certificate.assets.map((asset, index) => (
-                        <div key={index} className="relative aspect-square overflow-hidden rounded-lg border">
-                          <img
-                            src={asset.url || "/placeholder.svg"}
-                            alt={`Certificate ${index + 1}`}
-                            className="object-cover w-full h-full"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
+
+                    {/* Images at the bottom */}
+                    {certificate.assets?.length > 0 && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {certificate.assets.slice(0, 4).map((asset, index) => (
+                          <div
+                            key={index}
+                            className="relative aspect-square overflow-hidden rounded-lg border group cursor-pointer"
+                            onClick={() => openImageModal(asset.url || "/placeholder.svg")}
+                          >
+                            <img
+                              src={asset.url || "/placeholder.svg"}
+                              alt={`Certificate ${index + 1}`}
+                              className="object-cover w-full h-full transition-all duration-200 group-hover:scale-105"
+                            />
+                            {/* Eye icon overlay */}
+                            <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
+                              <Eye className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           ) : (
             <div className="p-4">
               <div className="text-center py-8 text-nixerly-blue">
@@ -427,27 +456,55 @@ export default function FreelancerProfileSelfView() {
             </div>
           )}
         </div>
+        {/* Image Modal */}
+        {isImageModalOpen && selectedImage && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur"
+            onClick={closeImageModal}
+          >
+            <div
+              className="relative max-w-4xl max-h-[60vh] p-4 flex items-center justify-center"
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                onClick={closeImageModal}
+                className="absolute -top-2 -right-2 bg-white rounded-full p-2 hover:bg-gray-100 transition-colors z-10"
+              >
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <img
+                src={selectedImage || "/placeholder.svg"}
+                alt="Certificate preview"
+                className="max-w-full max-h-full object-contain rounded-lg h-[60vh]"
+              />
+            </div>
+          </div>
+        )}
       </section>
     </div>
   )
 
   const renderExperience = () => (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between mb-4">
+    <div className="border rounded-2xl">
+      <div className="flex items-center justify-between p-4">
         <div>
-          <h2 className="text-xl font-semibold">Work History</h2>
-          <p className="text-sm text-gray-500">Completed {workerProfile.completedJobs} jobs</p>
+          <h2 className="text-xl font-semibold text-nixerly-blue">Work History</h2>
+          <Badge variant="secondary" className="text-nixerly-businesslabel bg-nixerly-businesslabel/10">
+            Completed {workerProfile.completedJobs} jobs
+          </Badge>
         </div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant="ghost"
-                className="gap-1"
+                variant="outline"
+                className="gap-1 border rounded-full px-4"
                 onClick={() => openModal(ModalType.EDIT_EXPERIENCE, toModalData(workerProfile))}
               >
-                <PencilIcon className="h-4 w-4" />
-                Edit Experience
+                <Image src="/editPara.svg" alt="hello" width={16} height={16} />
+                Edit
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -456,31 +513,39 @@ export default function FreelancerProfileSelfView() {
           </Tooltip>
         </TooltipProvider>
       </div>
-
-      <div className="bg-white rounded-lg p-6 border">
+      <Separator />
+      <div className="space-y-4">
         {workerProfile.experience.length > 0 ? (
-          <div className="space-y-6">
+          <div className="space-y-6 p-4">
             {workerProfile.experience.map((work: WorkerExperience, index: number) => (
-              <div key={index} className={`${index > 0 ? "border-t pt-6" : ""}`}>
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold">{work.title}</h3>
-                    <p className="text-gray-600 font-medium">{work.company}</p>
-                      <p className="text-sm text-gray-500">
-                        {work.city}, {work.state}, {work.country}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {new Date(work.startDate).getFullYear()} -{" "}
-                      {work.currentlyWorking ? "Present" : new Date(work.endDate).getFullYear()}
-                      </p>
+              <div key={index} className={`${index > 0 ? "border-t pt-4" : ""}`}>
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold">{work.title}</h3>
+                    <p className="text-nixerly-businesslabel font-medium text-xs">{work.company}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1">
+                        <Image src="/locationblack.svg" alt="location" width={12} height={12} />
+                        <p className="text-sm text-nixerly-businesslabel">
+                          {work.city}, {work.state}, {work.country}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 pb-1">
+                        <Image src="/calen.svg" alt="location" width={12} height={12} />
+                        <p className="text-sm text-nixerly-businesslabel mt-1">
+                          {new Date(work.startDate).getFullYear()} -{" "}
+                          {work.currentlyWorking ? "Present" : new Date(work.endDate).getFullYear()}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                {work.description && <p className="mt-3 text-gray-700">{work.description}</p>}
+                {work.description && <p className="text-xs text-nixerly-businesslabel">{work.description}</p>}
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-nixerly-businesslabel">
             <Clock className="mx-auto h-12 w-12 mb-4 opacity-50" />
             <p className="font-medium">No work experience added yet</p>
             <p className="text-sm mt-1">Add your work history to showcase your professional background</p>
@@ -496,8 +561,8 @@ export default function FreelancerProfileSelfView() {
       <div className="space-y-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Portfolio Projects</h2>
-            <p className="text-gray-600 mt-1">Showcase your best work and achievements</p>
+            <h2 className="text-2xl font-bold text-nixerly-businesslabel">Portfolio Projects</h2>
+            <p className="text-nixerly-businesslabel mt-1">Showcase your best work and achievements</p>
           </div>
           <TooltipProvider>
             <Tooltip>
@@ -578,7 +643,7 @@ export default function FreelancerProfileSelfView() {
                 <div className="p-3 space-y-2">
                   {/* Header with improved typography */}
                   <div className="space-y-1">
-                    <h3 className="text-sm font-semibold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors duration-200 line-clamp-1">
+                    <h3 className="text-sm font-semibold text-nixerly-businesslabel leading-tight group-hover:text-blue-600 transition-colors duration-200 line-clamp-1">
                       {portfolio.title}
                     </h3>
                     <div className="flex items-center gap-2 flex-wrap">
@@ -588,7 +653,7 @@ export default function FreelancerProfileSelfView() {
                       >
                         {portfolio.employerName}
                       </Badge>
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-1 text-xs text-nixerly-businesslabel">
                         <Calendar className="h-3 w-3" />
                         <span>
                           {new Date(portfolio.startDate).toLocaleDateString("en-US", {
@@ -602,7 +667,7 @@ export default function FreelancerProfileSelfView() {
 
                   {/* Enhanced Description */}
                   <div className="relative">
-                    <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{portfolio.description}</p>
+                    <p className="text-xs text-nixerly-businesslabel leading-relaxed line-clamp-2">{portfolio.description}</p>
                     {portfolio.description.length > 100 && (
                       <Button
                         variant="ghost"
@@ -630,7 +695,7 @@ export default function FreelancerProfileSelfView() {
                         href={portfolio.employerWebsite}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 group/link"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-nixerly-businesslabel hover:text-blue-600 transition-colors duration-200 group/link"
                       >
                         <div className="p-0.5 rounded-md bg-gray-100 group-hover/link:bg-blue-100 transition-colors duration-200">
                           <Globe className="h-3 w-3" />
@@ -644,7 +709,7 @@ export default function FreelancerProfileSelfView() {
                         href={portfolio.projectUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 group/link"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-nixerly-businesslabel hover:text-blue-600 transition-colors duration-200 group/link"
                       >
                         <div className="p-0.5 rounded-md bg-gray-100 group-hover/link:bg-blue-100 transition-colors duration-200">
                           <LinkIcon className="h-3 w-3" />
@@ -662,11 +727,11 @@ export default function FreelancerProfileSelfView() {
               <div className="bg-white rounded-2xl p-12 border-2 border-dashed border-gray-200 text-center">
                 <div className="max-w-sm mx-auto space-y-4">
                   <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
-                    <FileEdit className="h-8 w-8 text-gray-400" />
+                    <FileEdit className="h-8 w-8 text-nixerly-businesslabel" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No portfolio projects yet</h3>
-                    <p className="text-gray-500 leading-relaxed">
+                    <h3 className="text-lg font-semibold text-nixerly-businesslabel mb-2">No portfolio projects yet</h3>
+                    <p className="text-nixerly-businesslabel leading-relaxed">
                       Showcase your best work by adding portfolio projects. This helps potential clients understand your
                       capabilities and style.
                     </p>
@@ -716,8 +781,8 @@ export default function FreelancerProfileSelfView() {
           Back
         </Link>
 
-          {/* Profile Card */}
-          <div
+        {/* Profile Card */}
+        <div
           className="relative bg-[#1E64D3] overflow-hidden rounded-xl border custom-gradient-right h-52"
         >
           <div className="flex flex-col gap-6 sm:flex-row items-center p-4">
@@ -764,12 +829,12 @@ export default function FreelancerProfileSelfView() {
                     Share
                   </Button>
                   <Button variant="outline" className="rounded-full border-none" size="sm" onClick={handleEditProfile}>
-                    <Image src="/editPara.svg" alt="helo" width={16} height={16}/>
+                    <Image src="/editPara.svg" alt="helo" width={16} height={16} />
                     Edit Profile
                   </Button>
                 </div>
               </div>
-{/* 
+              {/* 
               <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                 <div className="flex items-center text-white">
                   <Clock className="mr-1 h-4 w-4 text-white" />

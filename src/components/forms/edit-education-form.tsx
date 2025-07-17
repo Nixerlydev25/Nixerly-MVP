@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Plus, Trash2, GraduationCap, Calendar } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Separator } from "../ui/separator";
 
 interface EducationData {
   id?: string;
@@ -72,11 +73,13 @@ interface EditEducationFormProps {
   defaultValues?: {
     education: EducationData[];
   };
+  onCancel?: () => void;
 }
 
 export function EditEducationForm({
   onSubmit,
   defaultValues,
+  onCancel,
 }: EditEducationFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -134,18 +137,17 @@ export function EditEducationForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-6">
-          <div className="flex items-center justify-between sticky top-0 bg-white py-2 z-10">
-            <h3 className="text-lg font-medium flex items-center gap-2">
-              <GraduationCap className="h-5 w-5" />
-              Education
+        <div className="space-y-6 px-4 rounded-2xl">
+          <div className="items-center justify-between sticky top-0 bg-white py-2 z-10">
+            <h3 className="text-lg font-medium flex items-center gap-2 text-nixerly-businesslabel">
+            Add Education
             </h3>
             {education.length !== 0 && (
               <Button
                 type="button"
                 onClick={addEducation}
                 variant="outline"
-                className="border-blue-200 hover:bg-blue-50"
+                className="w-full mt-2"
               >
                 <Plus className="h-4 w-4 mr-2" /> Add Education
               </Button>
@@ -153,7 +155,7 @@ export function EditEducationForm({
           </div>
 
           {education.length === 0 ? (
-            <div className="text-center py-8 border border-dashed border-blue-200 rounded-lg bg-blue-50/50">
+            <div className="text-center py-8 rounded-lg bg-blue-50/50">
               <p className="text-gray-500">No education added yet</p>
               <Button
                 type="button"
@@ -169,7 +171,7 @@ export function EditEducationForm({
               {education.map((_, index) => (
                 <div
                   key={index}
-                  className="p-5 border border-blue-200 rounded-lg bg-white"
+                  className=""
                 >
                   <div className="flex justify-between items-start mb-4">
                     <h4 className="font-medium">Education {index + 1}</h4>
@@ -330,9 +332,17 @@ export function EditEducationForm({
             </div>
           )}
         </div>
-
-        <div className="sticky bottom-0 bg-white pt-4 border-t">
-          <Button type="submit" className="w-full">
+        <Separator/>
+        <div className="px-4 pb-4 flex justify-end gap-2">
+          <Button
+            variant="outline"
+            type="button"
+            className="rounded-full"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+          <Button variant="outline" type="submit" className="rounded-full bg-nixerly-blue text-white hover:text-white cursor-pointer">
             Save Education
           </Button>
         </div>

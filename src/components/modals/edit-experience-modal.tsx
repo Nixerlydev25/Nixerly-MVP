@@ -6,6 +6,7 @@ import { useModalStore } from "@/store/modal.store"
 import { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { useUpdateAllExperience } from "@/hook/experiences/experiences.hook"
+import { Separator } from "../ui/separator"
 
 type FormValues = {
   experience: Array<{
@@ -42,15 +43,20 @@ export function EditExperienceModal() {
       <DialogPortal>
         <DialogOverlay />
         <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-hidden flex flex-col">
-          <DialogHeader>
+          <DialogHeader className="flex flex-row items-center gap-2">
+            <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+              <span className="text-lg sm:text-base font-medium">01</span>
+            </div>
             <DialogTitle>Edit Experience</DialogTitle>
           </DialogHeader>
+          <Separator />
           <div className="overflow-y-auto pr-6 -mr-6">
             <EditExperienceForm
               onSubmit={handleSubmit}
               defaultValues={{
                 experience: profile?.experience || [],
               }}
+              onCancel={closeModal}
             />
           </div>
         </DialogContent>

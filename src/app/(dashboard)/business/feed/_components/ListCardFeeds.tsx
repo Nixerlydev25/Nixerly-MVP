@@ -103,16 +103,16 @@ function ListCardFeeds({
       </div>
 
       {isExpanded && (
-        <div className="px-4 pb-4 border-t bg-gray-50/50">
+        <div className="px-4 pb-4 border rounded-2xl text-nixerly-bussinessborder my-4 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
             {certificates.length > 0 && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
+                <div className="flex items-center gap-2 pb-2   border-gray-200">
                   <div className="p-1.5 bg-blue-100 rounded-md">
                     <ScrollText className="h-4 w-4 text-blue-600" />
                   </div>
-                  <h4 className="font-semibold text-gray-900">Certificates</h4>
-                  <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+                  <h4 className="font-sans font-medium text-sm leading-4 text-[#0E121B]">Certificates</h4>
+                  <span className="text-xs text-[#0E121B]  px-2 py-0.5 rounded-full">
                     {certificates.length}
                   </span>
                 </div>
@@ -140,10 +140,10 @@ function ListCardFeeds({
                         )}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className="font-medium text-sm text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                            <p className="font-medium text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
                               {cert.name}
                             </p>
-                            <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                           </div>
                           <p className="text-xs text-gray-500 mt-0.5">
                             {cert.issuingOrg}
@@ -157,55 +157,57 @@ function ListCardFeeds({
             )}
 
             {portfolio.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 pb-2 border-b border-gray-200">
-                  <div className="p-1.5 bg-purple-100 rounded-md">
-                    <FolderIcon className="h-4 w-4 text-purple-600" />
-                  </div>
-                  <h4 className="font-semibold text-gray-900">Portfolio</h4>
-                  <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
-                    {portfolio.length}
-                  </span>
-                </div>
-                <ScrollArea className="h-[180px] pr-2">
-                  <div className="space-y-2">
-                    {portfolio.map((item) => (
-                      <div
-                        key={item.id}
-                        className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
-                      >
-                        {item.assets.length > 0 ? (
-                          <div className="relative flex-shrink-0">
-                            <Image
-                              src={item.assets[0].url || "/placeholder.svg"}
-                              width={100}
-                              height={100}
-                              alt={item.title}
-                              className="rounded-md object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
-                            <FolderIcon className="h-4 w-4 text-purple-600" />
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-sm text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
-                              {item.title}
-                            </p>
-                            <ExternalLinkIcon className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                          </div>
-                          <p className="text-xs text-gray-500 mt-0.5">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
+  <div className="space-y-3">
+    <div className="flex items-center gap-2 pb-2 border-gray-200">
+      <div className="p-1.5 bg-purple-100 rounded-md">
+        <FolderIcon className="h-4 w-4 text-purple-600" />
+      </div>
+      <h4 className="font-sans font-medium text-sm leading-4 text-[#0E121B]">Portfolio</h4>
+      <span className="text-xs text-[#0E121B] px-2 py-0.5 rounded-full">
+        {portfolio.length}
+      </span>
+    </div>
+
+    <ScrollArea className="h-[180px]  m-4">
+      <div className="space-y-2">
+        {portfolio.map((item) => (
+          <div
+            key={item.id}
+            className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+          >
+            {item.assets.length > 0 ? (
+              <div className="relative flex-shrink-0">
+                <Image
+                  src={item.assets[0].url || "/placeholder.svg"}
+                  width={100}
+                  height={100}
+                  alt={item.title}
+                  className="rounded-md object-cover"
+                />
+              </div>
+            ) : (
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
+                <FolderIcon className="h-4 w-4 text-purple-600" />
               </div>
             )}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-medium text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
+                  {item.title}
+                </p>
+                <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </div>
+              <p className="text-sm  text-nixerly-businesslabel mt-1">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </ScrollArea>
+  </div>
+)}
+
           </div>
         </div>
       )}

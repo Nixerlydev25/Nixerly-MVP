@@ -42,6 +42,8 @@ import {
 } from '@/components/ui/tooltip';
 import JobApplicationsSkeleton from './components/JobApplicationSkeleton';
 import { Application } from './types/appliedjob.types';
+import Image from 'next/image';
+import { Separator } from '@/components/ui/separator';
 
 interface FilterState {
   search: string;
@@ -175,30 +177,22 @@ export default function AppliedJobsPage() {
 
   return (
     <TooltipProvider>
-      <div className="container min-h-screen mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">
-            My Job Applications
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Track the status of your job applications and manage your
-            opportunities
-          </p>
-        </div>
-
-        {/* Filters and Results Summary */}
-        <div className="flex items-center justify-between mb-6 gap-4">
-          {/* Left side - Results count */}
-          <div>
-            <p className="text-sm text-muted-foreground">
-              Showing {data?.applications?.length} of{' '}
-              {data?.pagination?.totalCount} applications
+      <div className="container min-h-screen mx-auto py-8">
+        {/* Header, Search, and Date Picker in one flex row */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+          {/* Header */}
+          <div className="flex-shrink-0">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              My Job Applications
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Track the status of your job applications and manage your
+              opportunities
             </p>
           </div>
 
-          {/* Right side - Filters */}
-          <div className="flex items-center gap-3">
+          {/* Filters: Search and Date Picker */}
+          <div className="flex items-center gap-3 mt-4 md:mt-0">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -215,8 +209,9 @@ export default function AppliedJobsPage() {
               <TooltipTrigger asChild>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" size="icon" className="h-10 w-10">
-                      <CalendarRange className="h-4 w-4" />
+                    <Button variant="outline" className="">
+                      <Image src="/date.svg" alt="Date" width={14} height={14} />
+                      Date
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="end">
@@ -307,92 +302,117 @@ export default function AppliedJobsPage() {
         )}
 
         {/* Applications List */}
-        <div className="space-y-6">
-          {data?.applications?.map((application: Application) => (
-            <Card
-              key={application.id}
-              className="hover:shadow-md transition-shadow"
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <CardTitle className="text-xl">
-                      {application.job.title}
-                    </CardTitle>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Building2 className="h-4 w-4" />
-                        {application.job.businessProfile.companyName}
+        <div className="space-y-4">
+          {data?.applications?.map((application: Application, idx: number) => (
+            <div key={application.id}>
+              <Card
+                className=" gap-0 p-0 border-none"
+              >
+                <CardHeader className='px-0'>
+                  <div className="flex items-start justify-between w-full">
+                    <div className="space-y-2">
+                      <CardTitle className="text-xl font-medium">
+                        {application.job.title}
+                      </CardTitle>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Image src="/buildingBlack.svg" alt="build" width={14} height={14}/>
+                          {application.job.businessProfile.companyName}
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                        <Image src="/locationblack.svg" alt="build" width={14} height={14}/>
+                          {application.job.location.city},{' '}
+                          {application.job.location.state}
+                        </div>
+                        <div className="flex items-center gap-1">
+                        <Image src="/date.svg" alt="build" width={14} height={14}/>
+                          Applied {formatDate(application.createdAt)}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {application.job.location.city},{' '}
-                        {application.job.location.state}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <CalendarDays className="h-4 w-4" />
-                        Applied {formatDate(application.createdAt)}
                       </div>
                     </div>
+                    <div className="flex items-center pt-5">
+                      
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <Button variant="outline" className='rounded-full bg-[#F6F8FA] px-4 cursor-pointer'>
+                            View Details
+                            <ChevronRight className='w-4 h-4'/>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent className="w-[600px] sm:w-[700px] sm:max-w-none">
+                          <SheetHeader>
+                            <SheetTitle className='text-nixerly-blue'>Application Details</SheetTitle>
+                            <SheetDescription>
+                              Complete details for your job application and the
+                              position.
+                            </SheetDescription>
+                          </SheetHeader>
+                          <ApplicationDetails application={application} />
+                        </SheetContent>
+                      </Sheet>
+                    </div>
                   </div>
-                  {/* <Badge className={getStatusColor(application.status)}>
-                    {application.status}
-                  </Badge> */}
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {application.job.description}
-                </p>
+                </CardHeader>
+                <CardContent className="space-y-4 px-0">
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {application.job.description}
+                  </p>
 
-                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span>
-                      ${application.job.hourlyRateMin} - $
-                      {application.job.hourlyRateMax}/hr
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span>{formatDuration(application.duration)}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                    <span>
-                      Available:{' '}
-                      {formatDate(application.workerStartDateAvailability)}
-                    </span>
-                  </div>
-                </div> */}
-
-                <div className="flex justify-between items-center pt-2">
-                  {/* <div className="text-xs text-muted-foreground">
-                    Last updated: {formatDate(application.updatedAt)}
+                  {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex items-center gap-2 text-sm">
+                      <DollarSign className="h-4 w-4 text-muted-foreground" />
+                      <span>
+                        ${application.job.hourlyRateMin} - $
+                        {application.job.hourlyRateMax}/hr
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span>{formatDuration(application.duration)}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                      <span>
+                        Available:{' '}
+                        {formatDate(application.workerStartDateAvailability)}
+                      </span>
+                    </div>
                   </div> */}
-                  <div></div>
-                  <div className="flex gap-2">
-                    <Sheet>
-                      <SheetTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          View Details
-                        </Button>
-                      </SheetTrigger>
-                      <SheetContent className="w-[600px] sm:w-[700px] sm:max-w-none">
-                        <SheetHeader>
-                          <SheetTitle>Application Details</SheetTitle>
-                          <SheetDescription>
-                            Complete details for your job application and the
-                            position.
-                          </SheetDescription>
-                        </SheetHeader>
-                        <ApplicationDetails application={application} />
-                      </SheetContent>
-                    </Sheet>
+
+                  <div className="flex justify-between items-center pt-2">
+                    {/* <div className="text-xs text-muted-foreground">
+                      Last updated: {formatDate(application.updatedAt)}
+                    </div> */}
+                    <div></div>
+                    <div className="flex gap-2">
+                      {/* <Sheet>
+                        <SheetTrigger asChild>
+                          <Button variant="outline" className='rounded-full bg-[#F6F8FA] px-4'>
+                            View Details
+                            <ChevronRight className='w-4 h-4'/>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent className="w-[600px] sm:w-[700px] sm:max-w-none">
+                          <SheetHeader>
+                            <SheetTitle>Application Details</SheetTitle>
+                            <SheetDescription>
+                              Complete details for your job application and the
+                              position.
+                            </SheetDescription>
+                          </SheetHeader>
+                          <ApplicationDetails application={application} />
+                        </SheetContent>
+                      </Sheet> */}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+              {idx < data.applications.length - 1 && (
+                <Separator className="" />
+              )}
+            </div>
           ))}
         </div>
 

@@ -7,13 +7,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BriefcaseIcon,
-  BuildingIcon,
-  SearchIcon,
-  UserCircle2Icon,
   Hammer,
 } from "lucide-react";
 import { UpgradePro } from "./upgrade-pro";
+import Image from "next/image";
 
 export function DashboardSidebar() {
   const { user, isLoading } = useUser();
@@ -39,22 +36,22 @@ export function DashboardSidebar() {
     {
       href: ROUTES.MY_BUSINESS_PROFILE,
       label: "Business profile",
-      icon: UserCircle2Icon,
+      image: "/myProfile.svg",
     },
     {
       href: ROUTES.BUSINESS_FEED,
       label: "Find Talent",
-      icon: SearchIcon,
+      image: "/findJobs.svg",
     },
     {
       href: ROUTES.MY_JOBS,
       label: "My Jobs",
-      icon: BriefcaseIcon,
+      image: "/myJob.svg",
     },
     {
       href: ROUTES.POST_A_JOB,
       label: "Post a Job",
-      icon: BuildingIcon,
+      image: "/findTalent.svg",
     },
   ];
 
@@ -62,17 +59,17 @@ export function DashboardSidebar() {
     {
       href: ROUTES.MY_WORKER_PROFILE,
       label: "My Profile",
-      icon: UserCircle2Icon,
+      image: "/myProfile.svg",
     },
     {
       href: ROUTES.WORKER_FEED,
       label: "Find Jobs",
-      icon: SearchIcon,
+      image: "/findJobs.svg",
     },
     {
       href: ROUTES.APPLIED_JOBS,
       label: "Applied Jobs",
-      icon: BriefcaseIcon,
+      image: "/findTalent.svg",
     },
   ];
 
@@ -89,20 +86,35 @@ export function DashboardSidebar() {
       <div className="p-6">
         <nav className="space-y-1">
           {links.map((link) => {
-            const Icon = link.icon;
+            const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
-                  pathname === link.href
-                    ? "bg-blue-50 text-blue-600 text-base font-medium"
-                    : "text-gray-700 hover:bg-gray-100"
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                  isActive
+                    ? "bg-[#1E64D31A] text-nixerly-blue"
+                    : "hover:bg-[#1E64D31A] text-muted-foreground"
                 )}
               >
-                <Icon className="h-5 w-5" />
-                {link.label}
+                <span
+                  className={cn(
+                    "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
+                    isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-[#1E64D31A]"
+                  )}
+                >
+                  <Image
+                    src={link.image}
+                    alt={link.label}
+                    width={20}  
+                    height={20}
+                    className={isActive ? "filter invert brightness-0" : ""}
+                  />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm">{link.label}</p>
+                </div>
               </Link>
             );
           })}

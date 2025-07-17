@@ -80,13 +80,13 @@ export default function Dashboard() {
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  
+
   const handleViewModeChange = (mode: "card" | "list") => {
     setViewMode(mode);
     localStorage.setItem("businessFeedViewMode", mode);
   };
 
-  console.log({freelancers})
+  console.log({ freelancers })
 
   return (
     <div>
@@ -99,35 +99,35 @@ export default function Dashboard() {
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
 
 
-               <div>
-        <h1 className="text-black text-xl font-semibold leading-8 font-inter">
-          Find Talent
-        </h1>
-        <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight">Browse profiles of skilled professionals ready to work on your
+              <div>
+                <h1 className="text-black text-xl font-semibold leading-8 font-inter">
+                  Find Talent
+                </h1>
+                <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight">Browse profiles of skilled professionals ready to work on your
                   projects
-        </p>
-      </div>
+                </p>
+              </div>
               <div className="hidden items-center justify-between lg:flex gap-2">
                 <div className="relative hidden md:block">
 
-<div className="relative w-[300px]">
-  <Button
-    type="button"
-    className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none "
-    onClick={() => updateSearchParam(searchValue)}
-  >
-    <SearchIcon className="h-10 w-10 text-[#99A0AE] " />
-  </Button>
+                  <div className="relative w-[300px]">
+                    <Button
+                      type="button"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none "
+                      onClick={() => updateSearchParam(searchValue)}
+                    >
+                      <SearchIcon className="h-10 w-10 text-[#99A0AE] " />
+                    </Button>
 
-  <Input
-    type="search"
-    placeholder="Search for talent..."
-    className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
-    value={searchValue}
-    onChange={handleInputChange}
-    onKeyDown={handleInputKeyDown}
-  />
-</div>
+                    <Input
+                      type="search"
+                      placeholder="Search for talent..."
+                      className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
+                      value={searchValue}
+                      onChange={handleInputChange}
+                      onKeyDown={handleInputKeyDown}
+                    />
+                  </div>
 
 
 
@@ -163,21 +163,19 @@ export default function Dashboard() {
                     <Button
                       variant={viewMode === "card" ? "default" : "ghost"}
                       size="sm"
-                      className={`rounded-none hover:bg-transparent ${
-                        viewMode === "card" ? "bg-nixerly-blue" : ""
-                      }`}
+                      className={`rounded-none hover:bg-transparent ${viewMode === "card" ? "bg-nixerly-blue" : ""
+                        }`}
                       onClick={() => handleViewModeChange("card")}
                     >
                       <GridIcon />
-                      Grid  
+                      Grid
                     </Button>
                     <Separator orientation="vertical" className="h-8" />
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="sm"
-                      className={`rounded-none hover:bg-transparent ${
-                        viewMode === "list" ? "bg-nixerly-blue" : ""
-                      }`}
+                      className={`rounded-none hover:bg-transparent ${viewMode === "list" ? "bg-nixerly-blue" : ""
+                        }`}
                       onClick={() => handleViewModeChange("list")}
                     >
                       <ListIcon />
@@ -191,7 +189,7 @@ export default function Dashboard() {
             <Separator className="mb-8 " />
 
             <div className="flex flex-col gap-6 lg:flex-row">
-              <div className="w-full lg:w-1/4">
+            <div className="w-full lg:w-1/4">
                 <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
               </div>
               <div className="w-full lg:w-3/4">

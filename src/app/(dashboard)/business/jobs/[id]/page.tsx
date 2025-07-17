@@ -125,6 +125,9 @@ export default function JobApplicantsPage() {
   //     );
   //   }
 
+
+  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
@@ -479,10 +482,16 @@ export default function JobApplicantsPage() {
                               <ChevronRight className="text-nixerly-businesslabel " />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle>
-                                Proposal from{" "}
+
+
+{/* view proposal dialog */}
+
+
+
+                          <DialogContent className="  max-w-2xl  sm:max-w-3xl  max-h-[90vh] overflow-y-auto ">
+                            <DialogHeader className="border-b ">
+                              <DialogTitle >
+                                {/* Proposal from{" "} */}
                                 {applicant.workerProfile.user.firstName +
                                   " " +
                                   applicant.workerProfile.user.lastName}
@@ -494,7 +503,7 @@ export default function JobApplicantsPage() {
                                 ).toLocaleDateString()}
                               </DialogDescription>
                             </DialogHeader>
-                            <div className="mt-4 space-y-6">
+                            <div className="mt-4 space-y-6 p-4">
                               <div className="flex items-center gap-4">
                                 <Avatar className="h-12 w-12">
                                   <AvatarImage
@@ -527,6 +536,8 @@ export default function JobApplicantsPage() {
                                     )}{" "}
                                     Experience
                                   </p>
+
+                                
                                 </div>
                               </div>
 
@@ -580,7 +591,16 @@ export default function JobApplicantsPage() {
                                 </>
                               )}
 
+
+
+{/* contact modal */}
+
+
+
+
+
                               <Separator />
+                              
 
                               <div className="flex justify-between">
                                 <Button

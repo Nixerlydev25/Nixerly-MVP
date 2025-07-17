@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { TruncatedText } from "@/components/ui/truncated-text"
 import {
   Card,
   CardContent,
   CardHeader,
 } from '@/components/ui/card';
-import { BookmarkIcon, StarIcon, UserIcon, ChevronDownIcon, ChevronUpIcon, ScrollText, FolderIcon, ExternalLinkIcon } from 'lucide-react';
+import { BookmarkIcon, StarIcon,AwardIcon ,UserIcon, ChevronDownIcon, ChevronUpIcon, ScrollText, FolderIcon, ExternalLinkIcon } from 'lucide-react';
 import { CardProps } from '@/types/feed/feed.types';
 import { formateSkills } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
@@ -77,128 +78,132 @@ function CardFeeds({
         
         
         {hasDetailsToShow && (
-          <Button 
-            variant="outline" 
-            className="w-full mt-4 justify-center  flex items-center gap-1 border rounded-full font-sans text-sm not-italic font-medium leading-4 text-nixerly-businesslabel tracking-tight border-nixerly-bussinessborder"
+          <button
+            className="w-full mt-4 justify-center  flex items-center gap-1  "
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (
-              <>Hide Details <ChevronUpIcon className="h-4 w-4" /></>
+                  <span className="inline-flex items-center gap-1 decoration-underline decoration-black underline decoration-[1.5px] underline-offset-4">
+              <span className="underline ">Hide Details</span>
+              <ChevronUpIcon className="h-4 w-4" />
+            </span>
             ) : (
               <>Show Details <ChevronDownIcon className="h-4 w-4" /></>
             )}
-          </Button>
+          </button>
         )}
 
          {isExpanded && (
-                <div className="px-4 pb-4 border rounded-2xl text-nixerly-bussinessborder my-4 ">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
-                    {certificates.length > 0 && (
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2 pb-2   border-gray-200">
-                          <div className="p-1.5 bg-blue-100 rounded-md">
+        <div className="px-4 pb-4 text-nixerly-bussinessborder mt-6">
+          <div className="grid grid-cols-1 gap-6 pt-4">
+            {certificates.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 pb-2 px-4">
+                  <AwardIcon className="h-5 w-5 text-[#0E121B]" /> {/* Replaced Image with Lucide Icon */}
+                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">Certificates</h4>
+                  <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
+                    {certificates.length}
+                  </span>
+                </div>
+                <ScrollArea className="h-[180px] p-2">
+                  <div className="space-y-2">
+                    {certificates.map((cert) => (
+                      <div
+                        key={cert.id}
+                        className="group flex items-start gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                      >
+                        {cert.assets.length > 0 ? (
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={cert.assets[0].url || "/placeholder.svg?height=100&width=100"}
+                              width={100}
+                              height={100}
+                              alt={cert.name}
+                              className="rounded-md object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
                             <ScrollText className="h-4 w-4 text-blue-600" />
                           </div>
-                          <h4 className="font-sans font-medium text-sm leading-4 text-[#0E121B]">Certificates</h4>
-                          <span className="text-xs text-[#0E121B]  px-2 py-0.5 rounded-full">
-                            {certificates.length}
-                          </span>
-                        </div>
-                        <ScrollArea className="h-[180px] pr-2">
-                          <div className="space-y-2">
-                            {certificates.map((cert) => (
-                              <div
-                                key={cert.id}
-                                className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
-                              >
-                                {cert.assets.length > 0 ? (
-                                  <div className="relative flex-shrink-0">
-                                    <Image
-                                      src={cert.assets[0].url || "/placeholder.svg"}
-                                      width={100}
-                                      height={100}
-                                      alt={cert.name}
-                                      className="rounded-md object-cover"
-                                    />
-                                  </div>
-                                ) : (
-                                  <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
-                                    <ScrollText className="h-4 w-4 text-blue-600" />
-                                  </div>
-                                )}
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <p className="font-medium text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
-                                      {cert.name}
-                                    </p>
-                                    <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                  </div>
-                                  <p className="text-xs text-gray-500 mt-0.5">
-                                    {cert.issuingOrg}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                              {cert.name}
+                            </p>
+                            <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                           </div>
-                        </ScrollArea>
+                          <p className="text-xs text-gray-500 mt-0.5">{cert.issuingOrg}</p>
+                          <p className="text-xs text-nixerly-businesslabel my-1">
+                            Issued: {cert.issueDate ? new Date(cert.issueDate).toLocaleDateString("en-GB") : "N/A"} •
+                            Expires: {cert.expiryDate ? new Date(cert.expiryDate).toLocaleDateString("en-GB") : "N/A"}
+                          </p>
+                        </div>
                       </div>
-                    )}
-        
-                    {portfolio.length > 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 pb-2 border-gray-200">
-              <div className="p-1.5 bg-purple-100 rounded-md">
-                <FolderIcon className="h-4 w-4 text-purple-600" />
-              </div>
-              <h4 className="font-sans font-medium text-sm leading-4 text-[#0E121B]">Portfolio</h4>
-              <span className="text-xs text-[#0E121B] px-2 py-0.5 rounded-full">
-                {portfolio.length}
-              </span>
-            </div>
-        
-            <ScrollArea className="h-[180px] pr-2">
-              <div className="space-y-2">
-                {portfolio.map((item) => (
-                  <div
-                    key={item.id}
-                    className="group flex items-start gap-3 p-2 hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
-                  >
-                    {item.assets.length > 0 ? (
-                      <div className="relative flex-shrink-0">
-                        <Image
-                          src={item.assets[0].url || "/placeholder.svg"}
-                          width={100}
-                          height={100}
-                          alt={item.title}
-                          className="rounded-md object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
-                        <FolderIcon className="h-4 w-4 text-purple-600" />
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium text-lg text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
-                          {item.title}
-                        </p>
-                        <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                      </div>
-                      <p className="text-sm  text-nixerly-businesslabel mt-1">
-                        {item.description}
-                      </p>
-                    </div>
+                    ))}
                   </div>
-                ))}
+                </ScrollArea>
               </div>
-            </ScrollArea>
-          </div>
-        )}
-        
-                  </div>
+            )}
+
+            {portfolio.length > 0 && (
+              <div className="space-y-3 mt-4">
+                <div className="flex items-center gap-2 pb-2 px-4">
+                  <FolderIcon className="h-5 w-5 text-[#0E121B]" /> {/* Replaced Image with Lucide Icon */}
+                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">Portfolio</h4>
+                  <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
+                    {portfolio.length}
+                  </span>
                 </div>
-              )}
+                <ScrollArea className="h-[180px] pr-2">
+                  <div className="space-y-2">
+                    {portfolio.map((item) => (
+                      <div
+                        key={item.id}
+                        className="group flex items-start gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                      >
+                        {item.assets.length > 0 ? (
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={item.assets[0].url || "/placeholder.svg?height=100&width=100"}
+                              width={100}
+                              height={100}
+                              alt={item.title}
+                              className="rounded-md object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
+                            <FolderIcon className="h-4 w-4 text-purple-600" />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                              {item.title}
+                            </p>
+                            <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                          </div>
+                          <p className="text-xs text-nixerly-businesslabel my-1">
+                            Issued: {item.startDate ? new Date(item.startDate).toLocaleDateString("en-GB") : "N/A"} •
+                            Expires: {item.endDate ? new Date(item.endDate).toLocaleDateString("en-GB") : "N/A"}
+                          </p>
+                          <TruncatedText
+                            text={item.description}
+                            maxLength={120} // Adjust this value as needed
+                            className="text-sm text-nixerly-businesslabel mt-1"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       </CardContent>
     </Card>
   );

@@ -99,17 +99,19 @@ export function ImageCarouselModal() {
 
   return (
     <Dialog open={activeModal === ModalType.IMAGE_CAROUSEL} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-6xl shadow-none p-0 bg-transparent border-0">
+      <DialogContent className="sm:max-w-6xl shadow-none p-0 bg-transparent border-0 ">
         <div className="relative h-[85vh] flex items-center justify-center overflow-hidden">
           {/* Close button */}
-          <Button
+
+
+          {/* <Button
             variant="ghost"
             size="icon"
             className="absolute top-4 right-4 text-white hover:bg-white/20 z-50"
             onClick={closeModal}
           >
             <X className="h-6 w-6" />
-          </Button>
+          </Button> */}
 
           {/* Navigation arrows */}
           {images.length > 1 && (

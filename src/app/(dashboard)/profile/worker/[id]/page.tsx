@@ -297,7 +297,7 @@ export default function FreelancerProfile() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No Education</p>
+                  <p className="text-nixerly-businesslabel  p-4">No Education</p>
                 )}
               </div>
             </div>
@@ -321,7 +321,7 @@ export default function FreelancerProfile() {
               </div>
 
 
-              <div className="grid grid-cols-1 sm:grid-cols-2  gap-10 p-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
                 {worker.certificates?.length ? (
                   worker.certificates.map((certificate) => (
                     <div
@@ -330,7 +330,7 @@ export default function FreelancerProfile() {
                     >
                       {/* certificate Image Section */}
 
-                      <div className="w-full h-40 bg-gray-100">
+                      <div className="w-full h-40 bg-gray-100 ">
                         {certificate.assets?.length > 0 ? (
                           <div
                             className="relative h-full cursor-pointer group"
@@ -400,7 +400,7 @@ export default function FreelancerProfile() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No Certifications</p>
+                  <p className="text-nixerly-businesslabel ">No Certifications</p>
                 )}
               </div>
             </div>
@@ -423,7 +423,7 @@ export default function FreelancerProfile() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-10 p-10">
                 {worker.portfolio?.length ? (
                   worker.portfolio.map((item) => (
                     <div
@@ -507,7 +507,7 @@ export default function FreelancerProfile() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 col-span-full">
+                  <p className="text-nixerly-businesslabel  ">
                     No Portfolio Items
                   </p>
                 )}
@@ -547,13 +547,13 @@ export default function FreelancerProfile() {
 {/* company and city  */}
 <div className=" block md:flex gap-4 my-2" >
 
-  <div className=" flex gap-2">
+  <div className=" flex gap-2 ">
      <Image src="/buildingBlack.svg" alt="building logo" width={16} height={16}></Image>
 <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]"> {exp.company} </p>
   </div>
   
 
- <div className="flex gap-2">
+ <div className="flex gap-2 mt:1 md:mt-0">
        <Image src="/locationblack.svg" alt="building logo" width={16} height={16}></Image>
 <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]">{exp.city}, {exp.state}, {exp.country} </p>
   </div>
@@ -579,7 +579,7 @@ export default function FreelancerProfile() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No Experience</p>
+                  <p className="text-nixerly-businesslabel  p-4">No Experience</p>
                 )}
               </div>
             </div>

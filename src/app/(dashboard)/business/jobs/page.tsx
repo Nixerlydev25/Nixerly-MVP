@@ -238,7 +238,7 @@ export default function BusinessDashboard() {
               <TabsTrigger  className={jobTypes} value="CLOSED">Closed</TabsTrigger>
             </TabsList>
             <div className="relative w-full md:w-[300px]">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search jobs..."
@@ -255,7 +255,7 @@ export default function BusinessDashboard() {
                 {filteredJobs.map((job: Job) => (
                   <Card
                     key={job.id}
-                    className="cursor-pointer  transition-shadow border-0 border-b border-nixerly-bussinessborder rounded-none  hover:bg-gray-50 my-2 "
+                    className="cursor-pointer  transition-shadow border-0 border-b border-nixerly-bussinessborder rounded-none  hover:bg-gray-50  "
                   >
                     <CardHeader>
                       <div className="flex flex-col md:flex-row justify-between">

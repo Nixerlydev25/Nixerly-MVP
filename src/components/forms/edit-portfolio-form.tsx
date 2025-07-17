@@ -37,11 +37,13 @@ type PortfolioFormValues = z.infer<typeof portfolioSchema>;
 
 interface EditPortfolioFormProps {
   onSuccess: () => void;
+  close: () => void;
   portfolio?: Portfolio[];
 }
 
 export function EditPortfolioForm({
   onSuccess,
+  close,
   portfolio = [],
 }: EditPortfolioFormProps) {
   const { createPortfolios, deletePortfolios, isLoading } = usePortfolios();
@@ -109,10 +111,10 @@ export function EditPortfolioForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Existing Portfolios Section */}
         {displayedPortfolios.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-4 px-4">
             <h3 className="text-lg font-medium">Existing Portfolio Projects</h3>
             <div className="space-y-4">
               {displayedPortfolios.map((item) => (
@@ -192,12 +194,12 @@ export function EditPortfolioForm({
 
         {/* New Portfolio Projects Section */}
         {fields.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-4 px-4">
             <h3 className="text-lg font-medium">Add New Projects</h3>
             {fields.map((field, index) => (
               <div
                 key={field.id}
-                className="border rounded-lg p-4 space-y-4 relative"
+                className="space-y-4 relative"
               >
                 {fields.length > 1 && (
                   <Button
@@ -330,7 +332,7 @@ export function EditPortfolioForm({
                 />
 
                 <div>
-                  <FormLabel>Project Images (Optional)</FormLabel>
+                  <FormLabel className="pb-2">Project Images (Optional)</FormLabel>
                   <PortfolioImageUpload
                     onFilesSelected={(files) => handleFileSelect(files, index)}
                     existingImages={[]}
@@ -351,8 +353,11 @@ export function EditPortfolioForm({
           Add Project
         </Button>
 
-        <div className="sticky bottom-0 flex justify-end gap-4 pt-4 mt-6 border-t bg-white">
-          <Button type="submit" disabled={isLoading}>
+        <div className="flex justify-end gap-4 px-4 pb-4">
+          <Button type="button" variant="outline" onClick={close} className="rounded-full">
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isLoading} className="bg-nixerly-blue rounded-full">
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -226,7 +226,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 defaultValue={['skills', 'hourlyRate']}
                 // collapsible
               >
-                <AccordionItem  value="skills ">
+                <AccordionItem  value="skills">
                   <AccordionTrigger className="text-sm font-medium py-2">
                     Skills
                         {/* <Info /> */}

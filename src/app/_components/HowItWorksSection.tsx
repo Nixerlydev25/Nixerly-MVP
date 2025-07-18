@@ -10,8 +10,8 @@ export default function HowItWorksSection() {
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
           <div className="flex justify-center mb-4">
           </div>
-          <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-            Simple Process Powerful Results
+          <h2 className="text-3xl font-medium tracking-tighter text-white sm:text-4xl md:text-5xl">
+            Simple <span className="font-bold">Process</span> Powerful Results
           </h2>
           <p className="mx-auto max-w-[700px] text-blue-100 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Our platform is designed to be intuitive and efficient for both professionals and businesses.
@@ -76,7 +76,7 @@ export default function HowItWorksSection() {
               </Link>
             </Button>
             <Button
-              className="text-white border border-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
+              className="text-white border border-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px] bg-nixerly-blue"
               asChild
             >
               <Link href="/signup" className="flex items-center gap-2">

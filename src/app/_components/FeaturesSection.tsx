@@ -24,7 +24,7 @@ export default function FeaturesSection() {
         </div>
 
         <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+          <Card className="rounded-xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:shadow-xl">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
                 <Image src="/profiles.svg" alt="profile" width={54} height={54}/>

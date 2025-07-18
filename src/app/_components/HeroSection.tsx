@@ -34,13 +34,13 @@ export default function HeroSection() {
             {/* Main Heading */}
             <div className="space-y-4">
               <h1 className="text-4xl font-normal tracking-tight text-gray-900 sm:text-5xl md:text-3xl lg:text-5xl leading-14">
-                Hire Trusted Blue <br />
-                <span className="text-nixerly-blue">Collar Professional</span>, <br />
-                On Demand
+                Show Your Skill and  
+                <br />
+                <span className="text-nixerly-blue font-semibold text-5xl">Get Hired!</span>
+                
               </h1>
               <p className="max-w-[600px] text-lg text-gray-600 leading-relaxed">
-                Connect with verified blue-collar professionals for short-term gigs or long-term projects — fast, easy,
-                and reliable.
+             Every day you create something powerful: clean welds, tight finishes, smart solutions. Now it's time to show the world what you're capable of and get the recognition you deserve.
               </p>
             </div>
 

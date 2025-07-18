@@ -8,32 +8,10 @@ import { Button } from "@/components/ui/button"
 // import { CheckCircle2, Users, Building2, Award, Briefcase, ChevronDown, Phone, Mail, MapPin } from "lucide-react"
 import Faq from "@/app/_components/Faq"
 import Contact from "@/app/_components/Contact"
-import Stats from "@/app/_components/Stats"
+import Stats from "@/app/_components/Stats" 
 
 
 
-const faqs = [
-  {
-    question: "1. What types of construction services do you offer?",
-    answer: "We offer residential, commercial, and industrial construction, including renovation and remodeling services.",
-  },
-  {
-    question: "2. How long does a typical construction project take?",
-    answer: "The duration depends on the project scope, but we provide a timeline after reviewing your requirements.",
-  },
-  {
-    question: "3. Are your construction projects insured and licensed?",
-    answer: "Yes, all our projects are fully insured and carried out by licensed professionals.",
-  },
-  {
-    question: "4. Do you provide a warranty on your work?",
-    answer: "Yes, we provide a warranty depending on the type of service. Details are included in the contract.",
-  },
-  {
-    question: "5. Can you help with design and planning?",
-    answer: "Absolutely! We offer complete design and planning services tailored to your needs.",
-  },
-]
 
 const benefitCards = [
   {
@@ -42,10 +20,15 @@ const benefitCards = [
     buttonLabel: "Join as Professional",
     href: "/register",
     points: [
-      "Showcase your skills and experience to potential employers",
-      "Find consistent work with quality businesses",
-      "Build a professional portfolio with verified credentials",
-      "Manage your availability and job preferences",
+  "  Show Your Work Highlight your skills with project photos.",
+
+"Get Quality Clients Connect with those who value craftsmanship.",
+
+"Earn Trust Build reputation through reviews and results.",
+
+"Work on Your Terms Choose projects, set rates, stay in control.",
+
+"Grow Confidently Attract consistent, high-value jobs.",
     ],
   },
   {
@@ -96,17 +79,21 @@ export default function LandingPage() {
                   className=""
                 />
               <h1 className=" md:text-5xl font-plus-jakarta font-medium leading-10 text-primary">About Us</h1>
-              <p className="text-[#303236] font-inter text-xl font-normal leading-5 max-w-[600px]">
-                Building the future of construction recruitment in Ireland.
+              <p className="text-[#303236] font-inter text-xl font-normal leading-5  max-w-[600px] ">
+            Empowering Skilled Tradespeople to Showcase Their Expertise.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 ">
-                <Button size="lg" className="text-white font-inter text-sm font-medium leading-normal bg-primary rounded-full" asChild>
+                <Button size="lg" 
+                className="text-white font-inter bg-nixerly-blue text-sm font-medium leading-normal rounded-full" asChild>
+
                   <Link href="/register">Get Started</Link>
+                  
                 </Button>
+
                 <Button
                   size="lg"
         
-                  className="text-black border-white hover:bg-primary hover:text-white bg-transparent font-inter text-sm font-medium leading-normal rounded-full"
+                  className="text-black border-white hover:bg-[#1e64d3]  hover:text-white bg-transparent font-inter text-sm font-medium leading-normal rounded-full"
                   asChild
                 >
                   <Link href="/contact">Learn More</Link>
@@ -149,16 +136,9 @@ export default function LandingPage() {
             <div className="space-y-6">
               <h2 className="text-3xl font-bold tracking-tighter text-gray-900">Our Story</h2>
               <p className="text-gray-600 font-poppins text-lg font-medium leading-[30px]">
-               <span className="text-primary">Nixerly</span>  was founded to address the critical labor shortage in the Irish construction industry. With 73%
-                of construction companies citing access to skilled labor as their #1 challenge, we recognized the need
-                for a specialized platform that connects construction professionals with businesses efficiently and
-                effectively.
+               <span className="text-nixerly-blue font-semibold">Nixerly</span>  was founded because skilled tradespeople deserve recognition for their expertise. With years of experience solving complex problems and creating lasting results, construction professionals needed a platform that showcases their craftsmanship and connects them with clients who value quality work. We believe that behind every perfect finish is a story of skill, dedication, and professional pride that deserves to be seen.
               </p>
-              <p className="text-gray-600 font-poppins text-lg font-medium leading-[30px]">
-                Our mission is to bridge the gap between talented construction professionals and the businesses that
-                need them, helping to address Ireland's housing and infrastructure challenges through better workforce
-                connections. 
-              </p>
+            
               <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter mt-6" asChild>
                 <Link href="/register" className="flex items-center gap-2 ">
                   Learn More 
@@ -203,16 +183,18 @@ export default function LandingPage() {
         Construction
       </div>
       <h3 className="font-montserrat text-[28px] font-semibold leading-[28px] capitalize text-primary mb-6">{card.title}</h3>
+
       <ul className="space-y-3">
-        {card.points.map((point, i) => (
-          <li key={i} className="flex items-start">
+    {card.points.map((point, i) => (
+          <li key={i} className="flex items-center">
             <Image
               src="/arrow.svg"
               alt="arrow"
               width={25}
               height={25}
-              className="mr-3 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
+              className="mr-2   text-nixerly-blue shrink-0  "
             />
+            
             <span className="text-gray-600 font-montserrat text-base font-medium leading-[16px]">{point}</span>
           </li>
         ))}

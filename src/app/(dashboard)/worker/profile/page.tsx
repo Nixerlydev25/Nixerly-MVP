@@ -210,7 +210,7 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Separator />s
+        <Separator />
         <div className="rounded-lg px-4 pt-4 pb-10">
           <div className="whitespace-pre-line text-nixerly-businesslabel">{workerProfile.description}</div>
         </div>

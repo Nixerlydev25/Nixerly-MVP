@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "../ui/separator";
 
 const reportFormSchema = z.object({
   reason: z.nativeEnum(BusinessReportReason, {
@@ -40,9 +41,10 @@ type ReportFormValues = z.infer<typeof reportFormSchema>;
 interface ReportBusinessFormProps {
   targetId: string;
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export function ReportBusinessForm({ targetId, onSuccess }: ReportBusinessFormProps) {
+export function ReportBusinessForm({ targetId, onSuccess, onCancel }: ReportBusinessFormProps) {
   const {
     mutateAsync: reportBusiness,
     isSuccess: isReportBusinessSuccess,
@@ -80,65 +82,77 @@ export function ReportBusinessForm({ targetId, onSuccess }: ReportBusinessFormPr
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="reason"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>What are you reporting?</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+        <div className="p-4 space-y-4">
+          <FormField
+            control={form.control}
+            name="reason"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>What are you reporting?</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a reason" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.entries(reasonLabels).map(([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Additional details</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a reason" />
-                  </SelectTrigger>
+                  <Textarea
+                    placeholder="Please provide specific details about your report..."
+                    className="min-h-[120px]"
+                    {...field}
+                  />
                 </FormControl>
-                <SelectContent>
-                  {Object.entries(reasonLabels).map(([value, label]) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {reportBusinessError?.message && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                {reportBusinessError?.message}
+              </AlertDescription>
+            </Alert>
           )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <FormLabel>Additional details</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Please provide specific details about your report..."
-                  className="min-h-[120px]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {reportBusinessError?.message && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-              {reportBusinessError?.message}
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <div className="flex justify-end gap-2">
+        </div>
+        <Separator />
+        <div className="flex justify-end gap-2 px-4 pb-4">
           <Button
+            type="button"
+             className="rounded-full"
+            variant="outline"
+            onClick={onCancel}
+            disabled={isReportBusinessSuccess}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="bg-nixerly-blue rounded-full"
             type="submit"
             disabled={isReportBusinessSuccess}
           >
@@ -146,6 +160,7 @@ export function ReportBusinessForm({ targetId, onSuccess }: ReportBusinessFormPr
           </Button>
         </div>
       </form>
+
     </Form>
   );
 } 

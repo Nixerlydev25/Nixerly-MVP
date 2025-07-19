@@ -14,6 +14,8 @@ import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useHasWorkerReportedBusiness } from "@/hook/report/report.hooks";
 import { ReportBusinessForm } from "../forms/report-business-form";
+import Image from "next/image";
+import { Separator } from "../ui/separator";
 
 export function ReportBusinessModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
@@ -28,14 +30,25 @@ export function ReportBusinessModal() {
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Report Business</DialogTitle>
-          <DialogDescription>
-            Report inappropriate behavior or content from {targetName}. Your
-            report will be reviewed by our team.
-          </DialogDescription>
+        <DialogHeader className="flex flex-row items-center gap-3">
+          <div className="flex items-center justify-center p-4 border border-gray-300 rounded-full bg-white">
+            <Image
+              src="/reports.svg"
+              alt="report"
+              width={24}
+              height={24}
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <DialogTitle>Report Business</DialogTitle>
+            <DialogDescription className="w-5/6 mt-1">
+              Report inappropriate behavior or content from {targetName}. Your
+              report will be reviewed by our team.
+            </DialogDescription>
+          </div>
         </DialogHeader>
-
+        <Separator />
         {hasAlreadyReported ? (
           <div className="py-6">
             <Alert className="bg-yellow-50 border-yellow-200">
@@ -54,7 +67,7 @@ export function ReportBusinessModal() {
             </div>
           </div>
         ) : (
-          <ReportBusinessForm targetId={targetId} onSuccess={closeModal} />
+          <ReportBusinessForm targetId={targetId} onSuccess={closeModal} onCancel={closeModal} />
         )}
       </DialogContent>
     </Dialog>

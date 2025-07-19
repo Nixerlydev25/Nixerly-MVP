@@ -321,7 +321,7 @@ export default function AppliedJobsPage() {
                         </div>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
-                        <Image src="/locationblack.svg" alt="build" width={14} height={14}/>
+                      
                           {application.job.location.city},{' '}
                           {application.job.location.state}
                         </div>

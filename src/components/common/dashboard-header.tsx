@@ -54,8 +54,8 @@ export function DashboardHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="ghost"
-              className="flex items-center gap-2 cursor-pointer"
+              variant="light"
+              className="flex items-center gap-2 cursor-pointer border-none"
             >
               <Image
                 src={

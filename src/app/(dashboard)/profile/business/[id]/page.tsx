@@ -20,6 +20,7 @@ import {
   Flag,
   Camera,
   X,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import { BusinessProfileSkeleton } from "@/app/(dashboard)/business/profile/_components/skeleton";
@@ -29,6 +30,8 @@ import { TJob } from "@/types/auth";
 import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/routes";
 
 export default function BusinessProfilePage() {
   const { id } = useParams<{ id: string }>();
@@ -52,10 +55,30 @@ export default function BusinessProfilePage() {
   const showMore = images.length > maxVisible;
   const visibleImages = showMore ? images.slice(0, maxVisible) : images;
 
+  const router = useRouter();
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="relative bg-[#1E64D3] overflow-hidden rounded-xl border custom-gradient-right h-52">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center p-4 text-white">
+    <div className="px-6 py-8">
+      <div className="pb-7">
+        <h2 className="text-shadow-nixerly-businesslabel text-2xl font-semibold leading-8 mb-2">
+        My Profile
+        </h2>
+        <p className="text-base font-normal leading-7 text-nixerly-businesslabel">Welcome back,{businessProfileData?.companyName}</p>
+      </div>
+      <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right h-52">
+        <Button
+          variant="outline"
+          className="absolute top-4 right-4 text-nixerly-businesslabel rounded-full border-none z-10"
+          onClick={() => {
+            openModal(ModalType.REPORT_BUSINESS_MODAL, {
+              targetId: id,
+              targetName: businessProfileData?.companyName,
+            });
+          }}
+        >
+          <Image src="/flag.svg" alt="flag.svg" width={14} height={14} />
+        </Button>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center px-10 py-4 text-white">
           <div className="relative h-24 w-24 overflow-hidden rounded-xl shadow-sm md:h-32 md:w-32 mt-6">
             {businessProfile?.profilePicture?.url ? (
               <Image
@@ -73,16 +96,6 @@ export default function BusinessProfilePage() {
                 className="object-cover"
               />
             )}
-          </div>
-          <div>
-              {/* Camera icon button at bottom right */}
-              <button
-              className="absolute bottom-7 left-29  rounded-full bg-white p-2 text-nixerly-businesslabel"
-              aria-label="Change profile picture"
-            >
-              {/* Import and use Camera icon as in worker profile */}
-              <Camera className="h-5 w-5" />
-            </button>
           </div>
           <div className="flex-1">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
@@ -113,19 +126,7 @@ export default function BusinessProfilePage() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  className="text-nixerly-businesslabel rounded-full border-none"
-                  onClick={() => {
-                    openModal(ModalType.REPORT_BUSINESS_MODAL, {
-                      targetId: id,
-                      targetName: businessProfileData?.companyName,
-                    });
-                  }}
-                >
-                  <Image src="/flag.svg" alt="flag.svg" width={14} height={14} />
-                  {/* <span className="sr-only">Report business</span> */}
-                </Button>
+                {/* Flag button removed from here */}
               </div>
             </div>
           </div>
@@ -159,7 +160,7 @@ export default function BusinessProfilePage() {
                 <h3 className="text-base font-semibold text-nixerly-blue leading-5">Services Offered</h3>
               </div>
               <Separator />
-              <div className="space-y-4 p-4 mx-auto w-full flex flex-col justify-center items-center text-center min-h-[50vh]">
+              <div className="space-y-4 p-4 mx-auto w-full flex flex-col justify-center items-center text-center min-h-[34vh]">
                 <Image src="/comingSoon.svg" alt="coon" width={128} height={128} />
                 <h3 className="text-2xl font-medium leading-6">Reviews Coming Soon</h3>
                 <p className="text-base font-normal leading-6 text-nixerly-businesslabel">
@@ -174,33 +175,45 @@ export default function BusinessProfilePage() {
               </div>
               <Separator />
               {(businessProfileData?.jobs?.length ?? 0) > 0 ? (
-                <div className="space-y-4 max-h-[500px] overflow-y-auto">
+                <div className="space-y-4 max-h-[500px] overflow-y-auto p-4">
                   {businessProfileData?.jobs.map((job: TJob) => (
-                    <div key={job.id} className=" p-4">
+                    <div key={job.id} className=" p-4 border rounded-2xl">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
-                          <FileText className="mt-0.5 h-5 w-5 text-muted-foreground" />
-                          <div>
+                          <Image
+                            src={businessProfile?.profilePicture?.url || "/placeholder.svg?height=40&width=40"}
+                            alt={businessProfileData?.companyName || "Client"}
+                            width={40}
+                            height={40}
+                            className="rounded-full mt-0.5 h-11 w-11 object-cover border"
+                          />
+                          <div className="">
                             <h4 className="font-medium">{job.title}</h4>
                             <p className="text-sm text-muted-foreground">
                               Posted 2 days ago
                             </p>
                             <div className="mt-2 flex flex-wrap gap-2">
-                              <Badge variant="outline">
+                              <Badge variant="outline" className="">
                                 {job.employmentType}
                               </Badge>
                               <Badge variant="outline">
                                 ${job.hourlyRateMin}-{job.hourlyRateMax}/hr
                               </Badge>
-                              <Badge variant="outline">
+                            </div>
+                            <p className="text-xs font-normal leading-7 pt-3 tracking-wider">
                                 {businessProfileData.city},{" "}
                                 {businessProfileData.state}
-                              </Badge>
-                            </div>
+                              </p>
                           </div>
                         </div>
-                        <Button variant="outline" size="sm">
-                          View Details
+                        <Button 
+                          variant="light" 
+                          size="sm" 
+                          className=""
+                          onClick={() => router.push(`${ROUTES.MY_JOBS}/${job.id}`)}
+                        >
+                          <span className="underline">View Details</span>
+                          <ChevronRight/>
                         </Button>
                       </div>
                     </div>
@@ -216,7 +229,7 @@ export default function BusinessProfilePage() {
                 <h3 className="text-base font-semibold text-nixerly-blue leading-5">Customer Reviews</h3>
               </div>
               <Separator />
-              <div className="space-y-4 p-4 mx-auto w-full flex flex-col justify-center items-center text-center min-h-[50vh]">
+              <div className="space-y-4 p-4 mx-auto w-full flex flex-col justify-center items-center text-center min-h-[34vh]">
                 <Image src="/comingSoon.svg" alt="coon" width={128} height={128} />
                 <h3 className="text-2xl font-medium leading-6">Reviews Coming Soon</h3>
                 <p className="text-base font-normal leading-6 text-nixerly-businesslabel">

@@ -2,28 +2,30 @@
 import Image from "next/image"
 import { useState } from "react"
 import { ChevronDown } from "lucide-react"
+
 const faqs = [
-    {
-      question: "1. What types of construction services do you offer?",
-      answer: "We offer residential, commercial, and industrial construction, including renovation and remodeling services.",
-    },
-    {
-      question: "2. How long does a typical construction project take?",
-      answer: "The duration depends on the project scope, but we provide a timeline after reviewing your requirements.",
-    },
-    {
-      question: "3. Are your construction projects insured and licensed?",
-      answer: "Yes, all our projects are fully insured and carried out by licensed professionals.",
-    },
-    {
-      question: "4. Do you provide a warranty on your work?",
-      answer: "Yes, we provide a warranty depending on the type of service. Details are included in the contract.",
-    },
-    {
-      question: "5. Can you help with design and planning?",
-      answer: "Absolutely! We offer complete design and planning services tailored to your needs.",
-    },
-  ]
+  {
+    question: "1. How do I create a professional profile that stands out?",
+    answer: "Start by uploading high-quality photos of your best work - before, during, and after shots that show your attention to detail. Write a brief description of your expertise and what sets your work apart. Include any certifications or specializations you have. The key is showing potential clients the quality and craftsmanship they can expect.",
+  },
+  {
+    question: "2. Is Nixerly really free for tradespeople?",
+    answer: "Yes, completely free. You can create your profile, upload unlimited project photos, connect with clients, and build your reputation at no cost. We believe skilled professionals shouldn't have to pay to showcase their expertise. Businesses pay subscription fees to access our network of quality tradespeople",
+  },
+  {
+    question: "3. How do I get noticed by quality clients?",
+    answer: "Focus on showcasing your best work with clear, well-lit photos. Write detailed descriptions of challenging projects you've completed. Respond promptly to client inquiries and maintain a professional profile. Quality clients are looking for professionals who take pride in their work and communicate clearly.",
+  },
+  {
+    question: "4.What types of projects can I find on Nixerly?",
+    answer: "Our platform connects you with businesses looking for skilled professionals across all construction trades - from small repairs and renovations to large commercial projects. The focus is on connecting you with clients who value quality workmanship over the lowest price",
+  },
+  {
+    question: "5. How does Nixerly work?",
+    answer: "Nixerly is a platform where skilled tradespeople create professional profiles showcasing their work, and clients search for professionals in their area. It's like a professional portfolio that helps quality clients find quality tradespeople. Think of it as LinkedIn for the construction trades.",
+  },
+]
+
 export default function Faq(){
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 

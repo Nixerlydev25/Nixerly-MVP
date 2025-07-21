@@ -54,7 +54,7 @@ export default function Stats(){
                   />
   
                 </div>
-                <p className="text-black font-inter text-xl font-medium leading-5">Jobs Filled</p>
+                <p className="text-black font-inter text-xl font-medium leading-5">Cities</p>
               </div>
             </div>
   

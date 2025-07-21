@@ -147,7 +147,7 @@ export default function FreelancerProfileSelfView() {
           {/* Availability */}
           <div className="bg-white rounded-lg p-4 border">
             <div className="flex items-center gap-3 px-4 py-7">
-              <div className="w-10 h-10 bg-[#1E64D3] rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-nixerly-blue rounded-full flex items-center justify-center">
                 <Clock className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -180,7 +180,7 @@ export default function FreelancerProfileSelfView() {
               </div>
               <div>
                 <p className="font-medium text-nixerly-businesslabel mb-1">Hourly Rate</p>
-                <p className="text-sm  text-nixerly-businesslabel">${workerProfile.hourlyRate}/hr</p>
+                <p className="text-sm  text-nixerly-businesslabel">€ {""}{workerProfile.hourlyRate}/hr</p>
               </div>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function FreelancerProfileSelfView() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Separator />s
+        <Separator />
         <div className="rounded-lg px-4 pt-4 pb-10">
           <div className="whitespace-pre-line text-nixerly-businesslabel">{workerProfile.description}</div>
         </div>
@@ -775,7 +775,7 @@ export default function FreelancerProfileSelfView() {
 
         {/* Profile Card */}
         <div
-          className="relative bg-[#1E64D3] overflow-hidden rounded-xl border custom-gradient-right h-52"
+          className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right h-52"
         >
           <div className="flex flex-col gap-6 sm:flex-row items-center p-4">
             <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32 ml-6" onClick={handleProfilePictureClick}>
@@ -790,7 +790,7 @@ export default function FreelancerProfileSelfView() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
-                      className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel border border-nixerly-blue"
+                      className="absolute top-30 right-5 rounded-full bg-white p-2 text-nixerly-businesslabel border border-nixerly-blue"
                       aria-label="Change profile picture"
                     >
                       <Camera className="h-5 w-5" />
@@ -806,16 +806,16 @@ export default function FreelancerProfileSelfView() {
             <div className="flex-1">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2 mt-5">
-                    <h1 className="text-2xl font-bold text-white">{fullName}</h1>
+                  <div className="flex items-center gap-2 mt-5 pb-2">
+                    <h1 className="text-3xl font-medium text-white">{fullName}</h1>
                   </div>
-                  <p className="text-lg text-white">{workerProfile.title}</p>
+                  <p className="text-sm text-white">Licensed {workerProfile.title} for Residential & Commercial Projects</p>
                   <div className="mt-2 flex items-center text-sm text-white">
                     <MapPin className="mr-1 h-4 w-4 text-white" />
                     {`${workerProfile.city}, ${workerProfile.state}, ${workerProfile.country}`}
                   </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 z-50 px-6">
                   <Button variant="outline" size="sm" className="rounded-full border-none">
                     <Share2 className="h-4 w-4" />
                     Share

@@ -731,7 +731,7 @@ export default function BusinessProfilePage() {
         </div>
 
         {/* Profile Card */}
-        <div className="relative bg-[#1E64D31A] overflow-hidden rounded-xl border custom-gradient-right">
+        <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right">
           {/* Overlay if any */}
           <div className="absolute top-4 right-4 z-20">
             <TooltipProvider>
@@ -794,7 +794,7 @@ export default function BusinessProfilePage() {
                               }
                             )
                           }
-                          className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel shadow-lg border border-nixerly-blue"
+                          className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel border-none"
                           aria-label="Change profile picture"
                         >
                           <Camera className="h-5 w-5" />

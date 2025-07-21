@@ -220,8 +220,8 @@ function ApplicationDetails({ application }: ApplicationDetailsProps) {
 
         {/* Application Timeline */}
         <div className="space-y-2">
-          <h3 className="text-lg font-medium leading-5">Application Timeline</h3>
-          <div className="space-y-2 bg-muted/50 p-4 rounded-lg">
+          <h3 className="text-lg font-medium leading-5 text-nixerly-blue">Application Timeline</h3>
+          <div className="space-y-2 bg-muted/50 p-4 grounded-lg">
             <div className="flex justify-between items-center text-sm ">
               <span>Application Submitted</span>
               <span className="text-muted-foreground">

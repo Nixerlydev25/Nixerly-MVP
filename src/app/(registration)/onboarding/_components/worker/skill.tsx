@@ -236,7 +236,7 @@ export const SkillsInfo = () => {
                       className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                    <Image src="/euro.svg" alt="euro" width={16} height={16}/>
+                    <Image src="/dollars.svg" alt="euro" width={16} height={16}/>
                     </div>
                   </div>
                 </FormControl>

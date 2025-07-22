@@ -117,29 +117,6 @@ export default function JobsPage() {
           </p>
         </div>
         <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
-          <div className="relative hidden md:block">
-            <div className="flex items-center">
-              {/* Search icon inside input */}
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
-              <Input
-                type="search"
-                placeholder="Search for talent..."
-                className="w-[284px] focus:border-blue-600 pl-8"
-                value={searchValue}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-              />
-            </div>
-            {/* {searchParams.get("search") && (
-              <X
-                className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
-                onClick={() => {
-                  setSearchValue("");
-                  updateSearchParam("");
-                }}
-              />
-            )} */}
-          </div>
           <div className="flex items-center space-x-2">
             <div className="flex border rounded-md overflow-hidden">
               <Button
@@ -167,7 +144,30 @@ export default function JobsPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-1/4">
+        <div className="w-full lg:w-1/4 space-y-4">
+        <div className="relative hidden md:block">
+            <div className="flex items-center">
+              {/* Search icon inside input */}
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
+              <Input
+                type="search"
+                placeholder="Search for talent..."
+                className="focus:border-blue-600 pl-8"
+                value={searchValue}
+                onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
+              />
+            </div>
+            {/* {searchParams.get("search") && (
+              <X
+                className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
+                onClick={() => {
+                  setSearchValue("");
+                  updateSearchParam("");
+                }}
+              />
+            )} */}
+          </div>
           <FilterSidebar />
         </div>
 

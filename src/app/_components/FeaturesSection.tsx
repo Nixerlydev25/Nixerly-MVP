@@ -1,4 +1,4 @@
-import Image  from "next/image"
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 // import { Building, HardHat, Calendar, Shield, Award, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -6,17 +6,14 @@ import Link from "next/link"
 
 export default function FeaturesSection() {
   return (
-    <section className="py-20 md:pt-28">
+    <section className="py-20 md:pt-28 bg-nixerly-blue">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="mb-2 px-3 py-1 text-xl font-bold text-nixerly-blue">
-            Platform Features
-          </div>
-          <div className="space-y-3">
-            <h2 className="text-3xl font-normal tracking-tighter text-black sm:text-4xl md:text-5xl">
-              Why <span className="text-nixerly-blue font-semibold">Choose</span> Our Platform
+          <div className="space-y-3 text-white">
+            <h2 className="text-3xl font-normal tracking-tighter sm:text-4xl md:text-5xl">
+              Why <span className="font-semibold">Choose</span> Our Platform
             </h2>
-            <p className="mx-auto max-w-[700px] text-nixerly-darkgray md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <p className="mx-auto max-w-[700px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               We&apos;ve built a comprehensive solution for the construction industry, connecting talent with
               opportunity.
             </p>
@@ -27,7 +24,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:shadow-xl">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-                <Image src="/profiles.svg" alt="profile" width={54} height={54}/>
+                <Image src="/profiles.svg" alt="profile" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Business Profiles</CardTitle>
             </CardHeader>
@@ -41,7 +38,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-                <Image src="/portfolio.svg" alt="protfolio" width={54} height={54}/>
+                <Image src="/portfolio.svg" alt="protfolio" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Professional Portfolios</CardTitle>
             </CardHeader>
@@ -55,7 +52,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-                <Image src="/marketing.svg" alt="Marketing" width={54} height={54}/>
+                <Image src="/marketing.svg" alt="Marketing" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Job Marketplace</CardTitle>
             </CardHeader>
@@ -69,7 +66,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-          <Image src="/verify.svg" alt="verify" width={54} height={54}/>
+                <Image src="/verify.svg" alt="verify" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Verified Credentials</CardTitle>
             </CardHeader>
@@ -83,7 +80,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-              <Image src="/skillmatch.svg" alt="verify" width={54} height={54}/>
+                <Image src="/skillmatch.svg" alt="verify" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Skill Matching</CardTitle>
             </CardHeader>
@@ -97,7 +94,7 @@ export default function FeaturesSection() {
           <Card className="rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader>
               <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
-              <Image src="/industry.svg" alt="verify" width={54} height={54}/>
+                <Image src="/industry.svg" alt="verify" width={54} height={54} />
               </div>
               <CardTitle className="text-xl font-semibold text-nixerly-darkgray">Industry Insights</CardTitle>
             </CardHeader>
@@ -109,9 +106,9 @@ export default function FeaturesSection() {
           </Card>
         </div>
         <div className="w-full mx-auto flex justify-center py-12">
-        <Button asChild className="text-white rounded-full p-4 mx-auto justify-center items-center bg-nixerly-blue">
-          <Link href="/about">Learn More</Link>
-        </Button>
+          <Button asChild className="text-nixerly-blue rounded-full p-4 mx-auto justify-center items-center bg-white">
+            <Link href="/about" className="hover:text-white">Learn More</Link>
+          </Button>
         </div>
       </div>
     </section>

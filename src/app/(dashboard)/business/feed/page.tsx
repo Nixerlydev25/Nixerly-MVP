@@ -218,6 +218,8 @@ export default function Dashboard() {
                             skills={freelancer.skills}
                             certificates={freelancer.certificates}
                             portfolio={freelancer.portfolio}
+                            description={freelancer.description}
+                            experience={freelancer.experience}
                           />
                         </div>
                       )
@@ -240,6 +242,8 @@ export default function Dashboard() {
                             hourlyRate={freelancer.hourlyRate}
                             certificates={freelancer.certificates}
                             portfolio={freelancer.portfolio}
+                            description={freelancer.description}
+                             experience={freelancer.experience}
                           />
                         </div>
                       )

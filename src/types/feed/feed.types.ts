@@ -1,4 +1,4 @@
-import { Certificate, Portfolio } from "../worker.types";
+import { Certificate, Portfolio ,Experience} from "../worker.types";
 
 export interface CardProps {
   id: string;
@@ -12,6 +12,8 @@ export interface CardProps {
   hourlyRate: number;
   certificates: Certificate[];
   portfolio: Portfolio[];
+  description:string
+  experience:Experience[]
 }
 
 export interface FeedsFilter {

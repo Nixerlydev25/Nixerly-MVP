@@ -11,7 +11,7 @@ const aboutFormSchema = z.object({
   description: z
     .string()
     .min(20, { message: "Description must be at least 20 characters" })
-    .max(500, { message: "Description cannot exceed 500 characters" }),
+    .max(2000, { message: "Description cannot exceed 2000 characters" }),
 });
 
 export interface EditBusinessAboutFormProps {
@@ -29,7 +29,7 @@ export function EditBusinessAboutForm({ onSubmit, defaultValues, onCancel }: Edi
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid gap-4 py-4 px-6">
+        <div className="grid gap-4 py-4 px-6 relative">
           <FormField
             control={form.control}
             name="description"
@@ -41,10 +41,10 @@ export function EditBusinessAboutForm({ onSubmit, defaultValues, onCancel }: Edi
                     <Textarea
                       {...field}
                       placeholder="Describe your business, services, and expertise..."
-                      className="min-h-[200px] text-nixerly-businesslabel pr-20"
+                      className="max-h-[200px] text-nixerly-businesslabel resize-none"
                     />
-                    <span className="absolute right-3 bottom-0.5 text-xs text-muted-foreground bg-white bg-opacity-80 px-1 rounded"> Max {""}
-                      {field.value.length}/500
+                    <span className="absolute bottom-2 right-4 text-xs bg-white text-[#99A0AE] font-normal px-1 rounded pointer-events-none">
+                      {field.value.length}/2000 {""} Max
                     </span>
                   </div>
                 </FormControl>

@@ -208,7 +208,7 @@ export const PersonalInfo = () => {
                   {/* <FormDescription>
                     Provide a detailed description of your professional background and services
                   </FormDescription> */}
-                  <span className="text-xs text-[#99A0AE] font-normal absolute right-4 bottom-4">Max 1000</span>
+                  <span className="text-xs text-[#99A0AE] font-normal absolute right-4 bottom-4">Max 2000</span>
                 </div>
                 <FormMessage className="text-nixerly-coral mt-1" />
               </FormItem>

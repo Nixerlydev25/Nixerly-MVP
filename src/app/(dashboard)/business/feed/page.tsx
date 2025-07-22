@@ -140,7 +140,7 @@ export default function Dashboard() {
               <div className="flex justify-between space-y-4">
                 <div className="relative hidden md:block">
 
-                  <div className="relative">
+                  <div className="relative w-full">
                     <Button
                       type="button"
                       className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none "

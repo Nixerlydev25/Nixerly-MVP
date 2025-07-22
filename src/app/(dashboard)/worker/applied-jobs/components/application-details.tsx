@@ -113,8 +113,7 @@ function ApplicationDetails({ application }: ApplicationDetailsProps) {
                 <div>
                   <p className="text-lg font-bold text-nixerly-blue leading-7">Hourly Rate</p>
                   <p className="text-base font-medium leading-6">
-                    ${application.job.hourlyRateMin} - $
-                    {application.job.hourlyRateMax}/hr
+                    € {application.job.hourlyRateMin} - € {application.job.hourlyRateMax}/hr
                   </p>
                 </div>
               </div>

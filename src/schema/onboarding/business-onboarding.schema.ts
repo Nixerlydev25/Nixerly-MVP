@@ -6,11 +6,11 @@ const industryValues = data.industryOptions.map(option => option.value);
 export const businessOnboardingSchema = z.object({
   // Company Info
   companyName: z.string().min(1, "Company name is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().min(1, "Description is required").max(2000, 'Description must not exceed 2000 characters'),
   industry: z.enum(industryValues as [string, ...string[]], {
     required_error: "Please select an industry",
   }),
-  
+
   // Business Details
   city: z.string().optional(),
   state: z.string().optional(),

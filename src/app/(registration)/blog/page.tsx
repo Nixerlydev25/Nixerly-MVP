@@ -158,12 +158,12 @@ export default function BlogPage() {
                   <p className=" mb-4 line-clamp-3 text-[#787676] font-poppins text-sm font-normal">
                     {post.excerpt}
                   </p>
-                  <Link
+                  {/* <Link
                     href="#"
                     className="text-[#1e64d3] text-sm  hover:underline"
                   >
                     Read More
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             ))}
@@ -188,7 +188,7 @@ export default function BlogPage() {
                 className="bg-white  rounded-xl border border-[#E1E4EA] "
               >
                 <div className="flex flex-col md:flex-row ">
-                  <div className="md:w-64 aspect-video md:aspect-square overflow-hidden">
+                  <div className="md:w-48 aspect-video md:aspect-square overflow-hidden">
                     <Image
                       src={post.image || "/placeholder.svg"}
                       alt={post.title}
@@ -233,14 +233,14 @@ export default function BlogPage() {
                     <p className=" mb-4 line-clamp-3  text-[#787676] font-poppins text-sm font-normal">
                       {post.excerpt}
                     </p>
-
+{/* 
                     <Button
                       variant="outline"
                       size="sm"
                       className="font-inter text-xl text-primary hover:text-black  border !border-blue-300  rounded-full "
                     >
                       Read More
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>

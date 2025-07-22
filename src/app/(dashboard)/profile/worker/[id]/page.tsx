@@ -292,7 +292,7 @@ export default function FreelancerProfile() {
 
               <div className="space-y-6 p-4">
                 {worker.education?.length ? (
-                  worker.education.map((edu) => (
+                  worker.education.map((edu, index:number) => (
                     <div key={edu.id} className=" pl-4  ">
                       <p className="font-medium text-base leading-6 font-san">
                         {edu.degree} in {edu.fieldOfStudy}
@@ -311,7 +311,12 @@ export default function FreelancerProfile() {
                       <p className="font-sans font-normal text-sm leading-[150%] tracking-[-1.1%] py-3">
                         {edu.description}
                       </p>
-                      <Separator className="my-3"></Separator>
+                
+        {index < worker.education.length - 1 && (
+          <Separator className="my-3" />
+        )}
+        
+
                     </div>
                   ))
                 ) : (
@@ -349,7 +354,7 @@ export default function FreelancerProfile() {
                     >
                       {/* certificate Image Section */}
 
-                      <div className="w-full h-40 bg-gray-100 ">
+                      <div className="w-full h-52 bg-gray-100 ">
                         {certificate.assets?.length > 0 ? (
                           <div
                             className="relative h-full cursor-pointer group"
@@ -457,7 +462,7 @@ export default function FreelancerProfile() {
                       {/* Portfolio Image Section */}
                       {item.assets?.length > 0 ? (
                         <div
-                          className="relative h-40 cursor-pointer group"
+                          className="relative h-52 cursor-pointer group"
                           onClick={() =>
                             openModal(ModalType.IMAGE_CAROUSEL, {
                               images: item.assets.map((asset) => ({
@@ -565,7 +570,7 @@ export default function FreelancerProfile() {
               {/* expirence details */}
               <div className="space-y-6 p-4">
                 {worker.experience?.length ? (
-                  worker.experience.map((exp) => (
+                  worker.experience.map((exp, index:number) => (
                     <div key={exp.id} className=" pl-4 py-1">
                       <h4 className="font-sans font-medium text-xl leading-6 text-gray-800">
                         {exp.title}
@@ -614,8 +619,10 @@ export default function FreelancerProfile() {
                       <p className="mt-2 font-sans font-normal text-sm leading-[150%] tracking-[-1.1%]">
                         {exp.description}
                       </p>
-
-                      <Separator className="my-3"></Separator>
+ {index < worker.experience.length - 1 && (
+          <Separator className="my-3" />
+        )}
+        
                     </div>
                   ))
                 ) : (

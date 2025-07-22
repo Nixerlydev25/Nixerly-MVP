@@ -68,7 +68,7 @@ export default function ContactModal() {
     >
       <DialogContent className="max-w-sm  sm:max-w-lg  ">
     <div className="flex items-center border-b">
-          <div className="flex-shrink-0 pl-6">
+          <div className="flex-shrink-0 pl-8">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300">
 
  <p className=" bg-nixerly-blue rounded-full p-[6px]"> <User className="h-4 w-4 text-white  "/></p>
@@ -86,8 +86,8 @@ export default function ContactModal() {
 
 
 
-        <div className="p-4 space-y-3">
-          <div className="flex gap-4">
+        <div className=" space-y-3">
+          <div className="flex gap-4 px-8">
             <div>
 
               <Avatar className="h-16 w-16 mb-1">
@@ -124,12 +124,14 @@ export default function ContactModal() {
             </div>
           </div>
 
-          <Separator />
+          <div className="px-8 my-3">
+  <Separator />
+</div>
 
 <div className="">
       <div className="">
         {/* Phone Section */}
-        <div className="space-y-1 p-4">
+        <div className="space-y-1 px-8">
           <p className="font-bold text-blue-600">Phone</p>
           <div className="flex items-center justify-between">
             <p className="text-base">{contactData?.applicant?.workerProfile?.phoneNumber}</p>
@@ -165,10 +167,12 @@ export default function ContactModal() {
           </div>
         </div>
 
-        <Separator className="my-4" />
+        <div className="px-8 my-6" >
+  <Separator />
+</div>
 
         {/* Email Section */}
-        <div className="space-y-1 p-4">
+        <div className="space-y-1 px-8 ">
           <p className="font-bold text-blue-600">Email</p>
           <div className="flex items-center justify-between">
             <p className="text-base">{contactData?.applicant?.workerProfile?.user?.email}</p>
@@ -193,8 +197,8 @@ export default function ContactModal() {
             </Button>
           </div>
         </div>
-        <Separator className="my-4 " />
-    <div className=" flex justify-end ">
+        <Separator className="my-4  " />
+    <div className=" flex justify-end px-8 ">
           <Button
   className=" rounded-full"
   variant="outline"

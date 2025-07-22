@@ -14,6 +14,7 @@ export interface CardProps {
   portfolio: Portfolio[];
   description:string
   experience:Experience[]
+  availability:boolean
 }
 
 export interface FeedsFilter {

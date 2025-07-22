@@ -17,12 +17,13 @@ import {
   FolderIcon,
   ExternalLinkIcon,
   AwardIcon,
-  BriefcaseBusiness
+  BriefcaseBusiness,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 function ListCardFeeds({
   id,
@@ -36,7 +37,8 @@ function ListCardFeeds({
   certificates,
   portfolio,
   description,
-   experience
+  experience,
+  availability
 }: CardProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -50,13 +52,21 @@ function ListCardFeeds({
             className="cursor-pointer flex"
             onClick={() => router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)}
           >
-            <Image
-              src={avatar || "/placeholder.svg"}
-              width={100}
-              height={100}
-              alt={name}
-              className="mr-4 rounded-full w-16 h-16 object-cover"
-            />
+            <div className="relative mr-4 w-16 h-16">
+          <Image
+            src={avatar || "/placeholder.svg?height=100&width=100&query=user avatar"}
+            width={100}
+            height={100}
+            alt={name}
+            className="rounded-full w-full h-full object-cover"
+          />
+          {/* Status dot */}
+          <div
+            className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${availability ? "bg-green-500" : "bg-gray-400"
+            }`}
+          />
+        </div>
+
             <div>
               <div>
                 <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none ">
@@ -70,7 +80,6 @@ function ListCardFeeds({
                   {description}
                 </p>
 
-            
                 {/* <div className="mt-1 flex items-center">
                   <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
                   <span className="text-sm font-medium">{rating}</span>
@@ -130,54 +139,61 @@ function ListCardFeeds({
       </div>
 
       {isExpanded && (
-        
-        <div className="mx-[70px] pb-4 text-nixerly-bussinessborder pt-2">
-<div>
+        <div className="mx-[70px] pb-4 text-nixerly-bussinessborder pt-3">
+          <div>
+            <div className="flex items-center gap-2 pb-2 px-5">
+              <BriefcaseBusiness className="h-5 w-5 text-[#0E121B]" />{" "}
+              {/* Replaced Image with Lucide Icon */}
+              <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
+                Work Experience
+              </h4>
+              <span className="text-xs text-[#0E121B] px-2 py-0.5 bg-gray-300 rounded-full">
+                {experience.length}
+              </span>
+            </div>
 
-   <div className="flex items-center gap-2 pb-2 px-4">
-                  <BriefcaseBusiness className="h-5 w-5 text-[#0E121B]" />{" "}
-                  {/* Replaced Image with Lucide Icon */}
-                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
-                    Work Experience
-                  </h4>
-                  {/* <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
-                    {certificates.length}
-                  </span> */}
+            <div className="pt-2 px-6">
+              {/* Example of rendering each experience */}
+              {experience.map((exp, index) => (
+                <div key={index} className="pb-6" >
+                  <p className="text-[#0E121B] font-sans text-base font-normal leading-4 ">
+                    {exp.title}
+                  </p>
+
+                  <div className=" block md:flex gap-2  pt-3">
+                    <p className="font-sans text-sm font-normal leading-3 text-nixerly-businesslabel">
+                      {exp.company}{" "}
+                    </p>
+                    <p className="font-sans text-sm font-medium leading-3 text-nixerly-businesslabel pt-2 md:pt-0 capitalize">
+                      {new Date(exp.startDate).getFullYear()} —{" "}
+                      {exp.currentlyWorking || !exp.endDate
+                        ? "Currently"
+                        : `${new Date(exp.endDate).getDate()}-${
+                            new Date(exp.endDate).getMonth() + 1
+                          }-${new Date(exp.endDate).getFullYear()}`}
+                    </p>
+                  </div>
+
+                  <p className="font-sans text-sm text-nixerly-businesslabel font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">
+                    {exp.description}
+                  </p>
                 </div>
+              ))}
+            </div>
+          </div>
 
-               <div className="pt-2 px-6">
-      {/* Example of rendering each experience */}
-      {experience.map((exp, index) => (
-        <div key={index} >
-          <p className="text-[#0E121B] font-sans text-sm font-normal leading-[12px] ">{exp.title}</p>
-<div className=" block md:flex gap-2  pt-3  ">
-          <p className="font-sans text-base font-normal leading-3 text-nixerly-businesslabel">{exp.company} </p>
-             <p className="font-sans text-sm font-medium leading-3 text-nixerly-businesslabel pt-2 md:pt-0 capitalize">
+          <Separator/>
 
-  {new Date(exp.startDate).getFullYear()} —{" "}
-  {exp.currentlyWorking || !exp.endDate
-    ? "Currently"
-    : `${new Date(exp.endDate).getDate()}-${new Date(exp.endDate).getMonth() + 1}-${new Date(exp.endDate).getFullYear()}`}
-</p>
-</div>
-
-          <p className="font-sans text-sm text-nixerly-businesslabel font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">{exp.description}</p>
-        </div>
-      ))}
-    </div>
-
-    </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2  gap-6 pt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2  gap-6 pt-6">
             {certificates.length > 0 && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 pb-2 px-4">
+                <div className="flex items-center gap-2 pb-2 px-5">
                   <AwardIcon className="h-5 w-5 text-[#0E121B]" />{" "}
                   {/* Replaced Image with Lucide Icon */}
                   <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
                     Certificates
                   </h4>
-                  <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
+                  <span className="text-xs text-[#0E121B] px-2 py-0.5 bg-gray-300 rounded-full">
                     {certificates.length}
                   </span>
                 </div>
@@ -246,7 +262,7 @@ function ListCardFeeds({
                   <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
                     Portfolio
                   </h4>
-                  <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
+                  <span className="text-xs text-[#0E121B] px-2 py-0.5 bg-gray-300 rounded-full">
                     {portfolio.length}
                   </span>
                 </div>

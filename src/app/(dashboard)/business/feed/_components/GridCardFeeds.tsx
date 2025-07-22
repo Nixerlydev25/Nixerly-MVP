@@ -26,7 +26,8 @@ function CardFeeds({
   hourlyRate,
   certificates,
   portfolio,
-   experience
+   experience,
+   availability
 }: CardProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -37,13 +38,20 @@ function CardFeeds({
       <CardHeader className="p-4 pb-0">
         <div className="flex items-start justify-between">
           <div className="flex gap-4 cursor-pointer" onClick={() => router.push(`/profile/worker/${id}`)}>
-            <Image
-              src={avatar || '/placeholder.svg'}
-              width={60}
-              height={60}
-              alt={name}
-              className="rounded-full object-cover w-16 h-16"
-            />
+             <div className="relative mr-4 w-16 h-16">
+                    <Image
+                      src={avatar || "/placeholder.svg?height=100&width=100&query=user avatar"}
+                      width={100}
+                      height={100}
+                      alt={name}
+                      className="rounded-full w-full h-full object-cover"
+                    />
+                    {/* Status dot */}
+                    <div
+                      className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${availability ? "bg-green-500" : "bg-gray-400"
+                      }`}
+                    />
+                  </div>
             <div>
               <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none">{name}</h3>
               <p className="text-sm text-[#0E121B] font-sans pt-2 not-italic font-normal leading-none tracking-tight">{title}</p>

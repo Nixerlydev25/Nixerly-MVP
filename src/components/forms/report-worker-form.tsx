@@ -6,7 +6,12 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "../ui/separator";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -24,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useModalStore } from "@/store/modal.store";
 
 const reportFormSchema = z.object({
   reason: z.nativeEnum(WorkerReportReason, {
@@ -42,12 +48,17 @@ interface ReportWorkerFormProps {
   onSuccess?: () => void;
 }
 
-export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps) {
+export function ReportWorkerForm({
+  targetId,
+  onSuccess,
+}: ReportWorkerFormProps) {
   const {
     mutateAsync: reportWorker,
     isSuccess: isReportWorkerSuccess,
     error: reportWorkerError,
   } = useReportWorker();
+
+  const { closeModal } = useModalStore();
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportFormSchema),
@@ -58,10 +69,7 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
   });
 
   const onSubmit = async (values: ReportFormValues) => {
-    await reportWorker({
-      data: values,
-      workerId: targetId,
-    });
+    await reportWorker({ data: values, workerId: targetId });
     onSuccess?.();
   };
 
@@ -80,24 +88,20 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        {/* Reason Dropdown */}
         <FormField
           control={form.control}
           name="reason"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>What are you reporting?</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
+            <FormItem className="space-y-1 px-6">
+              <FormLabel className="text-sm font-medium text-gray-700">
+                Reason for Professional Reporting?
+              </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a reason">
-                      {field.value
-                        ? reasonLabels[field.value as WorkerReportReason]
-                        : "Select a reason"}
-                    </SelectValue>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Reason" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -113,15 +117,18 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
           )}
         />
 
+        {/* Description Textarea */}
         <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem className="space-y-2">
-              <FormLabel>Additional details</FormLabel>
+            <FormItem className="space-y-1 px-6">
+              <FormLabel className="text-sm font-medium text-gray-700">
+                Additional Details
+              </FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Please provide specific details about your report..."
+                  placeholder="Please provide more details about your issue ..."
                   className="min-h-[120px]"
                   {...field}
                 />
@@ -131,19 +138,27 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
           )}
         />
 
+        {/* Error Message */}
         {reportWorkerError?.message && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>
-              {reportWorkerError?.message}
+              {reportWorkerError.message}
             </AlertDescription>
           </Alert>
         )}
 
-        <div className="flex justify-end gap-2">
+        {/* Footer Buttons */}
+        <Separator className="w-full"/>
+        <div className="flex justify-end gap-2 pb-4 pt-2  px-6">
+          <Button variant="outline" className="rounded-full" type="button" onClick={closeModal}>
+            Cancel
+          </Button>
           <Button
+         
             type="submit"
+            className="bg-nixerly-blue rounded-full"
             disabled={isReportWorkerSuccess}
           >
             {isReportWorkerSuccess ? "Submitting..." : "Submit Report"}
@@ -152,4 +167,4 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
       </form>
     </Form>
   );
-} 
+}

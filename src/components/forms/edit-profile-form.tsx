@@ -29,7 +29,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(20, "Description must be at least 20 characters")
-    .max(1000, "Description cannot exceed 1000 characters")
+    .max(2000, "Description cannot exceed 2000 characters")
     .optional(),
   city: z.string().optional(),
   state: z.string().optional(),
@@ -105,11 +105,16 @@ export function EditProfileForm({
               <FormItem>
                 <FormLabel className="text-sm font-medium text-gray-700">About Us</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Tell us about yourself"
-                    className="min-h-[100px] bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors  mb-5"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Textarea
+                      placeholder="Tell us about yourself"
+                      className="h-[155px] resize-none bg-gray-50 border-gray-200 rounded-lg px-3 py-2 text-sm focus:bg-white focus:border-blue-500 transition-colors"
+                      {...field}
+                    />
+                    <span className="absolute bottom-2 right-4 text-xs bg-white text-[#99A0AE] font-normal px-1 rounded pointer-events-none"> 
+                      {field.value?.length}/2000 {""} Max
+                    </span>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,7 +126,7 @@ export function EditProfileForm({
             name="hourlyRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">Hourly</FormLabel>
+                <FormLabel className="text-sm font-medium text-gray-700 mt-2">Hourly</FormLabel>
                 <FormControl>
                   <Input
                     type="text"

@@ -46,7 +46,7 @@ export function PhoneInputComponent({
       >
         <PhoneInput
           international
-          defaultCountry="US"
+          defaultCountry="IE"
           placeholder={placeholder}
           value={phone}
           onChange={handleChange}

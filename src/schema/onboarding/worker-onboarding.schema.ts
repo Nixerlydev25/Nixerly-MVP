@@ -58,9 +58,10 @@ export const workerOnboardingSchema = z.object({
   hourlyRate: z
     .number({ required_error: 'Hourly rate is required' })
     .min(14, 'Hourly rate must be at least €14'),
-  description: z
+    description: z
     .string({ required_error: 'Description is required' })
-    .min(50, 'Description must be at least 50 characters'),
+    .min(50, 'Description must be at least 50 characters')
+    .max(2000, 'Description must not exceed 2000 characters'),
   skills: z
     .array(SkillEnum, { required_error: 'Select at least one skill' })
     .min(1, 'At least one skill is required')

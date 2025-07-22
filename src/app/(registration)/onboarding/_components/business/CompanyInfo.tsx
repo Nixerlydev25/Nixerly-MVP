@@ -101,7 +101,6 @@ export function BusinessProfileForm() {
               <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">Description</FormLabel>
               <FormControl>
                 <Textarea
-                 maxLength={100}
                   placeholder="Tell us about your business..."
                   className="min-h-[120px] font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
                   {...field}
@@ -110,6 +109,9 @@ export function BusinessProfileForm() {
 
                 
               </FormControl>
+              <div className="flex justify-between items-center mt-1 relative ">
+                  <span className="text-xs text-[#99A0AE] font-normal absolute right-4 bottom-4">Max 2000</span>
+                </div>
               {/* <FormDescription className="font-inter text-sm font-medium leading-5 tracking-tight text-nixerly-businesslabel">
                 A brief description of your company and what you do.
               </FormDescription> */}

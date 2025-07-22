@@ -83,7 +83,7 @@ export default function Contact() {
                   height={20}
                   className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
-                <span className="text-gray-600 font-inter text-base font-normal leading-6">34 Street Name, City Name Here, United States.</span>
+                <span className="text-gray-600 font-inter text-base font-normal leading-6">Dunshaughlin, Co.Meath, Ireland </span>
               </div>
               <div className="flex items-center gap-4 font-inter text-base font-normal leading-6">
                 <Image
@@ -93,7 +93,7 @@ export default function Contact() {
                   height={20}
                   className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
-                <span className="text-gray-600 font-inter text-base font-normal leading-6">+1 (222) 345 6789</span>
+                <span className="text-gray-600 font-inter text-base font-normal leading-6">+353(0)87 4483704</span>
               </div>
               <div className="flex items-center gap-4">
                 <Image
@@ -103,7 +103,7 @@ export default function Contact() {
                   height={20}
                   className="mr-1 h-5 w-5 text-nixerly-blue shrink-0 mt-0.5"
                 />
-                <span className="text-gray-600">info@mywebsite.com </span>
+                <span className="text-gray-600">Info@nixerly.com</span>
               </div>
             </div>
           </div>

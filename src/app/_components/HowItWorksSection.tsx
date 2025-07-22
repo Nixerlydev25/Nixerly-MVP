@@ -5,22 +5,22 @@ import { ArrowRight, Eye, Lightbulb, Users } from "lucide-react"
 
 export default function HowItWorksSection() {
   return (
-    <section className="relative bg-nixerly-blue py-20 md:py-28">
+    <section className="relative py-20 md:py-28">
       <div className="container mx-auto max-w-7xl relative px-4 md:px-6">
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
           <div className="flex justify-center mb-4">
           </div>
-          <h2 className="text-3xl font-medium tracking-tighter text-white sm:text-4xl md:text-5xl">
+          <h2 className="text-3xl font-medium tracking-tighter sm:text-4xl md:text-5xl">
             Simple <span className="font-bold">Process</span> Powerful Results
           </h2>
-          <p className="mx-auto max-w-[700px] text-blue-100 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          <p className="mx-auto max-w-[700px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Our platform is designed to be intuitive and efficient for both professionals and businesses.
           </p>
         </div>
 
         <div className="mt-16">
           <div className="grid gap-8 md:grid-cols-3">
-            <div className="group relative flex flex-col space-y-4 rounded-2xl bg-slate-50 p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <div className="group relative flex flex-col space-y-4 rounded-2xl p-8 text-left shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
               <div className="flex items-center justify-between">
               <Image src="/eye.svg" alt="eye" width={112} height={112}/>
               </div>
@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
-              className="bg-white not-last-of-type text-nixerly-blue hover:bg-blue-50 shadow-sm px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
+              className="bg-white not-last-of-type text-nixerly-blue border border-nixerly-bussinessborder hover:bg-blue-50 shadow-sm px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px]"
               asChild
             >
               <Link href="/signup" className="flex items-center gap-2 text-sm">
@@ -76,7 +76,8 @@ export default function HowItWorksSection() {
               </Link>
             </Button>
             <Button
-              className="text-white border border-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px] bg-nixerly-blue"
+            variant="outline"
+              className="text-nixerly-blue border-blue-500 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:-translate-y-[2px] hover:border-blue-600"
               asChild
             >
               <Link href="/signup" className="flex items-center gap-2">

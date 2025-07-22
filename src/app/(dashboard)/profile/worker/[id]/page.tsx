@@ -28,6 +28,7 @@ import { FreelancerProfileSkeleton } from "./components/worker-profile-skeleton"
 export default function FreelancerProfile() {
   const { id } = useParams<{ id: string }>();
   const { data: worker, isLoading } = useGetWorkerById(id);
+
   const { openModal } = useModalStore();
   const router = useRouter();
 
@@ -176,9 +177,10 @@ export default function FreelancerProfile() {
                     <Button
                       variant="outline"
                       className="rounded-full flex items-center gap-2 justify-center px-4 py-2 "
-                      onClick={() => {
-                        alert("are you sure you want to report ?");
-                      }}
+                      onClick={() => openModal(ModalType.REPORT_WORKER_MODAL, {
+                        targetId: worker?.id,
+                        targetName: worker.user.firstName + " " + worker.user.lastName,
+                      })}
                     >
                       <Image
                         src="/reportblackflage.svg"

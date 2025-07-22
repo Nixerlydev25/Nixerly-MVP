@@ -131,6 +131,21 @@ export enum CertificateType {
   OTHER = "OTHER",
 }
 
+
+export interface Experience {
+id: string;
+  title: string;
+  company: string;
+  city: string;
+  state: string;
+  country: string;
+  description: string;
+  startDate: string;
+  endDate: string | null;
+  currentlyWorking: boolean;
+  workerId?: string; 
+}
+
 export interface Certificate {
   id: string;
   workerId: string;

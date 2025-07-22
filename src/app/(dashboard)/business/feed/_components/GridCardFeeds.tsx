@@ -8,7 +8,7 @@ import {
   CardContent,
   CardHeader,
 } from '@/components/ui/card';
-import { BookmarkIcon, StarIcon,AwardIcon ,UserIcon, ChevronDownIcon, ChevronUpIcon, ScrollText, FolderIcon, ExternalLinkIcon } from 'lucide-react';
+import { BookmarkIcon, StarIcon,AwardIcon ,UserIcon, ChevronDownIcon, ChevronUpIcon, ScrollText, FolderIcon, ExternalLinkIcon, BriefcaseBusiness } from 'lucide-react';
 import { CardProps } from '@/types/feed/feed.types';
 import { formateSkills } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
@@ -26,6 +26,7 @@ function CardFeeds({
   hourlyRate,
   certificates,
   portfolio,
+   experience
 }: CardProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -95,6 +96,43 @@ function CardFeeds({
 
          {isExpanded && (
         <div className="px-4 pb-4 text-nixerly-bussinessborder mt-6">
+
+          <div>
+          
+             <div className="flex items-center gap-2 pb-2 px-4">
+                            <BriefcaseBusiness className="h-5 w-5 text-[#0E121B]" />{" "}
+                            {/* Replaced Image with Lucide Icon */}
+                            <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
+                              Work Experience
+                            </h4>
+                            {/* <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
+                              {certificates.length}
+                            </span> */}
+                          </div>
+          
+                         <div className="pt-2 px-6">
+                {/* Example of rendering each experience */}
+                {experience.map((exp, index) => (
+                  <div key={index} >
+                    <p className="text-[#0E121B] font-sans text-sm font-normal leading-[12px] ">{exp.title}</p>
+          <div className=" block md:flex gap-2  pt-3  ">
+                    <p className="font-sans text-base font-normal leading-3 text-nixerly-businesslabel">{exp.company} </p>
+                       <p className="font-sans text-sm font-medium leading-3 text-nixerly-businesslabel pt-2 md:pt-0 capitalize">
+            
+            {new Date(exp.startDate).getFullYear()} —{" "}
+            {exp.currentlyWorking || !exp.endDate
+              ? "Currently"
+              : `${new Date(exp.endDate).getDate()}-${new Date(exp.endDate).getMonth() + 1}-${new Date(exp.endDate).getFullYear()}`}
+          </p>
+          </div>
+          
+                    <p className="font-sans text-sm text-nixerly-businesslabel font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">{exp.description}</p>
+                  </div>
+                ))}
+              </div>
+          
+              </div>
+
           <div className="grid grid-cols-1 gap-6 pt-4">
             {certificates.length > 0 && (
               <div className="space-y-3">

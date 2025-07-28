@@ -137,7 +137,7 @@ export default function Dashboard() {
 
             <div className="flex flex-col gap-6 lg:flex-row">
               <div className="w-full lg:w-1/4">
-              <div className="flex justify-between space-y-4">
+              <div className="flex gap-3 space-y-4">
                 <div className="relative hidden md:block">
 
                   <div className="relative w-full">
@@ -175,7 +175,7 @@ export default function Dashboard() {
                     defaultValue={searchParams.get("sort") || SortOption.RATING}
                     onValueChange={handleSortChange}
                   >
-                    <SelectTrigger className="font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
+                    <SelectTrigger className="font-sans w-3/6 text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>

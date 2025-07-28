@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useListMyJobs, useToggleJobStatus } from "@/hook/jobs/jobs.hooks";
+import { useListMyJobs, useToggleJobStatusForBusiness } from "@/hook/jobs/jobs.hooks";
 import { ROUTES } from "@/lib/routes";
 import JobsSkeleton from "./_components/jobs-skeleton";
 import {
@@ -74,7 +74,7 @@ export default function BusinessDashboard() {
   const jobs = data?.jobs as Job[] | undefined;
   const [searchQuery, setSearchQuery] = useState("");
   const currentStatus = searchParams.get("status") || "ALL";
-  const { mutate: toggleJobStatus, isPending } = useToggleJobStatus();
+  const { mutate: toggleJobStatus, isPending } = useToggleJobStatusForBusiness();
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(window.location.search);
@@ -121,7 +121,7 @@ export default function BusinessDashboard() {
     );
   }
 
-  let jobTypes="text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
+  const jobTypes="text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
 
   return (
     <div className="container mx-auto px-4 py-8 ">

@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   useGetSingleJob,
   useGetJobApplicants,
-  useToggleJobStatus,
+  useToggleJobStatusForBusiness,
 } from "@/hook/jobs/jobs.hooks";
 import {
   Dialog,
@@ -50,6 +50,7 @@ import { ROUTES } from "@/lib/routes";
 import { ModalType } from "@/types/model";
 import { useModalStore } from "@/store/modal.store";
 import Image from "next/image";
+import { error } from "console";
 
 // const ITEMS_PER_PAGE = 10;
 
@@ -67,9 +68,9 @@ export default function JobApplicantsPage() {
   const [, setSelectedApplicant] = useState<unknown | null>(null);
   const [, setShowContactInfo] = useState(false);
 
-  const { data: job } = useGetSingleJob(id as string);
+  const { data: job, isLoading: isJobLoading, isPending } = useGetSingleJob(id as string);
   const { data: applicantsData, isLoading } = useGetJobApplicants(id as string);
-  const { mutate: toggleJobStatus, isPending } = useToggleJobStatus();
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (debouncedSearch) {
@@ -86,6 +87,14 @@ export default function JobApplicantsPage() {
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
   };
+
+  const { mutate: toggleJobStatus } = useToggleJobStatusForBusiness();
+
+  const closeJob = (jobId: string) => {
+    toggleJobStatus(jobId);
+  };
+
+  console.log({ job });
 
   // const totalPages = Math.ceil(
   //   (filteredApplicants?.length || 0) / ITEMS_PER_PAGE
@@ -104,13 +113,14 @@ export default function JobApplicantsPage() {
     setShowContactInfo(true);
   };
 
-  if (isLoading) {
+  if (isLoading || isJobLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <JobApplicantsPageSkeleton />
       </div>
     );
   }
+
 
   //   if (!job) {
   //     return (
@@ -124,9 +134,6 @@ export default function JobApplicantsPage() {
   //       </div>
   //     );
   //   }
-
-
-  
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -176,7 +183,9 @@ export default function JobApplicantsPage() {
           <div className="flex gap-2">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button className="text-white text-sm font-medium leading-5 tracking-tight font-inter border bg-[#FF5656] border-nixerly-bussinessborder rounded-full hover:bg-red-500 ">
+                <Button
+                  className="text-white text-sm font-medium leading-5 tracking-tight font-inter border bg-[#FF5656] border-nixerly-bussinessborder rounded-full hover:bg-red-500 "
+                >
                   {job?.status === "OPEN" ? "Close Job" : "Open Job"}
                 </Button>
               </AlertDialogTrigger>
@@ -409,7 +418,7 @@ export default function JobApplicantsPage() {
                           </AvatarFallback>
                         </Avatar>
 
-                         {/* <div className="flex-shrink-0">
+                        {/* <div className="flex-shrink-0">
                 <div className="w-16 h-16  rounded-full flex items-center justify-center  bg-nixerly-blue">
                   <Image
                     src="/usermessage.svg"
@@ -483,14 +492,11 @@ export default function JobApplicantsPage() {
                             </Button>
                           </DialogTrigger>
 
-
-{/* view proposal dialog */}
-
-
+                          {/* view proposal dialog */}
 
                           <DialogContent className="  max-w-2xl  sm:max-w-3xl  max-h-[90vh] overflow-y-auto ">
                             <DialogHeader className="border-b ">
-                              <DialogTitle >
+                              <DialogTitle>
                                 {/* Proposal from{" "} */}
                                 {applicant.workerProfile.user.firstName +
                                   " " +
@@ -536,8 +542,6 @@ export default function JobApplicantsPage() {
                                     )}{" "}
                                     Experience
                                   </p>
-
-                                
                                 </div>
                               </div>
 
@@ -591,16 +595,9 @@ export default function JobApplicantsPage() {
                                 </>
                               )}
 
-
-
-{/* contact modal */}
-
-
-
-
+                              {/* contact modal */}
 
                               <Separator />
-                              
 
                               <div className="flex justify-between">
                                 <Button

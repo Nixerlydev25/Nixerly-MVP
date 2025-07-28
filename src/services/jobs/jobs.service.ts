@@ -83,10 +83,8 @@ class JobsService {
     return response.data.data;
   }
 
-  static async toggleClientJobVisibility(jobId: string) {
-    const response = await instance.post(
-      API_ROUTES.JOB.TOGGLE_JOB_STATUS(jobId)
-    );
+  static async toggleJobStatus(jobId: string) {
+    const response = await instance.patch(API_ROUTES.JOB.TOGGLE_JOB_STATUS(jobId));
     return response.data;
   }
 }

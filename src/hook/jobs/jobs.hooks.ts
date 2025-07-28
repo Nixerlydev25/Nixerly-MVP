@@ -1,14 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import JobsService from '@/services/jobs/jobs.service';
-import { QueryKeys } from '@/querykey';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import JobsService from "@/services/jobs/jobs.service";
+import { QueryKeys } from "@/querykey";
 import {
   Job,
   JobsResponse,
-} from '@/app/(dashboard)/worker/feed/_components/types';
-import { useSearchParams } from 'next/navigation';
-import { JobApplicationSubmitData } from '@/app/(dashboard)/worker/job/[id]/apply/_component/types';
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/lib/routes';
+} from "@/app/(dashboard)/worker/feed/_components/types";
+import { useSearchParams } from "next/navigation";
+import { JobApplicationSubmitData } from "@/app/(dashboard)/worker/job/[id]/apply/_component/types";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/routes";
+import { toast } from "sonner";
 
 export const useCreateJob = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ export const useCreateJob = () => {
       router.push(ROUTES.MY_JOBS);
     },
     onError: (error) => {
-      console.error('Error creating job:', error);
+      console.error("Error creating job:", error);
       throw error;
     },
   });
@@ -27,51 +28,51 @@ export const useCreateJob = () => {
 
 export const useGetAllJobs = () => {
   const searchParams = useSearchParams();
-  
+
   const params: Record<string, string | number | string[] | undefined> = {};
 
   // Base pagination and sorting
-  const page = searchParams.get('page');
+  const page = searchParams.get("page");
   if (page) params.page = Number(page);
 
-  const limit = searchParams.get('limit');
+  const limit = searchParams.get("limit");
   if (limit) params.limit = Number(limit);
 
-  const sortOrder = searchParams.get('sortOrder') as 'asc' | 'desc';
+  const sortOrder = searchParams.get("sortOrder") as "asc" | "desc";
   if (sortOrder) params.sortOrder = sortOrder;
 
   // Search term
-  const search = searchParams.get('search');
-  if (search && search.trim() !== '') params.search = search;
+  const search = searchParams.get("search");
+  if (search && search.trim() !== "") params.search = search;
 
   // Location params
-  const city = searchParams.get('city');
+  const city = searchParams.get("city");
   if (city) params.city = city;
 
-  const state = searchParams.get('state');
+  const state = searchParams.get("state");
   if (state) params.state = state;
 
-  const country = searchParams.get('country');
+  const country = searchParams.get("country");
   if (country) params.country = country;
 
   // Rate range
-  const minHourlyRate = searchParams.get('minHourlyRate');
+  const minHourlyRate = searchParams.get("minHourlyRate");
   if (minHourlyRate) params.minHourlyRate = Number(minHourlyRate);
 
-  const maxHourlyRate = searchParams.get('maxHourlyRate');
+  const maxHourlyRate = searchParams.get("maxHourlyRate");
   if (maxHourlyRate) params.maxHourlyRate = Number(maxHourlyRate);
 
   // Budget
-  const budget = searchParams.get('budget');
+  const budget = searchParams.get("budget");
   if (budget) params.budget = Number(budget);
 
   // Status
-  const status = searchParams.get('status');
+  const status = searchParams.get("status");
   if (status) params.status = status;
 
   // Skills (assuming it comes as a comma-separated string)
-  const skills = searchParams.get('skills');
-  if (skills) params.skills = skills.split(',');
+  const skills = searchParams.get("skills");
+  if (skills) params.skills = skills.split(",");
 
   return useQuery<JobsResponse>({
     queryKey: [QueryKeys.JOB_GET_ALL, params],
@@ -107,16 +108,16 @@ export const useListMyJobs = () => {
     search?: string;
     status?: string;
   } = {
-    page: Number(searchParams.get('page')) || 1,
-    limit: Number(searchParams.get('limit')) || 10,
+    page: Number(searchParams.get("page")) || 1,
+    limit: Number(searchParams.get("limit")) || 10,
   };
 
-  if (searchParams.get('search')) {
-    params.search = searchParams.get('search') || '';
+  if (searchParams.get("search")) {
+    params.search = searchParams.get("search") || "";
   }
 
-  if (searchParams.get('status')) {
-    params.status = searchParams.get('status') || '';
+  if (searchParams.get("status")) {
+    params.status = searchParams.get("status") || "";
   }
   return useQuery<JobsResponse>({
     queryKey: [QueryKeys.JOB_GET_ALL, params],
@@ -148,7 +149,7 @@ interface JobApplicantResponse {
   phone: string;
   avatar?: string;
   appliedAt: string;
-  paymentType: 'hourly' | 'fixed';
+  paymentType: "hourly" | "fixed";
   hourlyRate?: string;
   fixedBudget?: string;
   estimatedDuration: string;
@@ -173,9 +174,9 @@ interface JobApplicantsResponse {
 export const useGetJobApplicants = (jobId: string) => {
   const searchParams = useSearchParams();
   const params = {
-    page: Number(searchParams.get('page')) || 1,
-    limit: Number(searchParams.get('limit')) || 10,
-    search: searchParams.get('search') || '',
+    page: Number(searchParams.get("page")) || 1,
+    limit: Number(searchParams.get("limit")) || 10,
+    search: searchParams.get("search") || "",
   };
 
   return useQuery<JobApplicantsResponse>({
@@ -184,20 +185,19 @@ export const useGetJobApplicants = (jobId: string) => {
   });
 };
 
-
-export const useToggleJobStatus = () => {
+export const useToggleJobStatusForBusiness = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [QueryKeys.TOGGLE_JOB_STATUS],
-    mutationFn: (jobId: string) => JobsService.toggleClientJobVisibility(jobId),
+    mutationFn: (jobId: string) => JobsService.toggleJobStatus(jobId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.JOB_GET_ALL] });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.JOB_DETAILS] });
     },
-
     onError: (error) => {
-      console.error('Error toggling job status:', error);
+      toast.error("Error toggling job status");
+      console.error("Error toggling job status:", error);
       throw error;
     },
   });
-}
+};

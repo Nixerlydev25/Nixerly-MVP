@@ -72,6 +72,7 @@
   --radius-xl: calc(var(--radius) + 4px);
  --color-nixerly-businesslabel:var(--text-sub-600, #525866);
  --color-nixerly-bussinessborder:var(--stroke-soft-200, #E1E4EA);
+ --color-nixerly-gray:var(--c4, #84878B)
 
 }
 
@@ -321,7 +322,7 @@
   background-position: right center;
   background-repeat: no-repeat;
   pointer-events: none;
-  z-index: 100;
+  z-index: 50;
 }
 
 

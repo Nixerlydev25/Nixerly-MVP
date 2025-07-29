@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { usePortfolios } from "@/hook/worker/portfolio.hook";
 import { Portfolio } from "@/types/worker.types";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PortfolioImageUpload } from "../common/portfolio-image-upload";
 import { Trash2, X, Plus, Globe, LinkIcon } from "lucide-react";
 import { Loader2 } from "lucide-react";
@@ -51,6 +51,10 @@ export function EditPortfolioForm({
     {}
   );
   const [portfoliosToDelete, setPortfoliosToDelete] = useState<string[]>([]);
+  // Progress state: { [portfolioIndex]: { [fileName]: percent } }
+  const [uploadProgress, setUploadProgress] = useState<{ [portfolioIndex: number]: { [fileName: string]: number } }>({});
+  const [isUploading, setIsUploading] = useState(false);
+  const [fileErrors, setFileErrors] = useState<{ [index: number]: string }>({});
 
   const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioSchema),
@@ -65,6 +69,10 @@ export function EditPortfolioForm({
   });
 
   const onSubmit = async (values: PortfolioFormValues) => {
+    // Prevent submission if any file error exists
+    if (Object.values(fileErrors).some((err) => err)) {
+      return;
+    }
     try {
       // Delete marked portfolios first
       if (portfoliosToDelete.length > 0) {
@@ -73,18 +81,65 @@ export function EditPortfolioForm({
 
       // Only create new portfolios if there are any in the form
       if (values.portfolios.length > 0) {
-        await createPortfolios(values.portfolios, selectedFiles);
+        setIsUploading(true);
+        // Prepare progress setter
+        const progressSetter = (portfolioIndex: number, fileName: string, percent: number) => {
+          setUploadProgress((prev) => ({
+            ...prev,
+            [portfolioIndex]: {
+              ...(prev[portfolioIndex] || {}),
+              [fileName]: percent,
+            },
+          }));
+
+          // Check if all uploads are complete
+          setTimeout(() => {
+            setUploadProgress((current) => {
+              const allDone = Object.values(current).every((portfolio) =>
+                Object.values(portfolio).every((p) => p === 100)
+              );
+              if (allDone) setIsUploading(false);
+              return current;
+            });
+          }, 0);
+        };
+        await createPortfolios(values.portfolios, selectedFiles, progressSetter);
       }
       onSuccess();
     } catch (error) {
+      setIsUploading(false);
       console.error("Error submitting portfolio form:", error);
     }
   };
 
   const handleFileSelect = (files: File[], index: number) => {
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    let error = "";
+    const validFiles = files.filter((file) => {
+      const isVideo = file.type.startsWith("video/");
+      if (isVideo && file.size > maxSize) {
+        error = "Video files must be less than 10MB.";
+        return false;
+      }
+      return true;
+    });
+
     setSelectedFiles((prev) => ({
       ...prev,
-      [index]: files,
+      [index]: validFiles,
+    }));
+
+    setFileErrors((prev) => ({
+      ...prev,
+      [index]: error,
+    }));
+
+    setUploadProgress((prev) => ({
+      ...prev,
+      [index]: validFiles.reduce((acc, file) => {
+        acc[file.name] = 0;
+        return acc;
+      }, {} as { [fileName: string]: number }),
     }));
   };
 
@@ -171,18 +226,29 @@ export function EditPortfolioForm({
                     </div>
                     {item.assets?.length > 0 && (
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                        {item.assets.map((asset, index) => (
-                          <div
-                            key={asset.id}
-                            className="relative aspect-video overflow-hidden rounded-lg border"
-                          >
-                            <img
-                              src={asset.url}
-                              alt={`Project image ${index + 1}`}
-                              className="object-cover w-full h-full"
-                            />
-                          </div>
-                        ))}
+                        {item.assets.map((asset, index) => {
+                          const isVideo = asset.url.match(/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i);
+                          return (
+                            <div
+                              key={asset.id}
+                              className="relative aspect-video overflow-hidden rounded-lg border"
+                            >
+                              {isVideo ? (
+                                <video
+                                  src={asset.url}
+                                  controls
+                                  className="object-cover w-full h-full"
+                                />
+                              ) : (
+                                <img
+                                  src={asset.url}
+                                  alt={`Project media ${index + 1}`}
+                                  className="object-cover w-full h-full"
+                                />
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -332,11 +398,28 @@ export function EditPortfolioForm({
                 />
 
                 <div>
-                  <FormLabel className="pb-2">Project Images (Optional)</FormLabel>
+                  <FormLabel className="pb-2">Project Media (Optional)</FormLabel>
                   <PortfolioImageUpload
                     onFilesSelected={(files) => handleFileSelect(files, index)}
-                    existingImages={[]}
+                    existingMedia={[]}
+                    progress={uploadProgress[index] || {}}
                   />
+                  {fileErrors[index] && (
+                    <div className="text-red-500 text-xs mt-1">{fileErrors[index]}</div>
+                  )}
+                  {/* Progress bars for each selected file, even before upload */}
+                  {Object.entries(uploadProgress[index] || {}).map(([fileName, percent]) => (
+                    <div key={fileName} className="mt-2">
+                      <div className="text-xs text-gray-500">{fileName}</div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-blue-500 h-2 rounded-full"
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-right text-gray-500">{percent}%</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -357,11 +440,11 @@ export function EditPortfolioForm({
           <Button type="button" variant="outline" onClick={close} className="rounded-full">
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading} className="bg-nixerly-blue rounded-full">
-            {isLoading ? (
+          <Button type="submit" disabled={isLoading || isUploading} className="bg-nixerly-blue rounded-full">
+            {isLoading || isUploading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
+                {isUploading ? "Uploading..." : "Saving..."}
               </>
             ) : (
               "Save Changes"

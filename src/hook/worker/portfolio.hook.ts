@@ -25,9 +25,13 @@ export const usePortfolios = () => {
     mutationFn: async ({
       files,
       portfolioId,
+      portfolioIndex,
+      progressSetter,
     }: {
       files: File[];
       portfolioId: string;
+      portfolioIndex: number;
+      progressSetter?: (portfolioIndex: number, fileName: string, percent: number) => void;
     }) => {
       if (!files || !files.length) {
         console.log("No files to upload for portfolio:", portfolioId);
@@ -57,13 +61,17 @@ export const usePortfolios = () => {
 
       // Upload all files to S3
       await Promise.all(
-        response.urls.map((urlData) =>
-          PortfolioService.uploadAsset(
+        response.urls.map((urlData) => {
+          const file = validFiles.find((f) => f.name === urlData.fileName)!;
+          return PortfolioService.uploadAsset(
             urlData.presignedUrl,
-            validFiles.find((f) => f.name === urlData.fileName)!,
-            validFiles.find((f) => f.name === urlData.fileName)!.type
-          )
-        )
+            file,
+            file.type,
+            progressSetter
+              ? (percent) => progressSetter(portfolioIndex, file.name, percent)
+              : undefined
+          );
+        })
       );
 
       // Save the assets in the database
@@ -82,7 +90,7 @@ export const usePortfolios = () => {
   const createPortfoliosMutation = useMutation<
     CreatePortfoliosResponse,
     Error,
-    CreatePortfoliosVariables
+    CreatePortfoliosVariables & { progressSetter?: (portfolioIndex: number, fileName: string, percent: number) => void }
   >({
     // @ts-expect-error - TODO: fix this
     mutationFn: async ({ portfolios }) => {
@@ -91,21 +99,22 @@ export const usePortfolios = () => {
     onSuccess: async (response, variables) => {
       console.log("Portfolios created successfully:", response);
       console.log("variables", variables);
-      
+      const progressSetter = (variables as any).progressSetter;
       // Upload assets for each portfolio
       try {
-        // Since we're only using index 0 in the form
-        const files = variables.selectedFiles[0] || [];
-        console.log("Files to upload:", files);
-
-        if (files.length > 0 && response.portfolios.length > 0) {
-          // Upload files for the first portfolio
-          const portfolio = response.portfolios[0];
-          await uploadPortfolioAssetsMutation.mutateAsync({
-            files,
-            portfolioId: portfolio.id,
-          });
-          console.log(`Successfully uploaded assets for portfolio ${portfolio.id}`);
+        // Support multiple portfolios/files
+        for (let i = 0; i < response.portfolios.length; i++) {
+          const files = variables.selectedFiles[i] || [];
+          if (files.length > 0) {
+            const portfolio = response.portfolios[i];
+            await uploadPortfolioAssetsMutation.mutateAsync({
+              files,
+              portfolioId: portfolio.id,
+              portfolioIndex: i,
+              progressSetter,
+            });
+            console.log(`Successfully uploaded assets for portfolio ${portfolio.id}`);
+          }
         }
       } catch (error) {
         console.error("Error uploading portfolio assets:", error);
@@ -132,11 +141,13 @@ export const usePortfolios = () => {
   return {
     createPortfolios: (
       portfolios: CreatePortfolioPayload[],
-      selectedFiles: { [key: number]: File[] }
+      selectedFiles: { [key: number]: File[] },
+      progressSetter?: (portfolioIndex: number, fileName: string, percent: number) => void
     ) =>
       createPortfoliosMutation.mutateAsync({ 
         portfolios, 
-        selectedFiles 
+        selectedFiles,
+        progressSetter,
       }),
     deletePortfolios: deletePortfoliosMutation.mutateAsync,
     isLoading:

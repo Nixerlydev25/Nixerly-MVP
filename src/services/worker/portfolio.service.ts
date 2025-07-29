@@ -60,20 +60,33 @@ class PortfolioService {
   static async uploadAsset(
     presignedUrl: string,
     file: File,
-    contentType: string
+    contentType: string,
+    onProgress?: (percent: number) => void
   ): Promise<void> {
     try {
-      const response = await fetch(presignedUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': contentType,
-        },
-        body: file,
-      });
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', presignedUrl, true);
+        xhr.setRequestHeader('Content-Type', contentType);
 
-      if (!response.ok) {
-        throw new Error('Failed to upload asset');
-      }
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable && onProgress) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            onProgress(percent);
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve();
+          } else {
+            reject(new Error('Failed to upload asset'));
+          }
+        };
+
+        xhr.onerror = () => reject(new Error('Failed to upload asset'));
+        xhr.send(file);
+      });
     } catch (error) {
       console.error('Error uploading asset:', error);
       throw error;

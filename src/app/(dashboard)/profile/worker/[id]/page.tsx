@@ -54,9 +54,8 @@ export default function FreelancerProfile() {
     }) || [];
 
   // Format full name
-  const fullName = `${worker.user?.firstName || ""} ${
-    worker.user?.lastName || ""
-  }`.trim();
+  const fullName = `${worker.user?.firstName || ""} ${worker.user?.lastName || ""
+    }`.trim();
 
   console.log(worker);
 
@@ -305,8 +304,8 @@ export default function FreelancerProfile() {
                         {edu.currentlyStudying
                           ? " Present"
                           : edu.endDate
-                          ? ` ${new Date(edu.endDate).toLocaleDateString()}`
-                          : ""}
+                            ? ` ${new Date(edu.endDate).toLocaleDateString()}`
+                            : ""}
                       </p>
                       <p className="font-sans font-normal text-sm leading-[150%] tracking-[-1.1%] py-3">
                         {edu.description}
@@ -468,11 +467,38 @@ export default function FreelancerProfile() {
                             })
                           }
                         >
+                          {item.assets[0].mediaType.startsWith("video/") ? (
+                            <>
+                              <video
+                                src={item.assets[0].url}
+                                className="w-full h-full object-cover"
+                                preload="metadata"
+                                muted
+                                playsInline
+                              />
+                              {/* Play icon overlay only on hover for videos */}
+                              {/* Play button overlay */}
+                              <div className="absolute inset-0 flex items-center justify-center pointer-events-none"> 
+                                <div className="bg-black/60 rounded-full p-2">
+                                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <polygon points="5,3 19,12 5,21" />
+                                  </svg>
+                                </div>
+                              </div>
+                              {item.assets.length > 1 && (
+                                <span className="text-white text-xs mt-1">
+                                  +{item.assets.length - 1} more
+                                </span>
+                              )}
+                        </>
+                      ) : (
+                        <>
                           <img
                             src={item.assets[0].url}
                             alt={item.title}
                             className="w-full h-full object-cover"
                           />
+                          {/* Eye icon overlay only on hover for images */}
                           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
                             <Eye className="h-6 w-6 text-white" />
                             {item.assets.length > 1 && (
@@ -481,195 +507,197 @@ export default function FreelancerProfile() {
                               </span>
                             )}
                           </div>
-                        </div>
-                      ) : (
-                        <div className="h-40 bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
-                          <Eye className="h-10 w-10 text-emerald-500" />
-                        </div>
+                        </>
                       )}
-
-                      {/*  Portfolio Details Section */}
-                      <div className="p-4 space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <h4 className="font-medium text-xl leading-6 capitalize font-sans text-nixerly-blue">
-                            {item.title}
-                          </h4>
-                        </div>
-                        <p className="text-nixerly-businesslabel font-normal">
-                          {item.employerName}
-                        </p>
-
-                        <p className="mt-2 font-sans font-normal text-sm leading-[150%] tracking-[-1.1%] ">
-                          {item.description}
-                        </p>
-
-                        <p className="text-[13px] text-nixerly-businesslabel ">
-                          {new Date(item.startDate).toLocaleDateString()}_{" "}
-                          {item.endDate
-                            ? new Date(item.endDate).toLocaleDateString()
-                            : "Present"}
-                        </p>
-                        {item.employerWebsite && (
-                          <a
-                            href={item.employerWebsite}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-400 hover:underline mr-4"
-                          >
-                            Employer Website
-                          </a>
-                        )}
-                        {item.projectUrl && (
-                          <a
-                            href={item.projectUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-400 hover:underline "
-                          >
-                            Project URL
-                          </a>
-                        )}
-                      </div>
                     </div>
-                  ))
-                ) : (
-                  <p className="text-nixerly-businesslabel  ">
-                    No Portfolio Items
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Experience section */}
-            <div className={maindivision}>
-              <div className="flex gap-3  border-b p-4 ">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
-                    {/* <Image
-                      src="/tick.svg"
-                      alt="email icon"
-                      width={25}
-                      height={25}
-                    /> */}
-                    <p className=" bg-nixerly-blue rounded-full p-[6px]">
-                      {" "}
-                      <Pickaxe className="h-4 w-4 text-white  " />
-                    </p>
+                  ) : (
+                  <div className="h-40 bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
+                    <Eye className="h-10 w-10 text-emerald-500" />
                   </div>
-                </div>
-                <h3 className="font-sans text-lg not-italic font-bold leading-4 tracking-tight capitalize text-nixerly-blue pt-4">
-                  Work Experience
-                </h3>
-              </div>
-
-              {/* expirence details */}
-              <div className="space-y-6 p-4">
-                {worker.experience?.length ? (
-                  worker.experience.map((exp) => (
-                    <div key={exp.id} className=" pl-4 py-1">
-                      <h4 className="font-sans font-medium text-xl leading-6 text-gray-800">
-                        {exp.title}
-                      </h4>
-
-                      {/* company and city  */}
-                      <div className=" block md:flex gap-4 my-2">
-                        <div className=" flex gap-2 ">
-                          <Image
-                            src="/buildingBlack.svg"
-                            alt="building logo"
-                            width={16}
-                            height={16}
-                          ></Image>
-                          <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]">
-                            {" "}
-                            {exp.company}{" "}
-                          </p>
-                        </div>
-
-                        <div className="flex gap-2 mt:1 md:mt-0">
-                          <Image
-                            src="/locationblack.svg"
-                            alt="building logo"
-                            width={16}
-                            height={16}
-                          ></Image>
-                          <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]">
-                            {exp.city}, {exp.state}, {exp.country}{" "}
-                          </p>
-                        </div>
-                      </div>
-
-                      <p className="text-[13px] text-nixerly-businesslabel my-1">
-                        {new Date(exp.startDate).toLocaleDateString()} _
-                        {exp.currentlyWorking
-                          ? " Present"
-                          : exp.endDate
-                          ? ` ${new Date(exp.endDate).toLocaleDateString()}`
-                          : ""}
-                      </p>
-
-                      {/* <p className="text-sm text-gray-500 mt-1">
-                        {exp.city}, {exp.state}, {exp.country}
-                      </p> */}
-                      <p className="mt-2 font-sans font-normal text-sm leading-[150%] tracking-[-1.1%]">
-                        {exp.description}
-                      </p>
-
-                      <Separator className="my-3"></Separator>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-nixerly-businesslabel  p-4">
-                    No Experience
-                  </p>
                 )}
+
+                {/*  Portfolio Details Section */}
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="font-medium text-xl leading-6 capitalize font-sans text-nixerly-blue">
+                      {item.title}
+                    </h4>
+                  </div>
+                  <p className="text-nixerly-businesslabel font-normal">
+                    {item.employerName}
+                  </p>
+
+                  <p className="mt-2 font-sans font-normal text-sm leading-[150%] tracking-[-1.1%] ">
+                    {item.description}
+                  </p>
+
+                  <p className="text-[13px] text-nixerly-businesslabel ">
+                    {new Date(item.startDate).toLocaleDateString()}_{" "}
+                    {item.endDate
+                      ? new Date(item.endDate).toLocaleDateString()
+                      : "Present"}
+                  </p>
+                  {item.employerWebsite && (
+                    <a
+                      href={item.employerWebsite}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-400 hover:underline mr-4"
+                    >
+                      Employer Website
+                    </a>
+                  )}
+                  {item.projectUrl && (
+                    <a
+                      href={item.projectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-400 hover:underline "
+                    >
+                      Project URL
+                    </a>
+                  )}
+                </div>
               </div>
+              ))
+              ) : (
+              <p className="text-nixerly-businesslabel  ">
+                No Portfolio Items
+              </p>
+                )}
             </div>
           </div>
 
-          {/* Languages */}
+          {/* Experience section */}
           <div className={maindivision}>
             <div className="flex gap-3  border-b p-4 ">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                   {/* <Image
+                      src="/tick.svg"
+                      alt="email icon"
+                      width={25}
+                      height={25}
+                    /> */}
+                  <p className=" bg-nixerly-blue rounded-full p-[6px]">
+                    {" "}
+                    <Pickaxe className="h-4 w-4 text-white  " />
+                  </p>
+                </div>
+              </div>
+              <h3 className="font-sans text-lg not-italic font-bold leading-4 tracking-tight capitalize text-nixerly-blue pt-4">
+                Work Experience
+              </h3>
+            </div>
+
+            {/* expirence details */}
+            <div className="space-y-6 p-4">
+              {worker.experience?.length ? (
+                worker.experience.map((exp) => (
+                  <div key={exp.id} className=" pl-4 py-1">
+                    <h4 className="font-sans font-medium text-xl leading-6 text-gray-800">
+                      {exp.title}
+                    </h4>
+
+                    {/* company and city  */}
+                    <div className=" block md:flex gap-4 my-2">
+                      <div className=" flex gap-2 ">
+                        <Image
+                          src="/buildingBlack.svg"
+                          alt="building logo"
+                          width={16}
+                          height={16}
+                        ></Image>
+                        <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]">
+                          {" "}
+                          {exp.company}{" "}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-2 mt:1 md:mt-0">
+                        <Image
+                          src="/locationblack.svg"
+                          alt="building logo"
+                          width={16}
+                          height={16}
+                        ></Image>
+                        <p className="font-sans font-normal text-sm leading-4 text-nixerly-blue tracking-[-0.6%]">
+                          {exp.city}, {exp.state}, {exp.country}{" "}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-[13px] text-nixerly-businesslabel my-1">
+                      {new Date(exp.startDate).toLocaleDateString()} _
+                      {exp.currentlyWorking
+                        ? " Present"
+                        : exp.endDate
+                          ? ` ${new Date(exp.endDate).toLocaleDateString()}`
+                          : ""}
+                    </p>
+
+                    {/* <p className="text-sm text-gray-500 mt-1">
+                        {exp.city}, {exp.state}, {exp.country}
+                      </p> */}
+                    <p className="mt-2 font-sans font-normal text-sm leading-[150%] tracking-[-1.1%]">
+                      {exp.description}
+                    </p>
+
+                    <Separator className="my-3"></Separator>
+                  </div>
+                ))
+              ) : (
+                <p className="text-nixerly-businesslabel  p-4">
+                  No Experience
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Languages */}
+        <div className={maindivision}>
+          <div className="flex gap-3  border-b p-4 ">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                {/* <Image
                     src="/.svg"
                     alt="email icon"
                     width={25}
                     height={25}
                   /> */}
-                  <p className=" bg-nixerly-blue rounded-full p-[6px]">
-                    {" "}
-                    <Globe className="h-4 w-4 text-white  " />
-                  </p>
-                </div>
+                <p className=" bg-nixerly-blue rounded-full p-[6px]">
+                  {" "}
+                  <Globe className="h-4 w-4 text-white  " />
+                </p>
               </div>
-              <h3 className="font-sans text-lg not-italic font-bold leading-4 tracking-tight capitalize text-nixerly-blue pt-4">
-                {" "}
-                Languages
-              </h3>
             </div>
-
-            <div className="p-4 w-full space-y-2">
-              {worker.languages?.map((language) => (
-                <div key={language.id} className="flex">
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center rounded-lg bg-[rgba(30,100,211,0.10)] w-full px-4 py-3 gap-1">
-                    <span className="font-medium text-gray-800">
-                      {language.language.charAt(0) +
-                        language.language.slice(1).toLowerCase()}
-                    </span>
-                    <span className="text-nixerly-businesslabel text-sm font-normal">
-                      {language.proficiency.charAt(0) +
-                        language.proficiency.slice(1).toLowerCase()}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <h3 className="font-sans text-lg not-italic font-bold leading-4 tracking-tight capitalize text-nixerly-blue pt-4">
+              {" "}
+              Languages
+            </h3>
           </div>
 
-          {/* //  Sidebar  */}
-          {/* <div className="space-y-6">
+          <div className="p-4 w-full space-y-2">
+            {worker.languages?.map((language) => (
+              <div key={language.id} className="flex">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center rounded-lg bg-[rgba(30,100,211,0.10)] w-full px-4 py-3 gap-1">
+                  <span className="font-medium text-gray-800">
+                    {language.language.charAt(0) +
+                      language.language.slice(1).toLowerCase()}
+                  </span>
+                  <span className="text-nixerly-businesslabel text-sm font-normal">
+                    {language.proficiency.charAt(0) +
+                      language.proficiency.slice(1).toLowerCase()}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* //  Sidebar  */}
+        {/* <div className="space-y-6">
             <div className="sticky top-24 rounded-lg border bg-gradient-to-b from-white to-blue-50 p-6 shadow-sm">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-t-lg"></div>
               <div className="mb-4 text-center">
@@ -710,8 +738,8 @@ export default function FreelancerProfile() {
               </Button>
             </div>
           </div>  */}
-        </div>
       </div>
     </div>
+    </div >
   );
 }

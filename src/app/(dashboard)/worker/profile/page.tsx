@@ -24,6 +24,7 @@ import {
   Camera,
   Star,
   Building,
+  PlayCircle,
 } from "lucide-react"
 import { useGetCurrentWorkerProfileDetails } from "@/hook/user/user.hooks"
 import type { WorkerUser, WorkerEducation, WorkerExperience, WorkerLanguage, Portfolio } from "@/types/worker.types"
@@ -76,6 +77,9 @@ const sidebarItems = [
 const toModalData = (data: unknown): Record<string, unknown> => {
   return data as Record<string, unknown>
 }
+
+// Helper to check if asset is a video
+const isVideo = (url: string) => /\.(mp4|webm|ogg)$/i.test(url);
 
 export default function FreelancerProfileSelfView() {
   const searchParams = useSearchParams()
@@ -554,8 +558,8 @@ export default function FreelancerProfileSelfView() {
       <div className="border rounded-2xl ">
         <div className="flex items-center justify-between p-4">
           <div>
-            <h2 className="text-2xl font-bold text-nixerly-blue">Portfolio Projects</h2>
-            <p className="text-nixerly-businesslabel mt-1">Showcase your best work and achievements</p>
+            <h2 className="text-xl font-semibold flex items-center text-nixerly-blue">Portfolio Projects</h2>
+            <p className="text-sm text-nixerly-businesslabel mt-1">Showcase your best work and achievements</p>
           </div>
           <TooltipProvider>
             <Tooltip>
@@ -587,7 +591,7 @@ export default function FreelancerProfileSelfView() {
                 key={portfolio.id}
                 className="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300"
               >
-                {/* Enhanced Image Section */}
+                {/* Enhanced Image/Video Section */}
                 {portfolio.assets?.length > 0 && (
                   <div
                     className="relative aspect-[16/9] cursor-pointer overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100"
@@ -601,11 +605,32 @@ export default function FreelancerProfileSelfView() {
                       })
                     }}
                   >
-                    <img
-                      src={portfolio.assets[0].url || "/placeholder.svg"}
-                      alt={portfolio.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    {/* Detect if first asset is a video */}
+                    {/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(portfolio.assets[0].url) ? (
+                      <>
+                        <video
+                          src={portfolio.assets[0].url}
+                          className="w-full h-full object-cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                        />
+                        {/* Play button overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="bg-black/60 rounded-full p-2">
+                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <polygon points="5,3 19,12 5,21" />
+                            </svg>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={portfolio.assets[0].url || "/placeholder.svg"}
+                        alt={portfolio.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
 
                     {/* Enhanced Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -627,7 +652,7 @@ export default function FreelancerProfileSelfView() {
                     {/* Image Count Badge */}
                     {portfolio.assets.length > 1 && (
                       <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs font-medium px-1.5 py-0.5 rounded-full">
-                        {portfolio.assets.length} images
+                        {portfolio.assets.length} items
                       </div>
                     )}
                   </div>

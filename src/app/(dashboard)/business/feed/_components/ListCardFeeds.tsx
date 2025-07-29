@@ -190,16 +190,37 @@ function ListCardFeeds({
                       >
                         {cert.assets.length > 0 ? (
                           <div className="relative flex-shrink-0">
-                            <Image
-                              src={
-                                cert.assets[0].url ||
-                                "/placeholder.svg?height=100&width=100"
-                              }
-                              width={100}
-                              height={100}
-                              alt={cert.name}
-                              className="rounded-md object-cover"
-                            />
+                            {/* Detect if first asset is a video */}
+                            {/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(cert.assets[0].url) ? (
+                              <>
+                                <video
+                                  src={cert.assets[0].url}
+                                  className="w-[100px] h-[100px] rounded-md object-cover"
+                                  muted
+                                  playsInline
+                                  preload="metadata"
+                                />
+                                {/* Play button overlay */}
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                  <div className="bg-black/60 rounded-full p-2">
+                                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <polygon points="5,3 19,12 5,21" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <Image
+                                src={
+                                  cert.assets[0].url ||
+                                  "/placeholder.svg?height=100&width=100"
+                                }
+                                width={100}
+                                height={100}
+                                alt={cert.name}
+                                className="rounded-md object-cover"
+                              />
+                            )}
                           </div>
                         ) : (
                           <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
@@ -259,16 +280,37 @@ function ListCardFeeds({
                       >
                         {item.assets.length > 0 ? (
                           <div className="relative flex-shrink-0">
-                            <Image
-                              src={
-                                item.assets[0].url ||
-                                "/placeholder.svg?height=100&width=100"
-                              }
-                              width={100}
-                              height={100}
-                              alt={item.title}
-                              className="rounded-md object-cover"
-                            />
+                            {/* Detect if first asset is a video */}
+                            {/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(item.assets[0].url) ? (
+                              <>
+                                <video
+                                  src={item.assets[0].url}
+                                  className="w-[100px] h-[100px] rounded-md object-cover"
+                                  muted
+                                  playsInline
+                                  preload="metadata"
+                                />
+                                {/* Play button overlay */}
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                  <div className="bg-black/60 rounded-full p-1">
+                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <polygon points="5,3 19,12 5,21" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <Image
+                                src={
+                                  item.assets[0].url ||
+                                  "/placeholder.svg?height=100&width=100"
+                                }
+                                width={100}
+                                height={100}
+                                alt={item.title}
+                                className="rounded-md object-cover"
+                              />
+                            )}
                           </div>
                         ) : (
                           <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">

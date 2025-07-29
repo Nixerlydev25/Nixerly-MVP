@@ -6,7 +6,7 @@ import { ModalType } from "@/types/model"
 import type { TBusinessAsset } from "@/types/auth"
 import { Button } from "../ui/button"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 interface ImageCarouselModalData {
   images: TBusinessAsset[]
@@ -18,11 +18,14 @@ export function ImageCarouselModal() {
   const typedModalData = modalData as unknown as ImageCarouselModalData
   const [currentIndex, setCurrentIndex] = useState<number>(typedModalData?.startIndex || 0)
   const images = (typedModalData?.images || []) as TBusinessAsset[]
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     if (typedModalData?.startIndex !== undefined) {
       setCurrentIndex(typedModalData.startIndex)
     }
+    setVideoPlaying(false)
   }, [typedModalData?.startIndex])
 
   useEffect(() => {
@@ -45,6 +48,10 @@ export function ImageCarouselModal() {
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [activeModal, closeModal])
+
+  useEffect(() => {
+    setVideoPlaying(false)
+  }, [currentIndex])
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length)
@@ -139,6 +146,7 @@ export function ImageCarouselModal() {
           <div className="relative w-full h-full flex items-center justify-center">
             {images.map((image, index) => {
               const style = getSlideStyle(index)
+              const isVideo = /\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(image.url)
               return (
                 <div
                   key={image.id}
@@ -151,14 +159,48 @@ export function ImageCarouselModal() {
                   }}
                 >
                   <div className="relative w-[800px] h-[600px] rounded-xl overflow-hidden shadow-2xl">
-                    <img
-                      src={image.url || "/placeholder.svg"}
-                      alt={`Company image ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      style={{
-                        filter: index === currentIndex ? "none" : "brightness(0.8)",
-                      }}
-                    />
+                    {isVideo ? (
+                      <div className="w-full h-full relative flex items-center justify-center bg-black">
+                        <video
+                          ref={index === currentIndex ? videoRef : undefined}
+                          src={image.url}
+                          className="w-full h-full object-cover"
+                          style={{ filter: index === currentIndex ? "none" : "brightness(0.8)" }}
+                          controls={videoPlaying && index === currentIndex}
+                          autoPlay={videoPlaying && index === currentIndex}
+                          onPause={() => setVideoPlaying(false)}
+                        />
+                        {/* Play button overlay */}
+                        {index === currentIndex && !videoPlaying && (
+                          <button
+                            className="absolute inset-0 flex items-center justify-center focus:outline-none"
+                            style={{ pointerEvents: "auto" }}
+                            onClick={e => {
+                              e.stopPropagation()
+                              setVideoPlaying(true)
+                              if (videoRef.current) {
+                                videoRef.current.play()
+                              }
+                            }}
+                          >
+                            <div className="bg-black/60 rounded-full p-6">
+                              <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <polygon points="5,3 19,12 5,21" />
+                              </svg>
+                            </div>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        src={image.url || "/placeholder.svg"}
+                        alt={`Company image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        style={{
+                          filter: index === currentIndex ? "none" : "brightness(0.8)",
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               )

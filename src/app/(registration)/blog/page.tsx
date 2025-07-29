@@ -218,11 +218,11 @@ export default function BlogPage() {
                           />
                         </div>
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm flex flex-col text-gray-600">
                         <span className="font-medium  font-poppins text-sm ">
                           {post.author}
                         </span>
-                        <span className="mx-2">•</span>
+                        {/* <span className="mx-2">•</span> */}
                         <span>{post.date}</span>
                       </div>
                       <div className="ml-auto  text-gray-500 font-poppins text-sm font-normal">
@@ -230,17 +230,9 @@ export default function BlogPage() {
                       </div>
                     </div>
 
-                    <p className=" mb-4 line-clamp-3  text-[#787676] font-poppins text-sm font-normal">
+                    <p className=" mb-4 line-clamp-3  text-[#787676] font-poppins text-base font-normal">
                       {post.excerpt}
                     </p>
-
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="font-inter text-xl text-primary hover:text-black  border !border-blue-300  rounded-full "
-                    >
-                      Read More
-                    </Button>
                   </div>
                 </div>
               </div>

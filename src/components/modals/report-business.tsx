@@ -29,7 +29,7 @@ export function ReportBusinessModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[520px]">
         <DialogHeader className="flex flex-row items-center gap-3">
           <div className="flex items-center justify-center p-4 border border-gray-300 rounded-full bg-white">
             <Image

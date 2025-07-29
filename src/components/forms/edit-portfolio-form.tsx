@@ -133,14 +133,6 @@ export function EditPortfolioForm({
       ...prev,
       [index]: error,
     }));
-
-    setUploadProgress((prev) => ({
-      ...prev,
-      [index]: validFiles.reduce((acc, file) => {
-        acc[file.name] = 0;
-        return acc;
-      }, {} as { [fileName: string]: number }),
-    }));
   };
 
   const handleDeleteExistingPortfolio = (portfolioId: string) => {

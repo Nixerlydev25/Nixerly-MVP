@@ -123,22 +123,26 @@ export function ImageCarouselModal() {
           {/* Navigation arrows */}
           {images.length > 1 && (
             <>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
-                onClick={goToPrev}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
-                onClick={goToNext}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full border-1 border-blue-500 p-2  flex items-center justify-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full w-10 h-10 text-white bg-nixerly-blue flex items-center justify-center"
+                  onClick={goToPrev}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
+              </div>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full border-1 border-blue-500 p-2 flex items-center justify-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full w-10 h-10 text-white bg-nixerly-blue flex items-center justify-center"
+                  onClick={goToNext}
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </Button>
+              </div>
             </>
           )}
 

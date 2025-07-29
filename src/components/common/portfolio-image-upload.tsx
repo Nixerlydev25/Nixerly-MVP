@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
 import { Upload, X, ImagePlus } from "lucide-react";
-import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

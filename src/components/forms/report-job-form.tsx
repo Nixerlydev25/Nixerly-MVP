@@ -24,6 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "../ui/separator";
+import { useModalStore } from "@/store/modal.store";
 
 const formSchema = z.object({
   reason: z.nativeEnum(ReportJobsCategory, {
@@ -62,68 +64,80 @@ export function ReportJobForm({ jobId, onSuccess }: ReportJobFormProps) {
     });
     onSuccess?.();
   };
+  const { closeModal } = useModalStore();
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="reason"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Reason for reporting</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <div className="p-4">
+          <FormField
+            control={form.control}
+            name="reason"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reason for reporting</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl className="w-full">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a reason" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.entries(ReportJobsCategory).map(([key, value]) => (
+                      <SelectItem key={key} value={value}>
+                        {key
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0) + word.slice(1).toLowerCase()
+                          )
+                          .join(" ")}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="mt-3">Additional details</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a reason" />
-                  </SelectTrigger>
+                  <Textarea
+                    placeholder="Please provide more details about the issue..."
+                    className="mt-2 min-h-[120px] "
+                    {...field}
+                  />
                 </FormControl>
-                <SelectContent>
-                  {Object.entries(ReportJobsCategory).map(([key, value]) => (
-                    <SelectItem key={key} value={value}>
-                      {key
-                        .split("_")
-                        .map(
-                          (word) =>
-                            word.charAt(0) + word.slice(1).toLowerCase()
-                        )
-                        .join(" ")}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {reportJobError?.message && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{reportJobError?.message}</AlertDescription>
+            </Alert>
           )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Additional details</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Please provide more details about the issue..."
-                  className="mt-2"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {reportJobError?.message && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{reportJobError?.message}</AlertDescription>
-          </Alert>
-        )}
-
-        <div className="flex justify-end gap-2">
+        </div>
+        <Separator/>
+        <div className="flex justify-end gap-2 pb-4 px-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={closeModal}
+            disabled={isReportJobPending}
+            className="rounded-full"
+          >
+            Cancel
+          </Button>
           <Button
             type="submit"
             disabled={isReportJobPending}

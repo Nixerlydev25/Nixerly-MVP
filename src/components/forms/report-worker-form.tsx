@@ -24,6 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useModalStore } from "@/store/modal.store";
+import { Separator } from "../ui/separator";
 
 const reportFormSchema = z.object({
   reason: z.nativeEnum(WorkerReportReason, {
@@ -48,6 +50,8 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
     isSuccess: isReportWorkerSuccess,
     error: reportWorkerError,
   } = useReportWorker();
+
+  const { closeModal } = useModalStore();
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportFormSchema),
@@ -80,20 +84,21 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="">
+        <div className="px-4 py-3 space-y-4">
         <FormField
           control={form.control}
           name="reason"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>What are you reporting?</FormLabel>
+              <FormLabel>Reason for Professional Reporting ?</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
               >
-                <FormControl>
+                <FormControl className="w-full">
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a reason">
+                    <SelectValue className="w-full" placeholder="Select a reason">
                       {field.value
                         ? reasonLabels[field.value as WorkerReportReason]
                         : "Select a reason"}
@@ -140,10 +145,20 @@ export function ReportWorkerForm({ targetId, onSuccess }: ReportWorkerFormProps)
             </AlertDescription>
           </Alert>
         )}
-
-        <div className="flex justify-end gap-2">
+        </div>
+        <Separator/>
+        <div className="flex justify-end gap-2 px-4 py-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={closeModal}
+            className="rounded-full"
+          >
+            Cancel
+          </Button>
           <Button
             type="submit"
+            className="bg-nixerly-blue rounded-full"
             disabled={isReportWorkerSuccess}
           >
             {isReportWorkerSuccess ? "Submitting..." : "Submit Report"}

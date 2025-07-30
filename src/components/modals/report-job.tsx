@@ -14,6 +14,8 @@ import { useModalStore } from "@/store/modal.store";
 import { ModalType } from "@/types/model";
 import { useHasWorkerReportedJob } from "@/hook/report/report.hooks";
 import { ReportJobForm } from "../forms/report-job-form";
+import Image from "next/image";
+import { Separator } from "../ui/separator";
 
 export function ReportJobModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
@@ -25,10 +27,24 @@ export function ReportJobModal() {
   if (hasReported) {
     return (
       <Dialog open={isOpen} onOpenChange={closeModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-md gap-0">
+          <DialogHeader className="flex flex-row items-center gap-3">
+          <div className="flex items-center justify-center p-4 border border-gray-300 rounded-full bg-white">
+            <Image
+              src="/reports.svg"
+              alt="report"
+              width={24}
+              height={24}
+              className="object-contain"
+            />
+          </div>
+          <div>
             <DialogTitle>Report Job</DialogTitle>
+            <DialogDescription className="pt-2">Your report will be reviewed by our team.</DialogDescription>
+            </div>
           </DialogHeader>
+          <Separator/>
+          <div className="p-4">
           <Alert className="bg-yellow-50 border-yellow-200">
             <AlertCircle className="h-5 w-5 text-yellow-600" />
             <AlertTitle className="text-yellow-800">Already Reported</AlertTitle>
@@ -36,10 +52,11 @@ export function ReportJobModal() {
               You have already reported this job. Our team is reviewing your report.
             </AlertDescription>
           </Alert>
-          <div className="flex justify-end">
+          <div className="flex justify-end pt-4">
             <Button type="button" variant="outline" onClick={closeModal}>
               Close
             </Button>
+          </div>
           </div>
         </DialogContent>
       </Dialog>
@@ -48,13 +65,25 @@ export function ReportJobModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-md p-6">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-md gap-0">
+        <DialogHeader className="flex flex-row items-center gap-3">
+        <div className="flex items-center justify-center p-4 border border-gray-300 rounded-full bg-white">
+            <Image
+              src="/reports.svg"
+              alt="report"
+              width={24}
+              height={24}
+              className="object-contain"
+            />
+          </div>
+          <div className="space-y-2">
           <DialogTitle>Report Job</DialogTitle>
           <DialogDescription>
             Help us maintain quality by reporting inappropriate content.
           </DialogDescription>
+          </div>
         </DialogHeader>
+        <Separator/>
         <ReportJobForm jobId={jobId} onSuccess={closeModal} />
       </DialogContent>
     </Dialog>

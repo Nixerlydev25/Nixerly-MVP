@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
-import Image from "next/image"
+import Link from "next/link";
+import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -12,23 +12,43 @@ export default function Footer() {
               <Image src="/logoWhite.svg" alt="logo" width={128} height={28} />
             </Link>
             <p className="text-base text-white w-3/5 font-normal leading-6">
-              The digital platform connecting construction professionals with businesses in Ireland.
+              The digital platform connecting construction professionals with
+              businesses in Ireland.
             </p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-base text-white hover:text-gray-900">
-                <Image  src="facebook.svg" alt="facebook" width={34} height={34}/>
+              <Link
+                href="#"
+                className="text-base text-white hover:text-gray-900"
+              >
+                <Image
+                  src="facebook.svg"
+                  alt="facebook"
+                  width={34}
+                  height={34}
+                />
                 <span className="sr-only">Facebook</span>
               </Link>
               {/* <Link href="#" className="text-base text-white hover:text-gray-900">
                 <Twitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link> */}
-              <Link href="#" className="text-base text-white hover:text-gray-900">
-              <Image  src="insta.svg" alt="insta" width={34} height={34}/>
+              <Link
+                href="#"
+                className="text-base text-white hover:text-gray-900"
+              >
+                <Image src="insta.svg" alt="insta" width={34} height={34} />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="text-base text-white hover:text-gray-900">
-              <Image  src="linkedin.svg" alt="linkedin" width={34} height={34}/>
+              <Link
+                href="#"
+                className="text-base text-white hover:text-gray-900"
+              >
+                <Image
+                  src="linkedin.svg"
+                  alt="linkedin"
+                  width={34}
+                  height={34}
+                />
                 <span className="sr-only">Linkedin</span>
               </Link>
             </div>
@@ -37,17 +57,26 @@ export default function Footer() {
             <h3 className="text-xl font-bold leading-7 mb-4">Platform</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/about" className="text-base text-white hover:text-gray-900">
+                <Link
+                  href="/about"
+                  className="text-base text-white hover:text-gray-900"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-base text-white hover:text-gray-900">
+                <Link
+                  href="/blog"
+                  className="text-base text-white hover:text-gray-900"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-base text-white hover:text-gray-900">
+                <Link
+                  href="/contact"
+                  className="text-base text-white hover:text-gray-900"
+                >
                   Contact
                 </Link>
               </li>
@@ -87,13 +116,43 @@ export default function Footer() {
             <h3 className="text-xl font-bold leading-7 mb-4">Legal</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/termsAndConditions" className="text-base text-white hover:text-gray-900">
+                <Link
+                  href="/terms-of-services"
+                  className="text-base text-white hover:text-gray-900"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-base text-white hover:text-gray-900">
+                <Link
+                  href="/privacy-policy"
+                  className="text-base text-white hover:text-gray-900"
+                >
                   Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cookie-policy"
+                  className="text-base text-white hover:text-gray-900"
+                >
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/acceptable-use-policy"
+                  className="text-base text-white hover:text-gray-900"
+                >
+                  Acceptable Use Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal-compliance-requirements"
+                  className="text-base text-white hover:text-gray-900"
+                >
+                  Legal Compliance Requirements
                 </Link>
               </li>
               {/* <li>
@@ -121,9 +180,11 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-white">
-          <p>&copy; {new Date().getFullYear()} Nixerly Ltd. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Nixerly Ltd. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

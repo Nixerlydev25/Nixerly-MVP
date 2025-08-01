@@ -27,12 +27,13 @@ import { useRef, useState } from "react";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Separator } from "../ui/separator";
+import { DatePicker } from "../ui/date-picker";
 
 const certificateSchema = z.object({
   name: z.string().min(1, "Certificate name is required"),
   issuingOrg: z.string().min(1, "Issuing organization is required"),
-  issueDate: z.string(),
-  expiryDate: z.string().optional().nullable(),
+  issueDate: z.date(),
+  expiryDate: z.date().optional().nullable(),
   credentialUrl: z.string().url().optional(),
   certificateType: z.nativeEnum(CertificateType),
 });
@@ -48,13 +49,19 @@ interface EditCertificatesFormProps {
   existingCertificates: Certificate[];
 }
 
-export function EditCertificatesForm({ onClose, existingCertificates }: EditCertificatesFormProps) {
+export function EditCertificatesForm({
+  onClose,
+  existingCertificates,
+}: EditCertificatesFormProps) {
   const [selectedFiles, setSelectedFiles] = useState<{ [key: number]: File[] }>(
     {}
   );
-  const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>([]);
+  const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>(
+    []
+  );
   const fileInputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
-  const { createCertificates, deleteCertificates, isLoading } = useCertificates();
+  const { createCertificates, deleteCertificates, isLoading } =
+    useCertificates();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -82,20 +89,22 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
   };
 
   const handleDeleteExistingCertificate = (certificateId: string) => {
-    setCertificatesToDelete(prev => [...prev, certificateId]);
+    setCertificatesToDelete((prev) => [...prev, certificateId]);
   };
 
   const onSubmit = async (data: FormData) => {
     try {
-      console.log('Starting certificate creation with data:', data.certificates);
-      
-      // Delete marked certificates first
-      if (certificatesToDelete.length > 0) {
-        await deleteCertificates(certificatesToDelete);
-      }
+      // Convert dates to ISO strings before sending to API
+      const certificatesWithStringDates = data.certificates.map((cert) => ({
+        ...cert,
+        issueDate: cert.issueDate.toISOString().split("T")[0],
+        expiryDate: cert.expiryDate
+          ? cert.expiryDate.toISOString().split("T")[0]
+          : null,
+      }));
 
       // Create new certificates and handle asset uploads
-      await createCertificates(data.certificates, selectedFiles);
+      await createCertificates(certificatesWithStringDates, selectedFiles);
       onClose();
     } catch (error) {
       console.error("Error submitting certificates:", error);
@@ -105,77 +114,108 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
 
   // Filter out certificates that are marked for deletion
   const displayedCertificates = existingCertificates.filter(
-    cert => !certificatesToDelete.includes(cert.id)
+    (cert) => !certificatesToDelete.includes(cert.id)
   );
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-[calc(100vh-200px)]">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col h-[calc(100vh-200px)]"
+      >
         <div className="flex-1 overflow-y-auto px-4 pb-4">
           <div className="space-y-6">
             {displayedCertificates.length > 0 && (
               <div className="space-y-2">
-                <h3 className="text-lg font-medium text-nixerly-businesslabel">Existing Certificates</h3>
+                <h3 className="text-lg font-medium text-nixerly-businesslabel">
+                  Existing Certificates
+                </h3>
                 <div className="gap-4">
-      {displayedCertificates.map((certificate) => (
-        <div key={certificate.id} className="relative p-4 hover:bg-gray-50 border rounded-lg mb-4">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2"
-            onClick={() => handleDeleteExistingCertificate(certificate.id)}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+                  {displayedCertificates.map((certificate) => (
+                    <div
+                      key={certificate.id}
+                      className="relative p-4 hover:bg-gray-50 border rounded-lg mb-4"
+                    >
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-2 top-2"
+                        onClick={() =>
+                          handleDeleteExistingCertificate(certificate.id)
+                        }
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
 
-          <div className="flex items-start gap-4 pr-8">
-            {/* Image/Logo Section - Now on the left */}
-            <div className="flex-shrink-0">
-              {certificate.assets?.length > 0 && (
-                <div className="w-16 h-16 relative overflow-hidden rounded-lg border bg-gray-50 flex items-center justify-center">
-                  <img
-                    src={certificate.assets[0].url || "/placeholder.svg"}
-                    alt={`${certificate.name} certificate`}
-                    className="object-cover w-full h-full"
-                  />
+                      <div className="flex items-start gap-4 pr-8">
+                        {/* Image/Logo Section - Now on the left */}
+                        <div className="flex-shrink-0">
+                          {certificate.assets?.length > 0 && (
+                            <div className="w-16 h-16 relative overflow-hidden rounded-lg border bg-gray-50 flex items-center justify-center">
+                              <img
+                                src={
+                                  certificate.assets[0].url ||
+                                  "/placeholder.svg"
+                                }
+                                alt={`${certificate.name} certificate`}
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Text Content Section - Now on the right */}
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-medium text-lg">
+                              {certificate.name}
+                            </h4>
+                            {certificate.credentialUrl && (
+                              <a
+                                href={certificate.credentialUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className=""
+                              >
+                                <Image
+                                  src="/link.svg"
+                                  alt="link"
+                                  width={16}
+                                  height={16}
+                                />
+                              </a>
+                            )}
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline">
+                                {certificate.certificateType}
+                              </Badge>
+                            </div>
+                          </div>
+
+                          <p className="text-sm text-gray-600">
+                            {certificate.issuingOrg}
+                          </p>
+
+                          <p className="text-sm text-gray-500">
+                            Issued:{" "}
+                            {new Date(
+                              certificate.issueDate
+                            ).toLocaleDateString()}
+                            {certificate.expiryDate &&
+                              ` • Expires: ${new Date(
+                                certificate.expiryDate
+                              ).toLocaleDateString()}`}
+                          </p>
+
+                          <p className="text-sm text-gray-600">
+                            has successfully completed
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
-
-            {/* Text Content Section - Now on the right */}
-            <div className="flex-1 space-y-2">
-              <div className="flex items-center gap-2">
-                <h4 className="font-medium text-lg">{certificate.name}</h4>
-                {certificate.credentialUrl && (
-                  <a
-                    href={certificate.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=""
-                  >
-                    <Image src="/link.svg" alt="link" width={16} height={16} />
-                  </a>
-                )}
-                  <div className="flex items-center gap-2">
-                <Badge variant="outline">{certificate.certificateType}</Badge>
-              </div>
-              </div>
-
-              <p className="text-sm text-gray-600">{certificate.issuingOrg}</p>
-
-
-              <p className="text-sm text-gray-500">
-                Issued: {new Date(certificate.issueDate).toLocaleDateString()}
-                {certificate.expiryDate && ` • Expires: ${new Date(certificate.expiryDate).toLocaleDateString()}`}
-              </p>
-
-              <p className="text-sm text-gray-600">has successfully completed</p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
               </div>
             )}
 
@@ -185,7 +225,9 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                 {fields.map((field, index) => (
                   <div key={field.id} className="">
                     <div className="mb-4 flex items-center justify-between">
-                      <h4 className="text-lg font-medium">Certificate {index + 1}</h4>
+                      <h4 className="text-lg font-medium">
+                        Certificate {index + 1}
+                      </h4>
                       {fields.length > 1 && (
                         <Button
                           type="button"
@@ -206,7 +248,10 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                           <FormItem>
                             <FormLabel>Certificate Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="Sandford Univsersity" {...field} />
+                              <Input
+                                placeholder="Sandford Univsersity"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -220,7 +265,10 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                           <FormItem>
                             <FormLabel>Issuing Organization</FormLabel>
                             <FormControl>
-                              <Input placeholder="Computer Science" {...field} />
+                              <Input
+                                placeholder="Computer Science"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -257,7 +305,7 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                         )}
                       />
 
-                        <FormField
+                      <FormField
                         control={form.control}
                         name={`certificates.${index}.credentialUrl`}
                         render={({ field }) => (
@@ -279,11 +327,18 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                       <FormField
                         control={form.control}
                         name={`certificates.${index}.issueDate`}
-                        render={({ field }) => (
+                        render={({ field: { value, onChange, ...field } }) => (
                           <FormItem>
                             <FormLabel>Issue Date</FormLabel>
                             <FormControl>
-                              <Input type="date" {...field} />
+                              <div className="flex items-center border rounded-md">
+                                <DatePicker
+                                  selected={value}
+                                  onSelect={onChange}
+                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                                  {...field}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -293,21 +348,23 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                       <FormField
                         control={form.control}
                         name={`certificates.${index}.expiryDate`}
-                        render={({ field }) => (
+                        render={({ field: { value, onChange, ...field } }) => (
                           <FormItem>
                             <FormLabel>Expiry Date (Optional)</FormLabel>
                             <FormControl>
-                              <Input
-                                type="date"
-                                {...field}
-                                value={field.value || ""}
-                              />
+                              <div className="flex items-center border rounded-md">
+                                <DatePicker
+                                  selected={value || undefined} // Convert null to undefined
+                                  onSelect={onChange}
+                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                                  {...field}
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-
                     </div>
 
                     <div className="mt-4">
@@ -333,22 +390,25 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                           Upload Images
                         </Button>
                       </div>
-                      {selectedFiles[index] && selectedFiles[index].length > 0 && (
-                        <div className="mt-4 grid grid-cols-3 gap-4">
-                          {selectedFiles[index].map((file, fileIndex) => (
-                            <div
-                              key={fileIndex}
-                              className="relative aspect-square overflow-hidden rounded-lg border"
-                            >
-                              <img
-                                src={URL.createObjectURL(file)}
-                                alt={`Certificate ${index + 1} image ${fileIndex + 1}`}
-                                className="object-cover w-full h-full"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      {selectedFiles[index] &&
+                        selectedFiles[index].length > 0 && (
+                          <div className="mt-4 grid grid-cols-3 gap-4">
+                            {selectedFiles[index].map((file, fileIndex) => (
+                              <div
+                                key={fileIndex}
+                                className="relative aspect-square overflow-hidden rounded-lg border"
+                              >
+                                <img
+                                  src={URL.createObjectURL(file)}
+                                  alt={`Certificate ${index + 1} image ${
+                                    fileIndex + 1
+                                  }`}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
                     </div>
                   </div>
                 ))}
@@ -363,7 +423,7 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
                 append({
                   name: "",
                   issuingOrg: "",
-                  issueDate: new Date().toISOString().split("T")[0],
+                  issueDate: new Date(), // Changed from string to Date
                   expiryDate: null,
                   credentialUrl: "",
                   certificateType: CertificateType.OTHER,
@@ -375,12 +435,21 @@ export function EditCertificatesForm({ onClose, existingCertificates }: EditCert
             </Button>
           </div>
         </div>
-        <Separator/>
+        <Separator />
         <div className="flex justify-end gap-2 p-4  mt-auto">
-          <Button type="button" variant="outline" onClick={onClose} className="rounded-full">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="rounded-full"
+          >
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading} className="bg-nixerly-blue rounded-full">
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="bg-nixerly-blue rounded-full"
+          >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Save Changes
           </Button>

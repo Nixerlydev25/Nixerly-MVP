@@ -270,14 +270,13 @@ export function EditEducationForm({
                         <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                           <FormLabel>Start Date</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="date"
-                              onChange={(e) => {
-                                const date = new Date(e.target.value);
-                                field.onChange(date);
-                              }}
-                              value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                            />
+                          <div className="flex items-center border rounded-md">
+                                <DatePicker
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                                />
+                              </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -292,14 +291,13 @@ export function EditEducationForm({
                           <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                             <FormLabel>End Date</FormLabel>
                             <FormControl>
-                              <Input 
-                                type="date"
-                                onChange={(e) => {
-                                  const date = new Date(e.target.value);
-                                  field.onChange(date);
-                                }}
-                                value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                              />
+                            <div className="flex items-center border rounded-md">
+                                <DatePicker
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
+                                />
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>

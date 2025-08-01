@@ -77,7 +77,7 @@ export default function Footer() {
                   href="/contact"
                   className="text-base text-white hover:text-gray-900"
                 >
-                  Contact
+                  Contact Us
                 </Link>
               </li>
               {/* <li>
@@ -171,10 +171,10 @@ export default function Footer() {
             <h3 className="text-xl font-bold leading-7 mb-4">Conatct Us</h3>
             <ul className="space-y-3 text-sm">
               <li className="text-base text-white hover:text-gray-900 cursor-pointer">
-                support@nixerly.com
+              Info@nixerly.com
               </li>
               <li className="text-base text-white hover:text-gray-900 cursor-pointer">
-                +1(555)123-4567
+              +353(0)87 4483704
               </li>
             </ul>
           </div>

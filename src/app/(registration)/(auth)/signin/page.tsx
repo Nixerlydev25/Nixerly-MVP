@@ -35,7 +35,7 @@ import { useState } from "react";
 export default function LoginPage() {
   const { mutateAsync: SignIn, isPending } = useSignIn();
   const [showPassword, setShowPassword] = useState(false);
-  
+
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -111,20 +111,20 @@ export default function LoginPage() {
                           </FormLabel>
                         </div>
                         <FormControl className="flex  justify-between">
-                              <div className="relative">
-      <Input
-        type={showPassword ? "text" : "password"}
-        placeholder="ahmed234$#"
-        className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
-        {...field}
-      />
-      <span
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
-      >
-        {showPassword ?  <EyeOff size={16} className="text-[#172327]"/> : <Eye size={16} className="text-[#172327]" />}
-      </span>
-    </div>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter your password"
+                              className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
+                              {...field}
+                            />
+                            <span
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+                            >
+                              {showPassword ? <EyeOff size={16} className="text-[#172327]" /> : <Eye size={16} className="text-[#172327]" />}
+                            </span>
+                          </div>
 
                         </FormControl>
 
@@ -154,14 +154,14 @@ font-inter  tracking-tight text-[#172327]"
                     ) : (
                       "Sign In"
                     )}
-                  </Button> 
+                  </Button>
                 </form>
               </Form>
             </CardContent>
             <CardFooter className="flex flex-col">
               {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
               <p
-                className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel" 
+                className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel"
               >
                 Don&apos;t have an account?{" "}
                 <Link

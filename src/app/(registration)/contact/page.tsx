@@ -26,7 +26,7 @@ export default function ContactPage() {
               <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
                 <Image src="/phones.svg" alt="Phone" width={20} height={20} className="w-5 h-5" />
               </div>
-              <span className="text-base lg:text-lg font-medium">+353 (0) 1 234 5678</span>
+              <span className="text-base lg:text-lg font-medium">+353(0)87 4483704</span>
             </div>
 
             {/* Email */}
@@ -34,7 +34,7 @@ export default function ContactPage() {
               <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
                 <Image src="/mail.svg" alt="Mail" width={20} height={20} className="w-5 h-5" />
               </div>
-              <span className="text-base lg:text-lg font-medium">mailto:info@nixerly.com</span>
+              <span className="text-base lg:text-lg font-medium">Info@nixerly.com</span>
             </div>
 
             {/* Location */}
@@ -42,9 +42,7 @@ export default function ContactPage() {
               <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
                 <Image src="/mapPin.svg" alt="Map Pin" width={20} height={20} className="w-5 h-5" />
               </div>
-              <span className="text-base lg:text-lg font-medium">Nixerly Ltd,
-                        123 Business Park,
-                        Dublin, Ireland</span>
+              <span className="text-base lg:text-lg font-medium">Dunshaughlin, Co.Meath, Ireland</span>
             </div>
           </div>
         </div>

@@ -151,7 +151,7 @@ export default function JobsPage() {
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
-                placeholder="Search for talent..."
+                placeholder="Search for jobs..."
                 className="focus:border-blue-600 pl-8"
                 value={searchValue}
                 onChange={handleInputChange}

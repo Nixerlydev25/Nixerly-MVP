@@ -26,24 +26,41 @@ export default function RegisterPage() {
 
 
   return (
-    <div className="flex min-h-screen ">
-      <section className="flex flex-1 items-center justify-center py-12 px-4">
-        <div className="w-full max-w-2xl animate-fade-in">
-          <Card className="shadow-nixerly-card hover-card-rise rounded-2xl">
-            <CardHeader className="space-y-2 pb-6">
-              {/* <div className="flex justify-center mb-2">
-                <div className="bg-nixerly-blue p-3 rounded-full">
-                  <UserPlus className="h-6 w-6 text-white" />
-                </div>
-              </div>   */}
-              <CardTitle className="text-center text-black font-inter text-4xl font-bold leading-[normal] mt-10">
-                Sign Up
-              </CardTitle>
-              <CardDescription className="text-center  text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel">
+    <div className="flex min-h-screen">
+      {/* Left side - Promotional Content */}
+      <section className="hidden lg:flex flex-1 relative overflow-hidden m-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+        <Image
+          src="/construction-site-growth.png"
+          alt="Construction Background"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
+        <div className="relative z-10 flex items-center justify-center p-8">
+          <div className="max-w-xl text-white">
+            <h2 className="text-6xl font-bold mb-8  drop-shadow-lg [text-shadow:_2px_2px_10px_rgb(0_0_0_/_40%)]">
+              Join Nixerly Today
+            </h2>
+            <p className="text-2xl mb-8 leading-relaxed drop-shadow-md [text-shadow:_1px_1px_5px_rgb(0_0_0_/_30%)]">
+              Connect with top construction professionals and businesses. Build your network and grow your career.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Right side - Sign Up Form */}
+      <section className="flex flex-1 items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
+              <p className="mt-2 text-sm text-gray-600">
                 Join Nixerly to connect in the construction industry
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div>
               <div className="space-y-5  max-w-[500px] mx-auto container">
                 <div className="space-y-2">
                   {/* <Label className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
@@ -138,22 +155,19 @@ export default function RegisterPage() {
                   <BusinessSignupForm />
                 )}
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col">
-              {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
-              <p className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel ">
+              <p className="mt-8 text-center text-sm text-gray-600">
                 Already have an account?{" "}
                 <Link
                   href="/signin"
-                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors font-inter text-sm leading-5"
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
                   tabIndex={0}
                   aria-label="Sign in to your account"
                 >
                   Sign In
                 </Link>
               </p>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     </div>

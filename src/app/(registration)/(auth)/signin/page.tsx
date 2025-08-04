@@ -50,30 +50,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex mt-32">
-      <section className="flex flex-1 items-center justify-center px-4">
-        <div className="w-full max-w-2xl animate-fade-in">
-          <Card className="shadow-nixerly-card hover-card-rise rounded-2xl">
-            <CardHeader className="space-y-2 pb-6">
-              {/* <div className="flex justify-center mb-2"> */}
-              {/* <div className="bg-nixerly-blue p-3 rounded-full"> */}
-              {/* <LogIn className="h-6 w-6 text-white" /> */}
-              {/* </div>/ */}
-              {/* </div> */}
-              <CardTitle
-                className="text-center text-black font-inter text-4xl font-bold leading-[normal]
-  mt-10 "
-              >
-                Sign In
-              </CardTitle>
-              <CardDescription
-                className=" text-center font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel
-"
-              >
+    <div className="flex min-h-screen">
+      {/* Left side - Promotional Content */}
+      <section className="hidden lg:flex flex-1 relative overflow-hidden m-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+        <Image
+          src="/busy-city-construction.png"
+          alt="Construction Background"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
+        <div className="relative z-10 flex items-center justify-center p-8">
+          <div className="max-w-xl text-white">
+            <h2 className="text-6xl font-bold mb-8 drop-shadow-lg [text-shadow:_2px_2px_10px_rgb(0_0_0_/_40%)]">
+              Welcome Back to Nixerly
+            </h2>
+            <p className="text-2xl mb-8 leading-relaxed drop-shadow-md [text-shadow:_1px_1px_5px_rgb(0_0_0_/_30%)]">
+              Connect with the best in the construction industry. Find opportunities and grow your network.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Right side - Sign In Form */}
+      <section className="flex flex-1 items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Sign In</h1>
+              <p className="mt-2 text-sm text-gray-600">
                 Enter your credentials to access your account
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -157,46 +168,19 @@ font-inter  tracking-tight text-[#172327]"
                   </Button>
                 </form>
               </Form>
-            </CardContent>
-            <CardFooter className="flex flex-col">
-              {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
-              <p
-                className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel"
-              >
+              <p className="mt-8 text-center text-sm text-gray-600">
                 Don&apos;t have an account?{" "}
                 <Link
                   href={ROUTES.SIGNUP}
-                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors font-inter text-sm leading-5
-"
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
                   tabIndex={0}
                   aria-label="Sign up for an account"
                 >
                   Sign Up
                 </Link>
               </p>
-              {/* <p className="mt-2 text-center text-xs text-nixerly-darkgray">
-                By signing in, you agree to our{" "}
-                <Link
-                  href="/terms"
-                  className="underline hover:text-nixerly-blue transition-colors"
-                  tabIndex={0}
-                  aria-label="Terms of Service"
-                >
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link
-                  href="/privacy"
-                  className="underline hover:text-nixerly-blue transition-colors"
-                  tabIndex={0}
-                  aria-label="Privacy Policy"
-                >
-                  Privacy Policy
-                </Link>
-                .
-              </p> */}
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     </div>

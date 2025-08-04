@@ -13,7 +13,7 @@ export default function CTASection() {
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button size="lg" className="bg-white text-nixerly-darkblue shadow-nixerly-button transition-all duration-300 hover:-translate-y-[2px] hover:bg-white/90" asChild>
-              <Link href="/register">Sign Up Now</Link>
+              <Link href="/signup">Sign Up Now</Link>
             </Button>
             <Button size="lg" variant="outline" className="border-white bg-white/10 text-white transition-all duration-300 hover:bg-white/20" asChild>
               <Link href="/contact">Contact Sales</Link>

@@ -51,7 +51,7 @@ export default function HeroSection() {
                 className="bg-nixerly-blue text-white px-6 py-3 text-base font-semibold rounded-full"
                 asChild
               >
-                <Link href="/register">Get Started</Link>
+                <Link href="/signup">Get Started</Link>
               </Button>
               <Button
                 variant="link"

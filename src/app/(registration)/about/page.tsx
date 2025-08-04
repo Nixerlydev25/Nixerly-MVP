@@ -18,7 +18,7 @@ const benefitCards = [
     title: "For Construction Professional",
     image: "/Professional.png",
     buttonLabel: "Join as Professional",
-    href: "/register",
+    href: "/signup",
     points: [
   "  Show Your Work Highlight your skills with project photos.",
 
@@ -35,7 +35,7 @@ const benefitCards = [
     title: "For Construction Businesses",
     image: "/Businesses.png",
     buttonLabel: "Join as Business",
-    href: "/register",
+    href: "/signup",
     points: [
       "Find verified construction talent quickly and efficiently",
       "Reduce hiring risks with pre-verified professionals",
@@ -86,7 +86,7 @@ export default function LandingPage() {
                 <Button size="lg" 
                 className="text-white font-inter bg-nixerly-blue text-sm font-medium leading-normal rounded-full" asChild>
 
-                  <Link href="/register">Get Started</Link>
+                  <Link href="/signup">Get Started</Link>
                   
                 </Button>
 
@@ -140,7 +140,7 @@ export default function LandingPage() {
               </p>
             
               <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter mt-6" asChild>
-                <Link href="/register" className="flex items-center gap-2 ">
+                <Link href="/signup" className="flex items-center gap-2 ">
                   Learn More 
                 </Link>
               </Button>

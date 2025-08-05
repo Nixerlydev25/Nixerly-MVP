@@ -50,17 +50,27 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side - Promotional Content */}
-      <section className="hidden lg:flex flex-1 relative overflow-hidden m-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+    <div className="flex min-h-screen relative">
+      <div className="absolute top-8 right-8 z-50">
         <Image
-          src="/busy-city-construction.png"
+          src="/NixerlyLogo.svg"
+          alt="Nixerly Logo"
+          width={120}
+          height={32}
+          priority
+        />
+      </div>
+      {/* Left side - Promotional Content */}
+      <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+
+        <Image
+          src="/signin.jpg"
           alt="Construction Background"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
         <div className="relative z-10 flex items-center justify-center p-8">
           <div className="max-w-xl text-white">
@@ -75,8 +85,9 @@ export default function LoginPage() {
       </section>
 
       {/* Right side - Sign In Form */}
-      <section className="flex flex-1 items-center justify-center p-8">
+      <section className="flex flex-2 items-center justify-center p-8">
         <div className="w-full max-w-md">
+
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Sign In</h1>
@@ -154,7 +165,7 @@ font-inter  tracking-tight text-[#172327]"
                   />
                   <Button
                     type="submit"
-                    className="text-lg font-medium  leading-6 w-full text-white  rounded-full  p-5  bg-nixerly-blue"
+                    className="text-lg font-medium leading-6 w-full text-white rounded-xl p-5  bg-nixerly-blue"
                     disabled={isPending}
                   >
                     {isPending ? (

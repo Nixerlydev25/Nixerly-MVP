@@ -114,75 +114,71 @@ export default function ProfessionalSignupForm() {
           )}
         />
 
-      
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter password"
-                      className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
-                      {...field}
-                    />
-                    <span
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
-                    >
-                      {showPassword ? (
-                        <EyeOff size={16} className="text-[#172327]" />
-                      ) : (
-                        <Eye size={16} className="text-[#172327]" />
-                      )}
-                    </span>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
+                Password
+              </FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter password"
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
+                    {...field}
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+                  >
+                    {showPassword ? (
+                      <EyeOff size={16} className="text-[#172327]" />
+                    ) : (
+                      <Eye size={16} className="text-[#172327]" />
+                    )}
+                  </span>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel ">
-                  Confirm Password
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Confirm password"
-                      className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
-                      {...field}
-                    />
-                    <span
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff size={16} className="text-black" />
-                      ) : (
-                        <Eye size={16} className="text-black" />
-                      )}
-                    </span>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-       
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel ">
+                Confirm Password
+              </FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm password"
+                    className="font-inter text-sm font-normal leading-5 tracking-tight text-black  rounded-md border border-nixerly-bussinessborder p-5"
+                    {...field}
+                  />
+                  <span
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={16} className="text-black" />
+                    ) : (
+                      <Eye size={16} className="text-black" />
+                    )}
+                  </span>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -220,7 +216,7 @@ export default function ProfessionalSignupForm() {
 
         <Button
           type="submit"
-          className="text-lg font-medium  leading-6 w-full text-white  rounded-full  p-5 bg-nixerly-blue"
+          className="text-lg font-medium  leading-6 w-full text-white  rounded-xl  p-5 bg-nixerly-blue"
           disabled={isPending}
         >
           {isPending ? (

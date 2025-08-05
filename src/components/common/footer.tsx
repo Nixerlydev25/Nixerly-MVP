@@ -1,8 +1,21 @@
+'use client';
+
 import Link from "next/link";
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { ROUTES } from "@/lib/routes";
+
 
 export default function Footer() {
+  const path = usePathname()
+
+  const noFooterPaths = [ROUTES.SIGNIN, ROUTES.SIGNUP] as string[]
+
+  if(noFooterPaths.includes(path) ){
+    return null 
+  }
+
   return (
     <footer className="bg-nixerly-blue text-white border-t">
       <div className="container mx-auto px-4 py-12 md:py-16">

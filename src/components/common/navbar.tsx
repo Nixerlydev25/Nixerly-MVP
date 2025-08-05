@@ -27,6 +27,14 @@ export default function Navbar() {
     { href: "/contact", label: "Contact Us" },
   ];
 
+  const path = usePathname()
+
+  const noFooterPaths = [ROUTES.SIGNIN, ROUTES.SIGNUP] as string[]
+
+  if(noFooterPaths.includes(path) ){
+    return null 
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto w-full container px-4 lg:px-0">

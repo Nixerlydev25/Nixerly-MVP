@@ -52,13 +52,15 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen relative">
       <div className="absolute top-8 right-8 z-50">
+        <Link href={'/'}>
         <Image
           src="/NixerlyLogo.svg"
           alt="Nixerly Logo"
           width={120}
           height={32}
           priority
-        />
+          />
+          </Link>
       </div>
       {/* Left side - Promotional Content */}
       <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">

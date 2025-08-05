@@ -3,18 +3,8 @@
 import type React from "react";
 import Link from "next/link";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
-import { Building, HardHat, UserPlus } from "lucide-react";
 import { useState } from "react";
 import ProfessionalSignupForm from "@/app/(registration)/(auth)/_components/ProfessionalSignupForm";
 import BusinessSignupForm from "@/app/(registration)/(auth)/_components/BusinessSignupForm";
@@ -27,13 +17,15 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen relative">
       <div className="absolute top-8 right-8 z-50">
+        <Link href={'/'}>
         <Image
           src="/NixerlyLogo.svg"
           alt="Nixerly Logo"
           width={120}
           height={32}
           priority
-        />
+          />
+          </Link>
       </div>
       {/* Left side - Promotional Content */}
       <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">

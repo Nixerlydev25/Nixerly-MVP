@@ -1,14 +1,11 @@
-import { Loader2 } from "lucide-react";
+"use client"
 
-export default function Loading() {
+import { Spinner } from "@/components/ui/spinner"
+
+export default function RegistrationLoading() {
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-2">
-        <div className="animate-spin">
-          <Loader2 className="h-8 w-8 text-nixerly-blue" />
-        </div>
-        <p className="text-sm text-muted-foreground">Loading...</p>
-      </div>
+    <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-64px)]">
+      <Spinner size="lg" />
     </div>
   )
 }

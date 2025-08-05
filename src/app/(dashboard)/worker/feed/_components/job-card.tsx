@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { cardHoverAnimation, iconTapAnimation } from "@/hook/common/useAnimations";
 import {
   Tooltip,
   TooltipContent,
@@ -38,10 +40,13 @@ export function JobCard({ job }: JobCardProps) {
   };
 
   return (
-    <Card
-      className="h-full flex flex-col cursor-pointer hover:shadow-md transition-shadow"
+    <motion.div
+      {...cardHoverAnimation}
       onClick={handleJobClick}
     >
+      <Card
+        className="h-full flex flex-col cursor-pointer hover:shadow-md transition-all duration-300"
+      >
       <CardHeader className="pb-2">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 rounded-sm">
@@ -78,17 +83,21 @@ export function JobCard({ job }: JobCardProps) {
         <p className="text-sm line-clamp-3 mb-4">{job.description}</p>
 
         <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="flex items-center">
-            <DollarSign className="h-4 w-4 mr-1 text-muted-foreground" />
+          <motion.div className="flex items-center" whileHover={{ x: 1 }}>
+            <motion.div {...iconTapAnimation}>
+              <DollarSign className="h-4 w-4 mr-1 text-muted-foreground" />
+            </motion.div>
             <div>
               <p className="text-sm font-medium">
                 {formatCurrency(job.budget)}
               </p>
               <p className="text-xs text-muted-foreground">Budget</p>
             </div>
-          </div>
-          <div className="flex items-center">
-            <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
+          </motion.div>
+          <motion.div className="flex items-center" whileHover={{ x: 1 }}>
+            <motion.div {...iconTapAnimation}>
+              <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
+            </motion.div>
             <div>
               <p className="text-sm font-medium">
                 {formatCurrency(job.hourlyRateMin)} -{" "}
@@ -96,14 +105,24 @@ export function JobCard({ job }: JobCardProps) {
               </p>
               <p className="text-xs text-muted-foreground">Hourly Rate</p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <div className="flex flex-wrap gap-1">
-          {displaySkills.map((skill) => (
-            <Badge key={skill} variant="outline" className="text-xs">
-              {skill.replace(/_/g, " ")}
-            </Badge>
+          {displaySkills.map((skill, index) => (
+            <motion.div
+              key={skill}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <Badge
+                variant="outline"
+                className="text-xs hover:bg-nixerly-blue/5 transition-colors duration-200"
+              >
+                {skill.replace(/_/g, " ")}
+              </Badge>
+            </motion.div>
           ))}
           {extraSkillsCount > 0 && (
             <TooltipProvider>
@@ -127,5 +146,6 @@ export function JobCard({ job }: JobCardProps) {
       </CardContent>
       <CardFooter className="mt-auto pt-4">Posted {timeAgo}</CardFooter>
     </Card>
+    </motion.div>
   );
 }

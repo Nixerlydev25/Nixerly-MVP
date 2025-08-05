@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import ProfessionalSignupForm from "@/app/(registration)/(auth)/_components/ProfessionalSignupForm";
 import BusinessSignupForm from "@/app/(registration)/(auth)/_components/BusinessSignupForm";
 
@@ -86,28 +87,31 @@ export default function RegisterPage() {
                       />
                       <Label
                         htmlFor="professional"
-                        className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
+                        className={`flex justify-center items-center gap-2 text-center rounded-md border-2 py-3 transition-all duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98]
         ${
           profileType === "professional"
-            ? " bg-nixerly-blue text-white"
-            : "bg-white text-black border-gray-100"
+            ? "bg-nixerly-blue text-white shadow-lg"
+            : "bg-white text-black border-gray-100 hover:border-nixerly-blue/30"
         }`}
                       >
-                        <Image
-                          src={
-                            profileType === "professional"
-                              ? "/whitecheckHuman.svg"
-                              : "/blackCheck.svg"
-                          }
-                          alt="Professional"
-                          width={16}
-                          height={16}
-                          className="text-black"
-                        />
-                        <span
-                          className="font-inter text-base font-medium leading-5
-"
+                        <motion.div
+                          initial={{ scale: 1 }}
+                          whileTap={{ scale: 0.9 }}
+                          transition={{ duration: 0.2 }}
                         >
+                          <Image
+                            src={
+                              profileType === "professional"
+                                ? "/whitecheckHuman.svg"
+                                : "/blackCheck.svg"
+                            }
+                            alt="Professional"
+                            width={20}
+                            height={20}
+                            className="transition-transform duration-300"
+                          />
+                        </motion.div>
+                        <span className="font-inter text-base font-medium leading-5">
                           Professional
                         </span>
                       </Label>
@@ -120,32 +124,31 @@ export default function RegisterPage() {
                       />
                       <Label
                         htmlFor="business"
-                        className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
+                        className={`flex justify-center items-center gap-2 text-center rounded-md border-2 py-3 transition-all duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98]
         ${
           profileType === "business"
-            ? "bg-nixerly-blue  text-white"
-            : "bg-white text-black border-gray-100"
+            ? "bg-nixerly-blue text-white shadow-lg"
+            : "bg-white text-black border-gray-100 hover:border-nixerly-blue/30"
         }`}
                       >
-                        <Image
-                          src={
-                            profileType === "business"
-                              ? "/buildingWhite.svg"
-                              : "/buildingBlack.svg"
-                          }
-                          alt="Professional"
-                          width={16}
-                          height={16}
-                          className="text-white"
-                        />
-                        <span
-                          className="font-inter text-base font-medium leading-5
-"
-                        ></span>
-                        <span
-                          className="font-inter text-base font-medium leading-5
-"
+                        <motion.div
+                          initial={{ scale: 1 }}
+                          whileTap={{ scale: 0.9 }}
+                          transition={{ duration: 0.2 }}
                         >
+                          <Image
+                            src={
+                              profileType === "business"
+                                ? "/buildingWhite.svg"
+                                : "/buildingBlack.svg"
+                            }
+                            alt="Business"
+                            width={20}
+                            height={20}
+                            className="transition-transform duration-300"
+                          />
+                        </motion.div>
+                        <span className="font-inter text-base font-medium leading-5">
                           Business
                         </span>
                       </Label>
@@ -158,11 +161,21 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {profileType === "professional" ? (
-                  <ProfessionalSignupForm />
-                ) : (
-                  <BusinessSignupForm />
-                )}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={profileType}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {profileType === "professional" ? (
+                      <ProfessionalSignupForm />
+                    ) : (
+                      <BusinessSignupForm />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
               </div>
               <p className="mt-8 text-center text-sm text-gray-600">
                 Already have an account?{" "}

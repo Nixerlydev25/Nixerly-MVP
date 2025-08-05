@@ -24,7 +24,7 @@ import { useState } from "react";
 
 export default function ProfessionalSignupForm() {
   const { mutateAsync: SignupProfessional, isPending } =
-    useProfessionalSignUp();
+  useProfessionalSignUp();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -99,7 +99,7 @@ export default function ProfessionalSignupForm() {
           render={({ field }) => (
             <FormItem className="">
               <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
-                E-mail Or phone number
+                Email
               </FormLabel>
               <FormControl>
                 <Input
@@ -216,7 +216,7 @@ export default function ProfessionalSignupForm() {
 
         <Button
           type="submit"
-          className="text-lg font-medium  leading-6 w-full text-white  rounded-xl  p-5 bg-nixerly-blue"
+          className="text-lg font-medium  leading-6 w-full text-white  p-5 bg-nixerly-blue"
           disabled={isPending}
         >
           {isPending ? (

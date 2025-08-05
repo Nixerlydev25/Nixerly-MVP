@@ -113,7 +113,7 @@ export default function BusinessSignupForm() {
           render={({ field }) => (
             <FormItem className="">
               <FormLabel className="font-inter text-sm font-normal leading-5 tracking-tight text-nixerly-businesslabel">
-                E-mail Or phone number
+                Email
               </FormLabel>
               <FormControl>
                 <Input
@@ -229,11 +229,11 @@ export default function BusinessSignupForm() {
 
         <Button
           type="submit"
-          className="text-lg font-medium  leading-6 w-full text-white  rounded-xl  p-5 bg-nixerly-blue "
+          className="text-lg font-medium  leading-6 w-full text-white  p-5 bg-nixerly-blue "
           disabled={isPending}
         >
           {isPending ? (
-            <>
+          <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Creating Account...
             </>

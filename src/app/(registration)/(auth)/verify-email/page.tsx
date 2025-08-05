@@ -6,8 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import Navbar from "@/components/common/navbar"
-import Footer from "@/components/common/footer"
+
 import { CheckCircle, Mail } from "lucide-react"
 
 export default function VerifyEmailPage() {
@@ -67,8 +66,6 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
-
       <section className="flex flex-1 items-center justify-center py-12">
         <div className="container max-w-md px-4 md:px-6">
           <Card>
@@ -128,8 +125,6 @@ export default function VerifyEmailPage() {
           </Card>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

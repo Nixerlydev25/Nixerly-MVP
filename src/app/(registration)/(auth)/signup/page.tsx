@@ -24,26 +24,56 @@ export default function RegisterPage() {
     "professional"
   );
 
-
   return (
-    <div className="flex min-h-screen ">
-      <section className="flex flex-1 items-center justify-center py-12 px-4">
-        <div className="w-full max-w-2xl animate-fade-in">
-          <Card className="shadow-nixerly-card hover-card-rise rounded-2xl">
-            <CardHeader className="space-y-2 pb-6">
-              {/* <div className="flex justify-center mb-2">
-                <div className="bg-nixerly-blue p-3 rounded-full">
-                  <UserPlus className="h-6 w-6 text-white" />
-                </div>
-              </div>   */}
-              <CardTitle className="text-center text-black font-inter text-4xl font-bold leading-[normal] mt-10">
-                Sign Up
-              </CardTitle>
-              <CardDescription className="text-center  text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel">
+    <div className="flex min-h-screen relative">
+      <div className="absolute top-8 right-8 z-50">
+        <Image
+          src="/NixerlyLogo.svg"
+          alt="Nixerly Logo"
+          width={120}
+          height={32}
+          priority
+        />
+      </div>
+      {/* Left side - Promotional Content */}
+      <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+
+        <Image
+          src="/signup.jpg"
+          alt="Construction Background"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
+        <div className="relative z-10 flex items-center justify-center p-8">
+          <div className="max-w-xl text-white">
+            <h2 className="text-6xl font-bold mb-8  drop-shadow-lg [text-shadow:_2px_2px_10px_rgb(0_0_0_/_40%)]">
+              Join Nixerly Today
+            </h2>
+            <p className="text-2xl mb-8 leading-relaxed drop-shadow-md [text-shadow:_1px_1px_5px_rgb(0_0_0_/_30%)]">
+              Connect with top construction professionals and businesses. Build
+              your network and grow your career.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Right side - Sign Up Form */}
+      <section className="flex flex-2 items-center justify-center p-8">
+        <div className="w-full max-w-md">
+
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Create Account
+              </h1>
+              <p className="mt-2 text-sm text-gray-600">
                 Join Nixerly to connect in the construction industry
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div>
               <div className="space-y-5  max-w-[500px] mx-auto container">
                 <div className="space-y-2">
                   {/* <Label className="text-nixerly-darkgray font-inter text-sm font-medium leading-5 ">
@@ -65,16 +95,18 @@ export default function RegisterPage() {
                       <Label
                         htmlFor="professional"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
-        ${profileType === "professional"
-          ? " bg-nixerly-blue text-white border-nixerly-blue "
-          : "bg-white text-black border-gray-100"}`}
+        ${
+          profileType === "professional"
+            ? " bg-nixerly-blue text-white"
+            : "bg-white text-black border-gray-100"
+        }`}
                       >
                         <Image
                           src={
-          profileType === "professional"
-            ?"/whitecheckHuman.svg"
-            :"/blackCheck.svg"
-        }
+                            profileType === "professional"
+                              ? "/whitecheckHuman.svg"
+                              : "/blackCheck.svg"
+                          }
                           alt="Professional"
                           width={16}
                           height={16}
@@ -97,16 +129,18 @@ export default function RegisterPage() {
                       <Label
                         htmlFor="business"
                         className={`flex justify-center items-center text-center rounded-md border-2 py-3 transition-all duration-200 ease-in-out
-        ${profileType === "business"
-          ? "bg-nixerly-blue  text-white border-nixerly-blue "
-          : "bg-white text-black border-gray-100"}`}
+        ${
+          profileType === "business"
+            ? "bg-nixerly-blue  text-white"
+            : "bg-white text-black border-gray-100"
+        }`}
                       >
                         <Image
                           src={
-          profileType === "business"
-            ? "/buildingWhite.svg"
-            : "/buildingBlack.svg"
-        }
+                            profileType === "business"
+                              ? "/buildingWhite.svg"
+                              : "/buildingBlack.svg"
+                          }
                           alt="Professional"
                           width={16}
                           height={16}
@@ -131,29 +165,26 @@ export default function RegisterPage() {
                     <p className="h-[2px] bg-gray-200 w-full" />
                   </div>
                 </div>
-        
+
                 {profileType === "professional" ? (
                   <ProfessionalSignupForm />
                 ) : (
                   <BusinessSignupForm />
                 )}
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col">
-              {/* <Separator className="my-4 bg-nixerly-lightblue" /> */}
-              <p className="text-center text-sm  font-inter  font-normal leading-5 tracking-tight text-nixerly-businesslabel ">
+              <p className="mt-8 text-center text-sm text-gray-600">
                 Already have an account?{" "}
                 <Link
                   href="/signin"
-                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors font-inter text-sm leading-5"
+                  className="font-medium text-nixerly-blue hover:text-nixerly-darkblue hover:underline transition-colors"
                   tabIndex={0}
                   aria-label="Sign in to your account"
                 >
                   Sign In
                 </Link>
               </p>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     </div>

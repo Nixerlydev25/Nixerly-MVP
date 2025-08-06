@@ -7,14 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -22,8 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
-import { LogIn, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useSignIn } from "@/hook/auth/auth.hook";
 import { signInSchema, type SignInFormValues } from "@/schema/auth/auth.schema";
 import { ROUTES } from "@/lib/routes";
@@ -63,17 +54,18 @@ export default function LoginPage() {
           </Link>
       </div>
       {/* Left side - Promotional Content */}
-      <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+      <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
 
-        <Image
-          src="/signin.jpg"
-          alt="Construction Background"
-          fill
-          className="object-cover"
-          priority
+        <video
+          src="/video.mov"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="object-cover w-full h-full absolute inset-0"
         />
-        <div className="absolute inset-0 bg-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue/40 to-nixerly-blue/50" />
         <div className="relative z-10 flex items-center justify-center p-8">
           <div className="max-w-xl text-white">
             <h2 className="text-6xl font-bold mb-8 drop-shadow-lg [text-shadow:_2px_2px_10px_rgb(0_0_0_/_40%)]">

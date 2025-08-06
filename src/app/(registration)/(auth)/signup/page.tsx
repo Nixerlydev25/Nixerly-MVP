@@ -31,14 +31,15 @@ export default function RegisterPage() {
       {/* Left side - Promotional Content */}
       <section className="hidden lg:flex flex-3 relative overflow-hidden m-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
 
-        <Image
-          src="/signup.jpg"
-          alt="Construction Background"
-          fill
-          className="object-cover"
-          priority
+      <video
+          src="/video.mov"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="object-cover w-full h-full absolute inset-0"
         />
-        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-nixerly-blue to-nixerly-blue/95" />
         <div className="relative z-10 flex items-center justify-center p-8">
           <div className="max-w-xl text-white">

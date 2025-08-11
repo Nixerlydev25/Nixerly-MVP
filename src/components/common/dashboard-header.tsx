@@ -4,6 +4,7 @@ import { useLogout } from "@/hook/auth/auth.hook";
 import { useUser } from "@/hook/user/useUser";
 import { ROUTES } from "@/lib/routes";
 import { ProfileType } from "@/types/user/user.types";
+import { useSidebarStore } from "@/store/sidebar.store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -15,8 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { UserCircle2Icon, LogOut } from "lucide-react";
-import Link from "next/link";
+import { UserCircle2Icon, LogOut, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { buttonTapAnimation, iconTapAnimation } from "@/hook/common/useAnimations";
 
@@ -24,6 +24,7 @@ export function DashboardHeader() {
   const { mutate: logout } = useLogout();
   const { user, isLoading } = useUser();
   const router = useRouter();
+  const { toggle: toggleSidebar, isOpen } = useSidebarStore();
 
   if (isLoading || !user) {
     return (
@@ -54,10 +55,21 @@ export function DashboardHeader() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="h-16 bg-white border-l border-t rounded-tl-2xl"
+      className="h-16 bg-white lg:border-l lg:border-t lg:rounded-tl-2xl"
     >
-      <div className="h-full flex items-center justify-end border-b">
-        <div className="px-6">
+      <div className="h-full flex items-center justify-between lg:justify-end border-b">
+        <motion.div 
+          {...buttonTapAnimation}
+          onClick={toggleSidebar}
+          className="cursor-pointer"
+        >
+          {isOpen ? (
+            <Image src="/cross.svg" alt="cross" width={20} height={20} className="ml-6 block lg:hidden h-5 w-5 text-gray-600" />
+          ) : (
+            <Image src="/menu.svg" alt="menu" width={20} height={20} className="ml-6 block lg:hidden h-5 w-5" />
+          )}
+        </motion.div>
+        <div className="">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <motion.div {...buttonTapAnimation}>

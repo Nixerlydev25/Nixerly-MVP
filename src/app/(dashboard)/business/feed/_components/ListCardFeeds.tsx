@@ -36,85 +36,100 @@ function ListCardFeeds({
   certificates,
   portfolio,
   description,
-   experience
+  experience
 }: CardProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showAllSkills, setShowAllSkills] = useState(false);
   const hasDetailsToShow = certificates.length > 0 || portfolio.length > 0;
 
   return (
-    <div key={id} className="flex flex-col border-b hover:bg-gray-50">
-      <div className="flex flex-1 items-start p-4">
-        <div className="flex-1 block lg:flex ">
+    <div key={id} className="flex flex-col mb-4 rounded-2xl hover:bg-gray-50 border border-gray-200">
+      <div className="flex flex-1 items-start p-3 sm:p-4 gap-3 sm:gap-4">
+        <div className="flex-1 block lg:flex relative">
           <div
-            className="cursor-pointer flex"
+            className="cursor-pointer flex flex-1"
             onClick={() => router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)}
           >
-            <Image
-              src={avatar || "/placeholder.svg"}
-              width={100}
-              height={100}
-              alt={name}
-              className="mr-4 rounded-full w-16 h-16 object-cover"
-            />
-            <div>
-              <div>
-                <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none ">
-                  {name}
-                </h3>
-                <p className="text-sm text-[#0E121B] font-sans pt-2 not-italic font-normal leading-none tracking-tight">
+            <div className="flex gap-3 sm:gap-4 w-full">
+              <Image
+                src={avatar || "/placeholder.svg"}
+                width={100}
+                height={100}
+                alt={name}
+                className="rounded-full w-12 h-12 sm:w-16 sm:h-16 object-cover flex-shrink-0"
+              />
+
+              {/* Mobile: Only name and title next to image */}
+              <div className="flex-1 min-w-0 sm:hidden">
+                <h3 className="text-[#0E121B] font-sans text-lg font-medium leading-tight">{name}</h3>
+                <p className="text-sm text-[#0E121B] font-sans pt-1 not-italic font-normal leading-tight tracking-tight">
                   {title}
                 </p>
-
-                <p className="font-sans text-sm text-nixerly-businesslabel font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">
-                  {description}
-                </p>
-
-            
-                {/* <div className="mt-1 flex items-center">
-                  <StarIcon className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-medium">{rating}</span>
-                  <span className="ml-2 text-xs text-gray-500">({jobsCompleted} jobs)</span>
-                </div> */}
               </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {skills.slice(0, 4).map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="outline"
-                    className="font-sans p-1 text-xs not-italic font-medium leading-5 text-nixerly-businesslabel  "
-                  >
-                    {formateSkills(skill)}
-                  </Badge>
-                ))}
+
+              {/* Desktop: All content next to image */}
+              <div className="hidden sm:flex flex-1 min-w-0">
+                <div className="flex-1">
+                  <h3 className="text-[#0E121B] font-sans text-xl font-medium leading-none">{name}</h3>
+                  <p className="text-sm text-[#0E121B] font-sans pt-2 not-italic font-normal leading-none tracking-tight">
+                    {title}
+                  </p>
+
+                  <p className="font-sans text-sm text-gray-600 font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">
+                    {description}
+                  </p>
+
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {skills.slice(0, showAllSkills ? skills.length : 2).map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="outline"
+                        className="font-sans px-2 py-1 text-xs not-italic font-medium leading-5 text-gray-600"
+                      >
+                        {formateSkills(skill)}
+                      </Badge>
+                    ))}
+                    {skills.length > 2 && (
+                      <Badge
+                        variant="outline"
+                        className="font-sans px-2 py-1 text-xs not-italic font-medium leading-5 text-gray-600 cursor-pointer hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setShowAllSkills(!showAllSkills)
+                        }}
+                      >
+                        {showAllSkills ? "Show Less" : `+${skills.length - 2} more`}
+                      </Badge>
+                    )}
+                  </div>
+
+                  <p className="mt-4 text-[#0E121B] font-sans text-base not-italic font-normal leading-[17.56px] tracking-tight">
+                    <Image
+                      src="/locationblack.svg"
+                      alt="location icon"
+                      width={12}
+                      height={12}
+                      className="mr-1 inline-block"
+                    />
+                    {location}
+                  </p>
+                </div>
               </div>
-              <p className="mt-4 text-[#0E121B] font-sans text-base not-italic font-normal leading-[17.56px] tracking-tight">
-                <Image
-                  src="/locationblack.svg"
-                  alt="location icon"
-                  width={12}
-                  height={12}
-                  className="mr-1 inline-block "
-                />
-                {location}
-              </p>
             </div>
           </div>
 
-          <div className="ml-auto flex flex-col items-center my-4 sm:my-0 lg:items-end gap-2 ">
-            {/* <Button variant="ghost" size="icon" className="text-gray-400">
-              <BookmarkIcon className="h-5 w-5" />
-            </Button> */}
-
+          {/* Show Details button positioned at bottom right on desktop */}
+          <div className="hidden lg:flex lg:relative lg:bottom-auto lg:right-auto lg:ml-auto lg:flex-col lg:my-4 lg:sm:my-0 lg:items-end lg:gap-2">
             {hasDetailsToShow && (
               <button
-                className="flex items-center gap-1 font-sans text-sm  border-0   font-medium leading-4 text-nixerly-businesslabel tracking-tight "
+                className="flex items-center gap-1 font-sans text-sm border-0 font-medium leading-4 text-gray-600 tracking-tight p-2"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? (
                   <>
                     <span className="inline-flex items-center gap-1 decoration-underline decoration-black underline decoration-[1.5px] underline-offset-4">
-                      <span className="underline ">Hide Details</span>
+                      <span className="underline">Hide Details</span>
                       <ChevronUpIcon className="h-4 w-4" />
                     </span>
                   </>
@@ -129,127 +144,146 @@ function ListCardFeeds({
         </div>
       </div>
 
-      {isExpanded && (
-        
-        <div className="mx-[70px] pb-4 text-nixerly-bussinessborder pt-2">
-<div>
+      <div className="sm:hidden px-3 pb-2">
+        <div className="cursor-pointer" onClick={() => router.push(`${ROUTES.OTHER_WORKER_PROFILE}/${id}`)}>
+          <p className="font-sans text-sm text-gray-600 font-normal max-w-3xl leading-[1.4] line-clamp-2 mb-2">
+            {description}
+          </p>
 
-   <div className="flex items-center gap-2 pb-2 px-4">
-                  <BriefcaseBusiness className="h-5 w-5 text-[#0E121B]" />{" "}
-                  {/* Replaced Image with Lucide Icon */}
-                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
-                    Work Experience
-                  </h4>
-                  {/* <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
-                    {certificates.length}
-                  </span> */}
-                </div>
+          <div className="flex flex-wrap gap-1 mb-2">
+            {skills.slice(0, showAllSkills ? skills.length : 2).map((skill) => (
+              <Badge
+                key={skill}
+                variant="outline"
+                className="font-sans px-2 py-1 text-xs not-italic font-medium leading-4 text-gray-600"
+              >
+                {formateSkills(skill)}
+              </Badge>
+            ))}
+            {skills.length > 2 && (
+              <Badge
+                variant="outline"
+                className="font-sans px-2 py-1 text-xs not-italic font-medium leading-4 text-gray-600 cursor-pointer hover:bg-gray-100"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowAllSkills(!showAllSkills)
+                }}
+              >
+                {showAllSkills ? "Show Less" : `+${skills.length - 2} more`}
+              </Badge>
+            )}
+          </div>
 
-               <div className="pt-2 px-6">
-      {/* Example of rendering each experience */}
-      {experience.map((exp, index) => (
-        <div key={index} >
-          <p className="text-[#0E121B] font-sans text-sm font-normal leading-[12px] ">{exp.title}</p>
-<div className=" block md:flex gap-2  pt-3  ">
-          <p className="font-sans text-base font-normal leading-3 text-nixerly-businesslabel">{exp.company} </p>
-             <p className="font-sans text-sm font-medium leading-3 text-nixerly-businesslabel pt-2 md:pt-0 capitalize">
-
-  {new Date(exp.startDate).getFullYear()} —{" "}
-  {exp.currentlyWorking || !exp.endDate
-    ? "Currently"
-    : `${new Date(exp.endDate).getDate()}-${new Date(exp.endDate).getMonth() + 1}-${new Date(exp.endDate).getFullYear()}`}
-</p>
-</div>
-
-          <p className="font-sans text-sm text-nixerly-businesslabel font-normal max-w-3xl leading-[1.5] line-clamp-2 pt-2">{exp.description}</p>
+          <p className="text-[#0E121B] font-sans text-sm not-italic font-normal leading-tight tracking-tight">
+            <Image src="/locationblack.svg" alt="location icon" width={12} height={12} className="mr-1 inline-block" />
+            {location}
+          </p>
         </div>
-      ))}
-    </div>
+      </div>
 
-    </div>
+      {/* Mobile Show Details button - positioned at bottom of card */}
+      {hasDetailsToShow && (
+        <div className="lg:hidden px-3 sm:px-4 pb-2 sm:pb-3 border-gray-100">
+          <button
+            className="w-full flex items-center justify-end gap-1 font-sans text-sm border-0 font-medium leading-4 text-gray-600 tracking-tight p-2 hover:bg-gray-50 rounded-lg transition-colors"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? (
+              <>
+                <span className="inline-flex items-center">
+                  <span className="">Hide Details</span>
+                  <ChevronUpIcon className="h-4 w-4" />
+                </span>
+              </>
+            ) : (
+              <>
+                Show Details <ChevronDownIcon className="h-4 w-4" />
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2  gap-6 pt-4">
+      {isExpanded && (
+        <div className="lg:ml-[70px] pb-3 sm:pb-4 text-gray-600 pt-2">
+          <div>
+            <div className="flex items-center gap-2 pb-2 px-3 sm:px-4">
+              <BriefcaseBusiness className="h-4 w-4 sm:h-5 sm:w-5 text-[#0E121B]" />
+              <h4 className="font-sans font-medium text-base sm:text-lg lg:text-xl leading-4 text-[#0E121B]">
+                Work Experience
+              </h4>
+            </div>
+
+            <div className="pt-2 px-4 sm:px-6">
+              {experience.map((exp, index) => (
+                <div key={index} className="mb-3 sm:mb-4">
+                  <p className="text-[#0E121B] font-sans text-sm font-normal leading-tight sm:leading-[12px]">
+                    {exp.title}
+                  </p>
+                  <div className="block md:flex gap-2 pt-2 sm:pt-3">
+                    <p className="font-sans text-sm sm:text-base font-normal leading-tight sm:leading-3 text-gray-600">
+                      {exp.company}
+                    </p>
+                    <p className="font-sans text-xs sm:text-sm font-medium leading-tight sm:leading-3 text-gray-600 pt-1 md:pt-0 capitalize">
+                      {new Date(exp.startDate).getFullYear()} —{" "}
+                      {exp.currentlyWorking || !exp.endDate
+                        ? "Currently"
+                        : `${new Date(exp.endDate).getDate()}-${new Date(exp.endDate).getMonth() + 1}-${new Date(exp.endDate).getFullYear()}`}
+                    </p>
+                  </div>
+                  <p className="font-sans text-sm text-gray-600 font-normal max-w-3xl leading-[1.4] sm:leading-[1.5] line-clamp-2 pt-1 sm:pt-2">
+                    {exp.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 pt-3 sm:pt-4">
             {certificates.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 pb-2 px-4">
-                  <AwardIcon className="h-5 w-5 text-[#0E121B]" />{" "}
-                  {/* Replaced Image with Lucide Icon */}
-                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex items-center gap-2 pb-2 px-3 sm:px-4">
+                  <AwardIcon className="h-4 w-4 sm:h-5 sm:w-5 text-[#0E121B]" />
+                  <h4 className="font-sans font-medium text-base sm:text-lg lg:text-xl leading-4 text-[#0E121B]">
                     Certificates
                   </h4>
                   <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
                     {certificates.length}
                   </span>
                 </div>
-                <ScrollArea className="h-[180px] p-2">
+                <ScrollArea className="h-[160px] sm:h-[180px] p-1 sm:p-2">
                   <div className="space-y-2">
                     {certificates.map((cert) => (
                       <div
                         key={cert.id}
-                        className="group flex items-start gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                        className="group flex items-start gap-2 sm:gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
                       >
                         {cert.assets.length > 0 ? (
                           <div className="relative flex-shrink-0">
-                            {/* Detect if first asset is a video */}
-                            {/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(cert.assets[0].url) ? (
-                              <>
-                                <video
-                                  src={cert.assets[0].url}
-                                  className="w-[100px] h-[100px] rounded-md object-cover"
-                                  muted
-                                  playsInline
-                                  preload="metadata"
-                                />
-                                {/* Play button overlay */}
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                  <div className="bg-black/60 rounded-full p-2">
-                                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                      <polygon points="5,3 19,12 5,21" />
-                                    </svg>
-                                  </div>
-                                </div>
-                              </>
-                            ) : (
-                              <Image
-                                src={
-                                  cert.assets[0].url ||
-                                  "/placeholder.svg?height=100&width=100"
-                                }
-                                width={100}
-                                height={100}
-                                alt={cert.name}
-                                className="rounded-md object-cover"
-                              />
-                            )}
+                            <Image
+                              src={cert.assets[0].url || "/placeholder.svg"}
+                              width={100}
+                              height={100}
+                              alt={cert.name}
+                              className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-md object-cover"
+                            />
                           </div>
                         ) : (
-                          <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
-                            <ScrollText className="h-4 w-4 text-blue-600" />
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-md flex items-center justify-center flex-shrink-0">
+                            <ScrollText className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                          <div className="flex items-center gap-1 sm:gap-2">
+                            <p className="font-medium text-sm sm:text-base lg:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
                               {cert.name}
                             </p>
-                            <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            <ExternalLinkIcon className="h-3 w-3 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                           </div>
-                          <p className="text-xs text-gray-500 mt-0.5">
-                            {cert.issuingOrg}
-                          </p>
-                          <p className="text-xs text-nixerly-businesslabel my-1">
-                            Issued:{" "}
-                            {cert.issueDate
-                              ? new Date(cert.issueDate).toLocaleDateString(
-                                  "en-GB"
-                                )
-                              : "N/A"}{" "}
-                            • Expires:{" "}
-                            {cert.expiryDate
-                              ? new Date(cert.expiryDate).toLocaleDateString(
-                                  "en-GB"
-                                )
-                              : "N/A"}
+                          <p className="text-xs text-gray-500 mt-0.5">{cert.issuingOrg}</p>
+                          <p className="text-xs text-gray-600 my-1">
+                            Issued: {cert.issueDate ? new Date(cert.issueDate).toLocaleDateString("en-GB") : "N/A"} •
+                            Expires: {cert.expiryDate ? new Date(cert.expiryDate).toLocaleDateString("en-GB") : "N/A"}
                           </p>
                         </div>
                       </div>
@@ -260,89 +294,50 @@ function ListCardFeeds({
             )}
 
             {portfolio.length > 0 && (
-              <div className="space-y-3 mt-4 lg:mt-0">
-                <div className="flex items-center gap-2 pb-2 px-4">
-                  <FolderIcon className="h-5 w-5 text-[#0E121B]" />{" "}
-                  {/* Replaced Image with Lucide Icon */}
-                  <h4 className="font-sans font-medium text-lg sm:text-xl leading-4 text-[#0E121B]">
+              <div className="space-y-2 sm:space-y-3 mt-3 sm:mt-4 lg:mt-0">
+                <div className="flex items-center gap-2 pb-2 px-3 sm:px-4">
+                  <FolderIcon className="h-4 w-4 sm:h-5 sm:w-5 text-[#0E121B]" />
+                  <h4 className="font-sans font-medium text-base sm:text-lg lg:text-xl leading-4 text-[#0E121B]">
                     Portfolio
                   </h4>
                   <span className="text-xs text-[#0E121B] px-[5px] py-0.5 bg-gray-300 rounded-full">
                     {portfolio.length}
                   </span>
                 </div>
-                <ScrollArea className="h-[180px] pr-2">
+                <ScrollArea className="h-[160px] sm:h-[180px] pr-1 sm:pr-2">
                   <div className="space-y-2">
                     {portfolio.map((item) => (
                       <div
                         key={item.id}
-                        className="group flex items-start gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
+                        className="group flex items-start gap-2 sm:gap-3 p-2 max-w-sm hover:bg-white rounded-lg transition-colors duration-200 cursor-pointer"
                       >
                         {item.assets.length > 0 ? (
                           <div className="relative flex-shrink-0">
-                            {/* Detect if first asset is a video */}
-                            {/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(item.assets[0].url) ? (
-                              <>
-                                <video
-                                  src={item.assets[0].url}
-                                  className="w-[100px] h-[100px] rounded-md object-cover"
-                                  muted
-                                  playsInline
-                                  preload="metadata"
-                                />
-                                {/* Play button overlay */}
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                  <div className="bg-black/60 rounded-full p-1">
-                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                      <polygon points="5,3 19,12 5,21" />
-                                    </svg>
-                                  </div>
-                                </div>
-                              </>
-                            ) : (
-                              <Image
-                                src={
-                                  item.assets[0].url ||
-                                  "/placeholder.svg?height=100&width=100"
-                                }
-                                width={100}
-                                height={100}
-                                alt={item.title}
-                                className="rounded-md object-cover"
-                              />
-                            )}
+                            <Image
+                              src={item.assets[0].url || "/placeholder.svg"}
+                              width={100}
+                              height={100}
+                              alt={item.title}
+                              className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-md object-cover"
+                            />
                           </div>
                         ) : (
-                          <div className="w-10 h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
-                            <FolderIcon className="h-4 w-4 text-purple-600" />
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-md flex items-center justify-center flex-shrink-0">
+                            <FolderIcon className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                          <div className="flex items-center gap-1 sm:gap-2">
+                            <p className="font-medium text-sm sm:text-base lg:text-lg text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
                               {item.title}
                             </p>
-                            <ExternalLinkIcon className="h-3 w-3 text-nixerly-businesslabel opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            <ExternalLinkIcon className="h-3 w-3 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                           </div>
-                          <p className="text-xs text-nixerly-businesslabel my-1">
-                            Issued:{" "}
-                            {item.startDate
-                              ? new Date(item.startDate).toLocaleDateString(
-                                  "en-GB"
-                                )
-                              : "N/A"}{" "}
-                            • Expires:{" "}
-                            {item.endDate
-                              ? new Date(item.endDate).toLocaleDateString(
-                                  "en-GB"
-                                )
-                              : "N/A"}
+                          <p className="text-xs text-gray-600 my-1">
+                            Started: {item.startDate ? new Date(item.startDate).toLocaleDateString("en-GB") : "N/A"} •
+                            Completed: {item.endDate ? new Date(item.endDate).toLocaleDateString("en-GB") : "N/A"}
                           </p>
-                          <TruncatedText
-                            text={item.description}
-                            maxLength={20} // Adjust this value as needed
-                            className="text-sm text-nixerly-businesslabel mt-1"
-                          />
+                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">{item.description}</p>
                         </div>
                       </div>
                     ))}

@@ -58,7 +58,7 @@ export default function Navbar() {
                     <span className="sr-only">Toggle menu</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-full bg-white">
+                <SheetContent side="left" className="max-w-[600px] bg-white">
                   <div className="flex items-center justify-between pt-6 px-6">
                     <Image
                       src="/NixerlyLogo.svg"

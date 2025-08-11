@@ -1,18 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/lib/routes";
-import {
-  Briefcase,
-  Users,
-  BarChart3,
-  Settings,
-  FileText,
-  Calendar,
-  Star,
-  User,
-  Pickaxe,
-} from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Component() {
   return (
@@ -100,7 +86,7 @@ export default function Component() {
       {/* banner  find talent*/}
       <div className="relative mb-6 bg-black rounded-2xl shadow-sm overflow-hidden">
         {/* Decorative Circles */}
-        <div className="absolute inset-0 pointer-events-none ml-12">
+        <div className="absolute inset-0 pointer-events-none ml-12 mt-28 lg:mt-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -ml-24">
             <Image
               src="/circleborder.svg"
@@ -121,25 +107,25 @@ export default function Component() {
           </div>
         </div>
 
-        <div className="relative z-10 p-6">
-          <div className="flex flex-col lg:flex-row items-center gap-6">
+        <div className="relative z-10 px-4 py-12 lg:p-6">
+          <div className="flex flex-row items-center gap-2 lg:gap-6">
             {/* Left Content */}
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-2 w-1/2">
               <div className="flex items-center gap-3">
-                <span className="text-white text-sm font-medium leading-5 tracking-tight">
+                <span className="text-white text-[6px] lg:text-sm font-medium leading-5 tracking-tight">
                   Hiring Made Simple
                 </span>
               </div>
               <div className="space-y-3">
                 <div>
-                  <h2 className="text-white text-2xl sm:text-3xl font-medium leading-tight">
+                  <h2 className="text-white text-sm lg:text-2xl sm:text-3xl font-medium leading-tight">
                     Find the perfect talent for your{" "}
                   </h2>
-                  <h2 className="text-blue-400 text-2xl sm:text-3xl font-medium leading-tight mb-3">
+                  <h2 className="text-blue-400 text-sm lg:text-2xl sm:text-3xl font-medium leading-tight mb-3">
                     growing business
                   </h2>
                 </div>
-                <p className="text-white leading-normal max-w-2xl text-sm">
+                <p className="text-white leading-normal max-w-2xl text-[6px] lg:text-sm">
                   Access a comprehensive hiring dashboard where you can manage
                   applications, track candidates, schedule interviews, and make
                   data-driven decisions.
@@ -148,8 +134,8 @@ export default function Component() {
             </div>
 
             {/* Right Image */}
-            <div className="flex-shrink-0 w-full lg:w-auto">
-              <div className="relative w-full lg:w-80 h-28 lg:h-45">
+            <div className="flex-shrink-0 lg:w-auto w-1/2">
+              <div className="relative w-40 lg:w-80 h-28 lg:h-45">
                 <Image
                   src="/blog3.png"
                   alt="Hiring dashboard illustration"

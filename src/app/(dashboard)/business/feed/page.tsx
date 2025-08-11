@@ -1,28 +1,26 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import GridIcon from "@/components/Icons/GridIcon";
-import ListIcon from "@/components/Icons/ListIcon";
-import { useGetWorkers } from "@/hook/worker/worker.hook";
-import { WorkerProfileResponse } from "@/types/worker.types";
-import SkeletonFeed from "./_components/SkeletonFeed";
-import FiltersFeeds from "./_components/FiltersFeeds";
-import CardFeeds from "./_components/GridCardFeeds";
-import ListCardFeeds from "./_components/ListCardFeeds";
-import FeedsPagination from "./_components/FeedsPagination";
-import { SearchIcon, X, UserX, Megaphone } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import JobBanner from "./_components/JobBanner";
+import type React from "react"
+import Image from "next/image"
+
+import { useState, useEffect } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import GridIcon from "@/components/Icons/GridIcon"
+import ListIcon from "@/components/Icons/ListIcon"
+import { useGetWorkers } from "@/hook/worker/worker.hook"
+import type { WorkerProfileResponse } from "@/types/worker.types"
+import SkeletonFeed from "./_components/SkeletonFeed"
+import FiltersFeeds from "./_components/FiltersFeeds"
+import CardFeeds from "./_components/GridCardFeeds"
+import ListCardFeeds from "./_components/ListCardFeeds"
+import FeedsPagination from "./_components/FeedsPagination"
+import { SearchIcon, X, UserX, Filter, SlidersHorizontal } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import JobBanner from "./_components/JobBanner"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 enum SortOption {
   RATING = "rating",
@@ -33,58 +31,59 @@ enum SortOption {
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"card" | "list">(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("businessFeedViewMode");
-      return saved === "card" || saved === "list" ? saved : "list";
+      const saved = localStorage.getItem("businessFeedViewMode")
+      return saved === "card" || saved === "list" ? saved : "list"
     }
-    return "list";
-  });
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [searchValue, setSearchValue] = useState("");
+    return "list"
+  })
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const [searchValue, setSearchValue] = useState("")
 
   useEffect(() => {
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
     if (!params.has("page")) {
-      params.set("page", "1");
-      router.replace(`?${params.toString()}`, { scroll: false });
+      params.set("page", "1")
+      router.replace(`?${params.toString()}`, { scroll: false })
     }
-  }, []);
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+    setSearchValue(e.target.value)
+  }
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateSearchParam(searchValue);
+      updateSearchParam(searchValue)
     }
-  };
+  }
 
   const updateSearchParam = (value: string) => {
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set("search", value);
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
+    params.set("search", value)
     if (!params.has("page")) {
-      params.set("page", "1");
+      params.set("page", "1")
     }
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
+    router.replace(`?${params.toString()}`, { scroll: false })
+  }
 
-  const { data: freelancers, isLoading, currentPage } = useGetWorkers();
+  const { data: freelancers, isLoading, currentPage } = useGetWorkers()
 
   const handleSortChange = (value: string) => {
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.set("sort", value);
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
+    params.set("sort", value)
     if (!params.has("page")) {
-      params.set("page", "1");
+      params.set("page", "1")
     }
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
-
+    router.replace(`?${params.toString()}`, { scroll: false })
+  }
 
   const handleViewModeChange = (mode: "card" | "list") => {
-    setViewMode(mode);
-    localStorage.setItem("businessFeedViewMode", mode);
-  };
+    setViewMode(mode)
+    localStorage.setItem("businessFeedViewMode", mode)
+  }
 
   console.log({ freelancers })
 
@@ -96,114 +95,202 @@ export default function Dashboard() {
         <div className="flex min-h-screen flex-col py-10">
           <div className="container mx-auto px-4">
             <JobBanner />
-            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
 
+            {/* Mobile Layout */}
+            <div className="block lg:hidden">
+              {/* Mobile Top Controls */}
+              <div className="flex items-center justify-between gap-2 mb-4">
+                <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                  <SheetTrigger asChild>
+                  <Button
+                      variant="default"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                    >
+                      <Filter className="h-4 w-4" />
+                      Filter
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent
+                    side="bottom"
+                    className="w-full max-w-full p-0 h-[90dvh] sm:h-auto sm:max-h-[80vh] sm:p-6 rounded-t-2xl"
+                  >
+                    <div className="p-4 sm:p-0">
+                      <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
+                    </div>
+                  </SheetContent>
+                </Sheet>
 
-              <div>
-                <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight">Browse profiles of skilled professionals ready to work on your
-                  projects
-                </p>
-              </div>
-              <div className="hidden items-center justify-between lg:flex gap-2">
-                <div className="flex items-center gap-4">
-                  <div className="flex border rounded-md overflow-hidden">
-                    <Button
-                      variant={viewMode === "card" ? "default" : "ghost"}
-                      size="sm"
-                      className={`rounded-none hover:bg-transparent ${viewMode === "card" ? "bg-nixerly-blue" : ""
-                        }`}
-                      onClick={() => handleViewModeChange("card")}
-                    >
-                      <GridIcon />
-                      Grid
-                    </Button>
-                    <Separator orientation="vertical" className="h-8" />
-                    <Button
-                      variant={viewMode === "list" ? "default" : "ghost"}
-                      size="sm"
-                      className={`rounded-none hover:bg-transparent ${viewMode === "list" ? "bg-nixerly-blue" : ""
-                        }`}
-                      onClick={() => handleViewModeChange("list")}
-                    >
-                      <ListIcon />
-                      List
-                    </Button>
-                  </div>
+                <div className="flex border rounded-lg overflow-hidden bg-gray-100">
+                  <Button
+                    variant={viewMode === "card" ? "default" : "ghost"}
+                    size="sm"
+                    className={`rounded-none hover:bg-transparent px-3 py-2 ${viewMode === "card" ? "bg-gray-300 text-gray-700" : "bg-transparent text-gray-600"
+                      }`}
+                    onClick={() => handleViewModeChange("card")}
+                  >
+                    <GridIcon />
+                    Grid
+                  </Button>
+                  <Separator orientation="vertical" className="h-8" />
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="sm"
+                    className={`rounded-none hover:bg-transparent px-3 py-2 ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-transparent text-gray-600"
+                      }`}
+                    onClick={() => handleViewModeChange("list")}
+                  >
+                    <ListIcon />
+                    List
+                  </Button>
                 </div>
               </div>
-            </div>
 
-            <Separator className="mb-8 " />
+              {/* Mobile Description */}
+              <div className="border border-gray-300 rounded-2xl p-4 mb-8">
+                <div className="mb-4">
+                  <p className="text-gray-600 font-sans text-sm leading-relaxed">
+                    Browse profiles of skilled professionals ready to work on your projects
+                  </p>
+                </div>
 
-            <div className="flex flex-col gap-6 lg:flex-row">
-              <div className="w-full lg:w-1/4">
-              <div className="flex gap-3 space-y-4">
-                <div className="relative hidden md:block w-full">
-
-                  <div className="relative w-full">
-                    <Button
-                      type="button"
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none "
-                      onClick={() => updateSearchParam(searchValue)}
-                    >
-                      <SearchIcon className="h-10 w-10 text-[#99A0AE] " />
-                    </Button>
-
+                {/* Mobile Search and Sort */}
+                <div className="flex gap-2 mb-6">
+                  <div className="relative flex-1">
+                    <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       type="search"
-                      placeholder="Search for talent..."
-                      className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
+                      placeholder="Search For a Talent"
+                      className="pl-10 pr-4 h-12 border border-gray-200 rounded-lg"
                       value={searchValue}
                       onChange={handleInputChange}
                       onKeyDown={handleInputKeyDown}
                     />
-                  </div>
-
-
-
-                  {searchParams.get("search") && (
+                    {/* {searchParams.get("search") && (
                     <X
-                      className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 cursor-pointer"
                       onClick={() => {
-                        setSearchValue("");
-                        updateSearchParam("");
+                        setSearchValue("")
+                        updateSearchParam("")
                       }}
                     />
-                  )}
-                </div>
-                <Select
+                  )} */}
+                  </div>
+                  <Select
                     defaultValue={searchParams.get("sort") || SortOption.RATING}
                     onValueChange={handleSortChange}
                   >
-                    <SelectTrigger className="font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
+                    <SelectTrigger showChevron={false} className="font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="text-[#99A0AE]" value={SortOption.RATING}>Rating</SelectItem>
-                      <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
-                        Hourly Rate: Low to High
+                      <SelectItem className="text-[#99A0AE]" value={SortOption.RATING}>
+                        <Image src="/upDownArrow.svg" alt="arrow" width={20} height={20} className="w-5 h-5" />
                       </SelectItem>
-                      <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>
-                        Hourly Rate: High to Low
-                      </SelectItem>
+                      <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>Hourly Rate: Low to High</SelectItem>
+                      <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>Hourly Rate: High to Low</SelectItem>
                     </SelectContent>
                   </Select>
-                  </div>
-                <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
+                </div>
               </div>
-              <div className="w-full lg:w-3/4">
-                {!freelancers?.data?.length ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-                    <UserX className="h-16 w-16 mb-4" />
-                    <h3 className="text-lg font-medium">No talent found</h3>
-                    <p className="text-sm">
-                      Please adjust your search criteria to find matching talent
-                    </p>
+            </div>
+
+            {/* Desktop Layout */}
+            <div className="hidden lg:block">
+              <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
+                <div>
+                  <p className="mt-1 text-nixerly-businesslabel font-sans text-base not-italic font-normal leading-none tracking-tight">
+                    Browse profiles of skilled professionals ready to work on your projects
+                  </p>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4">
+                    <div className="flex border rounded-md overflow-hidden">
+                      <Button
+                        variant={viewMode === "card" ? "default" : "ghost"}
+                        size="sm"
+                        className={`rounded-none hover:bg-transparent ${viewMode === "card" ? "bg-nixerly-blue" : ""}`}
+                        onClick={() => handleViewModeChange("card")}
+                      >
+                        <GridIcon />
+                        Grid
+                      </Button>
+                      <Separator orientation="vertical" className="h-8" />
+                      <Button
+                        variant={viewMode === "list" ? "default" : "ghost"}
+                        size="sm"
+                        className={`rounded-none hover:bg-transparent ${viewMode === "list" ? "bg-nixerly-blue" : ""}`}
+                        onClick={() => handleViewModeChange("list")}
+                      >
+                        <ListIcon />
+                        List
+                      </Button>
+                    </div>
                   </div>
-                ) : viewMode === "card" ? (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                    {freelancers?.data.map(
-                      (freelancer: WorkerProfileResponse) => (
+                </div>
+              </div>
+
+              <Separator className="mb-8" />
+
+              <div className="flex flex-col gap-6 lg:flex-row">
+                <div className="w-full lg:w-1/4">
+                  <div className="flex gap-3 space-y-4">
+                    <div className="relative w-full">
+                      <div className="relative w-full">
+                        <Button
+                          type="button"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none"
+                          onClick={() => updateSearchParam(searchValue)}
+                        >
+                          <SearchIcon className="h-10 w-10 text-[#99A0AE]" />
+                        </Button>
+                        <Input
+                          type="search"
+                          placeholder="Search for talent..."
+                          className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
+                          value={searchValue}
+                          onChange={handleInputChange}
+                          onKeyDown={handleInputKeyDown}
+                        />
+                      </div>
+                      {/* {searchParams.get("search") && (
+                        <X
+                          className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
+                          onClick={() => {
+                            setSearchValue("")
+                            updateSearchParam("")
+                          }}
+                        />
+                      )} */}
+                    </div>
+                    <Select
+                      defaultValue={searchParams.get("sort") || SortOption.RATING}
+                      onValueChange={handleSortChange}
+                    >
+                      <SelectTrigger showChevron={false} className="font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
+                        <SelectValue placeholder="Sort by" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem className="text-[#99A0AE]" value={SortOption.RATING}>
+                          <Image src="/upDownArrow.svg" alt="arrow" width={20} height={20} className="w-5 h-5" />
+                        </SelectItem>
+                        <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>Hourly Rate: Low to High</SelectItem>
+                        <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>Hourly Rate: High to Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <FiltersFeeds viewMode={viewMode} setViewMode={setViewMode} />
+                </div>
+
+                <div className="w-full lg:w-3/4">
+                  {!freelancers?.data?.length ? (
+                    <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                      <UserX className="h-16 w-16 mb-4" />
+                      <h3 className="text-lg font-medium">No talent found</h3>
+                      <p className="text-sm">Please adjust your search criteria to find matching talent</p>
+                    </div>
+                  ) : viewMode === "card" ? (
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                      {freelancers?.data.map((freelancer: WorkerProfileResponse) => (
                         <div key={freelancer.id} className="cursor-pointer">
                           <CardFeeds
                             id={freelancer.id}
@@ -221,16 +308,12 @@ export default function Dashboard() {
                             experience={freelancer.experience}
                           />
                         </div>
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <div>
-                    <h1 className="text-black text-xl font-semibold leading-8 font-inter">
-                  Talent
-                </h1>
-                    {freelancers?.data.map(
-                      (freelancer: WorkerProfileResponse) => (
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      <h1 className="text-nixerly-blue text-xl font-semibold leading-8 font-inter pt-10">Talent</h1>
+                      {freelancers?.data.map((freelancer: WorkerProfileResponse) => (
                         <div key={freelancer.id} className="cursor-pointer">
                           <ListCardFeeds
                             id={freelancer.id}
@@ -245,25 +328,96 @@ export default function Dashboard() {
                             certificates={freelancer.certificates}
                             portfolio={freelancer.portfolio}
                             description={freelancer.description}
-                             experience={freelancer.experience}
+                            experience={freelancer.experience}
                           />
                         </div>
-                      )
-                    )}
+                      ))}
+                    </div>
+                  )}
+
+                  {freelancers?.totalPages && freelancers?.totalPages > 1 && (
+                    <FeedsPagination
+                      currentPage={currentPage}
+                      totalPages={freelancers?.totalPages || 1}
+                      onPageChange={(page) => {
+                        const params = new URLSearchParams(Array.from(searchParams.entries()))
+                        params.set("page", page.toString())
+                        router.replace(`?${params.toString()}`, {
+                          scroll: false,
+                        })
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Content */}
+            <div className="block lg:hidden">
+              <div className="w-full">
+                {!freelancers?.data?.length ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                    <UserX className="h-16 w-16 mb-4" />
+                    <h3 className="text-lg font-medium">No talent found</h3>
+                    <p className="text-sm">Please adjust your search criteria to find matching talent</p>
+                  </div>
+                ) : viewMode === "card" ? (
+                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                    {freelancers?.data.map((freelancer: WorkerProfileResponse) => (
+                      <div key={freelancer.id} className="cursor-pointer">
+                        <CardFeeds
+                          id={freelancer.id}
+                          name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
+                          title={freelancer.title}
+                          avatar={freelancer.profilePicture}
+                          rating={freelancer.avgRating}
+                          jobsCompleted={freelancer.completedJobs}
+                          hourlyRate={freelancer.hourlyRate}
+                          location={`${freelancer.city}, ${freelancer.country}`}
+                          skills={freelancer.skills}
+                          certificates={freelancer.certificates}
+                          portfolio={freelancer.portfolio}
+                          description={freelancer.description}
+                          experience={freelancer.experience}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <h1 className="text-nixerly-blue text-xl font-semibold leading-8 font-inter mb-4">Talent</h1>
+                    {freelancers?.data.map((freelancer: WorkerProfileResponse) => (
+                      <div key={freelancer.id} className="cursor-pointer">
+                        <ListCardFeeds
+                          id={freelancer.id}
+                          title={freelancer.title}
+                          avatar={freelancer.profilePicture}
+                          skills={freelancer.skills}
+                          rating={freelancer.avgRating}
+                          name={`${freelancer.user.firstName} ${freelancer.user.lastName}`}
+                          location={`${freelancer.city}, ${freelancer.country}`}
+                          jobsCompleted={freelancer.completedJobs}
+                          hourlyRate={freelancer.hourlyRate}
+                          certificates={freelancer.certificates}
+                          portfolio={freelancer.portfolio}
+                          description={freelancer.description}
+                          experience={freelancer.experience}
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
+
                 {freelancers?.totalPages && freelancers?.totalPages > 1 && (
                   <FeedsPagination
                     currentPage={currentPage}
                     totalPages={freelancers?.totalPages || 1}
                     onPageChange={(page) => {
-                      const params = new URLSearchParams(
-                        Array.from(searchParams.entries())
-                      );
-                      params.set("page", page.toString());
+                      const params = new URLSearchParams(Array.from(searchParams.entries()))
+                      params.set("page", page.toString())
                       router.replace(`?${params.toString()}`, {
                         scroll: false,
-                      });
+                      })
                     }}
                   />
                 )}
@@ -273,5 +427,5 @@ export default function Dashboard() {
         </div>
       )}
     </div>
-  );
+  )
 }

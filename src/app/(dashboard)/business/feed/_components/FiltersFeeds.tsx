@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { ChevronDownIcon, FilterIcon, ListIcon, Search } from 'lucide-react';
+import { Info, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { onboardingOptions } from '@/schema/onboarding/worker-onboarding.schema';
-import GridIcon from '@/components/Icons/GridIcon';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Accordion,
@@ -23,14 +22,15 @@ import {
 } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import {Info} from "lucide-react"
+import Image from 'next/image';
+import Link from 'next/link';
+/* Info icon import removed as unused */
 
 interface FiltersFeedsProps {
   viewMode: 'card' | 'list';
   setViewMode: (viewMode: 'card' | 'list') => void;
 }
 function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [visibleSkillsCount] = useState(20);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -243,7 +243,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                           onChange={handleSkillSearchChange}
                         />
                       </div>
-                      <div className="max-h-[400px] overflow-y-auto">
+                      <div>
                         <div className="flex flex-col space-y-2">
                           {visibleSkills.map((skill, index) => (
                             <div
@@ -315,64 +315,11 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
           </div>
         </Card>
       </div>
-      {/* Mobile Filters and View Toggle */}
-      <div className="mb-4 flex items-center justify-between lg:hidden">
-        <Button
-          variant="outline"
-          className="flex items-center gap-2"
-          onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-        >
-          <FilterIcon className="h-4 w-4" />
-          Filters
-          <ChevronDownIcon
-            className={`h-4 w-4 transition-transform ${
-              mobileFiltersOpen ? 'rotate-180' : ''
-            }`}
-          />
-        </Button>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-md border bg-white p-1">
-            <Button
-              variant={viewMode === 'card' ? 'default' : 'ghost'}
-              size="sm"
-              className={`h-8 w-8 p-0 ${
-                viewMode === 'card' ? 'bg-blue-600' : ''
-              }`}
-              onClick={() => setViewMode('card')}
-            >
-              <GridIcon />
-            </Button>
-            <Button
-              variant={viewMode === 'list' ? 'default' : 'ghost'}
-              size="sm"
-              className={`h-8 w-8 p-0 ${
-                viewMode === 'list' ? 'bg-blue-600' : ''
-              }`}
-              onClick={() => setViewMode('list')}
-            >
-              <ListIcon />
-            </Button>
-          </div>
-          <Select defaultValue="relevance">
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="relevance">Relevance</SelectItem>
-              <SelectItem value="rating">Rating</SelectItem>
-              <SelectItem value="hourly-asc">Low to High</SelectItem>
-              <SelectItem value="hourly-desc">High to Low</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
       {/* Mobile Filters Panel */}
-      {mobileFiltersOpen && (
-        <div className="mb-6 rounded-lg border bg-white p-4 shadow-sm lg:hidden">
+      <div className="mb-6 rounded-lg bg-white mt-4 lg:hidden">
           <div className="grid grid-cols-2 gap-4">
             {/* Hourly Rate */}
-            <div>
+            {/* <div>
               <h3 className="mb-2 font-medium">Hourly Rate</h3>
               <div className="flex gap-2">
                 <input
@@ -392,7 +339,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   min={0}
                 />
               </div>
-            </div>
+            </div> */}
             {/* Total Earnings */}
             {/* <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
@@ -441,27 +388,49 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 />
               </div>
             </div> */}
-          </div>
-          <div className="mt-4 flex justify-end">
-            <Button
-              variant="outline"
-              size="sm"
-              className="mr-2"
-              onClick={handleClearFilters}
-            >
-              Clear All
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                setMobileFiltersOpen(false);
-              }}
-            >
-              Close
-            </Button>
+
+            {/* Skills */}
+            <div className="col-span-2">
+              <div className='flex gap-2'>
+              <h3 className="mb-2 font-medium">Skills</h3>
+              {/* <Image src="/infoBusiness.svg" alt="skills" width={16} height={16} /> */}
+              <Info className='w-4 h-4 mt-1'/>
+              </div>
+              <div className="space-y-4">
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search skills..."
+                    className="pl-8"
+                    value={searchTerm}
+                    onChange={handleSkillSearchChange}
+                  />
+                </div>
+                <div>
+                  <div className="flex flex-col space-y-2">
+                    {visibleSkills.map((skill, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`mobile-skill-${skill.id}`}
+                          checked={selectedSkills.includes(skill.id)}
+                          onCheckedChange={(checked) =>
+                            handleSkillChange(skill.id, checked === true)
+                          }
+                        />
+                        <Label
+                          htmlFor={`mobile-skill-${skill.id}`}
+                          className="text-sm font-normal cursor-pointer"
+                        >
+                          {skill.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )}
     </div>
   );
 }

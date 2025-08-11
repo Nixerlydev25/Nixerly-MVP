@@ -26,13 +26,13 @@ export default function Prices() {
   ]
 
   return (
-    <section className="py-16 px-4 lg:px-0 bg-[#F4F6F8]">
+    <section className="py-10 lg:py-20 px-4 lg:px-0 bg-[#F4F6F8]">
       <div className="max-w-7xl mx-auto pb-10">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-start lg:text-center mb-12">
           <p className="text-sm font-medium text-gray-600 mb-2 tracking-wider">PRICING</p>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Choose <span className="text-primary">Your Plan</span>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Choose <span className="text-nixerly-blue">Your Plan</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
             We help you in finding solutions to your problem

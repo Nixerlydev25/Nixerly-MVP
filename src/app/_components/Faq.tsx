@@ -35,7 +35,7 @@ export default function Faq(){
     return(
         <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
+          <div className="text-start lg:text-center mb-10 lg:mb-16">
             <div className="inline-flex gap-3 font-medium mb-4">
                <Image
                     src="/updown.svg"
@@ -47,7 +47,7 @@ export default function Faq(){
                   <span className="text-xl mt-1  text-[#0011B7]">FAQ</span>
             </div> 
   
-            <h2 className=" text-gray-900 text-center font-plusjakarta text-[44px] font-semibold leading-[52px] tracking-[-1.76px]">Frequently Asked Questions</h2>
+            <h2 className=" text-gray-900 font-plusjakarta text-4xl lg:text-5xl font-semibold leading-[52px] tracking-[-1.76px]">Frequently Asked Questions</h2>
           </div>
   
           <div className="max-w-3xl mx-auto space-y-4">
@@ -57,9 +57,9 @@ export default function Faq(){
                   className="flex items-center justify-between cursor-pointer px-6"
                   onClick={() => toggleFAQ(index)}
                 >
-                  <h3 className={`text-gray-900 font-plusjakarta text-xl leading-normal ${openIndex === index ? 'font-semibold' : 'font-normal'}`}>{faq.question}</h3>
+                  <h3 className={`text-gray-900 font-plusjakarta text-xs lg:text-xl leading-normal ${openIndex === index ? 'font-semibold' : 'font-normal'}`}>{faq.question}</h3>
                   <ChevronDown
-                    className={`h-5 w-5 text-gray-500 transform transition-transform duration-300 ${
+                    className={`h-5 w-5 text-gray-500  transform transition-transform duration-300 ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
                   />
@@ -67,7 +67,7 @@ export default function Faq(){
                 {openIndex === index && (
                   <>
                     <div className="border-t border-gray-200 my-4"></div>
-                    <p className="text-gray-600 font-plusjakarta text-base font-normal leading-[26px] px-6">{faq.answer}</p>
+                    <p className="text-gray-600 font-plusjakarta font-normal leading-[26px] px-6 text-xs lg:text-base">{faq.answer}</p>
                   </>
                 )}
               </div>

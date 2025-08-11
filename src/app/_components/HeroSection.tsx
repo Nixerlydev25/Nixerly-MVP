@@ -45,7 +45,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="flex gap-4 sm:flex-row sm:items-center">
               <Button
                 size="lg"
                 className="bg-nixerly-blue text-white px-6 py-3 text-base font-semibold rounded-full"

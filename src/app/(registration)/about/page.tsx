@@ -8,10 +8,7 @@ import { Button } from "@/components/ui/button"
 // import { CheckCircle2, Users, Building2, Award, Briefcase, ChevronDown, Phone, Mail, MapPin } from "lucide-react"
 import Faq from "@/app/_components/Faq"
 import Contact from "@/app/_components/Contact"
-import Stats from "@/app/_components/Stats" 
-
-
-
+import Stats from "@/app/_components/Stats"
 
 const benefitCards = [
   {
@@ -20,15 +17,15 @@ const benefitCards = [
     buttonLabel: "Join as Professional",
     href: "/signup",
     points: [
-  "  Show Your Work Highlight your skills with project photos.",
+      "  Show Your Work Highlight your skills with project photos.",
 
-"Get Quality Clients Connect with those who value craftsmanship.",
+      "Get Quality Clients Connect with those who value craftsmanship.",
 
-"Earn Trust Build reputation through reviews and results.",
+      "Earn Trust Build reputation through reviews and results.",
 
-"Work on Your Terms Choose projects, set rates, stay in control.",
+      "Work on Your Terms Choose projects, set rates, stay in control.",
 
-"Grow Confidently Attract consistent, high-value jobs.",
+      "Grow Confidently Attract consistent, high-value jobs.",
     ],
   },
   {
@@ -48,7 +45,7 @@ const benefitCards = [
 
 export default function LandingPage() {
 
-    const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index)
@@ -56,9 +53,9 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 md:py-11 container mx-auto">
+      <section className="relative overflow-hidden py-10 lg:py-20 md:py-11 container mx-auto">
         {/* Boxes image absolutely positioned at the top */}
-        <div className="absolute top-5 left-0 z-10">
+        <div className="absolute top-4 lg:top-5 left-0  lg:z-10">
           <Image
             src="/boxes.svg"
             alt="Construction site and buildings"
@@ -69,59 +66,57 @@ export default function LandingPage() {
         </div>
         <div className="px-4 md:pl-10 relative">
           <div className="grid  lg:grid-cols-2 items-center">
-            
+
             <div className="space-y-8">
               <Image
-          src="/Layer1.png"
-                  alt="Construction site w and buildings"
-                  width={100}
-                  height={100}
-                  className=""
-                />
-              <h1 className=" md:text-5xl font-plus-jakarta font-medium leading-10 text-primary">About Us</h1>
+                src="/Layer1.png"
+                alt="Construction site w and buildings"
+                width={100}
+                height={100}
+                className="hidden lg:block"
+              />
+              <h1 className=" text-3xl lg:text-5xl font-plus-jakarta font-medium leading-10 text-nixerly-blue">About Us</h1>
               <p className="text-[#303236] font-inter text-xl font-normal leading-5  max-w-[600px] ">
-            Empowering Skilled Tradespeople to Showcase Their Expertise.
+                Empowering Skilled Tradespeople to Showcase TheirExpertise.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 ">
-                <Button size="lg" 
-                className="text-white font-inter bg-nixerly-blue text-sm font-medium leading-normal rounded-full" asChild>
+              <div className="flex flex-col sm:flex-row gap-4  mb-8 lg:mb-0  ">
+                <Button size="lg"
+                  className="text-white font-inter bg-nixerly-blue text-sm font-medium leading-normal w-fit rounded-full px-6 py-4" asChild>
 
                   <Link href="/signup">Get Started</Link>
-                  
-                </Button>
 
-                <Button
-                  size="lg"
-        
-                  className="text-black border-white hover:bg-[#1e64d3]  hover:text-white bg-transparent font-inter text-sm font-medium leading-normal rounded-full"
-                  asChild
-                >
-                  <Link href="/contact">Learn More</Link>
                 </Button>
               </div>
             </div>
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                <Image
-                  src="/About1.png"
-                  alt="Construction site with cranes and buildings"
-                  width={600}
-                  height={400}
-                  className="w-[700px] h-[576px]"
-                />
-              </div>
+              {/* Image Section */}
+          <div className="relative">
+            {/* Additional decorative boxes behind the image */}
+            <div className="absolute -left-8 top-8 w-24 h-24 opacity-20">
+              <Image src="/boxleft.svg" alt="" width={96} height={96} className="w-full h-full" />
             </div>
+
+            <div className="relative overflow-hidden rounded-2xl">
+              <Image
+                src="/About1.png"
+                alt="Construction professionals collaborating on blueprints and project planning"
+                width={720}
+                height={576}
+                className="w-[700px] h-[576px] object-cover rounded-2xl"
+                priority
+              />
+            </div>
+          </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-    <Stats/>
+      <Stats />
 
       {/* Our Story Section */}
-      <section className="bg-white py-20 md:py-28">
+      <section className="bg-white py-10 lg:py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-12 lg:grid-cols-2 items-center">
+          <div className="grid gap-12 lg:grid-cols-2  items-center">
             <div className="flex items-center justify-center">
               <div className="relative">
                 <Image
@@ -136,12 +131,12 @@ export default function LandingPage() {
             <div className="space-y-6">
               <h2 className="text-3xl font-bold tracking-tighter text-gray-900">Our Story</h2>
               <p className="text-gray-600 font-poppins text-lg font-medium leading-[30px]">
-               <span className="text-nixerly-blue font-semibold">Nixerly</span>  was founded because skilled tradespeople deserve recognition for their expertise. With years of experience solving complex problems and creating lasting results, construction professionals needed a platform that showcases their craftsmanship and connects them with clients who value quality work. We believe that behind every perfect finish is a story of skill, dedication, and professional pride that deserves to be seen.
+                <span className="text-nixerly-blue font-semibold">Nixerly</span>  was founded because skilled tradespeople deserve recognition for their expertise. With years of experience solving complex problems and creating lasting results, construction professionals needed a platform that showcases theircraftsmanship and connects them with clients who value quality work. We believe that behind every perfect finish is a story of skill, dedication, and professional pride that deserves to be seen.
               </p>
-            
+
               <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full  text-white font-medium text-[15.598px] leading-[15.598px] font-inter mt-6" asChild>
                 <Link href="/signup" className="flex items-center gap-2 ">
-                  Learn More 
+                  Learn More
                 </Link>
               </Button>
             </div>
@@ -150,69 +145,69 @@ export default function LandingPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-primary  py-20 md:py-28">
+      <section className="bg-nixerly-blue py-10 lg:py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <div className="inline-flex px-3 py-1 gap-2 text-white  mb-4 text-center font-inter text-[20px] font-normal leading-[20px] tracking-[2.4px]">
               Why Choose    <span className="text-white font-inter text-[20px] font-bold leading-[20px] tracking-[2.4px]">Nixerly</span>
             </div>
             <h2 className="text-3xl  tracking-normal sm:text-4xl md:text-5xl  text-white font-inter font-semibold leading-[48px] mb-4">
-              Our <span  className="text-white font-inter text-[48px] font-semibold leading-[48px]">Benefits
-                </span>
+              Our <span className="text-white font-inter text-[48px] font-semibold leading-[48px]">Benefits
+              </span>
             </h2>
-            <p className="mx-auto max-w-[600px]   text-white text-center font-inter text-[18px] font-normal leading-[24px]">
+            <p className="mx-auto max-w-[400px] lg:max-w-[600px] text-white text-center font-inter text-lg font-normal leading-5">
               How Nixerly benefits both construction professionals and businesses.
             </p>
           </div>
-<div className="grid gap-8 md:grid-cols-2 mx-auto">
-  {benefitCards.map((card, index) => (
-    <div
-      key={index}
-      className="bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
-    >
-      <div className="flex items-center mb-6">
-        <Image
-          src={card.image}
-          alt={card.title}
-          width={580}
-          height={258}
-          className="rounded-lg w-full"
-        />
-      </div>
-      <div className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1  inline-block mb-4 font-poppins leading-[18px]">
-        Construction
-      </div>
-      <h3 className="font-montserrat text-[28px] font-semibold leading-[28px] capitalize text-primary mb-6">{card.title}</h3>
+          <div className="grid gap-8 md:grid-cols-2 mx-auto">
+            {benefitCards.map((card, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className="flex items-center mb-6">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    width={580}
+                    height={258}
+                    className="rounded-lg w-full"
+                  />
+                </div>
+                <div className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1  inline-block mb-4 font-poppins leading-[18px]">
+                  Construction
+                </div>
+                <h3 className="font-montserrat text-[28px] font-semibold leading-[28px] capitalize text-primary mb-6">{card.title}</h3>
 
-      <ul className="space-y-3">
-    {card.points.map((point, i) => (
-          <li key={i} className="flex items-center">
-            <Image
-              src="/arrow.svg"
-              alt="arrow"
-              width={25}
-              height={25}
-              className="mr-2   text-nixerly-blue shrink-0  "
-            />
-            
-            <span className="text-gray-600 font-montserrat text-base font-medium leading-[16px]">{point}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-6">
-        <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full text-white font-inter text-sm font-medium leading-normal" asChild>
-          <Link href={card.href}>{card.buttonLabel}</Link>
-        </Button>
-      </div>
-    </div>
-  ))}
-</div>
+                <ul className="space-y-3">
+                  {card.points.map((point, i) => (
+                    <li key={i} className="flex items-center">
+                      <Image
+                        src="/arrow.svg"
+                        alt="arrow"
+                        width={25}
+                        height={25}
+                        className="mr-2   text-nixerly-blue shrink-0  "
+                      />
 
-         
+                      <span className="text-gray-600 font-montserrat text-base font-medium leading-[16px]">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Button className="bg-nixerly-blue hover:bg-blue-700 rounded-full text-white font-inter text-sm font-medium leading-normal" asChild>
+                    <Link href={card.href}>{card.buttonLabel}</Link>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+
         </div>
       </section>
-    <Contact/>
-   <Faq/>
+      <Contact />
+      <Faq />
     </div>
   )
 }

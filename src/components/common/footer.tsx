@@ -192,7 +192,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t pt-8 text-center text-sm text-white">
+        <div className="mt-12 border-t pt-8 text-start lg:text-center text-sm text-white">
           <p>
             &copy; {new Date().getFullYear()} Nixerly Ltd. All rights reserved.
           </p>

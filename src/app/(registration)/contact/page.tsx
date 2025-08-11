@@ -11,8 +11,8 @@ export default function ContactPage() {
   return (
     <div className="flex min-h-screen flex-col py-10">
       {/* Hero Section */}
-            <section className="px-4 lg:px-0 pb-10">
-              <div className="bg-primary relative container mx-auto py-14 rounded-2xl">
+            <section className="px-4 lg:px-0 pb-0 lg:pb-10">
+              <div className="bg-nixerly-blue relative container mx-auto py-14 rounded-2xl">
         {/* <div className="absolute inset-0 bg-pattern bg-repeat opacity-10"></div> */}
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto animate-fade-in rounded-2xl">

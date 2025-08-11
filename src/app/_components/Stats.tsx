@@ -3,7 +3,7 @@ export default function Stats(){
     return(
         <section className="bg-nixerly-blue py-16">
         <div className="container mx-auto px-40">
-          <div className="grid gap-8 md:grid-cols-4 items-center justify-center">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center justify-center">
             <div className="flex flex-col items-center p-8 bg-white rounded-xl  ">
               <h3 className="text-center font-inter text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-8 ">500+</h3>
               <div className="flex items-center gap-3 ">

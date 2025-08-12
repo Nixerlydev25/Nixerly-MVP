@@ -388,23 +388,23 @@ export default function BusinessProfilePage() {
     <div className="space-y-8">
       {/* Stats Cards with Blue Container */}
       <div className="bg-nixerly-blue rounded-2xl p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-white border-0 shadow-sm">
             <CardContent className="p-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 lg:gap-3">
                 <div className="p-2 bg-[#996CFF] rounded-lg">
                   <Image
                     src="/employe.svg"
                     alt="employe"
-                    width={22}
+                    width={16}
                     height={16}
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <p className="text-2xl font-bold leading-10">
+                  <p className="text-xl lg:text-2xl font-bold leading-10">
                     {businessProfileData?.businessProfile.employeeCount}
                   </p>
-                  <p className="text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
                     Employees
                   </p>
                 </div>
@@ -424,11 +424,11 @@ export default function BusinessProfilePage() {
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <p className="text-2xl font-bold leading-10">
+                  <p className="text-xl lg:text-2xl font-bold leading-10">
                     {new Date().getFullYear() -
                       (businessProfileData?.businessProfile.yearFounded || 0)}
                   </p>
-                  <p className="text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
                     Years Active
                   </p>
                 </div>
@@ -443,10 +443,10 @@ export default function BusinessProfilePage() {
                   <Image src="/jobs.svg" alt="employe" width={22} height={16} />
                 </div>
                 <div className="space-y-2.5">
-                  <p className="text-2xl font-bold leading-10">
+                  <p className="text-xl lg:text-2xl font-bold leading-10">
                     {businessProfileData?.businessProfile.postedJobs}
                   </p>
-                  <p className="text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
                     Jobs Posted
                   </p>
                 </div>
@@ -466,14 +466,14 @@ export default function BusinessProfilePage() {
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <p className="text-2xl font-bold leading-10">
+                  <p className="text-xl lg:text-2xl font-bold leading-10">
                     {new Date(
                       businessProfileData?.businessProfile?.createdAt ?? ""
                     ).toLocaleDateString(undefined, {
                       year: "numeric",
                     })}
                   </p>
-                  <p className="text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
                     Member Since
                   </p>
                 </div>
@@ -496,7 +496,7 @@ export default function BusinessProfilePage() {
             <p className="font-medium text-lg leading-7 mb-4">
               Company Overview
             </p>
-            <div className="flex justify-between px-5">
+            <div className="flex justify-between px-0 lg:px-5">
               <h3 className="text-lg font-normal text-muted-foreground mb-2">
                 Industry
               </h3>
@@ -504,7 +504,7 @@ export default function BusinessProfilePage() {
                 {businessProfileData?.businessProfile.industry}
               </p>
             </div>
-            <div className="flex justify-between px-5">
+            <div className="flex justify-between px-0 lg:px-5">
               <h3 className="text-lg font-normal text-muted-foreground mb-2">
                 Founded
               </h3>
@@ -513,7 +513,7 @@ export default function BusinessProfilePage() {
               </p>
             </div>
 
-            <div className="flex justify-between px-5">
+            <div className="flex justify-between px-0 lg:px-5">
               <h3 className="text-lg normal text-muted-foreground mb-2">
                 Company Size
               </h3>
@@ -522,7 +522,7 @@ export default function BusinessProfilePage() {
               </p>
             </div>
 
-            <div className="flex justify-between px-5">
+            <div className="flex justify-between px-0 lg:px-5">
               <h3 className="text-lg font-normal text-muted-foreground mb-2">
                 Location
               </h3>
@@ -739,6 +739,7 @@ export default function BusinessProfilePage() {
                 <TooltipTrigger asChild>
                   <Button
                     variant="outline"
+                    size="sm"
                     className="border border-nixerly-bussinessborder rounded-full"
                     onClick={() =>
                       openModal(
@@ -764,12 +765,12 @@ export default function BusinessProfilePage() {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="relative p-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="relative px-4 py-12 lg:px-8 lg:py-10">
+            <div className="flex gap-6 flex-row md:items-center md:justify-between">
               {/* Left side - Profile info */}
-              <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
+              <div className="flex  gap-3 lg:gap-6 flex-row md:items-center md:gap-8">
                 {/* Profile Picture */}
-                <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32">
+                <div className="relative z-50 h-24 w-24 overflow-visible md:h-32 md:w-32">
                   <img
                     src={
                       businessProfileData?.businessProfile?.profilePicture ||
@@ -778,7 +779,7 @@ export default function BusinessProfilePage() {
                     alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
                     height={128}
-                    className="h-full w-full object-cover rounded-full border-1 border-blue-500"
+                    className="h-full w-full object-cover rounded-2xl lg:rounded-full z-50"
                   />
                   <TooltipProvider>
                     <Tooltip>
@@ -794,7 +795,7 @@ export default function BusinessProfilePage() {
                               }
                             )
                           }
-                          className="absolute bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel border-none"
+                          className="absolute -bottom-1 lg:bottom-0 right-0 rounded-full bg-white p-2 text-nixerly-businesslabel border-none"
                           aria-label="Change profile picture"
                         >
                           <Camera className="h-5 w-5" />
@@ -808,23 +809,25 @@ export default function BusinessProfilePage() {
                 </div>
 
                 {/* Company Details */}
-                <div className="flex-1">
-                  <h2 className="text-3xl font-medium text-nixerly-blue leading-5 tracking-wide ">
+                <div className="flex-1 text-white">
+                  <h2 className="text-2xl lg:text-3xl mb-1.5 font-medium text-white leading-10 tracking-wide ">
                     {businessProfileData?.businessProfile.companyName}
                   </h2>
-                  <div className="mt-2 flex flex-col flex-wrapr text-base font-medium text-nixerly-blue leading-5 tracking-wide">
+                  <div className="flex flex-col flex-wrapr text-sm font-normal leading-5 tracking-wide">
+                  <span className=" text-[10px] lg:text-sm mb-1.5 font-normal leading-5">
+                      <span>
+                        {businessProfileData?.businessProfile.industry}
+                      </span>
+                    </span>
                     <span className="flex items-center gap-1">
-                      <span className="text-base font-medium">
+                      <span className="text-[10px] lg:text-sm flex gap-2 font-normal leading-5">
+                        <Image  src="/locationWhite.svg" alt="location" width={16} height={16}/>
                         {businessProfileData?.businessProfile.city},{" "}
                         {businessProfileData?.businessProfile.state},{" "}
                         {businessProfileData?.businessProfile.country}
                       </span>
                     </span>
-                    <span className="text-base font-medium">
-                      <span>
-                        {businessProfileData?.businessProfile.industry}
-                      </span>
-                    </span>
+                   
                     {/* <span className="flex items-center gap-1">
                       <span>Est. {businessProfileData?.businessProfile.yearFounded}</span>
                     </span> */}
@@ -839,17 +842,58 @@ export default function BusinessProfilePage() {
       </div>
 
       {/* Sidebar and Content Layout */}
-      <div className="grid gap-8 lg:grid-cols-4">
-        {/* Simple Sidebar */}
+      <div className="space-y-6">
+      {/* Mobile/Tablet Horizontal Tabs (below lg) */}
+      <div className="lg:hidden bg-[#F5F7FA] py-10 px-4 rounded-2xl">
+        <h2 className="text-xl lg:text-2xl font-medium text-gray-400 mb-6">Profile Details</h2>
+        <div className="flex gap-2 overflow-x-auto">
+          {sidebarItems.map((item) => {
+            const isActive = activeTab === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleTabChange(item.id)}
+                className={cn(
+                  "flex items-center gap-1 p-3 rounded-2xl text-left transition-all duration-300 border flex-shrink-0",
+                  isActive
+                    ? "bg-nixerly-blue text-white border-nixerly-blue min-w-[160px]"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 w-14",
+                )}
+              >
+                <span
+                  className={cn(
+                    "h-8 w-8 flex items-center justify-center rounded-full transition-colors flex-shrink-0",
+                    isActive ? "text-nixerly-blue" : "",
+                  )}
+                >
+                  <Image
+                    src={item.icon || "/placeholder.svg"}
+                    alt={item.label}
+                    width={18}
+                    height={18}
+                    className={isActive ? "filter invert brightness-0" : "opacity-100"}
+                  />
+                </span>
+                {isActive && (
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-xs leading-tight">{item.label}</p>
+                  </div>
+                )}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Desktop Layout (lg and above) */}
+      <div className="hidden lg:grid gap-8 lg:grid-cols-4">
+        {/* Desktop Sidebar */}
         <div className="lg:col-span-1 bg-[#F5F7FA] rounded-xl">
           <div className="px-8">
             <nav className="space-y-1">
-              <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">
-                Profile Details
-              </p>
+              <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
               {sidebarItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
+                const isActive = activeTab === item.id
                 return (
                   <button
                     key={item.id}
@@ -858,19 +902,17 @@ export default function BusinessProfilePage() {
                       "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
                       isActive
                         ? "bg-white text-nixerly-blue"
-                        : "hover:bg-white text-muted-foreground hover:text-foreground"
+                        : "hover:bg-white text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <span
                       className={cn(
                         "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
-                        isActive
-                          ? "bg-nixerly-blue text-white border-nixerly-blue"
-                          : "bg-white"
+                        isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-white",
                       )}
                     >
                       <Image
-                        src={item.icon}
+                        src={item.icon || "/placeholder.svg"}
                         alt={item.label}
                         width={18}
                         height={18}
@@ -881,26 +923,26 @@ export default function BusinessProfilePage() {
                       <p className="font-medium text-sm">{item.label}</p>
                     </div>
                     {isActive && (
-                      <Image
-                        src="/arrowLine.svg"
-                        alt="arrowLine"
-                        width={20}
-                        height={20}
-                        className="ml-auto"
-                      />
+                      <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto" />
                     )}
                   </button>
-                );
+                )
               })}
             </nav>
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Desktop Main Content */}
         <div className="lg:col-span-3">
           <div className="min-h-[600px]">{renderContent()}</div>
         </div>
       </div>
+
+      {/* Mobile/Tablet Main Content */}
+      <div className="lg:hidden">
+        <div className="min-h-[400px]">{renderContent()}</div>
+      </div>
+    </div>
     </div>
   );
 }

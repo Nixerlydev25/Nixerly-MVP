@@ -135,7 +135,7 @@ export default function Component() {
 
             {/* Right Image */}
             <div className="flex-shrink-0 lg:w-auto w-1/2">
-              <div className="relative w-40 lg:w-80 h-28 lg:h-45">
+              <div className="relative w-40  sm:w-80 h-28 sm:h-45">
                 <Image
                   src="/blog3.png"
                   alt="Hiring dashboard illustration"

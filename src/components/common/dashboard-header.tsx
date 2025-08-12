@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { UserCircle2Icon, LogOut, Menu, X } from "lucide-react";
+import { UserCircle2Icon, LogOut, Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { buttonTapAnimation, iconTapAnimation } from "@/hook/common/useAnimations";
 
@@ -96,11 +96,17 @@ export function DashboardHeader() {
                       alt={`${user.firstName} ${user.lastName}'s avatar`}
                     />
                   </motion.div>
-                  <span className="text-sm font-medium ml-2">
+                  <span className="text-xs lg:text-sm font-normal ml-1">
                     {isBusinessProfile
                       ? user.businessProfile?.companyName
                       : `${user.firstName} ${user.lastName}`}
                   </span>
+                  <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="h-4 w-4 text-gray-500 ml-1" />
+                  </motion.div>
                 </Button>
               </motion.div>
             </DropdownMenuTrigger>

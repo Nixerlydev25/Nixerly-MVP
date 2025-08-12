@@ -1,9 +1,97 @@
+"use client"
+
+import { useState,useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function BlogPage() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(false)
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const startX = useRef(0)
+  const isDragging = useRef(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024)
+    }
+
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % recentPosts.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + recentPosts.length) % recentPosts.length)
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+  }
+
+  // Touch handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX
+    isDragging.current = true
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging.current) return
+    e.preventDefault()
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!isDragging.current) return
+
+    const endX = e.changedTouches[0].clientX
+    const diffX = startX.current - endX
+
+    if (Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        nextSlide()
+      } else {
+        prevSlide()
+      }
+    }
+
+    isDragging.current = false
+  }
+
+  // Mouse handlers for desktop drag
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (isDesktop) return
+    startX.current = e.clientX
+    isDragging.current = true
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || isDesktop) return
+    e.preventDefault()
+  }
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging.current || isDesktop) return
+
+    const endX = e.clientX
+    const diffX = startX.current - endX
+
+    if (Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        nextSlide()
+      } else {
+        prevSlide()
+      }
+    }
+
+    isDragging.current = false
+  }
   // Popular blog posts
   const popularPosts = [
     {
@@ -176,24 +264,20 @@ export default function BlogPage() {
 
       {/* Our Recent Publications Section */}
       <section className="py-12 px-4 md:px-10 bg-white">
-        <div className="container mx-auto">
-          <h2 className="text-[#26344E] font-inter text-4xl font-light mb-8  ">
-            Our{" "}
-            <span className=" text-nixerly-blue font-inter text-4xl font-semibold">
-              Recent Publications{" "}
-            </span>
-          </h2>
+      <div className="container mx-auto">
+        <h2 className="text-[#26344E] font-sans text-4xl font-light mb-8">
+          Our <span className="text-blue-600 font-sans text-4xl font-semibold">Recent Publications</span>
+        </h2>
 
+        {/* Desktop Layout - Grid */}
+        <div className="hidden lg:block">
           <div className="space-y-6">
             {recentPosts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-white  rounded-xl border border-[#E1E4EA] "
-              >
-                <div className="flex flex-col md:flex-row ">
+              <div key={post.id} className="bg-white rounded-xl border border-[#E1E4EA]">
+                <div className="flex flex-col md:flex-row">
                   <div className="md:w-64 aspect-video md:aspect-square overflow-hidden">
                     <Image
-                      src={post.image || "/placeholder.svg"}
+                      src={post.image || "/placeholder.svg?height=308&width=403"}
                       alt={post.title}
                       width={403}
                       height={308}
@@ -202,47 +286,109 @@ export default function BlogPage() {
                   </div>
                   <div className="flex-1 p-6">
                     <div className="flex items-start justify-between mb-3">
-                      <h3 className=" text-gray-900 mb-2 font-urbanist text-xl font-medium">
-                        {post.title}
-                      </h3>
-                      <span className="bg-blue-100 text-nixerly-blue text-xs px-2 py-1  whitespace-nowrap ml-4">
+                      <h3 className="text-gray-900 mb-2 font-sans text-xl font-medium">{post.title}</h3>
+                      <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 whitespace-nowrap ml-4 rounded">
                         {post.category}
                       </span>
                     </div>
-
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                        <div className="w-8 h-8 bg-gray-200 rounded-full relative overflow-hidden">
-                          <Image
-                            src={post.authorImage || "/placeholder.svg"}
-                            alt={post.author}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
+                      <div className="w-8 h-8 bg-gray-200 rounded-full relative overflow-hidden">
+                        <Image
+                          src={post.authorImage || "/placeholder.svg?height=32&width=32"}
+                          alt={post.author}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
                       <div className="text-sm flex flex-col text-gray-600">
-                        <span className="font-medium  font-poppins text-sm ">
-                          {post.author}
-                        </span>
-                        {/* <span className="mx-2">•</span> */}
+                        <span className="font-medium font-sans text-sm">{post.author}</span>
                         <span>{post.date}</span>
                       </div>
-                      <div className="ml-auto  text-gray-500 font-poppins text-sm font-normal">
-                        {post.views}
-                      </div>
+                      <div className="ml-auto text-gray-500 font-sans text-sm font-normal">{post.views}</div>
                     </div>
-
-                    <p className=" mb-4 line-clamp-3  text-[#787676] font-poppins text-base font-normal">
-                      {post.excerpt}
-                    </p>
+                    <p className="mb-4 line-clamp-3 text-[#787676] font-sans text-base font-normal">{post.excerpt}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+
+        {/* Mobile/Tablet Layout - Slider */}
+        <div className="lg:hidden">
+          <div
+            ref={sliderRef}
+            className="relative overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+          >
+            <div
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{
+                transform: `translateX(-${currentSlide * 100}%)`,
+              }}
+            >
+              {recentPosts.map((post) => (
+                <div key={post.id} className="w-full flex-shrink-0 px-2">
+                  <div className="bg-white rounded-xl border border-[#E1E4EA] overflow-hidden">
+                    <div className="aspect-video overflow-hidden">
+                      <Image
+                        src={post.image || "/placeholder.svg?height=200&width=350"}
+                        alt={post.title}
+                        width={350}
+                        height={200}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">{post.category}</span>
+                        <div className="text-gray-500 font-sans text-sm">{post.views}</div>
+                      </div>
+                      <h3 className="text-gray-900 mb-3 font-sans text-lg font-medium leading-tight">{post.title}</h3>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 bg-gray-200 rounded-full relative overflow-hidden">
+                          <Image
+                            src={post.authorImage || "/placeholder.svg?height=32&width=32"}
+                            alt={post.author}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          <span className="font-medium font-sans">{post.author}</span>
+                          <div className="text-xs">{post.date}</div>
+                        </div>
+                      </div>
+                      <p className="text-[#787676] font-sans text-sm leading-relaxed">{post.excerpt}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="flex justify-center mt-6 gap-2">
+            {recentPosts.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-colors duration-200",
+                  currentSlide === index ? "bg-blue-600" : "bg-gray-300",
+                )}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
       {/* Newsletter Section */}
       <section className="py-16 px-4 md:px-6 my-10 ">

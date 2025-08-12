@@ -121,7 +121,7 @@ export default function BusinessDashboard() {
     );
   }
 
-  const jobTypes="text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
+  const jobTypes = "text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
 
   return (
     <div className="container mx-auto px-4 py-8 ">
@@ -175,7 +175,7 @@ export default function BusinessDashboard() {
         </Card>
         {/* second box */}
         <Card className=" text-white bg-[#8152E7] min-h-20 rounded-xl">
-           <CardContent className="h-full py-4 ">
+          <CardContent className="h-full py-4 ">
             <div className="flex items-center space-x-4 h-full">
               <div className="w-10 h-10 sm:w-14 sm:h-14  rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] ">
                 <Image
@@ -185,13 +185,13 @@ export default function BusinessDashboard() {
                   height={32}
                 />
               </div>
-              
+
               <div>
-                 <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
+                <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
                   {data?.pagination?.totalCount}
                 </p>
                 <p className="text-white font-inter text-sm pt-1 leading-[22px]  not-italic">Total Jobs</p>
-               
+
               </div>
               {/* <Briefcase className="h-8 w-8 " /> */}
             </div>
@@ -215,7 +215,7 @@ export default function BusinessDashboard() {
               <div>
                 <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">14 days</p>
                 <p className="text-white font-inter text-sm pt-1 leading-[22px]  not-italic">Avg. Time to Fill</p>
-                
+
               </div>
               {/* <Clock className="h-8 w-8 " /> */}
             </div>
@@ -223,7 +223,7 @@ export default function BusinessDashboard() {
         </Card>
       </div>
 
-{/* all jobs open close */}
+      {/* all jobs open close */}
 
       <div className="mb-6">
         <Tabs
@@ -235,7 +235,7 @@ export default function BusinessDashboard() {
             <TabsList className="mb-2 md:mb-0 ">
               <TabsTrigger className={jobTypes} value="ALL">All Jobs</TabsTrigger>
               <TabsTrigger className={jobTypes} value="OPEN">Open</TabsTrigger>
-              <TabsTrigger  className={jobTypes} value="CLOSED">Closed</TabsTrigger>
+              <TabsTrigger className={jobTypes} value="CLOSED">Closed</TabsTrigger>
             </TabsList>
             <div className="relative w-full md:w-[300px]">
               <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
@@ -266,7 +266,7 @@ export default function BusinessDashboard() {
                           <div className="flex items-center gap-2   pb-2">
                             <CardTitle className=" text-base md:text-xl font-medium leading-5 text-[#0E121B]  ">{job.title}</CardTitle>
                             <Badge
-                            className="rounded-full bg-nixerly-blue text-white mt-1 ml-2"
+                              className="rounded-full bg-nixerly-blue text-white mt-1 ml-2"
                               variant={
                                 job.status === "open" ? "default" : "secondary"
                               }
@@ -277,20 +277,20 @@ export default function BusinessDashboard() {
                           </div>
                           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                             <span className="flex items-center gap-2">
-                                  <Image src="/buildingblack.svg" alt="clander"  width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]"/>
-                              <span className="font-inter text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">{job.businessProfile?.companyName}</span>
+                              <Image src="/buildingBlack.svg" alt="clander" width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]" />
+                              <span className="font-inter text-xs lg:text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">{job.businessProfile?.companyName}</span>
                             </span>
                             {/* <span>•</span> */}
                             <span className="flex items-center gap-2">
-                                 <Image src="/locationblack.svg" alt="clander"  width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]"/>
-                              <span className="font-inter text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">
+                              <Image src="/locationblack.svg" alt="clander" width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]" />
+                              <span className="font-inter text-xs lg:text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">
                                 {job.location?.city}, {job.location?.state}
                               </span>
                             </span>
                             {/* <span>•</span> */}
                             <span className="flex items-center gap-2">
-                              <Image src="/clanderblack.svg" alt="clander"  width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]"/>
-                              <span className="font-inter text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">
+                              <Image src="/clanderblack.svg" alt="clander" width={14} height={14} className="h-3.5 w-3.5 text-[#383a3d]" />
+                              <span className="font-inter text-xs lg:text-sm font-normal leading-5 tracking-[-0.084px] not-italic text-nixerly-businesslabel">
                                 Posted{" "}
                                 {new Date(job.createdAt).toLocaleDateString(
                                   "en-US",
@@ -303,14 +303,14 @@ export default function BusinessDashboard() {
                               </span>
                             </span>
                           </div>
-                        
+
                         </div>
-                        
-                       
 
-                        <div className="flex items-center gap-2 mt-8 ">
 
-                          
+
+                        <div className="flex items-center gap-2 mt-8 justify-end">
+
+
                           <div className="  border bg-[#F6F8FA] p-1 px-2 rounded-full font-inter text-[11px] font-normal  uppercase not-italic text-nixerly-businesslabel">
                             {job.totalApplications || 0} applicant
                             {job.totalApplications !== 1 ? "s" : ""}
@@ -323,7 +323,7 @@ export default function BusinessDashboard() {
                           </Badge>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button  className="h-7 w-7 w p-0 ml-2  rounded-full bg-nixerly-blue border ">
+                              <Button className="h-7 w-7 w p-0 ml-2  rounded-full bg-nixerly-blue border ">
                                 <MoreVertical className="h-2 w-2" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -368,14 +368,14 @@ export default function BusinessDashboard() {
                           </DropdownMenu>
                         </div>
                       </div>
-                   
-                        
+
+
                     </CardHeader>
                   </Card>
-                  
+
                 ))}
 
-                
+
 
                 {(data?.pagination?.totalCount ?? 0) > 10 && (
                   <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">

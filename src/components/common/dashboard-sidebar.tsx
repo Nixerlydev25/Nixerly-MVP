@@ -148,7 +148,7 @@ export function DashboardSidebar() {
           </div>
           {/* Upgrade Pro Card at the bottom */}
           <div className="mt-auto">
-            <UpgradePro />
+            {/* <UpgradePro /> */}
           </div>
         </motion.aside>
       )}

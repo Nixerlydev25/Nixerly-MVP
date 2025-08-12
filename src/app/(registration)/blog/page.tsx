@@ -266,7 +266,7 @@ export default function BlogPage() {
       <section className="py-12 px-4 md:px-10 bg-white">
       <div className="container mx-auto">
         <h2 className="text-[#26344E] font-sans text-4xl font-light mb-8">
-          Our <span className="text-blue-600 font-sans text-4xl font-semibold">Recent Publications</span>
+          Our <span className="text-nixerly-blue font-sans text-4xl font-semibold">Recent Publications</span>
         </h2>
 
         {/* Desktop Layout - Grid */}

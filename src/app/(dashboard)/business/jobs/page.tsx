@@ -125,17 +125,17 @@ export default function BusinessDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8 ">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div className="flex md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-black font-inter text-2xl font-semibold leading-8 not-italic">
             Job Dashboard
           </h1>
-          <p className="font-inter text-base font-normal leading-none not-italic tracking-tight text-nixerly-businesslabe mt-1">
+          <p className="font-inter text-sm lg:text-base font-normal leading-4 not-italic text-nixerly-businesslabel mt-1">
             Manage your job postings and applicants
           </p>
         </div>
         <Button
-          className="text-white font-inter text-sm font-normal leading-5 not-italic tracking-tight rounded-full bg-nixerly-blue py-2 px-4"
+          className="text-white font-inter text-xs lg:text-sm font-normal leading-5 not-italic tracking-tight rounded-full bg-nixerly-blue py-2 px-4"
           onClick={() => router.push(ROUTES.POST_A_JOB)}
         >
           <Image
@@ -148,76 +148,55 @@ export default function BusinessDashboard() {
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3 mb-10 bg-gradient-to-r from-[#E9F8FF8A] to-[rgba(212,241,255,0.52)] py-6 px-3 rounded-2xl">
-        {/* first box */}
-        <Card className="bg-nixerly-blue text-white min-h-20 rounded-xl ">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10  py-6 px-3 rounded-2xl">
+        {/* Mobile: First column with two stacked cards */}
+        <div className="flex flex-col gap-6 md:contents">
+          {/* first box */}
+                      <Card className="bg-nixerly-blue text-white flex-1 rounded-xl">
+              <CardContent className="h-full py-4">
+                <div className="block lg:flex items-center justify-center lg:justify-start gap-4 h-full">
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] mx-auto lg:mx-0">
+                    <Image src="/usermessage.svg" alt="image" width={32} height={32} />
+                  </div>
+                  <div className="flex flex-col lg:block items-center lg:items-start lg:text-left mt-3 lg:mt-0">
+                    <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
+                      {data?.jobStatusCounts?.open}
+                    </p>
+                    <p className="text-white font-inter text-sm pt-1 leading-[22px] not-italic">Active Jobs</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+          {/* second box */}
+          <Card className="text-white bg-[#8152E7] flex-1 rounded-xl">
+            <CardContent className="h-full py-4">
+              <div className="block lg:flex items-center justify-center lg:justify-start gap-4 h-full">
+                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] mx-auto lg:mx-0">
+                  <Image src="/messagehand.svg" alt="image" width={32} height={32} />
+                </div>
+                <div className="flex flex-col lg:block items-center lg:items-start lg:text-left mt-3 lg:mt-0">
+                  <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
+                    {data?.pagination?.totalCount}
+                  </p>
+                  <p className="text-white font-inter text-sm pt-1 leading-[22px] not-italic">Total Jobs</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* third box - Mobile: Second column, Desktop: Third column */}
+        <Card className="bg-[#03B9D2] text-white rounded-xl">
           <CardContent className="h-full py-4">
-            <div className="flex items-center space-x-4 ">
-              <div className="w-10 h-10 sm:w-14 sm:h-14  rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] ">
-                <Image
-                  src="/usermessage.svg"
-                  alt="image "
-                  width={32}
-                  height={32}
-                />
+            <div className="block lg:flex items-center justify-center lg:justify-start gap-4 h-full">
+              <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] mx-auto lg:mx-0">
+                <Image src="/clock.svg" alt="image" width={32} height={32} />
               </div>
-
-              <div>
-                <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
-                  {data?.jobStatusCounts?.open}
-                </p>
-
-                <p className="text-white font-inter text-sm pt-1 leading-[22px]  not-italic">Active Jobs</p>
-              </div>
-              {/* <Briefcase className="h-8 w-8 text-white" /> */}
-            </div>
-          </CardContent>
-        </Card>
-        {/* second box */}
-        <Card className=" text-white bg-[#8152E7] min-h-20 rounded-xl">
-          <CardContent className="h-full py-4 ">
-            <div className="flex items-center space-x-4 h-full">
-              <div className="w-10 h-10 sm:w-14 sm:h-14  rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] ">
-                <Image
-                  src="/messagehand.svg"
-                  alt="image "
-                  width={32}
-                  height={32}
-                />
-              </div>
-
-              <div>
-                <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">
-                  {data?.pagination?.totalCount}
-                </p>
-                <p className="text-white font-inter text-sm pt-1 leading-[22px]  not-italic">Total Jobs</p>
-
-              </div>
-              {/* <Briefcase className="h-8 w-8 " /> */}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* third box */}
-        <Card className=" bg-[#03B9D2] text-white min-h-20 rounded-xl">
-          <CardContent className="h-full py-4">
-            <div className="flex items-center space-x-4 h-full">
-              <div className="w-10 h-10 sm:w-14 sm:h-14  rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] ">
-                <Image
-                  src="/clock.svg"
-                  alt="image "
-                  width={32}
-                  height={32}
-                />
-              </div>
-
-
-              <div>
+              <div className="flex flex-col lg:block items-center lg:items-start text-center lg:text-left mt-3 lg:mt-0">
                 <p className="text-white font-inter text-2xl font-extrabold leading-[22px] not-italic">14 days</p>
-                <p className="text-white font-inter text-sm pt-1 leading-[22px]  not-italic">Avg. Time to Fill</p>
-
+                <p className="text-white font-inter text-sm pt-1 leading-[22px] not-italic">Avg. Time to Fill</p>
               </div>
-              {/* <Clock className="h-8 w-8 " /> */}
             </div>
           </CardContent>
         </Card>

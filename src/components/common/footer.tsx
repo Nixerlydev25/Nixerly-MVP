@@ -34,7 +34,7 @@ export default function Footer() {
                 className="text-base text-white hover:text-gray-900"
               >
                 <Image
-                  src="facebook.svg"
+                  src="/facebook.svg"
                   alt="facebook"
                   width={34}
                   height={34}
@@ -49,7 +49,7 @@ export default function Footer() {
                 href="#"
                 className="text-base text-white hover:text-gray-900"
               >
-                <Image src="insta.svg" alt="insta" width={34} height={34} />
+                <Image src="/insta.svg" alt="insta" width={34} height={34} />
                 <span className="sr-only">Instagram</span>
               </Link>
               <Link
@@ -57,7 +57,7 @@ export default function Footer() {
                 className="text-base text-white hover:text-gray-900"
               >
                 <Image
-                  src="linkedin.svg"
+                  src="/linkedin.svg"
                   alt="linkedin"
                   width={34}
                   height={34}

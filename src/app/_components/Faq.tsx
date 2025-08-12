@@ -57,7 +57,7 @@ export default function Faq(){
                   className="flex items-center justify-between cursor-pointer px-6"
                   onClick={() => toggleFAQ(index)}
                 >
-                  <h3 className={`text-gray-900 font-plusjakarta text-xs lg:text-xl leading-normal ${openIndex === index ? 'font-semibold' : 'font-normal'}`}>{faq.question}</h3>
+                  <h3 className={`text-gray-900 font-plusjakarta text-sm lg:text-xl leading-normal ${openIndex === index ? 'font-semibold' : 'font-normal'}`}>{faq.question}</h3>
                   <ChevronDown
                     className={`h-5 w-5 text-gray-500  transform transition-transform duration-300 ${
                       openIndex === index ? "rotate-180" : ""

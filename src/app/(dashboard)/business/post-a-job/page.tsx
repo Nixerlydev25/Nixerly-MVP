@@ -275,8 +275,8 @@ export default function PostJobPage() {
 
   console.log(form.formState.errors, "errors");
   return (
-    <div className="min-h-screen bg-white py-6  ">
-      <div className="container mx-auto px-4 ">
+    <div className="min-h-screen py-6  ">
+      <div className="container mx-auto px-0 lg:px-4 ">
         <div className=" max-w-8xl mx-auto">
           <div className="flex flex-col mb-8 ">
             <h1 className="text-black font-sans text-2xl   not-italic font-semibold leading-7 py-2">
@@ -289,7 +289,7 @@ export default function PostJobPage() {
             </p>
           </div>
 
-          <div className="border border-nixerly-bussinessborder  rounded-3xl shadow-2xl shadow-nixerly-card hover-card-rise ">
+          <div className="border-none lg:border border-nixerly-bussinessborder rounded-none lg:rounded-3xl shadow-none lg:shadow-2xl shadow-nixerly-card hover-card-rise ">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -302,24 +302,24 @@ export default function PostJobPage() {
                     description="Provide the basic information about your job posting"
                   /> */}
 
-                  <div className="flex flex-col sm:flex-row md:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6">
-      {/* Number Badge */}
-      <div className="flex-shrink-0">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
-          <span className="text-black font-semibold text-base sm:text-lg p-2">01</span>
-        </div>
-      </div>
-      {/* Content */}
-      <div className="flex-1 space-y-1">
-        <h3 className="text-base sm:text-lg font-bold text-primary leading-tight">Job Details</h3>
-        <p className="text-xs sm:text-sm text-nixerly-businesslabel leading-relaxed">
-          Provide the basic information about your job posting
-        </p>
-      </div>
-    </div>
+                  <div className="flex flex-row md:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6">
+                    {/* Number Badge */}
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <span className="text-black font-semibold text-base sm:text-lg p-2">01</span>
+                      </div>
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-base sm:text-lg font-bold text-nixerly-blue leading-tight">Job Details</h3>
+                      <p className="text-xs sm:text-sm text-nixerly-businesslabel leading-relaxed">
+                        Provide the basic information about your job posting
+                      </p>
+                    </div>
+                  </div>
 
                   <Separator className="mt-1  w-full " />
-                  <div className="space-y-6  px-6 ">
+                  <div className="space-y-2 lg:space-y-6 px-2  lg:px-6 ">
                     <FormField
                       control={form.control}
                       name="title"
@@ -343,64 +343,64 @@ export default function PostJobPage() {
                       )}
                     />
 
-                 <FormField
-  control={form.control}
-  name="description"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
-        Job Description
-      </FormLabel>
-      <FormControl>
-        <div className="relative">
-          <Textarea
-            placeholder="Describe your Job Responsibilities, Requirement and Other Related Details..."
-            className="min-h-32 text-base shadow-sm pr-20 pb-6"
-            {...field}
-          />
-          <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
-            Max 1000
-          </span>
-        </div>
-      </FormControl>
-      {/* <FormDescription>
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
+                            Job Description
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Textarea
+                                placeholder="Describe your Job Responsibilities, Requirement and Other Related Details..."
+                                className="min-h-32 text-base shadow-sm pr-20 pb-6"
+                                {...field}
+                              />
+                              <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
+                                Max 1000
+                              </span>
+                            </div>
+                          </FormControl>
+                          {/* <FormDescription>
         Provide a detailed description of the job, including
         responsibilities and requirements.
       </FormDescription> */}
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
 
                     <FormField
-  control={form.control}
-  name="requirements"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
-        Job Requirements
-      </FormLabel>
-      <FormControl>
-        <div className="relative">
-          <Textarea
-            placeholder="Describe the required qualification, experience, certifications etc..."
-            className="min-h-32 text-base shadow-sm pr-20 pb-6"
-            {...field}
-          />
-          <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
-            Max 1000
-          </span>
-        </div>
-      </FormControl>
-      {/* <FormDescription>
+                      control={form.control}
+                      name="requirements"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-sans text-base not-italic font-medium leading-5 text-nixerly-businesslabel">
+                            Job Requirements
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Textarea
+                                placeholder="Describe the required qualification, experience, certifications etc..."
+                                className="min-h-32 text-base shadow-sm pr-20 pb-6"
+                                {...field}
+                              />
+                              <span className="text-xs text-[#99A0AE] font-normal absolute right-3 bottom-2 pointer-events-none">
+                                Max 1000
+                              </span>
+                            </div>
+                          </FormControl>
+                          {/* <FormDescription>
         List all mandatory and preferred requirements for
         the position.
       </FormDescription> */}
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function PostJobPage() {
                     description="Define the employment type and compensation structure"
                   /> */}
 
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6 py-3 lg:py-7">
                     {/* Number Badge */}
                     <div className="flex-shrink-0">
                       <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
@@ -459,7 +459,7 @@ export default function PostJobPage() {
                             </TabsList>
 
                             <TabsContent value="HOURLY">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6 mt-4">
                                 <FormField
                                   control={form.control}
                                   name="hourlyRateMin"
@@ -602,7 +602,7 @@ export default function PostJobPage() {
                     description="Select the skills and expertise required for this position"
                   /> */}
 
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7 ">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-6  p-2 sm:p-6 py-3 lg:py-7 ">
                     {/* Number Badge */}
                     <div className="flex-shrink-0">
                       <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
@@ -627,7 +627,7 @@ export default function PostJobPage() {
                     </div>
                   </div>
 
-                  <div className="px-6">
+                  <div className="space-y-2 lg:space-y-6 px-2  lg:px-6">
                     <div className=""></div>
 
                     <FormField
@@ -668,8 +668,8 @@ export default function PostJobPage() {
                                           {field.value?.includes(
                                             skill.value
                                           ) && (
-                                            <Check className="h-4 w-4 text-blue-600" />
-                                          )}
+                                              <Check className="h-4 w-4 text-blue-600" />
+                                            )}
                                         </CommandItem>
                                       ))}
                                     </CommandGroup>
@@ -719,7 +719,7 @@ export default function PostJobPage() {
                     description="Set the project timeline and team requirements"
                   /> */}
 
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-6  p-2 sm:p-6 py-3 lg:py-7">
                     {/* Number Badge */}
                     <div className="flex-shrink-0">
                       <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
@@ -743,7 +743,7 @@ export default function PostJobPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-6 px-2  lg:px-6">
                     <FormField
                       control={form.control}
                       name="startDate"
@@ -806,7 +806,7 @@ export default function PostJobPage() {
                     description="Specify where the work will be performed"
                   /> */}
 
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6  py-7">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  p-4 sm:p-6 py-3 lg:py-7">
                     {/* Number Badge */}
                     <div className="flex-shrink-0">
                       <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
@@ -830,7 +830,7 @@ export default function PostJobPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-6 px-6">
+                  <div className="space-y-2 lg:space-y-6 px-2  lg:px-6">
                     <FormField
                       control={form.control}
                       name="location"

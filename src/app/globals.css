@@ -315,14 +315,21 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 60%; /* adjust as needed */
+  width: 100%; /* 100% width for screens smaller than lg */
   height: 100%;
   background-image: url('/gredientProfile.svg');
   background-size: cover;
   background-position: right center;
   background-repeat: no-repeat;
   pointer-events: none;
-  z-index: 50;
+  z-index: 20;
+}
+
+/* For lg screens and above, use 60% width */
+@media (min-width: 1024px) {
+  .custom-gradient-right::after {
+    width: 60%;
+  }
 }
 
 

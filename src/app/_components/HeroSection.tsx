@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export default function HeroSection() {
   return (
-    <section className="bg-gray-50 py-16 md:py-24 relative overflow-hidden">
+    <section className="bg-gray-50 py-10 md:py-24 relative overflow-hidden">
       {/* Left decorative boxes */}
       <div className="absolute left-40 top-0 w-72 h-72 opacity-40">
         <Image src="/boxleft.svg" alt="" width={128} height={128} className="w-full h-full" />
@@ -16,7 +16,7 @@ export default function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-8">
             {/* Trust Badge with Avatars */}
             <div className="flex items-center gap-3">
@@ -77,7 +77,7 @@ export default function HeroSection() {
                 alt="Construction professionals collaborating on blueprints and project planning"
                 width={720}
                 height={576}
-                className="w-[700px] h-[576px] object-cover rounded-2xl"
+                className="lg:w-[700px] w-96 lg:h-[576px] object-cover rounded-2xl"
                 priority
               />
             </div>

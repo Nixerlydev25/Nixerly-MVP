@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 
 export default function HowItWorksSection() {
   return (
-    <section className="relative py-20 md:py-28">
+    <section className="relative pb-10 md:py-28">
       <div className="container mx-auto max-w-7xl relative px-4 md:px-6">
         <div className="animate-slide-up flex flex-col items-center justify-center space-y-4 text-center">
           <div className="flex justify-center mb-4">

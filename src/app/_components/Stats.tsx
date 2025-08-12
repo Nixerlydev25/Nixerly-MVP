@@ -1,81 +1,67 @@
 import Image from "next/image"
-export default function Stats(){
-    return(
-        <section className="bg-nixerly-blue py-16">
-        <div className="container mx-auto px-40">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center justify-center">
-            <div className="flex flex-col items-center p-8 bg-white rounded-xl  ">
-              <h3 className="text-center font-inter text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-8 ">500+</h3>
-              <div className="flex items-center gap-3 ">
-                
-                <div className=" bg-gray-200 border rounded-full p-2">
-                <Image
-                    src="/hotel.png"
-                    alt="Construction site with cranes and buildings"
-                    width={20}
-                    height={20}
-                    className=""
-                  />
-                </div>
-         
-     
-  
-                <p className="text-black font-inter text-xl font-medium leading-5">Companies</p>
-              </div>
-            </div>
-  
-            <div className="flex flex-col items-center p-8 bg-white rounded-xl ">
-              <h3 className="text-center font-inter text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-8">1000+</h3>
+
+interface StatItem {
+  value: string
+  label: string
+  icon: string
+  iconAlt: string
+}
+
+const statsData: StatItem[] = [
+  {
+    value: "500+",
+    label: "Companies",
+    icon: "/hotel.png",
+    iconAlt: "Hotel icon representing companies"
+  },
+  {
+    value: "1000+",
+    label: "Professional",
+    icon: "/checkhuman.png",
+    iconAlt: "Human check icon representing professionals"
+  },
+  {
+    value: "2500+",
+    label: "Cities",
+    icon: "/building.png",
+    iconAlt: "Building icon representing cities"
+  },
+  {
+    value: "100+",
+    label: "Reviews",
+    icon: "/message.png",
+    iconAlt: "Message icon representing reviews"
+  }
+]
+
+export default function Stats() {
+  return (
+    <section className="bg-nixerly-blue py-16">
+      <div className="container mx-auto px-4 lg:px-40">
+        <div className="grid gap-4 lg:gap-8 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center justify-center">
+          {statsData.map((stat, index) => (
+            <div key={index} className="flex flex-col items-center p-4 lg:p-8 bg-white rounded-xl">
+              <h3 className="text-center font-inter text-3xl lg:text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-4 lg:mb-8">
+                {stat.value}
+              </h3>
               <div className="flex items-center gap-3">
-                         <div className=" bg-gray-200 border rounded-full p-2">
-                      <Image
-                    src="/checkhuman.png"
-                    alt="Construction site with cranes and buildings"
+                <div className="bg-gray-200 border rounded-full p-2">
+                  <Image
+                    src={stat.icon}
+                    alt={stat.iconAlt}
                     width={20}
                     height={20}
-                    className=""
+                    className="w-3 lg:w-5 h-3 lg:h-5"
                   />
-  
                 </div>
-                <p className="text-black font-inter text-xl font-medium leading-5">Professional</p>
+                <p className="text-black font-inter text-sm lg:text-xl font-medium leading-5">
+                  {stat.label}
+                </p>
               </div>
             </div>
-  
-            <div className="flex flex-col items-center p-8 bg-white rounded-xl ">
-              <h3 className="text-center font-inter text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-8">2500+</h3>
-              <div className="flex items-center gap-3">
-                    <div className=" bg-gray-200 border rounded-full p-2">
-                    <Image
-                    src="/building.png"
-                    alt="Construction site with cranes and buildings"
-                    width={20}
-                    height={20}
-                    className=""
-                  />
-  
-                </div>
-                <p className="text-black font-inter text-xl font-medium leading-5">Cities</p>
-              </div>
-            </div>
-  
-            <div className="flex flex-col items-center p-8 bg-white rounded-xl ">
-              <h3 className="text-center font-inter text-5xl font-bold leading-[25.407px] uppercase text-nixerly-blue mb-8">100+</h3>
-              <div className="flex items-center gap-3">
-                    <div className=" bg-gray-200 border rounded-full p-2">
-                    <Image
-                    src="/message.png"
-                    alt="Construction site with cranes and buildings"
-                    width={20}
-                    height={20}
-                    className=""
-                  />
-  
-                </div>
-                <p className="text-black font-inter text-xl font-medium leading-5">Reviews</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
-    )
+      </div>
+    </section>
+  )
 }

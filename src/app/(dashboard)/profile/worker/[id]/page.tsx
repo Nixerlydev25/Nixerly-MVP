@@ -4,17 +4,12 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Award,
   ChevronLeft,
   Eye,
   Flag,
   Globe,
-  GraduationCap,
-  MapPin,
-  Share2,
-  DollarSign,
   Pickaxe,
   User,
 } from "lucide-react";
@@ -67,7 +62,7 @@ export default function FreelancerProfile() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navbar */}
-      <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="container mx-auto px-0 lg:px-4 py-6 md:py-8">
         {/* Back to search results */}
         <div
           onClick={() => router.back()}
@@ -80,12 +75,61 @@ export default function FreelancerProfile() {
         <div className="grid gap-8 ">
           <div className="space-y-8">
             {/* Profile header */}
-            <div className="relative rounded-lg border border-nixerly-blue bg-[#E9F3FF] p-4 sm:p-6 shadow-sm overflow-hidden">
+            <div className="relative rounded-lg border border-nixerly-blue bg-[#E9F3FF] p-3 sm:p-4 md:p-6 shadow-sm overflow-hidden">
+                {/* Action buttons - responsive layout */}
+                <div className="flex flex-row justify-end gap-2 lg:ml-2">
+                  {/* Report the worker button */}
+                  <div className="flex">
+                    <Button
+                      variant="outline"
+                      className="w-full sm:w-auto rounded-full flex items-center gap-2 justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm"
+                      onClick={() => openModal(ModalType.REPORT_WORKER_MODAL, {
+                        targetId: worker?.id,
+                        targetName: worker.user.firstName + " " + worker.user.lastName,
+                      })}
+                    >
+                      <Image
+                        src="/reportblackflage.svg"
+                        alt="report icon"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4"
+                      />
+                      <span className="hidden sm:inline">Report</span>
+                    </Button>
+                  </div>
+
+                  {/* Contact button */}
+                  <div className="flex-shrink-0 order-1 sm:order-2">
+                    <Button
+                    size="sm"
+                      className="w-full text-[8px] md:text-xs lg:text-base sm:w-auto bg-nixerly-blue flex items-center gap-2 justify-center px-3 sm:px-4 py-2 min-w-[120px] sm:min-w-[140px] rounded-full text-xs sm:text-sm"
+                      onClick={() => {
+                        openModal(ModalType.CONTACT_MODAL, {
+                          applicant: {
+                            workerProfile: worker,
+                            relevantExperience: worker.description,
+                            workerTitle: worker.title,
+                          },
+                        });
+                      }}
+                    >
+                      <Image
+                        src="/contactmessageicon.svg"
+                        alt="contact icon"
+                        width={18}
+                        height={18}
+                        className="w-4 h-4"
+                      />
+                      Contact now
+                    </Button>
+                  </div>
+                </div>
               {/* Main content container - responsive flex direction */}
-              <div className="flex flex-col lg:flex-row lg:justify-between gap-4 lg:gap-0">
+              <div className="flex flex-row lg:justify-between gap-3 sm:gap-4 lg:gap-0">
                 {/* Left side content */}
                 <div className="relative flex-1">
-                  <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row">
+                  <div className="flex gap-3 sm:gap-4 md:gap-6 flex-row">
                     {/* Profile image */}
                     <div className="flex-shrink-0 self-center sm:self-start">
                       <div
@@ -107,58 +151,57 @@ export default function FreelancerProfile() {
                           width={200}
                           height={200}
                           alt={fullName}
-                          className="w-32 h-32 sm:w-48 sm:h-48 lg:w-[200px] lg:h-[200px] object-cover rounded-lg"
+                          className="w-20 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-[200px] lg:h-[200px] object-cover rounded-lg"
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100 rounded-lg">
-                          <Eye className="h-6 w-6 text-white" />
+                          <Eye className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
                         </div>
                       </div>
                     </div>
 
                     {/* Worker details */}
-                    <div className="flex-1 sm:ml-4 lg:ml-8 sm:mt-4">
-                      <div className="flex flex-col gap-4">
-                        <div className="text-center sm:text-left">
-                          <h1 className="text-[#312D2D] font-sans text-2xl sm:text-3xl lg:text-5xl not-italic font-medium leading-tight lg:leading-15 tracking-[-0.5px] lg:tracking-[-0.998px] font-Inter">
+                    <div className="flex-1 sm:ml-3 md:ml-4 lg:ml-8 mt-1 md:mt-4">
+                      <div className="flex flex-col gap-2 sm:gap-4">
+                        <div className="text-left">
+                          <h1 className="text-[#312D2D] font-sans text-base sm:text-xl md:text-3xl lg:text-5xl not-italic font-medium leading-tight lg:leading-15 tracking-[-0.5px] lg:tracking-[-0.998px] font-Inter">
                             {fullName}
                           </h1>
-                          <p className="text-[#312D2D] font-sans text-lg sm:text-xl not-italic font-medium leading-4 tracking-[-0.437px] mt-2">
+                          <p className="text-[#312D2D] font-sans text-sm sm:text-lg md:text-xl not-italic font-medium leading-4 tracking-[-0.437px] mt-1 lg:mt-2">
                             {worker.title}
                           </p>
 
                           {/* Location and hourly rate */}
-                          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 mt-3">
-                            <div className="flex md:gap-2 text-[#525866] font-sans text-sm  font-normal leading-5 tracking-tight justify-center sm:justify-start ">
-                              {/* <MapPin className="h-4 w-4 mt-0.5" />
-                               */}
+                          <div className="flex flex-row gap-2 sm:gap-4 md:gap-6 mt-1 lg:mt-2">
+                            <div className="flex gap-1 md:gap-2 text-[#525866] font-sans text-[8px] sm:text-xs lg:text-sm font-normal leading-5 tracking-tight">
                               <Image
                                 src="/locationblack.svg"
                                 alt="location icon"
-                                width={16}
-                                height={16}
-                                className=""
-                              ></Image>
-                              <span>
+                                width={14}
+                                height={14}
+                                className="sm:w-4 sm:h-4 mt-0.5"
+                              />
+                              <span className="text-xs sm:text-sm">
                                 {worker.city}, {worker.state}, {worker.country}
                               </span>
                             </div>
-                            <div className="flex gap-2  justify-center items-center text-center sm:justify-center">
+                            <div className="flex gap-1 md:gap-2 items-center">
                               <Image
                                 src="/dollars.svg"
-                                alt="location icon"
-                                width={16}
-                                height={16}
-                              ></Image>
-                              <p className=" text-[#525866] font-sans text-sm not-italic font-normal leading-5 tracking-tight justify-center sm:justify-star">
+                                alt="dollar icon"
+                                width={14}
+                                height={14}
+                                className="sm:w-4 sm:h-4"
+                              />
+                              <p className="text-[#525866] font-sans text-[8px] sm:text-xs lg:text-sm not-italic font-normal leading-5 tracking-tight">
                                 {worker.hourlyRate}
                               </p>
                             </div>
                           </div>
 
                           {/* Availability */}
-                          <div className="flex gap-2 mt-3 justify-center sm:justify-start">
-                            <div className="h-2 w-2 rounded-full bg-green-500 mt-1"></div>
-                            <p className="text-nixerly-businesslabel font-sans text-sm font-normal leading-none tracking-tight">
+                          <div className="flex gap-2 mt-2">
+                            <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                            <p className="text-nixerly-businesslabel font-sans text-[8px] sm:text-xs lg:text-sm font-normal leading-none tracking-tight">
                               {worker.availability
                                 ? "Available"
                                 : "Not Available"}
@@ -170,50 +213,7 @@ export default function FreelancerProfile() {
                   </div>
                 </div>
 
-                <div className=" block md:flex gap-2 ">
-                  {/* report the worker button */}
-                  <div className="flex-shrink-0 mt-4 lg:mt-0 lg:ml-2 ">
-                    <Button
-                      variant="outline"
-                      className="rounded-full flex items-center gap-2 justify-center px-4 py-2 "
-                      onClick={() => openModal(ModalType.REPORT_WORKER_MODAL, {
-                        targetId: worker?.id,
-                        targetName: worker.user.firstName + " " + worker.user.lastName,
-                      })}
-                    >
-                      <Image
-                        src="/reportblackflage.svg"
-                        alt="email icon"
-                        width={18}
-                        height={18}
-                      />
-                    </Button>
-                  </div>
-
-                  {/* Contact button - responsive positioning */}
-                  <div className="flex-shrink-0 mt-4 lg:mt-0 lg:ml-2  ">
-                    <Button
-                      className=" bg-nixerly-blue flex items-center gap-2 justify-center px-4 py-2 min-w-[140px] rounded-full"
-                      onClick={() => {
-                        openModal(ModalType.CONTACT_MODAL, {
-                          applicant: {
-                            workerProfile: worker,
-                            relevantExperience: worker.description,
-                            workerTitle: worker.title,
-                          },
-                        });
-                      }}
-                    >
-                      <Image
-                        src="/contactmessageicon.svg"
-                        alt="email icon"
-                        width={20}
-                        height={20}
-                      />
-                      Contact now
-                    </Button>
-                  </div>
-                </div>
+              
               </div>
             </div>
 
@@ -260,7 +260,7 @@ export default function FreelancerProfile() {
                 </div>
                 <h3 className={title}>Skill & Expertise</h3>
               </div>
-              <div className="grid grid-cols-1 gap-3 p-4  sm:grid-cols-3 max-w-lg lg:max-w-4xl">
+              <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-2 lg:gap-3 p-2 lg:p-4">
                 {formattedSkills.map((skill) => (
                   <Badge
                     key={skill}
@@ -275,7 +275,7 @@ export default function FreelancerProfile() {
 
             {/* Education */}
             <div className={maindivision}>
-              <div className="flex gap-3 p-4 border-b ">
+              <div className="flex gap-2 lg:gap-3 p-2 lg:p-4 border-b ">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                     <Image
@@ -289,10 +289,10 @@ export default function FreelancerProfile() {
                 <h3 className={title}>Education</h3>
               </div>
 
-              <div className="space-y-6 p-4">
+              <div className="space-y-2 lg:space-y-6 p-2 lg:p-4">
                 {worker.education?.length ? (
                   worker.education.map((edu) => (
-                    <div key={edu.id} className=" pl-4  ">
+                    <div key={edu.id} className=" pl-0 lg:pl-4  ">
                       <p className="font-medium text-base leading-6 font-san">
                         {edu.degree} in {edu.fieldOfStudy}
                       </p>
@@ -323,7 +323,7 @@ export default function FreelancerProfile() {
 
             {/* Certifications */}
             <div className={maindivision}>
-              <div className="flex gap-3  border-b p-4 ">
+              <div className="flex  gap-2 lg:gap-3 p-2 lg:p-4 border-b ">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                     <Image
@@ -339,7 +339,7 @@ export default function FreelancerProfile() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-10 p-2 lg:p-10">
                 {worker.certificates?.length ? (
                   worker.certificates.map((certificate) => (
                     <div
@@ -430,7 +430,7 @@ export default function FreelancerProfile() {
 
             {/* Portfolio */}
             <div className={maindivision}>
-              <div className="flex gap-3  border-b p-4 ">
+              <div className="flex gap-2 lg:gap-3 p-2 lg:p-4 border-b">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                     <Image
@@ -446,7 +446,7 @@ export default function FreelancerProfile() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-10 p-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-2 lg:gap-10 p-2 lg:p-10">
                 {worker.portfolio?.length ? (
                   worker.portfolio.map((item) => (
                     <div
@@ -570,7 +570,7 @@ export default function FreelancerProfile() {
 
           {/* Experience section */}
           <div className={maindivision}>
-            <div className="flex gap-3  border-b p-4 ">
+            <div className="flex gap-2 lg:gap-3 p-2 lg:p-4 border-b">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                   {/* <Image
@@ -591,7 +591,7 @@ export default function FreelancerProfile() {
             </div>
 
             {/* expirence details */}
-            <div className="space-y-6 p-4">
+            <div className="space-y-2 lg:space-y-6 p-0 lg:p-4">
               {worker.experience?.length ? (
                 worker.experience.map((exp) => (
                   <div key={exp.id} className=" pl-4 py-1">
@@ -601,7 +601,7 @@ export default function FreelancerProfile() {
 
                     {/* company and city  */}
                     <div className=" block md:flex gap-4 my-2">
-                      <div className=" flex gap-2 ">
+                      <div className=" flex gap-2 space-y-2">
                         <Image
                           src="/buildingBlack.svg"
                           alt="building logo"
@@ -657,7 +657,7 @@ export default function FreelancerProfile() {
 
         {/* Languages */}
         <div className={maindivision}>
-          <div className="flex gap-3  border-b p-4 ">
+          <div className="flex gap-2 lg:gap-3 p-2 lg:p-4 border-b">
             <div className="flex-shrink-0">
               <div className="w-12 h-12  border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
                 {/* <Image
@@ -678,7 +678,7 @@ export default function FreelancerProfile() {
             </h3>
           </div>
 
-          <div className="p-4 w-full space-y-2">
+          <div className="p-2 lg:p-4 w-full space-y-2">
             {worker.languages?.map((language) => (
               <div key={language.id} className="flex">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center rounded-lg bg-[rgba(30,100,211,0.10)] w-full px-4 py-3 gap-1">

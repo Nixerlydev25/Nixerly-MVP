@@ -124,7 +124,7 @@ export default function BusinessDashboard() {
   const jobTypes = "text-nixerly-businesslabel text-center font-inter text-base font-medium leading-6 not-italic tracking-tight"
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
+    <div className="container mx-auto px-0 lg:px-4 py-8 ">
       <div className="flex md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-black font-inter text-2xl font-semibold leading-8 not-italic">

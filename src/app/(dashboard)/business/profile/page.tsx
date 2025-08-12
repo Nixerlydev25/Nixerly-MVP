@@ -715,7 +715,7 @@ export default function BusinessProfilePage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-0 lg:px-4 py-8">
       <ChangeBusinessProfilePictureModal />
 
       {/* Profile Banner - Full Width at Top */}
@@ -733,7 +733,7 @@ export default function BusinessProfilePage() {
         {/* Profile Card */}
         <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right">
           {/* Overlay if any */}
-          <div className="absolute top-4 right-4 z-20">
+          <div className="absolute top-4 right-4">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -770,7 +770,7 @@ export default function BusinessProfilePage() {
               {/* Left side - Profile info */}
               <div className="flex  gap-3 lg:gap-6 flex-row md:items-center md:gap-8">
                 {/* Profile Picture */}
-                <div className="relative z-50 h-24 w-24 overflow-visible md:h-32 md:w-32">
+                <div className="relative z-40 h-24 w-24 overflow-visible mt-3 lg:mt-0 md:h-32 md:w-32">
                   <img
                     src={
                       businessProfileData?.businessProfile?.profilePicture ||
@@ -779,7 +779,7 @@ export default function BusinessProfilePage() {
                     alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
                     height={128}
-                    className="h-full w-full object-cover rounded-2xl lg:rounded-full z-50"
+                    className="h-full w-full object-cover rounded-2xl  lg:rounded-full"
                   />
                   <TooltipProvider>
                     <Tooltip>

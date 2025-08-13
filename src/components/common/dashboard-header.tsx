@@ -66,7 +66,7 @@ export function DashboardHeader() {
           {isOpen ? (
             <Image src="/cross.svg" alt="cross" width={20} height={20} className="ml-6 block lg:hidden h-5 w-5 text-gray-600" />
           ) : (
-            <Image src="/menu.svg" alt="menu" width={20} height={20} className="ml-6 block lg:hidden h-5 w-5" />
+            <Image src="/menu.svg" alt="menu" width={20} height={20} className="ml-3 block lg:hidden h-5 w-5" />
           )}
         </motion.div>
         <div className="">

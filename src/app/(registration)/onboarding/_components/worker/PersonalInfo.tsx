@@ -93,13 +93,13 @@ export const PersonalInfo = () => {
 
       <Card className="shadow-nixerly-card border border-gray-300 text-nixerly-businesslabel bg-white animate-fade-in py-0 gap-0">
         {/* Step Header */}
-        <div className="gap-5 flex border-b border-gray-300 px-6 py-4">
-        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+        <div className="gap-2 lg:gap-5 flex items-center border-b border-gray-300 px-6 py-4">
+          <div className="flex items-center justify-center h-10 w-11  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">01</span>
           </div>
           <div className="">
-            <h2 className="text-lg font-bold my-1 text-nixerly-blue">Add Your Personal Information</h2>
-            <p className="text-base font-medium">Please Provide The Following Information To Get Started</p>
+            <h2 className="text-sm lg:text-lg font-bold my-1 text-nixerly-blue">Add Your Personal Information</h2>
+            <p className="text-xs lg:text-base font-medium">Please Provide The Following Information To Get Started</p>
           </div>
         </div>
 
@@ -113,7 +113,7 @@ export const PersonalInfo = () => {
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger className="w-full border border-nixerly-bussinessborder">
-                      <SelectValue placeholder="Select Your Employment Type"  className=""/>
+                      <SelectValue placeholder="Select Your Employment Type" className="" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -161,7 +161,7 @@ export const PersonalInfo = () => {
                   <Input
                     placeholder="E.g. Senior Plumber, Master Electrician"
                     {...field}
-                    className="w-full"
+                    className="w-full py-3"
                   />
                 </FormControl>
                 {/* <FormDescription>Enter your professional title that best describes your role</FormDescription>
@@ -214,18 +214,18 @@ export const PersonalInfo = () => {
               </FormItem>
             )}
           />
-   </div>
-          <div className="flex justify-end px-6 py-4 border-t border-gray-300">
-            <Button
-              type="button"
-              onClick={handleContinue}
-              disabled={isPending}
-              className="bg-nixerly-blue text-white px-8 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all rounded-full duration-200 cursor-pointer"
-            >
-              {isPending ? "Saving..." : "Next"}
-            </Button>
-          </div>
-     
+        </div>
+        <div className="flex justify-end px-6 py-4 border-t border-gray-300">
+          <Button
+            type="button"
+            onClick={handleContinue}
+            disabled={isPending}
+            className="bg-nixerly-blue text-white px-8 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all rounded-full duration-200 cursor-pointer"
+          >
+            {isPending ? "Saving..." : "Next"}
+          </Button>
+        </div>
+
       </Card>
     </div>
   )

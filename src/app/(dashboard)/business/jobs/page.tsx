@@ -187,8 +187,8 @@ export default function BusinessDashboard() {
         </div>
 
         {/* third box - Mobile: Second column, Desktop: Third column */}
-        <Card className="bg-[#03B9D2] text-white rounded-xl">
-          <CardContent className="h-full py-4">
+        <Card className="bg-[#03B9D2] text-white rounded-xl justify-center">
+          <CardContent className="lg:h-full py-4">
             <div className="block lg:flex items-center justify-center lg:justify-start gap-4 h-full">
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[rgba(255,255,255,0.18)] mx-auto lg:mx-0">
                 <Image src="/clock.svg" alt="image" width={32} height={32} />

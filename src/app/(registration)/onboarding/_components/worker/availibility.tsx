@@ -49,13 +49,13 @@ export function AvailabilityInfo() {
     <div className="max-w-2xl mx-auto p-4">
       <ProgressIndicator currentStep={4} totalSteps={4} hasStartedFilling={Boolean(formData.availability !== undefined)} />
       <Card className="border border-gray-300 bg-white text-nixerly-businesslabel animate-fade-in py-0 gap-0">
-      <div className="gap-5 flex border-b border-gray-300 px-6 py-4">
-        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">04</span>
+      <div className="gap-3 lg:gap-5 flex items-center border-b border-gray-300 px-6 py-4">
+        <div className="flex items-center justify-center h-10 w-11  md:w-14 md:h-14 border border-gray-300 rounded-full">
+            <span className="text-base font-medium">04</span>
           </div>
           <div>
-            <h2 className="text-lg font-semibold my-1 text-nixerly-blue">Availability</h2>
-            <p className="text-nixerly-darkgray text-base">Please Provide The Following Information To Get Started</p>
+            <h2 className=" text-sm lg:text-lg font-semibold my-1 text-nixerly-blue">Availability</h2>
+            <p className="text-nixerly-darkgray text-xs lg:text-base">Please Provide The Following Information To Get Started</p>
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export function AvailabilityInfo() {
               <FormControl>
                 <Switch id="availability" checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
-              <FormLabel htmlFor="availability" className="text-lg font-semibold text-[#0E121B]">
+              <FormLabel htmlFor="availability" className="text-sm lg:text-lg font-semibold text-[#0E121B]">
                 I am Currently Available for Work
               </FormLabel>
             </FormItem>
@@ -79,7 +79,7 @@ export function AvailabilityInfo() {
           <Button
             type="button"
             onClick={handleContinue}
-            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white px-8 py-3 h-12 rounded-full text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white lg:px-8 lg:py-3 h-12 rounded-full text-base font-medium shadow-nixerly-button transition-all duration-200 cursor-pointer"
           >
             Continue To Profile
           </Button>

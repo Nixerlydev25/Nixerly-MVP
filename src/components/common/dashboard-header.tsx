@@ -7,6 +7,7 @@ import { ProfileType } from "@/types/user/user.types";
 import { useSidebarStore } from "@/store/sidebar.store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +26,7 @@ export function DashboardHeader() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const { toggle: toggleSidebar, isOpen } = useSidebarStore();
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   if (isLoading || !user) {
     return (
@@ -70,7 +72,7 @@ export function DashboardHeader() {
           )}
         </motion.div>
         <div className="">
-          <DropdownMenu>
+          <DropdownMenu open={isProfileDropdownOpen} onOpenChange={setIsProfileDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <motion.div {...buttonTapAnimation}>
                 <Button
@@ -102,7 +104,7 @@ export function DashboardHeader() {
                       : `${user.firstName} ${user.lastName}`}
                   </span>
                   <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    animate={{ rotate: isProfileDropdownOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
                     <ChevronDown className="h-4 w-4 text-gray-500 ml-1" />

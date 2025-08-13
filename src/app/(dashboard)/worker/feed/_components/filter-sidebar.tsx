@@ -27,6 +27,9 @@ export function FilterSidebar() {
   const [filteredSkills, setFilteredSkills] = useState(
     onboardingOptions.skills
   );
+  
+  // Temporary skills state for selection before applying
+  const [tempSkills, setTempSkills] = useState<string[]>([]);
 
   // Derive filters from URL
   const filters = {
@@ -45,6 +48,21 @@ export function FilterSidebar() {
     sortBy: (searchParams.get("sortBy") as "createdAt") || "createdAt",
     sortOrder: (searchParams.get("sortOrder") as "desc") || "desc",
   };
+
+  // Initialize tempSkills with current filters when component mounts
+  useEffect(() => {
+    // Only update tempSkills if filters.skills actually changed and is not empty
+    if (filters.skills.length > 0 && JSON.stringify(filters.skills) !== JSON.stringify(tempSkills)) {
+      setTempSkills(filters.skills);
+    }
+  }, [filters.skills]);
+
+  // Initialize tempSkills on first mount
+  useEffect(() => {
+    if (tempSkills.length === 0 && filters.skills.length > 0) {
+      setTempSkills(filters.skills);
+    }
+  }, []);
 
   const updateFilters = (newFilters: typeof filters) => {
     const params = new URLSearchParams();
@@ -89,11 +107,19 @@ export function FilterSidebar() {
     router.push(query ? `?${query}` : "?");
   };
 
-  const handleSkillChange = (skill: string) => {
-    const newSkills = filters.skills.includes(skill)
-      ? filters.skills.filter((s) => s !== skill)
-      : [...filters.skills, skill];
-    updateFilters({ ...filters, skills: newSkills });
+  const handleSkillChange = (skillValue: string) => {
+    console.log('handleSkillChange called with:', skillValue);
+    console.log('Current tempSkills:', tempSkills);
+    
+    const newSkills = tempSkills.includes(skillValue)
+      ? tempSkills.filter((s) => s !== skillValue)
+      : [...tempSkills, skillValue];
+    
+    setTempSkills(newSkills);
+  };
+
+  const applySkillsFilter = () => {
+    updateFilters({ ...filters, skills: tempSkills });
   };
 
   const [budgetRange, setBudgetRange] = useState([
@@ -152,6 +178,7 @@ export function FilterSidebar() {
   };
 
   const clearFilters = () => {
+    setTempSkills([]);
     router.push("?");
   };
 
@@ -182,15 +209,14 @@ export function FilterSidebar() {
   };
 
   return (
-    <Card className="sticky top-4 rounded-xl">
-      <CardContent className="p-4">
-        <div className="flex justify-between items-center mb-4">
+    <Card className="sticky top-4 rounded-xl border-0 lg:border">
+      <CardContent className="p-0 lg:p-4">
+        <div className="flex justify-between items-center lg:mb-4">
           <h2 className="text-lg font-semibold">Filters</h2>
           <Button
-            variant="ghost"
-            size="sm"
+            variant="light"
             onClick={clearFilters}
-            className="h-8 px-2 underlined text-blue-600"
+            className="h-8 px-2 underlined text-nixerly-blue"
           >
             Clear all
           </Button>
@@ -327,13 +353,13 @@ export function FilterSidebar() {
                     <div key={index} className="flex items-center space-x-2">
                       <Checkbox
                         id={`skill-${skill.value}`}
-                        checked={filters.skills.includes(skill.value)}
+                        checked={tempSkills.includes(skill.value)}
                         onCheckedChange={() => handleSkillChange(skill.value)}
-                        className={filters.skills.includes(skill.value) ? "bg-nixerly-blue border-nixerly-blue" : "border-nixerly-bussinessborder"}
+                        className={tempSkills.includes(skill.value) ? "bg-nixerly-blue border-nixerly-blue" : "border-nixerly-bussinessborder"}
                       />
                       <Label
                         htmlFor={`skill-${skill}`}
-                        className={`text-sm font-normal cursor-pointer ${filters.skills.includes(skill.value) ? "text-nixerly-blue" : ""}`}
+                        className={`text-sm font-normal cursor-pointer ${tempSkills.includes(skill.value) ? "text-nixerly-blue" : ""}`}
                       >
                         {skill.label}
                       </Label>
@@ -344,6 +370,18 @@ export function FilterSidebar() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        
+        {/* Apply button for skills */}
+        {tempSkills.length > 0 && (
+          <div className="mt-4 flex justify-end">
+            <Button
+              onClick={applySkillsFilter}
+              className="bg-nixerly-blue hover:bg-nixerly-blue/90 text-white"
+            >
+              Apply Skills ({tempSkills.length})
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

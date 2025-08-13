@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -32,14 +33,16 @@ import {
   Briefcase,
   DollarSign,
   MapPin,
-  Calendar,
   FileText,
 } from "lucide-react";
 import workerData from "@/data/onboarding/worker.json";
 import { useCreateJob } from "@/hook/jobs/jobs.hooks";
 import { LocationSearch } from "@/components/location-search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DatePicker } from "@/components/ui/date-picker";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const formSchema = z
@@ -752,11 +755,34 @@ export default function PostJobPage() {
                           <FormLabel className=" font-sans text-base not-italic pt-6 font-medium leading-5 text-nixerly-businesslabel">
                             Start Date
                           </FormLabel>
-                          <FormControl className="h-10 text-base border-nixerly-bussinessborder shadow-sm">
-                            <DatePicker
-                              selected={field.value}
-                              onSelect={field.onChange}
-                            />
+                          <FormControl>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className={cn(
+                                    "w-full justify-start text-left font-normal h-10 text-base border-nixerly-bussinessborder shadow-sm",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  initialFocus
+                                  captionLayout="dropdown"
+                                />
+                              </PopoverContent>
+                            </Popover>
                           </FormControl>
                           {/* <FormDescription>
                             When the job should start. Select today for

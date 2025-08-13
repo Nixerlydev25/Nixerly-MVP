@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Component() {
   return (
-    <div className="container mx-auto  ">
+    <div className="container mx-auto hidden  lg:block">
       {/* <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center max-w-8xl mb-6"> */}
 
       {/* <div>

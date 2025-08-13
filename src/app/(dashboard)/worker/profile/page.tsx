@@ -35,6 +35,7 @@ import { useState } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import FreelancerProfileSkeleton from "./component/Skeleton"
 import { cn } from "@/lib/utils"
+import { HorizontalScrollTabs } from "@/components/common/HorizontalScrollTabs"
 import Image from "next/image"
 import { Separator } from "@/components/ui/separator"
 
@@ -862,10 +863,18 @@ export default function FreelancerProfileSelfView() {
             </div>
           </div>
         </div>
+
+        {/* Mobile/Tablet Horizontal Tabs (below lg) */}
+        <HorizontalScrollTabs
+          items={sidebarItems}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+        />
+
         {/* Sidebar and Content Layout */}
         <div className="grid gap-8 lg:grid-cols-4 mt-10">
-          {/* Simple Sidebar */}
-          <div className="lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl">
+          {/* Simple Sidebar - Hidden on mobile/tablet */}
+          <div className="hidden lg:block lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl">
             <div className="px-8">
               <nav className="space-y-1">
                 <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
@@ -909,8 +918,8 @@ export default function FreelancerProfileSelfView() {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3">
+          {/* Main Content - Full width on mobile/tablet, 3 columns on desktop */}
+          <div className="col-span-full lg:col-span-3">
             <div className="min-h-[600px]">{renderContent()}</div>
           </div>
         </div>

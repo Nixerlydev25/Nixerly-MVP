@@ -25,6 +25,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { HorizontalScrollTabs } from "@/components/common/HorizontalScrollTabs";
 import Image from "next/image";
 
 type TabType = "general" | "contact" | "stats" | "jobs";
@@ -847,46 +848,11 @@ export default function BusinessProfilePage() {
       {/* Sidebar and Content Layout */}
       <div className="space-y-6">
       {/* Mobile/Tablet Horizontal Tabs (below lg) */}
-      <div className="lg:hidden bg-[#F5F7FA] py-10 px-4 rounded-2xl">
-        <h2 className="text-xl lg:text-2xl font-medium text-gray-400 mb-6">Profile Details</h2>
-        <div className="flex gap-2 overflow-x-auto">
-          {sidebarItems.map((item) => {
-            const isActive = activeTab === item.id
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleTabChange(item.id)}
-                className={cn(
-                  "flex items-center p-2 rounded-2xl text-left transition-all duration-300 border flex-shrink-0",
-                  isActive
-                    ? "bg-nixerly-blue gap-1 text-white border-nixerly-blue min-w-[160px]"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 items-center",
-                )}
-              >
-                <span
-                  className={cn(
-                    "h-8 w-8 flex items-center justify-center rounded-full transition-colors flex-shrink-0",
-                    isActive ? "text-nixerly-blue" : "",
-                  )}
-                >
-                  <Image
-                    src={item.icon || "/placeholder.svg"}
-                    alt={item.label}
-                    width={18}
-                    height={18}
-                    className={isActive ? "filter invert brightness-0" : "opacity-100"}
-                  />
-                </span>
-                {isActive && (
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm lg:text-sm leading-tight">{item.label}</p>
-                  </div>
-                )}
-              </button>
-            )
-          })}
-        </div>
-      </div>
+      <HorizontalScrollTabs
+        items={sidebarItems}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+      />
 
       {/* Desktop Layout (lg and above) */}
       <div className="hidden lg:grid gap-8 lg:grid-cols-4">

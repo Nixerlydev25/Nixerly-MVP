@@ -136,7 +136,7 @@ export default function JobApplicantsPage() {
   //   }
 
   return (
-    <div className="container mx-auto px-0 lg:px-4 py-8">
+    <div className="container mx-auto px-0 lg:px-4 py-4 lg:py-8">
       <div className="mb-6">
         <Button
           variant="ghost"
@@ -149,7 +149,7 @@ export default function JobApplicantsPage() {
             Back
           </Link>
         </Button>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mt-8 ">
+        <div className="flex flex-row justify-between items-start md:items-center gap-4 mt-4 lg:mt-8 ">
           <div className="MAIN">
             <div className="flex items-start gap-4 ">
               {/* Number Badge */}
@@ -251,7 +251,7 @@ export default function JobApplicantsPage() {
             <h2 className="text-lg font-medium text-nixerly-blue  mb-4  leading-5 tracking-tight  font-inter">
               Job Details
             </h2>
-            <div className="grid gap-10 md:grid-cols-2">
+            <div className="grid gap-0 lg:gap-10 md:grid-cols-2">
               <div className="space-y-2">
                 <div>
                   {/* <h3 className="text-lg font-medium text-muted-foreground mb-2">
@@ -379,7 +379,7 @@ export default function JobApplicantsPage() {
       </div>
 
       <div className="mb-6">
-        <div className="flex items-center mb-8">
+        <div className="flex flex-col lg:flex-row gap-3 lg:items-center mb-8">
           <p className="text-base font-normal leading-4 tracking-wide font-inter text-nixerly-businesslabel pr-2 ">
             Search Applicants
           </p>
@@ -397,12 +397,12 @@ export default function JobApplicantsPage() {
 
         <div className="grid gap-4 ">
           {applicantsData?.applicants &&
-          applicantsData?.applicants.length > 0 ? (
+            applicantsData?.applicants.length > 0 ? (
             <>
               {applicantsData?.applicants.map((applicant) => (
                 <Card key={applicant.id} className="bg-blue-50">
                   <CardContent className="p-6">
-                    <div className="flex flex-col md:flex-row justify-between gap-4 ">
+                    <div className="flex flex-row justify-between gap-4 ">
                       <div className="flex gap-4">
                         <Avatar className="h-12 w-12">
                           <AvatarImage
@@ -441,12 +441,12 @@ export default function JobApplicantsPage() {
                                 {job?.jobType === "HOURLY"
                                   ? `${job?.hourlyRateMin}€-${job?.hourlyRateMax}€/hr`
                                   : job?.jobType === "CONTRACT"
-                                  ? `${job?.budget}€ (Fixed)`
-                                  : `${job?.salary}€/year`}
+                                    ? `${job?.budget}€ (Fixed)`
+                                    : `${job?.salary}€/year`}
                               </span>
                             </span>
                             {/* <span>•</span> */}
-                            <span className="flex items-center gap-1">
+                            <span className="hidden lg:flex items-center gap-1">
                               <Calendar className="h-3.5 w-3.5 text-[#525866]" />
                               <span className="text-xs font-medium leading-4 font-inter">
                                 Applied{" "}
@@ -468,8 +468,8 @@ export default function JobApplicantsPage() {
                                   applicant?.status === "shortlisted"
                                     ? "default"
                                     : applicant?.status === "rejected"
-                                    ? "destructive"
-                                    : "outline"
+                                      ? "destructive"
+                                      : "outline"
                                 }
                               >
                                 {applicant.status?.charAt(0).toUpperCase() +
@@ -483,7 +483,7 @@ export default function JobApplicantsPage() {
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button
-                              className="text-sm font-medium leading-5 tracking-tight font-inter rounded-full border-nixerly-border text-nixerly-businesslabel "
+                              className="text-xs lg:text-sm font-medium leading-5 tracking-tight font-inter rounded-full border-nixerly-border text-nixerly-businesslabel "
                               variant="outline"
                               onClick={() => handleViewProposal(applicant)}
                             >
@@ -555,8 +555,8 @@ export default function JobApplicantsPage() {
                                     {job?.jobType === "HOURLY"
                                       ? `$${job?.hourlyRateMin}-${job?.hourlyRateMax}/hr`
                                       : job?.jobType === "CONTRACT"
-                                      ? `$${job?.budget} (Fixed)`
-                                      : `$${job?.salary}/year`}
+                                        ? `$${job?.budget} (Fixed)`
+                                        : `$${job?.salary}/year`}
                                   </div>
                                   <div>
                                     <span className="font-medium">

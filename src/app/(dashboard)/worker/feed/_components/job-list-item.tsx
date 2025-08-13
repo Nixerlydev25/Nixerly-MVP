@@ -33,8 +33,8 @@ export function JobListItem({ job }: JobListItemProps) {
   };
 
   return (
-    <div onClick={handleJobClick} className="border-b p-6 cursor-pointer hover:bg-gray-100 transition">
-    <div className="flex gap-6">
+    <div onClick={handleJobClick} className="border-b px-0 py-6 lg:px-6 cursor-pointer hover:bg-gray-100 transition">
+    <div className="flex gap-3 lg:gap-6">
       <div className="flex-shrink-0">
         {/* Replaced Avatar with img tag */}
         <Avatar className="h-16 w-16 rounded-sm">
@@ -53,11 +53,11 @@ export function JobListItem({ job }: JobListItemProps) {
           </div>
           {/* Removed status badge */}
         </div>
-        <p className="text-sm font-normal leading-7 line-clamp-3 mb-3">{job.description}</p>
+        <p className="text-xs lg:text-sm font-normal leading-4 lg:leading-7 line-clamp-3 mb-3">{job.description}</p>
         {/* Removed Budget and Rate information */}
         <div className="flex flex-wrap gap-1 mb-3">
           {displaySkills.map((skill) => (
-            <Badge key={skill} variant="outline" className="text-xs text-nixerly-businesslabel border border-nixerly-bussinessborder">
+            <Badge key={skill} variant="outline" className="text-[8px] lg:text-xs text-nixerly-businesslabel border border-nixerly-bussinessborder">
               {skill.replace(/_/g, " ")}
             </Badge>
           ))}
@@ -65,13 +65,13 @@ export function JobListItem({ job }: JobListItemProps) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge variant="outline" className="text-xs font-medium leading-2.5 text-nixerly-businesslabel border border-nixerly-bussinessborder">
+                  <Badge variant="outline" className="text-[8px] lg:text-xs font-medium leading-2.5 text-nixerly-businesslabel border border-nixerly-bussinessborder">
                     +{extraSkillsCount} more
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
                   <div className="flex flex-col gap-1">
-                    {job.skills.slice(5).map((skill) => (
+                    {job.skills.slice(2).map((skill) => (
                       <span key={skill}>{skill.replace(/_/g, " ")}</span>
                     ))}
                   </div>
@@ -81,7 +81,7 @@ export function JobListItem({ job }: JobListItemProps) {
           )}
         </div>
         {/* New bottom information row */}
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-row gap-2 lg:gap-4 text-[9px] lg:text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Image src="/building.svg" alt="building" width={10} height={10}/>
             <span className="font-medium">{job.businessProfile.companyName}</span>

@@ -8,6 +8,9 @@ import {
   ChevronRight,
   Search,
   X,
+  UserX,
+  Filter,
+  SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -20,9 +23,11 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import FeedSkeleton from "./_components/FeedSkeleton";
 import Image from "next/image";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export default function JobsPage() {
   const [viewMode, setViewMode] = React.useState<"grid" | "list">("list");
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialSearch = searchParams.get("search") || "";
@@ -107,91 +112,232 @@ export default function JobsPage() {
   console.log(jobsData,"jobsData")
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
-        <div>
-          <h1 className="text-4xl font-bold font-title">Available Jobs</h1>
-          <p className="mt-1 text-gray-500 font-subtitle">
-            Showcase your skills and connect with businesses looking for talent
-            like yours.
-          </p>
-        </div>
-        <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="flex border rounded-md overflow-hidden">
-              <Button
-                variant={viewMode === "grid" ? "default" : "ghost"}
-                size="sm"
-                className={`rounded-none ${viewMode === "grid" ? "bg-nixerly-blue" : ""}`}
-                onClick={() => handleViewModeChange("grid")}
-              >
-                <Image src="/grid.svg" alt="grid" width={15} height={15} className={viewMode === "grid" ? "invert" : ""}/>
-                Grid
-              </Button>
-              <Separator orientation="vertical" className="h-8" />
-              <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
-                size="sm"
-                className={`rounded-none ${viewMode === "list" ? "bg-nixerly-blue" : ""}`}  
-                onClick={() => handleViewModeChange("list")}
-              >
-                <List className={`h-4 w-4 mr-2 ${viewMode === "list" ? "text-white" : ""}`} />
-                List
-              </Button>
+    <div>
+      <div className="flex min-h-screen flex-col py-10">
+        <div className="container mx-auto px-0 lg:px-4">
+          {/* Mobile Layout */}
+          <div className="block lg:hidden">
+          <h1 className="text-2xl font-bold font-title mb-2">Available Jobs</h1>
+             <p className="text-gray-600 font-sans text-sm leading-relaxed mb-4">
+                  Showcase your skills and connect with businesses looking for talent like yours.
+                </p>
+            {/* Mobile Top Controls */}
+            <div className="flex items-center justify-between gap-2 mb-4">
+              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="default"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                  >
+                    <Filter className="h-4 w-4" />
+                    Filter
+                  </Button>
+                </SheetTrigger>
+                <SheetContent
+                  side="bottom"
+                  className="w-full max-w-full p-0 h-[90dvh] sm:h-auto sm:max-h-[80vh] sm:p-6 rounded-t-2xl"
+                >
+                  <div className="p-4 sm:p-0">
+                    <FilterSidebar />
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <div className="flex rounded-lg overflow-hidden">
+                <Button
+                  variant="default"
+                  className="rounded-none hover:bg-transparent px-3 py-2 bg-blue-600 text-white"
+                >
+                  <List className="h-4 w-4 mr-2" />
+                  List
+                </Button>
+              </div>
+            </div>
+
+            {/* Mobile Description */}
+            <div className="border border-gray-300 rounded-2xl p-4 mb-8">
+              <div className="mb-4">
+                <p className="text-gray-600 font-sans text-sm leading-relaxed">
+                  Browse profiles of skilled businesses ready to work on your projects 
+                </p>
+              </div>
+
+              {/* Mobile Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search for jobs..."
+                  className="pl-10 pr-4 h-10.5 border border-gray-200 rounded-lg"
+                  value={searchValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-1/4 space-y-4">
-        <div className="relative hidden md:block">
-            <div className="flex items-center">
-              {/* Search icon inside input */}
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
-              <Input
-                type="search"
-                placeholder="Search for jobs..."
-                className="focus:border-blue-600 pl-8"
-                value={searchValue}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-              />
+          {/* Desktop Layout */}
+          <div className="hidden lg:block">
+            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
+              <div>
+                <h1 className="text-4xl font-bold font-title">Available Jobs</h1>
+                <p className="mt-1 text-gray-500 font-subtitle">
+                  Showcase your skills and connect with businesses looking for talent like yours.
+                </p>
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex border rounded-md overflow-hidden">
+                    <Button
+                      variant={viewMode === "grid" ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-none hover:bg-transparent ${viewMode === "grid" ? "bg-nixerly-blue" : ""}`}
+                      onClick={() => handleViewModeChange("grid")}
+                    >
+                      <Image src="/grid.svg" alt="grid" width={15} height={15} className={viewMode === "grid" ? "invert" : ""}/>
+                      Grid
+                    </Button>
+                    <Separator orientation="vertical" className="h-8" />
+                    <Button
+                      variant={viewMode === "list" ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-none hover:bg-transparent ${viewMode === "list" ? "bg-nixerly-blue" : ""}`}  
+                      onClick={() => handleViewModeChange("list")}
+                    >
+                      <List className={`h-4 w-4 mr-2 ${viewMode === "list" ? "text-white" : ""}`} />
+                      List
+                </Button>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* {searchParams.get("search") && (
-              <X
-                className="absolute right-[80px] top-2.5 h-4 w-4 text-muted-foreground cursor-pointer z-10"
-                onClick={() => {
-                  setSearchValue("");
-                  updateSearchParam("");
-                }}
-              />
-            )} */}
+
+            <Separator className="mb-8" />
+
+            <div className="flex flex-col gap-6 lg:flex-row">
+              <div className="w-full lg:w-1/4">
+                <div className="flex gap-3 space-y-4 pb-5">
+                  <div className="relative w-full">
+                    <div className="relative w-full">
+                      <Button
+                        type="button"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent p-0 ring-0 focus:ring-0 outline-none border-none"
+                        onClick={() => updateSearchParam(searchValue)}
+                      >
+                        <Search className="h-10 w-10 text-[#99A0AE]" />
+                      </Button>
+                      <Input
+                        type="search"
+                        placeholder="Search for jobs..."
+                        className="pl-11 w-full h-10 font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE] outline-none focus:ring-0 focus:outline-none focus:border-transparent"
+                        value={searchValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleInputKeyDown}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <FilterSidebar />
+              </div>
+
+              <div className="w-full lg:w-3/4">
+                {jobs.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                    <UserX className="h-16 w-16 mb-4" />
+                    <h3 className="text-lg font-medium">No jobs found</h3>
+                    <p className="text-sm">Try adjusting your filters to find more jobs</p>
+                    <Button onClick={() => (window.location.href = "?")} className="mt-4">
+                      Clear all filters
+                    </Button>
+                  </div>
+                ) : viewMode === "grid" ? (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                    {jobs.map((job: Job) => (
+                      <JobCard key={job.id} job={job} />
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <h1 className="text-nixerly-blue text-xl font-semibold leading-8 font-inter">Available Jobs</h1>
+                    {jobs.map((job: Job) => (
+                      <JobListItem key={job.id} job={job} />
+                    ))}
+                  </div>
+                )}
+
+                {totalPages > 1 && (
+                  <div className="flex flex-col items-center justify-center gap-4 mt-8 border-t pt-6">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeft className="h-4 w-4 mr-1" />
+                        Previous
+                      </Button>
+
+                      {/* Page Numbers */}
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                          (pageNum) => (
+                            <Button
+                              key={pageNum}
+                              variant={
+                                pageNum === currentPage ? "default" : "outline"
+                              }
+                              size="sm"
+                              className="w-8 h-8 p-0"
+                              onClick={() => handlePageChange(pageNum)}
+                            >
+                              {pageNum}
+                            </Button>
+                          )
+                        )}
+                      </div>
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={!hasMore}
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Page {currentPage} of {totalPages} • {totalJobs} total jobs
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <FilterSidebar />
-        </div>
 
-        <div className="w-full lg:w-3/4">
-          {jobs.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 bg-muted rounded-lg">
-              <h3 className="text-xl font-medium mb-2">No jobs found</h3>
-              <p className="text-muted-foreground mb-4">
-                Try adjusting your filters to find more jobs
-              </p>
-              <Button onClick={() => (window.location.href = "?")}>
-                Clear all filters
-              </Button>
-            </div>
-          ) : (
-            <>
-              {viewMode === "grid" ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Mobile Content */}
+          <div className="block lg:hidden">
+            <div className="w-full">
+              {jobs.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                  <UserX className="h-16 w-16 mb-4" />
+                  <h3 className="text-lg font-medium">No jobs found</h3>
+                  <p className="text-sm">Try adjusting your filters to find more jobs</p>
+                  <Button onClick={() => (window.location.href = "?")} className="mt-4">
+                    Clear all filters
+                  </Button>
+                </div>
+              ) : viewMode === "grid" ? (
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
                   {jobs.map((job: Job) => (
                     <JobCard key={job.id} job={job} />
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col">
+                <div>
+                  <h1 className="text-nixerly-blue text-xl font-semibold leading-8 font-inter mb-4">Available Jobs</h1>
                   {jobs.map((job: Job) => (
                     <JobListItem key={job.id} job={job} />
                   ))}
@@ -245,8 +391,8 @@ export default function JobsPage() {
                   </div>
                 </div>
               )}
-            </>
-          )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

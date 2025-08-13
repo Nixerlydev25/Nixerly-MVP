@@ -36,12 +36,12 @@ export default function JobPostDetail() {
   const { data: jobDetails } = useGetSingleJob(id);
 
   return (
-    <div className="min-h-screen px-6 py-8">
+    <div className="min-h-screen px-0 lg:px-6 py-4 lg:py-8">
       <div className="mx-auto px-4 py-4">
       <Button
       asChild
       variant="outline"
-      className="mb-4 rounded-full">
+      className="rounded-full">
            <Link href="/feed" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
           Back
@@ -69,7 +69,7 @@ export default function JobPostDetail() {
                   <h1 className="text-base font-bold leading-5 text-nixerly-blue">
                     {jobDetails?.title || "Job Title"}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-xs font-normal leading-5 ">
+                  <div className="flex flex-wrap items-center gap-1 lg:gap-2 text-muted-foreground text-xs font-normal leading-5 ">
                     <span className="flex items-center gap-1">
                     <Image src="/building.svg" alt="building" width={10} height={10}/>
                       <span>
@@ -103,12 +103,7 @@ export default function JobPostDetail() {
                   </div>
                 </div>
               </div>
-              <div className="hidden md:flex gap-2">
-                <Button size="icon" variant="outline">
-                  <Share2 className="h-5 w-5" />
-                  <span className="sr-only">Share job</span>
-                </Button>
-
+              <div className="flex gap-2">
                 <Button
                   variant="outline"
                   size="icon"
@@ -125,7 +120,7 @@ export default function JobPostDetail() {
             </div>
             <div className="flex flex-wrap gap-3">
               <Badge
-                className="flex items-center gap-1 text-sm"
+                className="flex items-center gap-1 text-[10px] lg:text-sm"
                 variant="outline"
               >
                 <Clock className="h-3.5 w-3.5" />
@@ -137,23 +132,9 @@ export default function JobPostDetail() {
                   : "Full-time"}
               </Badge>
             </div>
-            <div className="flex md:hidden gap-2">
-              <Button size="icon" variant="outline">
-                <Heart className="h-5 w-5" />
-                <span className="sr-only">Save job</span>
-              </Button>
-              <Button size="icon" variant="outline">
-                <Share2 className="h-5 w-5" />
-                <span className="sr-only">Share job</span>
-              </Button>
-              <Button size="icon" variant="outline">
-                <Flag className="h-5 w-5" />
-                <span className="sr-only">Report job</span>
-              </Button>
-            </div>
           </div>
 
-          <Separator/>
+          <Separator className=""/>
 
           {/* Job Details Tabs */}
           <div className="space-y-5 p-4">
@@ -419,8 +400,8 @@ export default function JobPostDetail() {
           </Card>
 
           {/* Employer Card */}
-          <Card>
-            <CardContent className="p-4 space-y-4">
+          <Card className="py-4 lg:py-6">
+            <CardContent className="p-4 py-0 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 overflow-hidden rounded-md border bg-muted">
                   <Image

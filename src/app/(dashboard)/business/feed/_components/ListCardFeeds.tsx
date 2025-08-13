@@ -104,7 +104,7 @@ function ListCardFeeds({
                     )}
                   </div>
 
-                  <p className="mt-4 text-[#0E121B] font-sans text-base not-italic font-normal leading-[17.56px] tracking-tight">
+                  <p className="mt-4 text-[#0E121B] font-sans text-xs md:text-sm not-italic font-normal leading-4 tracking-tight">
                     <Image
                       src="/locationblack.svg"
                       alt="location icon"

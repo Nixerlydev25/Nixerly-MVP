@@ -17,7 +17,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen relative">
-      <div className="absolute top-8 right-8 z-50">
+      <div className="absolute top-2 lg:top-8 right-8 z-50">
         <Link href={'/'}>
         <Image
           src="/NixerlyLogo.svg"
@@ -55,7 +55,7 @@ export default function RegisterPage() {
       </section>
 
       {/* Right side - Sign Up Form */}
-      <section className="flex flex-2 items-center justify-center p-8">
+      <section className="flex flex-2 items-center justify-center p-4 lg:p-8">
         <div className="w-full max-w-md">
 
           <div className="space-y-6">

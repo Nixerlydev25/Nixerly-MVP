@@ -84,7 +84,7 @@ export function LocationSearch({ onLocationSelect, defaultValue = "", className 
           disabled={isLoadingLocation}
           placeholder="Search for a location..."
           className={cn(
-            "w-full h-12 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20",
+            "w-full h-10 py-3 px-4 text-base focus:border-nixerly-blue focus:ring-nixerly-blue/20",
             className,
           )}
           onFocus={() => {
@@ -105,7 +105,7 @@ export function LocationSearch({ onLocationSelect, defaultValue = "", className 
             <CommandList>
               <CommandGroup>
                 {isLoadingSuggestions ? (
-                  <div className="p-3 text-sm text-muted-foreground flex items-center gap-2 animate-pulse">
+                  <div className="p-2 text-sm text-muted-foreground flex items-center gap-2 animate-pulse">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Loading suggestions...
                   </div>

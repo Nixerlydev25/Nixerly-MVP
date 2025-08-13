@@ -114,97 +114,96 @@ export const SkillsInfo = () => {
     <div className="max-w-2xl mx-auto p-4">
       <ProgressIndicator currentStep={2} totalSteps={4} hasStartedFilling={hasStartedFilling} />
       <Card className="shadow-nixerly-card text-nixerly-businesslabel md:border border-gray-300 py-0 gap-0">
-      <div className="flex items-center border-b border-gray-300 gap-3 px-6 py-4">
-      <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
+        <div className="flex items-center border-b border-gray-300 gap-3 lg:gap-5 px-6 py-4">
+          <div className="flex items-center justify-center h-10 w-11  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">02</span>
-          </div> 
-        <div>
-          <h1 className="text-lg font-bold my-1 text-nixerly-blue">Skills & Hourly Rate</h1>
-          <p className="text-base font-medium">Please Provide The Following Information To Get Started</p>
+          </div>
+          <div>
+            <h1 className="text-sm lg:text-lg font-bold my-1 text-nixerly-blue">Skills & Hourly Rate</h1>
+            <p className="text-xs lg:text-base font-medium">Please Provide The Following Information To Get Started</p>
+          </div>
         </div>
-      </div>
 
-      <div className="space-y-8 px-6 py-4">
-        <FormField
-          control={control}
-          name="skills"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className="flex text-sm text-nixerly-businesslabel font-medium">
-              Skill Levels (max. 8)
-           <Image 
-             src="/info.svg" 
-             alt="info" 
-             width={14} 
-             height={14}
-             onClick={() => trigger("skills")}
-             className="cursor-pointer"
-           />
-              </FormLabel>
-              <FormControl>
-                <div ref={commandRef}>
-                  <Command className="border rounded-md py-1 bg-white text-nixerly-darkgray border-gray-300">
-                    <CommandInput
-                      placeholder="Search skills..."
-                      onFocus={() => setIsOpen(true)}
-                      className=""
-                    />
-                    {isOpen && (
-                      <>
-                        <CommandEmpty>No skills found.</CommandEmpty>
-                        <CommandGroup className="max-h-[200px] overflow-auto border-t">
-                          {onboardingOptions.skills.map((skill) => (
-                            <CommandItem
-                              key={skill.value}
-                              value={skill.value}
-                              onSelect={() => {
-                                handleSkillSelect(skill.value);
-                                if (formData.skills?.length === 8) {
-                                  setIsOpen(false);
-                                }
-                              }}
-                              className={`flex items-center justify-between ${
-                                field.value?.includes(skill.value)
+        <div className="space-y-8 px-6 py-4">
+          <FormField
+            control={control}
+            name="skills"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="flex text-sm text-nixerly-businesslabel font-medium">
+                  Skill Levels (max. 8)
+                  <Image
+                    src="/info.svg"
+                    alt="info"
+                    width={14}
+                    height={14}
+                    onClick={() => trigger("skills")}
+                    className="cursor-pointer"
+                  />
+                </FormLabel>
+                <FormControl>
+                  <div ref={commandRef}>
+                    <Command className="border rounded-md py-1 bg-white text-nixerly-darkgray border-gray-300">
+                      <CommandInput
+                        placeholder="Search skills..."
+                        onFocus={() => setIsOpen(true)}
+                        className=""
+                      />
+                      {isOpen && (
+                        <>
+                          <CommandEmpty>No skills found.</CommandEmpty>
+                          <CommandGroup className="max-h-[200px] overflow-auto border-t">
+                            {onboardingOptions.skills.map((skill) => (
+                              <CommandItem
+                                key={skill.value}
+                                value={skill.value}
+                                onSelect={() => {
+                                  handleSkillSelect(skill.value);
+                                  if (formData.skills?.length === 8) {
+                                    setIsOpen(false);
+                                  }
+                                }}
+                                className={`flex items-center justify-between ${field.value?.includes(skill.value)
                                   ? "text-nixerly-businesslabel font-medium"
                                   : "text-nixerly-businesslabel font-medium"
-                              }`}
-                            >
-                              <span>{skill.label}</span>
-                              {field.value?.includes(skill.value) && (
-                                <Check className="h-4 w-4 text-nixerly-blue" />
-                              )}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </>
-                    )}
-                  </Command>
+                                  }`}
+                              >
+                                <span>{skill.label}</span>
+                                {field.value?.includes(skill.value) && (
+                                  <Check className="h-4 w-4 text-nixerly-blue" />
+                                )}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </>
+                      )}
+                    </Command>
+                  </div>
+                </FormControl>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {field.value?.map((skill) => (
+                    <Badge key={skill} variant="outline" className="px-2 py-1 font-medium text-nixerly-businesslabel border border-gray-300">
+                      {
+                        onboardingOptions.skills.find((s) => s.value === skill)
+                          ?.label
+                      }
+                      <button
+                        type="button"
+                        onClick={() => handleSkillRemove(skill)}
+                        className="ml-1 hover:text-nixerly-coral cursor-pointer"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
                 </div>
-              </FormControl>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {field.value?.map((skill) => (
-                  <Badge key={skill} variant="outline" className="px-2 py-1 font-medium text-nixerly-businesslabel border border-gray-300">
-                    {
-                      onboardingOptions.skills.find((s) => s.value === skill)
-                        ?.label
-                    }
-                    <button
-                      type="button"
-                      onClick={() => handleSkillRemove(skill)}
-                      className="ml-1 hover:text-nixerly-coral cursor-pointer"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
-              {/* <FormDescription>
+                {/* <FormDescription>
                 Select up to 8 skills that best represent your expertise
               </FormDescription> */}
-              <FormMessage className="text-nixerly-coral mt-1" />
-            </FormItem>
-          )}
-        />
+                <FormMessage className="text-nixerly-coral mt-1" />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={control}
@@ -213,10 +212,10 @@ export const SkillsInfo = () => {
               <FormItem className="w-full">
                 <div className="flex items-center gap-2">
                   <FormLabel className="text-sm font-medium text-nixerly-businesslabel">Hourly Rate</FormLabel>
-                  <Image 
-                    src="/info.svg" 
-                    alt="info" 
-                    width={14} 
+                  <Image
+                    src="/info.svg"
+                    alt="info"
+                    width={14}
                     height={14}
                     onClick={() => trigger("hourlyRate")}
                     className="cursor-pointer"
@@ -236,7 +235,7 @@ export const SkillsInfo = () => {
                       className="w-full font-inter text-sm font-normal leading-5 tracking-tight focus:border-black  text-black focus-visible:ring-nixerly-blue rounded-md border border-nixerly-bussinessborder p-5"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                    <Image src="/dollars.svg" alt="euro" width={16} height={16}/>
+                      <Image src="/dollars.svg" alt="euro" width={16} height={16} />
                     </div>
                   </div>
                 </FormControl>
@@ -244,7 +243,7 @@ export const SkillsInfo = () => {
               </FormItem>
             )}
           />
-   </div>
+        </div>
         <div className="flex justify-end border-t border-gray-300 px-6 py-4">
           <Button
             type="button"
@@ -255,8 +254,8 @@ export const SkillsInfo = () => {
             {isPending || skillPending ? "Saving..." : "Next"}
           </Button>
         </div>
-   
-    </Card>
+
+      </Card>
     </div>
   );
 };

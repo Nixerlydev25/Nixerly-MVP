@@ -34,7 +34,7 @@ export default function RootLayout({
       <DashboardSidebar />
       <div className="flex-1 transition-all duration-300 lg:ml-0">
         <DashboardHeader />
-        <main className="bg-white border-l min-h-[calc(100vh-4rem)] p-4">{children}</main>
+        <main className="bg-white border-l min-h-[calc(100vh-4rem)] px-2">{children}</main>
       </div>
     </div>
   );

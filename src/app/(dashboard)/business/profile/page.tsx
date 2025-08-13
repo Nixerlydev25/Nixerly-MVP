@@ -387,9 +387,9 @@ export default function BusinessProfilePage() {
   const renderStats = () => (
     <div className="space-y-8">
       {/* Stats Cards with Blue Container */}
-      <div className="bg-nixerly-blue rounded-2xl p-6">
+      <div className="bg-[#F5F7FA] lg:bg-nixerly-blue rounded-2xl p-4 lg:p-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm gap-0 py-0">
             <CardContent className="p-6">
               <div className="flex items-center gap-1.5 lg:gap-3">
                 <div className="p-2 bg-[#996CFF] rounded-lg">
@@ -398,13 +398,14 @@ export default function BusinessProfilePage() {
                     alt="employe"
                     width={16}
                     height={16}
+                    className="w-3 lg:w-4 h-3 lg:h-4"
                   />
                 </div>
                 <div className="space-y-2.5">
                   <p className="text-xl lg:text-2xl font-bold leading-10">
                     {businessProfileData?.businessProfile.employeeCount}
                   </p>
-                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-xs lg:text-base font-medium leading-4 text-muted-foreground">
                     Employees
                   </p>
                 </div>
@@ -412,15 +413,16 @@ export default function BusinessProfilePage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm gap-0 py-0">
             <CardContent className="p-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 lg:gap-3">
                 <div className="p-2 bg-[#FEC960] rounded-lg">
                   <Image
                     src="/calender.svg"
                     alt="employe"
                     width={22}
                     height={16}
+                    className="w-3 lg:w-4 h-3 lg:h-4"
                   />
                 </div>
                 <div className="space-y-2.5">
@@ -428,7 +430,7 @@ export default function BusinessProfilePage() {
                     {new Date().getFullYear() -
                       (businessProfileData?.businessProfile.yearFounded || 0)}
                   </p>
-                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-xs lg:text-base font-medium leading-4 text-muted-foreground">
                     Years Active
                   </p>
                 </div>
@@ -436,17 +438,17 @@ export default function BusinessProfilePage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm gap-0 py-0">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-[#55C8FF] rounded-lg">
-                  <Image src="/jobs.svg" alt="employe" width={22} height={16} />
+                  <Image src="/jobs.svg" alt="employe" width={22} height={16} className="w-3 lg:w-4 h-3 lg:h-4" />
                 </div>
                 <div className="space-y-2.5">
                   <p className="text-xl lg:text-2xl font-bold leading-10">
                     {businessProfileData?.businessProfile.postedJobs}
                   </p>
-                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-xs lg:text-base font-medium leading-4 text-muted-foreground">
                     Jobs Posted
                   </p>
                 </div>
@@ -454,7 +456,7 @@ export default function BusinessProfilePage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm gap-0 py-0">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-[#56A2F2] rounded-lg">
@@ -463,6 +465,7 @@ export default function BusinessProfilePage() {
                     alt="employe"
                     width={22}
                     height={16}
+                    className="w-3 lg:w-4 h-3 lg:h-4"
                   />
                 </div>
                 <div className="space-y-2.5">
@@ -473,7 +476,7 @@ export default function BusinessProfilePage() {
                       year: "numeric",
                     })}
                   </p>
-                  <p className="text-sm lg:text-base font-medium leading-4 text-muted-foreground">
+                  <p className="text-xs lg:text-base font-medium leading-4 text-muted-foreground">
                     Member Since
                   </p>
                 </div>
@@ -486,47 +489,47 @@ export default function BusinessProfilePage() {
       {/* Company Overview Section */}
       <Card className="">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-nixerly-blue">
+          <CardTitle className="text-lg lg:text-2xl font-bold text-nixerly-blue">
             Company Overview
           </CardTitle>
         </CardHeader>
         <Separator />
         <CardContent className="pt-0 py-0">
           <div className="">
-            <p className="font-medium text-lg leading-7 mb-4">
+            <p className="font-medium base lg::text-lg leading-7 mb-4">
               Company Overview
             </p>
             <div className="flex justify-between px-0 lg:px-5">
-              <h3 className="text-lg font-normal text-muted-foreground mb-2">
+              <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Industry
               </h3>
-              <p className="text-lg font-medium capitalize">
+              <p className="text-sm lg:text-base font-medium capitalize">
                 {businessProfileData?.businessProfile.industry}
               </p>
             </div>
             <div className="flex justify-between px-0 lg:px-5">
-              <h3 className="text-lg font-normal text-muted-foreground mb-2">
+              <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Founded
               </h3>
-              <p className="text-blue-600 text-lg font-medium ">
+              <p className="text-blue-600 text-sm lg:text-base font-medium ">
                 {businessProfileData?.businessProfile.yearFounded}
               </p>
             </div>
 
             <div className="flex justify-between px-0 lg:px-5">
-              <h3 className="text-lg normal text-muted-foreground mb-2">
+              <h3 className="text-sm lg:text-base normal text-muted-foreground mb-2">
                 Company Size
               </h3>
-              <p className="text-lg font-medium">
+              <p className="text-sm lg:text-base font-medium">
                 {businessProfileData?.businessProfile.employeeCount} employees
               </p>
             </div>
 
             <div className="flex justify-between px-0 lg:px-5">
-              <h3 className="text-lg font-normal text-muted-foreground mb-2">
+              <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Location
               </h3>
-              <p className="text-lg font-medium">
+              <p className="text-sm lg:text-base font-medium">
                 {businessProfileData?.businessProfile.city},{" "}
                 {businessProfileData?.businessProfile.country}
               </p>
@@ -810,7 +813,7 @@ export default function BusinessProfilePage() {
 
                 {/* Company Details */}
                 <div className="flex-1 text-white">
-                  <h2 className="text-2xl lg:text-3xl mb-1.5 font-medium text-white leading-10 tracking-wide ">
+                  <h2 className="text-xl lg:text-3xl lg:mb-1.5 font-medium text-white leading-10 lg:tracking-wide ">
                     {businessProfileData?.businessProfile.companyName}
                   </h2>
                   <div className="flex flex-col flex-wrapr text-sm font-normal leading-5 tracking-wide">
@@ -854,10 +857,10 @@ export default function BusinessProfilePage() {
                 key={item.id}
                 onClick={() => handleTabChange(item.id)}
                 className={cn(
-                  "flex items-center gap-1 p-3 rounded-2xl text-left transition-all duration-300 border flex-shrink-0",
+                  "flex items-center p-2 rounded-2xl text-left transition-all duration-300 border flex-shrink-0",
                   isActive
-                    ? "bg-nixerly-blue text-white border-nixerly-blue min-w-[160px]"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 w-14",
+                    ? "bg-nixerly-blue gap-1 text-white border-nixerly-blue min-w-[160px]"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 items-center",
                 )}
               >
                 <span
@@ -876,7 +879,7 @@ export default function BusinessProfilePage() {
                 </span>
                 {isActive && (
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-xs leading-tight">{item.label}</p>
+                    <p className="font-medium text-sm lg:text-sm leading-tight">{item.label}</p>
                   </div>
                 )}
               </button>

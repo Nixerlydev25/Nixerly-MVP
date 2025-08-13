@@ -79,7 +79,7 @@ export default function LoginPage() {
       </section>
 
       {/* Right side - Sign In Form */}
-      <section className="flex flex-2 items-center justify-center p-8">
+      <section className="flex flex-2 items-center justify-center p-4 lg:p-8">
         <div className="w-full max-w-md">
 
           <div className="space-y-6">

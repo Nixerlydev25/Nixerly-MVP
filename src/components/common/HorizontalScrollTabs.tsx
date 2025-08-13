@@ -5,20 +5,24 @@ import { useState, useRef } from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
-interface SidebarItem<T = string> {
+interface SidebarItem<T extends React.Key = string> {
   id: T
   label: string
   icon: string
   description: string
 }
 
-interface HorizontalScrollTabsProps<T = string> {
+interface HorizontalScrollTabsProps<T extends React.Key = string> {
   items: SidebarItem<T>[]
   activeTab: T
   onTabChange: (tab: T) => void
 }
 
-export function HorizontalScrollTabs<T = string>({ items, activeTab, onTabChange }: HorizontalScrollTabsProps<T>) {
+export function HorizontalScrollTabs<T extends React.Key = string>({
+  items,
+  activeTab,
+  onTabChange,
+}: HorizontalScrollTabsProps<T>) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
@@ -47,7 +51,7 @@ export function HorizontalScrollTabs<T = string>({ items, activeTab, onTabChange
     setIsDragging(false)
   }
 
-  // Touch events for mobile drag support
+  // Touch events for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollContainerRef.current) return
     setIsDragging(true)
@@ -57,6 +61,7 @@ export function HorizontalScrollTabs<T = string>({ items, activeTab, onTabChange
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !scrollContainerRef.current) return
+    e.preventDefault()
     const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft
     const walk = (x - startX) * 2
     scrollContainerRef.current.scrollLeft = scrollLeft - walk
@@ -65,7 +70,6 @@ export function HorizontalScrollTabs<T = string>({ items, activeTab, onTabChange
   const handleTouchEnd = () => {
     setIsDragging(false)
   }
-
   return (
     <div className="lg:hidden bg-[#F5F7FA] py-10 px-4 rounded-2xl">
       <h2 className="text-xl lg:text-2xl font-medium text-gray-400 mb-6">Profile Details</h2>

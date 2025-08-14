@@ -58,14 +58,14 @@ export default function BusinessProfilePage() {
   const router = useRouter();
 
   return (
-    <div className="px-6 py-8">
-      <div className="pb-7">
+    <div className="px-0 lg:px-6 py-8">
+      <div className="pb-4 lg:pb-7">
         <h2 className="text-shadow-nixerly-businesslabel text-2xl font-semibold leading-8 mb-2">
         My Profile
         </h2>
-        <p className="text-base font-normal leading-7 text-nixerly-businesslabel">Welcome back,{businessProfileData?.companyName}</p>
+        <p className=" text-sm lg:text-base font-normal leading-7 text-nixerly-businesslabel">Welcome back,{businessProfileData?.companyName}</p>
       </div>
-      <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right h-52">
+      <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right lg:h-52">
         <Button
           variant="outline"
           className="absolute top-4 right-4 text-nixerly-businesslabel rounded-full border-none z-10"
@@ -78,8 +78,8 @@ export default function BusinessProfilePage() {
         >
           <Image src="/flag.svg" alt="flag.svg" width={14} height={14} />
         </Button>
-        <div className="flex flex-col gap-3 md:flex-row md:items-center px-10 py-4 text-white">
-          <div className="relative h-24 w-24 overflow-hidden rounded-xl shadow-sm md:h-32 md:w-32 mt-6">
+        <div className="flex gap-1.5 lg:gap-3 flex-row items-center px-2 lg:px-10 py-8 lg:py-4 text-white">
+          <div className="relative h-24 w-24 overflow-hidden rounded-xl shadow-sm md:h-32 md:w-32 mt-0 lg:mt-6 z-30">
             {businessProfile?.profilePicture?.url ? (
               <Image
                 src={businessProfile.profilePicture.url}
@@ -100,11 +100,11 @@ export default function BusinessProfilePage() {
           <div className="flex-1">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
-                <h1 className="text-3xl medium leading-10 text-white-white">
+                <h1 className="text-xl lg:text-3xl font-medium leading-5 lg:leading-10 text-white-white">
                   {businessProfileData?.companyName}
                 </h1>
                 <div className="mt-1 flex flex-wrap items-center gap-2">
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 text-sm lg:text-base">
                     <Image src="/mapPin.svg" alt="location" width={14} height={14} />
                     <span>
                       {businessProfileData?.city},{" "}
@@ -119,20 +119,17 @@ export default function BusinessProfilePage() {
                       </span> */}
                 </div>
                 <div>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 text-sm lg:text-base">
                     <Image src="/buildwhite.svg" alt="build" width={16} height={16} />
                     <span>{businessProfileData?.industry}</span>
                   </span>
                 </div>
               </div>
-              <div className="flex gap-2">
-                {/* Flag button removed from here */}
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="grid gap-8 md:grid-cols-3 pt-10">
+      <div className="grid gap-8 md:grid-cols-3 mt-5 lg:pt-10">
         {/* Main Content */}
         <div className="space-y-8 md:col-span-2 pb">
           {/* About */}
@@ -140,7 +137,7 @@ export default function BusinessProfilePage() {
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold p-4 text-nixerly-blue">About Us</h2>
             </div>
-            {/* <Separator /> */}
+            <Separator />
             <p className="px-4 py-6">
               {businessProfileData?.description}
             </p>
@@ -293,11 +290,13 @@ export default function BusinessProfilePage() {
 
               <Separator className="my-0 p-0" />
 
-              <div className="p-4">
-                <div className="mb-3 flex items-center justify-between">
-                  <h3 className="font-medium">Business Owner</h3>
+              <div className="">
+                <div className="p-4 flex items-center justify-between">
+                  <h3 className="text-nixerly-blue
+                   font-semibold">Business Owner</h3>
                 </div>
-                <div className="flex items-center gap-4">
+                <Separator/>
+                <div className="flex items-center gap-4 p-4">
                   <Avatar className="h-12 w-12">
                     <AvatarImage
                       src={businessProfile?.profilePicture?.url || "/placeholder.svg?height=48&width=48"}
@@ -355,9 +354,10 @@ export default function BusinessProfilePage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border bg-card p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">Company Images</h2>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-3xl border bg-card shadow-sm">
+            <h2 className="text-base lg:text-xl text-nixerly-blue p-4 lg:p-6 font-semibold">Company Images</h2>
+            <Separator className=""/>
+            <div className="grid grid-cols-4 gap-3 p-4 lg:p-6">
               {visibleImages.map((asset, idx) => (
                 <div
                   key={asset.id}

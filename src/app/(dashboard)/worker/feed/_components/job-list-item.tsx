@@ -23,8 +23,8 @@ export function JobListItem({ job }: JobListItemProps) {
   const createdAt = new Date(job.createdAt);
   const timeAgo = formatDistanceToNow(createdAt, { addSuffix: true });
 
-  const displaySkills = job.skills.slice(0, 5);
-  const extraSkillsCount = job.skills.length - 5;
+  const displaySkills = job.skills.slice(0, 2);
+  const extraSkillsCount = job.skills.length - 2;
 
   const router = useRouter();
 
@@ -81,7 +81,7 @@ export function JobListItem({ job }: JobListItemProps) {
           )}
         </div>
         {/* New bottom information row */}
-        <div className="flex flex-row gap-2 lg:gap-4 text-[9px] lg:text-sm text-muted-foreground">
+        <div className="flex flex-wrap gap-2 lg:gap-4 text-[10px] lg:text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Image src="/building.svg" alt="building" width={10} height={10}/>
             <span className="font-medium">{job.businessProfile.companyName}</span>

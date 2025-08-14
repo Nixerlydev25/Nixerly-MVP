@@ -101,7 +101,7 @@ export default function LandingPage() {
                 alt="Construction professionals collaborating on blueprints and project planning"
                 width={720}
                 height={576}
-                className="lg:w-[700px] lg:h-[576px] object-cover rounded-2xl"
+                className=" lg:w-[700px] h-96 lg:h-[576px] object-cover rounded-2xl"
                 priority
               />
             </div>

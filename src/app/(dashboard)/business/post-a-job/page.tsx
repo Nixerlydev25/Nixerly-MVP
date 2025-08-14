@@ -292,7 +292,7 @@ export default function PostJobPage() {
             </p>
           </div>
 
-          <div className="border-none lg:border border-nixerly-bussinessborder rounded-none lg:rounded-3xl shadow-none lg:shadow-2xl shadow-nixerly-card hover-card-rise ">
+          <div className="border-none lg:border border-nixerly-bussinessborder rounded-none lg:rounded-3xl shadow-none lg:shadow-2xl lg:shadow-nixerly-card hover-card-rise ">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}

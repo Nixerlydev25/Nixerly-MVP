@@ -399,7 +399,7 @@ export default function FreelancerProfileSelfView() {
             <div className="flex flex-col">
               {workerProfile.certificates.slice(0, 4).map((certificate) => (
                 <Card key={certificate.id} className="h-full border-none">
-                  <CardContent className="flex gap-20 h-full">
+                  <CardContent className="flex gap-5 lg:gap-20 h-full px-0 lg:px-4">
                     {/* Text content on the left */}
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -423,7 +423,7 @@ export default function FreelancerProfileSelfView() {
 
                     {/* Images on the right side */}
                     {certificate.assets?.length > 0 && (
-                      <div className="flex gap-2 items-start">
+                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 items-end lg:items-start">
                         {certificate.assets.slice(0, 4).map((asset, index) => (
                           <div
                             key={index}
@@ -663,18 +663,18 @@ export default function FreelancerProfileSelfView() {
                 <div className="p-3 space-y-2">
                   {/* Header with improved typography */}
                   <div className="space-y-1">
-                  <Badge
-                        variant="outline"
-                        className="text-blue-700 bg-[#1E64D31A] text-xs px-5 py-0.5"
-                      >
-                        {portfolio.employerName}
-                      </Badge>
+                    <Badge
+                      variant="outline"
+                      className="text-blue-700 bg-[#1E64D31A] text-xs px-5 py-0.5"
+                    >
+                      {portfolio.employerName}
+                    </Badge>
                     <h3 className="text-xl font-medium text-nixerly-businesslabel leading-tight transition-colors duration-200 line-clamp-1">
                       {portfolio.title}
                     </h3>
                     <div className="items-center gap-2 flex-wrap">
                       <div className="flex items-center gap-1 text-xs text-nixerly-businesslabel">
-                        <Image src="/calen.svg" alt="calender" width={12} height={12}/>
+                        <Image src="/calen.svg" alt="calender" width={12} height={12} />
                         <span>
                           {new Date(portfolio.startDate).toLocaleDateString("en-US", {
                             month: "short",
@@ -718,7 +718,7 @@ export default function FreelancerProfileSelfView() {
                         className="inline-flex items-center gap-1 text-xs font-medium text-nixerly-businesslabel hover:text-blue-600 transition-colors duration-200 group/link"
                       >
                         <div className="p-0.5 rounded-md bg-gray-100 group-hover/link:bg-blue-100 transition-colors duration-200">
-                        <Image src="/gloab.svg" alt="world" width={12} height={12}/>
+                          <Image src="/gloab.svg" alt="world" width={12} height={12} />
                         </div>
                         <span>Client Website</span>
                       </a>
@@ -731,7 +731,7 @@ export default function FreelancerProfileSelfView() {
                         className="inline-flex items-center gap-1 text-xs font-medium text-nixerly-businesslabel hover:text-blue-600 transition-colors duration-200 group/link"
                       >
                         <div className="p-0.5 rounded-md bg-gray-100 group-hover/link:bg-blue-100 transition-colors duration-200">
-                          <Image src="/redirect.svg" alt="link" width={12} height={12}/>
+                          <Image src="/redirect.svg" alt="link" width={12} height={12} />
                         </div>
                         <span>View Project</span>
                       </a>
@@ -792,7 +792,7 @@ export default function FreelancerProfileSelfView() {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto px-6 pt-6">
+      <div className="mx-auto px-0 lg:px-6 py-6">
         {/* Back to dashboard */}
         <Link href="/feed" className="mb-6 inline-flex items-center text-sm font-medium border rounded-full px-4 py-2">
           <ChevronLeft className="mr-1 h-4 w-4" />
@@ -800,26 +800,50 @@ export default function FreelancerProfileSelfView() {
         </Link>
 
         {/* Profile Card */}
-        <div
-          className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right h-52"
-        >
-          <div className="flex flex-col gap-6 sm:flex-row items-center p-4">
-            <div className="relative h-24 w-24 overflow-visible md:h-32 md:w-32 ml-6" onClick={handleProfilePictureClick}>
+        <div className="relative bg-nixerly-blue custom-gradient-right overflow-hidden rounded-xl border h-52">
+          {/* Share and Edit Profile buttons - positioned absolutely in top-right */}
+          <div className="absolute top-3 right-3 lg:top-4 lg:right-4 flex gap-2 z-40">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-none text-xs md:text-base text-nixerly-businesslabel"
+            >
+              <Share2 className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
+              <span className="hidden sm:inline">Share</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-none text-xs md:text-base"
+              onClick={handleEditProfile}
+            >
+              <Image src="/editPara.svg" alt="helo" width={16} height={16} />
+              <span className="hidden sm:inline">Edit Profile</span>
+            </Button>
+          </div>
+
+          {/* Main content */}
+          <div className="flex gap-4 lg:gap-6 flex-row items-center p-4 lg:p-6 pt-12 lg:pt-6">
+            {/* Profile Image */}
+            <div
+              className="relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32 overflow-visible z-30 cursor-pointer"
+              onClick={handleProfilePictureClick}
+            >
               <img
-                src={currentProfilePicture || "/placeholder.svg?height=128&width=128"}
+                src={currentProfilePicture || "/placeholder.svg?height=128&width=128&query=professional plumber portrait"}
                 alt={fullName}
                 width={128}
                 height={128}
-                className="h-full w-full object-cover mt-5 rounded-full"
+                className="h-full w-full object-cover rounded-xl lg:rounded-full transition-transform hover:scale-105"
               />
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
-                      className="absolute top-30 right-5 rounded-full bg-white p-2 text-nixerly-businesslabel border border-nixerly-blue"
+                      className="absolute -bottom-1 -right-1 lg:bottom-1 lg:right-1 rounded-full bg-white p-1.5 lg:p-2 text-gray-600 shadow-lg hover:shadow-xl transition-shadow"
                       aria-label="Change profile picture"
                     >
-                      <Camera className="h-5 w-5" />
+                      <Camera className="h-3 w-3 lg:h-4 lg:w-4" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -829,37 +853,20 @@ export default function FreelancerProfileSelfView() {
               </TooltipProvider>
             </div>
 
-            <div className="flex-1">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mt-5 pb-2">
-                    <h1 className="text-3xl font-medium text-white">{fullName}</h1>
-                  </div>
-                  <p className="text-sm text-white">Licensed {workerProfile.title} for Residential & Commercial Projects</p>
-                  <div className="mt-2 flex items-center text-sm text-white">
-                    <MapPin className="mr-1 h-4 w-4 text-white" />
+            {/* Profile Information */}
+            <div className="flex-1 min-w-0 pr-2">
+              <div className="space-y-1 lg:space-y-2">
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-white truncate">{fullName}</h1>
+                <p className="text-sm md:text-base font-medium text-white/90 line-clamp-2">
+                  Licensed {workerProfile.title} for Residential & Commercial Projects
+                </p>
+                <div className="flex items-center text-xs md:text-sm font-normal text-white/80">
+                  <MapPin className="mr-1 h-3 w-3 md:h-4 md:w-4 text-white/80 flex-shrink-0" />
+                  <span className="truncate text-xs lg:text-sm">
                     {`${workerProfile.city}, ${workerProfile.state}, ${workerProfile.country}`}
-                  </div>
-                </div>
-                <div className="flex gap-4 z-50 px-6">
-                  <Button variant="outline" size="sm" className="rounded-full border-none">
-                    <Share2 className="h-4 w-4" />
-                    Share
-                  </Button>
-                  <Button variant="outline" className="rounded-full border-none" size="sm" onClick={handleEditProfile}>
-                    <Image src="/editPara.svg" alt="helo" width={16} height={16} />
-                    Edit Profile
-                  </Button>
+                  </span>
                 </div>
               </div>
-              {/* 
-              <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                <div className="flex items-center text-white">
-                  <Clock className="mr-1 h-4 w-4 text-white" />
-                  <span>Available {workerProfile.availability ? "Now" : "Soon"}</span>
-                </div>
-                <div className="flex items-center font-medium text-white">${workerProfile.hourlyRate}/hr</div>
-              </div> */}
             </div>
           </div>
         </div>

@@ -68,16 +68,16 @@ function useDebounce<T>(value: T, delay: number): T {
 
 export default function AppliedJobsPage() {
   const { data, isLoading } = useGetAppliedJobs();
-  console.log({data})
+  console.log({ data })
   const searchParams = useSearchParams();
   const router = useRouter();
   const [filters, setFilters] = useState<FilterState>({
     search: searchParams.get('search') || '',
     dateRange: searchParams.get('startDate') && searchParams.get('endDate')
       ? {
-          from: new Date(searchParams.get('startDate')!),
-          to: new Date(searchParams.get('endDate')!)
-        }
+        from: new Date(searchParams.get('startDate')!),
+        to: new Date(searchParams.get('endDate')!)
+      }
       : undefined,
   });
 
@@ -192,15 +192,15 @@ export default function AppliedJobsPage() {
           </div>
 
           {/* Filters: Search and Date Picker */}
-          <div className="flex items-center gap-3 mt-4 md:mt-0">
+          <div className="flex items-center gap-3 mt-4 md:mt-0 justify-between">
             {/* Search */}
-            <div className="relative">
+            <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search applications..."
                 value={filters.search}
                 onChange={(e) => updateFilter('search', e.target.value)}
-                className="pl-10 w-64"
+                className="pl-10 w-full lg:w-64"
               />
             </div>
 
@@ -288,7 +288,7 @@ export default function AppliedJobsPage() {
                     updateFilter(
                       'dateRange',
                       filters.dateRange?.from
-                        ? { from: filters.dateRange.from, to: filters.dateRange.to   }
+                        ? { from: filters.dateRange.from, to: filters.dateRange.to }
                         : undefined
                     )
                   }
@@ -306,7 +306,7 @@ export default function AppliedJobsPage() {
           {data?.applications?.map((application: Application, idx: number) => (
             <div key={application.id}>
               <Card
-                className=" gap-0 p-0 border-none"
+                className=" gap-0 p-0 border-none px-3 lg:px-0"
               >
                 <CardHeader className='px-0'>
                   <div className="flex items-start justify-between w-full">
@@ -314,52 +314,51 @@ export default function AppliedJobsPage() {
                       <CardTitle className="text-xl font-medium">
                         {application.job.title}
                       </CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-2 lg:gap-4 text-xs lg:text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
-                          <Image src="/buildingBlack.svg" alt="build" width={14} height={14}/>
+                          <Image src="/buildingBlack.svg" alt="build" width={14} height={14} />
                           {application.job.businessProfile.companyName}
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                      
-                          {application.job.location.city},{' '}
-                          {application.job.location.state}
-                        </div>
-                        <div className="flex items-center gap-1">
-                        <Image src="/date.svg" alt="build" width={14} height={14}/>
-                          Applied {formatDate(application.createdAt)}
+                        <div className="flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Image src="/locationblack.svg" alt='location' width={14} height={14} />
+                            {application.job.location.city},{' '}
+                            {application.job.location.state}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Image src="/date.svg" alt="build" width={14} height={14} />
+                            Applied {formatDate(application.createdAt)}
+                          </div>
                         </div>
                       </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center pt-5">
-                      
-                      <Sheet>
-                        <SheetTrigger asChild>
-                          <Button variant="outline" className='rounded-full bg-[#F6F8FA] px-4 cursor-pointer'>
-                            View Details
-                            <ChevronRight className='w-4 h-4'/>
-                          </Button>
-                        </SheetTrigger>
-                        <SheetContent className="w-[600px] sm:w-[700px] sm:max-w-none">
-                          <SheetHeader>
-                            <SheetTitle className='text-nixerly-blue'>Application Details</SheetTitle>
-                            <SheetDescription>
-                              Complete details for your job application and the
-                              position.
-                            </SheetDescription>
-                          </SheetHeader>
-                          <ApplicationDetails application={application} />
-                        </SheetContent>
-                      </Sheet>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4 px-0">
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="text-sm text-muted-foreground w-11/12 line-clamp-2">
                     {application.job.description}
                   </p>
-
+                  <div className="flex items-center justify-end">
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button variant="outline" className='rounded-full border-0 lg:border shadow-none underline lg:no-underline bg-none mb-0 lg:bg-[#F6F8FA] px-4 cursor-pointer'>
+                          View Details
+                          <ChevronRight className='w-4 h-4' />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent className="w-11/12 sm:w-[700px] sm:max-w-none gap-0">
+                        <SheetHeader>
+                          <SheetTitle className='text-nixerly-blue'>Application Details</SheetTitle>
+                          <SheetDescription>
+                            Complete details for your job application and the
+                            position.
+                          </SheetDescription>
+                        </SheetHeader>
+                        <Separator/>
+                        <ApplicationDetails application={application} />
+                      </SheetContent>
+                    </Sheet>
+                  </div>
                   {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="flex items-center gap-2 text-sm">
                       <DollarSign className="h-4 w-4 text-muted-foreground" />

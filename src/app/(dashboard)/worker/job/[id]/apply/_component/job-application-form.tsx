@@ -183,7 +183,7 @@ JobApplicationFormProps) {
                             {field.value ? (
                               format(field.value, 'PPP')
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Pick a dates</span>
                             )}
                           </Button>
                         </PopoverTrigger>
@@ -197,6 +197,7 @@ JobApplicationFormProps) {
                               field.onChange(date?.toISOString())
                             }
                             initialFocus
+                            captionLayout="dropdown"
                           />
                         </PopoverContent>
                       </Popover>

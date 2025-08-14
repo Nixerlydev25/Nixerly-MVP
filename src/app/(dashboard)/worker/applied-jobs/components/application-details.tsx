@@ -64,7 +64,7 @@ function getStatusColor(status: string) {
 function ApplicationDetails({ application }: ApplicationDetailsProps) {
   return (
     <ScrollArea className="h-full pb-26">
-      <div className="space-y-6 p-6">
+      <div className="sapce-y-4 lg:space-y-6 p-2 lg:p-6">
         {/* Header */}
         <div className="space-y-4">
           <div className="flex items-start justify-between">
@@ -72,10 +72,10 @@ function ApplicationDetails({ application }: ApplicationDetailsProps) {
               <h2 className="text-lg font-bold text-nixerly-blue leading-6">{application.job.title}</h2>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Image src="/buildingBlack.svg" alt="build" width={14} height={14} />
-                <span className="font-medium">
+                <span className="font-medium text-xs lg:text-sm">
                   {application.job.businessProfile.companyName}
                 </span>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 text-xs lg:text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                   <Image src="/locationblack.svg" alt="build" width={14} height={14}/>
                     <span>

@@ -266,12 +266,10 @@ export default function Dashboard() {
                       onValueChange={handleSortChange}
                     >
                       <SelectTrigger showChevron={false} className="font-sans text-sm not-italic font-normal leading-5 tracking-tight text-[#99A0AE]">
-                        <SelectValue placeholder="Sort by" />
+                        {/* <SelectValue placeholder="Sort by" /> */}
+                        <Image src="/upDownArrow.svg" alt="arrow" width={20} height={20} className="w-5 h-5" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-[#99A0AE]" value={SortOption.RATING}>
-                          <Image src="/upDownArrow.svg" alt="arrow" width={20} height={20} className="w-5 h-5" />
-                        </SelectItem>
                         <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>Hourly Rate: Low to High</SelectItem>
                         <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>Hourly Rate: High to Low</SelectItem>
                       </SelectContent>

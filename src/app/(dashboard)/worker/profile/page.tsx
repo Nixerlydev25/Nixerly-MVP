@@ -871,20 +871,13 @@ export default function FreelancerProfileSelfView() {
           </div>
         </div>
 
-        {/* Mobile/Tablet Horizontal Tabs (below lg) */}
-        <HorizontalScrollTabs
-          items={sidebarItems}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-        />
-
         {/* Sidebar and Content Layout */}
-        <div className="grid gap-8 lg:grid-cols-4 mt-10">
-          {/* Simple Sidebar - Hidden on mobile/tablet */}
-          <div className="hidden lg:block lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl">
+        <div className="grid gap-8 grid-cols-1 lg:grid-cols-4 mt-10 ">
+          {/* Sidebar - Visible on all screen sizes */}
+          <div className="lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl py-4">
             <div className="px-8">
               <nav className="space-y-1">
-                <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
+                <p className="text-nixerly-businesslabel px-3 py-2 lg:py-6 text-base font-medium">Profile Details</p>
                 {sidebarItems.map((item) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -916,7 +909,7 @@ export default function FreelancerProfileSelfView() {
                         <p className="font-medium text-sm">{item.label}</p>
                       </div>
                       {isActive && (
-                        <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto" />
+                        <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto hidden lg:block" />
                       )}
                     </button>
                   );
@@ -925,8 +918,8 @@ export default function FreelancerProfileSelfView() {
             </div>
           </div>
 
-          {/* Main Content - Full width on mobile/tablet, 3 columns on desktop */}
-          <div className="col-span-full lg:col-span-3">
+          {/* Main Content - Full width on mobile, 3 columns on desktop */}
+          <div className="col-span-1 lg:col-span-3">
             <div className="min-h-[600px]">{renderContent()}</div>
           </div>
         </div>

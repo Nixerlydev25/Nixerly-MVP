@@ -150,22 +150,7 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
     router.push(`?${params.toString()}`);
   };
 
-  // Update filters when any value changes
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      updateFilters();
-    }, 500); // Debounce to avoid too many URL updates
-
-    return () => clearTimeout(timeoutId);
-  }, [
-    minHourlyRate,
-    maxHourlyRate,
-    minTotalEarnings,
-    maxTotalEarnings,
-    minAvgRating,
-    maxAvgRating,
-    selectedSkills,
-  ]);
+  // Removed auto-update effect since we'll use Apply button now
 
   const handleSkillSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -208,30 +193,30 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
             <div className="flex items-center justify-between px-4">
               <h2 className="text-lg font-semibold">Filters</h2>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="h-8 text-blue-600 underlined "
+                className="h-8"
                 onClick={handleClearFilters}
               >
                 Clear All
               </Button>
             </div>
-            <Separator className="my-4 w-full"  />
+            <Separator className="my-4 w-full" />
 
-   
+
 
             <div className="space-y-6 px-4">
               <Accordion
                 type="multiple"
                 defaultValue={['skills', 'hourlyRate']}
-                // collapsible
+              // collapsible
               >
-                <AccordionItem  value="skills">
+                <AccordionItem value="skills">
                   <AccordionTrigger className="text-sm font-medium py-2">
                     Skills
-                        {/* <Info /> */}
+                    {/* <Info /> */}
                   </AccordionTrigger>
-               
+
                   <AccordionContent>
                     <div className="space-y-4 p-0.5">
                       <div className="relative">
@@ -311,15 +296,35 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                   </AccordionContent>
                 </AccordionItem> */}
               </Accordion>
+
+              {/* Filter Action Buttons */}
+              <div className="mt-6 flex items-center justify-end space-x-4 pb-4">
+                {/* <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8"
+                  onClick={handleClearFilters}
+                >
+                  Clear All
+                </Button> */}
+                <Button
+                  variant="light"
+                  size="sm"
+                  className="h-8 bg-nixerly-blue text-white" 
+                  onClick={updateFilters}
+                >
+                  Apply Filters
+                </Button>
+              </div>
             </div>
           </div>
         </Card>
       </div>
       {/* Mobile Filters Panel */}
       <div className="mb-6 rounded-lg bg-white mt-4 lg:hidden">
-          <div className="grid grid-cols-2 gap-4">
-            {/* Hourly Rate */}
-            {/* <div>
+        <div className="">
+          {/* Hourly Rate */}
+          {/* <div>
               <h3 className="mb-2 font-medium">Hourly Rate</h3>
               <div className="flex gap-2">
                 <input
@@ -340,8 +345,8 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 />
               </div>
             </div> */}
-            {/* Total Earnings */}
-            {/* <div>
+          {/* Total Earnings */}
+          {/* <div>
               <h3 className="mb-2 font-medium">Total Earnings</h3>
               <div className="flex gap-2">
                 <input
@@ -362,8 +367,8 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
                 />
               </div>
             </div> */}
-            {/* Avg Rating */}
-            {/* <div>
+          {/* Avg Rating */}
+          {/* <div>
               <h3 className="mb-2 font-medium">Average Rating</h3>
               <div className="flex gap-2">
                 <input
@@ -389,48 +394,68 @@ function FiltersFeeds({ viewMode, setViewMode }: FiltersFeedsProps) {
               </div>
             </div> */}
 
-            {/* Skills */}
-            <div className="col-span-2">
-              <div className='flex gap-2'>
+          {/* Skills */}
+          <div className="col-span-2">
+            <div className='flex gap-2'>
               <h3 className="mb-2 font-medium">Skills</h3>
               {/* <Image src="/infoBusiness.svg" alt="skills" width={16} height={16} /> */}
-              <Info className='w-4 h-4 mt-1'/>
+              <Info className='w-4 h-4 mt-1' />
+            </div>
+            <div className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search skills..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={handleSkillSearchChange}
+                />
               </div>
-              <div className="space-y-4">
-                <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search skills..."
-                    className="pl-8"
-                    value={searchTerm}
-                    onChange={handleSkillSearchChange}
-                  />
-                </div>
-                <div>
-                  <div className="flex flex-col space-y-2">
-                    {visibleSkills.map((skill, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`mobile-skill-${skill.id}`}
-                          checked={selectedSkills.includes(skill.id)}
-                          onCheckedChange={(checked) =>
-                            handleSkillChange(skill.id, checked === true)
-                          }
-                        />
-                        <Label
-                          htmlFor={`mobile-skill-${skill.id}`}
-                          className="text-sm font-normal cursor-pointer"
-                        >
-                          {skill.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
+              <div>
+                <div className="flex flex-col space-y-2">
+                  {visibleSkills.map((skill, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`mobile-skill-${skill.id}`}
+                        checked={selectedSkills.includes(skill.id)}
+                        onCheckedChange={(checked) =>
+                          handleSkillChange(skill.id, checked === true)
+                        }
+                      />
+                      <Label
+                        htmlFor={`mobile-skill-${skill.id}`}
+                        className="text-sm font-normal cursor-pointer"
+                      >
+                        {skill.label}
+                      </Label>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Mobile Filter Action Buttons */}
+          <div className="flex justify-end px-4 pb-4 gap-2">
+          <Button
+                variant="outline"
+                size="sm"
+                className="h-8"
+                onClick={handleClearFilters}
+              >
+                Clear All
+              </Button>
+            <Button
+              variant="light"
+              size="sm"
+              className="h-8 bg-nixerly-blue text-white"
+              onClick={updateFilters}
+            >
+              Apply Filters
+            </Button>
+          </div>
         </div>
+      </div>
     </div>
   );
 }

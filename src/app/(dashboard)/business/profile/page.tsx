@@ -786,7 +786,7 @@ export default function BusinessProfilePage() {
                     className="h-full w-full object-cover rounded-2xl  lg:rounded-full"
                   />
                   <TooltipProvider>
-                    <Tooltip>
+                    <Tooltip>                                                                                                                                                                                                                                                                                                                                                  
                       <TooltipTrigger asChild>
                         <button
                           onClick={() =>
@@ -846,21 +846,12 @@ export default function BusinessProfilePage() {
       </div>
 
       {/* Sidebar and Content Layout */}
-      <div className="space-y-6">
-      {/* Mobile/Tablet Horizontal Tabs (below lg) */}
-      <HorizontalScrollTabs
-        items={sidebarItems}
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-      />
-
-      {/* Desktop Layout (lg and above) */}
-      <div className="hidden lg:grid gap-8 lg:grid-cols-4">
-        {/* Desktop Sidebar */}
-        <div className="lg:col-span-1 bg-[#F5F7FA] rounded-xl">
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-4">
+        {/* Sidebar (always visible) */}
+        <div className="col-span-1 bg-[#F5F7FA] rounded-xl py-3">
           <div className="px-8">
             <nav className="space-y-1">
-              <p className="text-nixerly-businesslabel px-3 py-6 text-base font-medium">Profile Details</p>
+              <p className="text-nixerly-businesslabel px-3 py-3 text-base font-medium">Profile Details</p>
               {sidebarItems.map((item) => {
                 const isActive = activeTab === item.id
                 return (
@@ -892,7 +883,7 @@ export default function BusinessProfilePage() {
                       <p className="font-medium text-sm">{item.label}</p>
                     </div>
                     {isActive && (
-                      <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto" />
+                      <Image src="/arrowLine.svg" alt="arrowLine" width={20} height={20} className="ml-auto hidden lg:flex" />
                     )}
                   </button>
                 )
@@ -901,17 +892,11 @@ export default function BusinessProfilePage() {
           </div>
         </div>
 
-        {/* Desktop Main Content */}
-        <div className="lg:col-span-3">
+        {/* Main Content */}
+        <div className="col-span-1 lg:col-span-3">
           <div className="min-h-[600px]">{renderContent()}</div>
         </div>
       </div>
-
-      {/* Mobile/Tablet Main Content */}
-      <div className="lg:hidden">
-        <div className="min-h-[400px]">{renderContent()}</div>
-      </div>
-    </div>
     </div>
   );
 }

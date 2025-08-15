@@ -178,8 +178,24 @@ export function FilterSidebar() {
   };
 
   const clearFilters = () => {
+    // Clear the temporary skills state which controls the checkbox UI
     setTempSkills([]);
-    router.push("?");
+    // Reset the search term and filtered skills
+    setSearchTerm("");
+    setFilteredSkills(onboardingOptions.skills);
+    
+    // Force a router refresh to update the UI state
+    router.push("?", { scroll: false });
+    // Force reload the page data without full page refresh
+    router.refresh();
+    
+    // Close the filter sidebar in mobile view if it's open
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      const closeButton = document.querySelector('[data-state="open"] button[aria-label="Close"]');
+      if (closeButton instanceof HTMLElement) {
+        closeButton.click();
+      }
+    }
   };
 
   // const hasActiveFilters =
@@ -372,17 +388,16 @@ export function FilterSidebar() {
         </Accordion>
         
         {/* Apply button for skills */}
-        {tempSkills.length > 0 && (
           <div className="mt-4 flex justify-end">
             <Button
               onClick={applySkillsFilter}
               className="bg-nixerly-blue hover:bg-nixerly-blue/90 text-white"
             >
-              Apply Skills ({tempSkills.length})
+              Apply Filters
             </Button>
           </div>
-        )}
       </CardContent>
     </Card>
   );
 }
+

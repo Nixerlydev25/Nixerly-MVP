@@ -10,7 +10,7 @@ import {
   MapPin,
   User,
   Clock,
-  CalendarIcon,
+  Calendar,
   Briefcase,
   ChevronLeft,
 } from 'lucide-react';
@@ -23,10 +23,6 @@ import { useGetSingleJob } from '@/hook/jobs/jobs.hooks';
 import JobAlreadyApplied from './_component/job-already-applied';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from '@/components/ui/separator';
-import { useState } from 'react';
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
 
 const applicationData = {
   applicationDate: '2023-05-15T10:30:00Z',
@@ -34,7 +30,6 @@ const applicationData = {
 };
 
 export default function ApplyPage() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
   const { id } = useParams<{ id: string }>();
   const { data: jobDetails, isLoading } = useGetSingleJob(id);
 
@@ -199,30 +194,17 @@ export default function ApplyPage() {
                     )}
 
                   <div className="flex items-start gap-3">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button
-                          type="button"
-                          className="h-8 w-8 flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-                        >
-                          <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                          captionLayout="dropdown"
-                        />
-                      </PopoverContent>
-                    </Popover>
-
+                    <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
                       <p className="text-base leading-5 text-nixerly-blue font-medium">Start Date</p>
                       <p className="text-muted-foreground">
-                        {date ? format(date, "MMMM d, yyyy") : "Immediate"}
+                        {jobDetails.startDate
+                          ? new Date(jobDetails.startDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })
+                          : 'Immediate'}
                       </p>
                     </div>
                   </div>

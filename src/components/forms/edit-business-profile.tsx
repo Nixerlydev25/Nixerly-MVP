@@ -87,7 +87,7 @@ export function EditBusinessProfileForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4 px-6">
+        <div className="space-y-4 p-6">
           <FormField
             control={form.control}
             name="phoneNumber"

@@ -69,7 +69,7 @@ export function EditBusinessProfileModal() {
             <DialogTitle className="text-nixerly-blue mb-1 text-start">
               Edit Business Profile
             </DialogTitle>
-            <DialogDescription className="w-4/5 text-start">
+            <DialogDescription className=" max-w-11/12 text-start">
               Update your business profile information. Click save when
               you&apos;re done.
             </DialogDescription>

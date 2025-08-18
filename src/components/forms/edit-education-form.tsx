@@ -137,8 +137,8 @@ export function EditEducationForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-6 px-4 rounded-2xl">
-          <div className="items-center justify-between sticky top-0 bg-white py-2 z-10">
+        <div className="space-y-6 p-4 rounded-2xl">
+          <div className="items-center justify-between sticky top-0 bg-white z-10">
             <h3 className="text-lg font-medium flex items-center gap-2 text-nixerly-businesslabel">
             Add Education
             </h3>

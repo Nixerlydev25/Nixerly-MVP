@@ -7,6 +7,7 @@ import { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks"
 import { Separator } from "../ui/separator"
+import Image from "next/image"
 
 type FormValues = {
   title?: string
@@ -20,13 +21,13 @@ type FormValues = {
 
 export function EditProfileModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
-  const {mutateAsync: updateWorkerProfileDetails} = useUpdateWorkerProfile()
+  const { mutateAsync: updateWorkerProfileDetails } = useUpdateWorkerProfile()
   const isOpen = activeModal === ModalType.EDIT_PROFILE
   const profile = modalData as unknown as WorkerProfile
 
   const handleSubmit = async (values: FormValues) => {
     // TODO: Implement profile update
-    console.log({values})
+    console.log({ values })
     updateWorkerProfileDetails({
       title: values.title,
       description: values.description,
@@ -40,18 +41,17 @@ export function EditProfileModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:min-w-[600px]">
         <DialogHeader className="flex flex-row px-4 pt-4">
-        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">01</span>
+          <div className="flex items-center justify-center p-3 lg:p-4 border border-gray-300 rounded-full">
+            <Image src="/edit.svg" alt='edit' width={20} height={20} />
           </div>
           <div>
-          <DialogTitle className="text-nixerly-blue mb-2">Edit Profile</DialogTitle>
-          <DialogDescription>Update your business profile information. Click save  <br />
-          when you're done.</DialogDescription>
+            <DialogTitle className="text-nixerly-blue mb-2">Edit Profile</DialogTitle>
+            <DialogDescription className="">Update your business profile information. Click save when you're done.</DialogDescription>
           </div>
         </DialogHeader>
-        <Separator/>
+        <Separator />
         <EditProfileForm
           onSubmit={handleSubmit}
           defaultValues={{

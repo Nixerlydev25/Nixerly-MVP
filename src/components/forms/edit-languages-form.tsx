@@ -85,7 +85,7 @@ export function EditLanguagesForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full rounded-2xl">
-        <div className="flex-none  px-4">
+        <div className="flex-none p-4">
           <div className="items-center">
             <h3 className="text-lg font-medium mb-2">Languages</h3>
             {languages.length !== 0 && (

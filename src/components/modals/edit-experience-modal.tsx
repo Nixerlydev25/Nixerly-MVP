@@ -1,12 +1,13 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay, DialogDescription } from "@/components/ui/dialog"
 import { EditExperienceForm } from "@/components/forms/edit-experience-form"
 import { useModalStore } from "@/store/modal.store"
 import { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { useUpdateAllExperience } from "@/hook/experiences/experiences.hook"
 import { Separator } from "../ui/separator"
+import Image from "next/image"
 
 type FormValues = {
   experience: Array<{
@@ -44,10 +45,15 @@ export function EditExperienceModal() {
         <DialogOverlay />
         <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader className="flex flex-row items-center gap-2">
-            <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
-              <span className="text-lg sm:text-base font-medium">01</span>
+            <div className="flex items-center justify-center p-3 lg:p-4 border border-gray-300 rounded-full">
+              <Image src="/edit.svg" alt='edit' width={20} height={20} />
             </div>
-            <DialogTitle>Edit Experience</DialogTitle>
+            <div className="gap-2">
+              <DialogTitle className="pb-1">Edit Experience</DialogTitle>
+              <DialogDescription className="w-11/12 lg:w-full" >
+                Update your professional experience to keep your profile up to date.
+              </DialogDescription>
+            </div>
           </DialogHeader>
           <Separator />
           <div className="overflow-y-auto pr-6 -mr-6">

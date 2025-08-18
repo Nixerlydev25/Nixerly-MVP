@@ -79,7 +79,7 @@ export function EditProfileForm({
   return (
     <Form {...form}>
      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      <div className="px-4">
+      <div className="p-4">
           <FormField
             control={form.control}
             name="title"
@@ -180,7 +180,7 @@ export function EditProfileForm({
           />
           </div>
         <Separator/>
-          <div className="flex justify-end space-x-3 p-4">
+          <div className="flex justify-end space-x-3 px-4 pb-4">
             <Button
               type="button"
               variant="outline"

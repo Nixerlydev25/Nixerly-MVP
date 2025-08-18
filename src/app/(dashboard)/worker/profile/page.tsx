@@ -399,7 +399,7 @@ export default function FreelancerProfileSelfView() {
             <div className="flex flex-col">
               {workerProfile.certificates.slice(0, 4).map((certificate) => (
                 <Card key={certificate.id} className="h-full border-none">
-                  <CardContent className="flex gap-5 lg:gap-20 h-full px-0 lg:px-4">
+                  <CardContent className="flex gap-5 lg:gap-20 h-full lg:px-0">
                     {/* Text content on the left */}
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -875,7 +875,7 @@ export default function FreelancerProfileSelfView() {
         <div className="grid gap-8 grid-cols-1 lg:grid-cols-4 mt-10 ">
           {/* Sidebar - Visible on all screen sizes */}
           <div className="lg:col-span-1 bg-[#F5F7FA] rounded-t-2xl py-4">
-            <div className="px-8">
+            <div className="px-3 lg:px-8">
               <nav className="space-y-1">
                 <p className="text-nixerly-businesslabel px-3 py-2 lg:py-6 text-base font-medium">Profile Details</p>
                 {sidebarItems.map((item) => {

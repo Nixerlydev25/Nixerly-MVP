@@ -123,7 +123,7 @@ export function EditCertificatesForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col h-[calc(100vh-200px)]"
       >
-        <div className="flex-1 overflow-y-auto px-4 pb-4">
+        <div className="flex-1 overflow-y-auto p-4">
           <div className="space-y-6">
             {displayedCertificates.length > 0 && (
               <div className="space-y-2">

@@ -12,6 +12,7 @@ import { ModalType } from '@/types/model';
 import { EditBusinessAboutForm } from '../forms/edit-business-about-form';
 import { useUpdateBusinessProfile } from '@/hook/user/user.hooks';
 import { Separator } from '../ui/separator';
+import Image from 'next/image';
 
 export function EditAboutModal() {
   const { mutateAsync } = useUpdateBusinessProfile(true);
@@ -31,8 +32,8 @@ export function EditAboutModal() {
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader className='px-6 pt-6 flex flex-row items-center gap-3 '>
-        <div className="flex items-center justify-center h-10 w-10 md:w-14 md:h-11.5 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">01</span>
+        <div className="flex items-center p-3 lg:p-4 justify-center border border-gray-300 rounded-full">
+            <Image src="/edit.svg" alt='edit' width={20} height={20}/>
           </div>
           <div>
           <DialogTitle className='text-nixerly-blue mb-1'>Edit About Section</DialogTitle>

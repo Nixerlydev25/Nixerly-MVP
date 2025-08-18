@@ -200,7 +200,7 @@ export default function BusinessProfilePage() {
                     ))}
                   <div
                     onClick={() =>
-                      openModal(ModalType.IMAGE_CAROUSEL, {
+                      openModal(ModalType.IMAGE_CAROUSEL, {                                                                                 
                         images: businessProfileData.businessProfile.assets,
                         startIndex: 0,
                       })
@@ -256,7 +256,7 @@ export default function BusinessProfilePage() {
     <div className="space-y-6">
       {/* Contact Information Section */}
       <Card className="border-nixerly-businessborder">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 px-6">
           <CardTitle className="text-xl font-semibold text-nixerly-blue">
             Contact Information
           </CardTitle>
@@ -340,7 +340,7 @@ export default function BusinessProfilePage() {
 
       {/* Business Owner Section */}
       <Card className="border-nixerly-businessborder">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between px-6">
           <CardTitle className="text-xl font-semibold text-nixerly-blue">
             Business Owner
           </CardTitle>
@@ -489,7 +489,7 @@ export default function BusinessProfilePage() {
 
       {/* Company Overview Section */}
       <Card className="">
-        <CardHeader>
+        <CardHeader className="px-6">
           <CardTitle className="text-lg lg:text-2xl font-bold text-nixerly-blue">
             Company Overview
           </CardTitle>
@@ -500,7 +500,7 @@ export default function BusinessProfilePage() {
             <p className="font-medium base lg::text-lg leading-7 mb-4">
               Company Overview
             </p>
-            <div className="flex justify-between px-0 lg:px-5">
+            <div className="flex justify-between ">
               <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Industry
               </h3>
@@ -508,7 +508,7 @@ export default function BusinessProfilePage() {
                 {businessProfileData?.businessProfile.industry}
               </p>
             </div>
-            <div className="flex justify-between px-0 lg:px-5">
+            <div className="flex justify-between ">
               <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Founded
               </h3>
@@ -517,7 +517,7 @@ export default function BusinessProfilePage() {
               </p>
             </div>
 
-            <div className="flex justify-between px-0 lg:px-5">
+            <div className="flex justify-between ">
               <h3 className="text-sm lg:text-base normal text-muted-foreground mb-2">
                 Company Size
               </h3>
@@ -526,7 +526,7 @@ export default function BusinessProfilePage() {
               </p>
             </div>
 
-            <div className="flex justify-between px-0 lg:px-5">
+            <div className="flex justify-between ">
               <h3 className="text-sm lg:text-base font-normal text-muted-foreground mb-2">
                 Location
               </h3>
@@ -546,7 +546,7 @@ export default function BusinessProfilePage() {
     <div className="space-y-8 ">
       <Card>
         <CardContent className="px-0">
-          <div className="flex items-center justify-between p-5">
+          <div className="flex items-center justify-between pb-6 px-6">
             <h2 className="text-xl font-semibold lead-5 text-nixerly-blue">
               Job Postings
             </h2>
@@ -579,8 +579,8 @@ export default function BusinessProfilePage() {
             <>
               <div className="space-y-4">
                 {jobs?.jobs?.map((job) => (
-                  <div key={job.id} className="p-6">
-                    <div className="flex items-start justify-between pb-5">
+                  <div key={job.id} className="py-6">
+                    <div className="flex items-start justify-between pb-5 px-6">
                       <div className="flex items-start gap-4">
                         <div>
                           <h4 className="font-medium text-base leading-5 tracking-wide">
@@ -849,7 +849,7 @@ export default function BusinessProfilePage() {
       <div className="grid gap-8 grid-cols-1 lg:grid-cols-4">
         {/* Sidebar (always visible) */}
         <div className="col-span-1 bg-[#F5F7FA] rounded-xl py-3">
-          <div className="px-8">
+          <div className="px-2 lg:px-8">
             <nav className="space-y-1">
               <p className="text-nixerly-businesslabel px-3 py-3 text-base font-medium">Profile Details</p>
               {sidebarItems.map((item) => {

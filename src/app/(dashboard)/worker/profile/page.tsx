@@ -194,7 +194,7 @@ export default function FreelancerProfileSelfView() {
 
       {/* About Us section */}
       <section className="border rounded-2xl">
-        <div className="flex items-center justify-between mb-4 p-4">
+        <div className="flex items-center justify-between p-4">
           <h2 className="text-xl font-semibold text-blue-600">About Us</h2>
           <TooltipProvider>
             <Tooltip>
@@ -399,7 +399,7 @@ export default function FreelancerProfileSelfView() {
             <div className="flex flex-col">
               {workerProfile.certificates.slice(0, 4).map((certificate) => (
                 <Card key={certificate.id} className="h-full border-none">
-                  <CardContent className="flex gap-5 lg:gap-20 h-full lg:px-0">
+                  <CardContent className="flex gap-5 lg:gap-20 h-full px-0 lg:px-0">
                     {/* Text content on the left */}
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center gap-2 mb-1">

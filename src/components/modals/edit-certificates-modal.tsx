@@ -12,6 +12,7 @@ import { ModalType } from '@/types/model';
 import { EditCertificatesForm } from '../forms/edit-certificates-form';
 import { Certificate } from '@/types/worker.types';
 import { Separator } from '../ui/separator';
+import Image from 'next/image';
 
 export function EditCertificatesModal() {
   const { activeModal, modalData, closeModal } = useModalStore();
@@ -22,8 +23,8 @@ export function EditCertificatesModal() {
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className='flex flex-row items-center'>
-        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">01</span>
+        <div className="flex items-center justify-center p-3 lg:p-4 border border-gray-300 rounded-full">
+            <Image src="/edit.svg" alt='edit' width={20} height={20}/>
           </div>
           <div className='space-y-2 ml-2'>
           <DialogTitle>Manage Certificates</DialogTitle>

@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogHeader } f
 import { useModalStore } from "@/store/modal.store";
 import type { PortfolioModalData } from "@/store/modal.store";
 import { Separator } from "../ui/separator";
+import Image from "next/image";
 
 export function EditPortfolioModal() {
   const { closeModal, modalData } = useModalStore();
@@ -13,8 +14,8 @@ export function EditPortfolioModal() {
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] flex flex-col">
         <DialogHeader>
         <div className="flex flex-row items-center gap-3">
-        <div className="flex items-center justify-center h-10 w-10  md:w-14 md:h-14 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">01</span>
+        <div className="flex items-center justify-center p-3 lg:p-4 border border-gray-300 rounded-full">
+            <Image src="/edit.svg" alt='edit' width={20} height={20}/>
           </div>
           <div>
           <DialogTitle>Edit Portfolio</DialogTitle>

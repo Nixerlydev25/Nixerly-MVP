@@ -12,6 +12,7 @@ import { ModalType } from "@/types/model";
 import { EditBusinessProfileForm } from "../forms/edit-business-profile";
 import { useUpdateBusinessProfile } from "@/hook/user/user.hooks";
 import { Separator } from "../ui/separator";
+import Image from "next/image";
 
 export interface EditBusinessProfileModalData {
   industry: string;
@@ -61,8 +62,8 @@ export function EditBusinessProfileModal() {
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader className="flex flex-row items-center gap-3 px-6 pt-6">
-          <div className="flex items-center justify-center h-10 w-16 md:w-14 md:h-14 border border-gray-300 rounded-full">
-            <span className="text-lg sm:text-base font-medium">01</span>
+          <div className="flex items-center justify-center p-3 lg:p-4 border border-gray-300 rounded-full">
+            <Image src="/edit.svg" alt='edit' width={20} height={20}/>
           </div>
           <div>
             <DialogTitle className="text-nixerly-blue mb-1 text-start">

@@ -308,8 +308,8 @@ export default function PostJobPage() {
                   <div className="flex flex-row md:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6">
                     {/* Number Badge */}
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
-                        <span className="text-black font-semibold text-base sm:text-lg p-2">01</span>
+                      <div className="p-3 lg:p-4 border border-nixerly-bussinessborder rounded-full flex items-center justify-center">
+                        <Image src="/editPara.svg" alt='job' width={20} height={20}/>
                       </div>
                     </div>
                     {/* Content */}

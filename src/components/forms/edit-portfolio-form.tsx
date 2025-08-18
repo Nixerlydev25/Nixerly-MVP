@@ -161,7 +161,7 @@ export function EditPortfolioForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Existing Portfolios Section */}
         {displayedPortfolios.length > 0 && (
-          <div className="space-y-4 px-4">
+          <div className="space-y-4 p-4">
             <h3 className="text-lg font-medium">Existing Portfolio Projects</h3>
             <div className="space-y-4">
               {displayedPortfolios.map((item) => (

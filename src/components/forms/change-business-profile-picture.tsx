@@ -11,6 +11,7 @@ import { useBusinessProfilePicture } from "@/hook/business/business.hook";
 import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { ImageCropper } from "@/components/common/ImageCropper";
+import { Separator } from "../ui/separator";
 
 interface ChangeBusinessProfilePictureFormProps {
   currentProfilePicture: string;
@@ -92,12 +93,7 @@ export function ChangeBusinessProfilePictureForm({
 
   return (
     <>
-      <DialogDescription>
-        Upload a new profile picture. The image should be square and at least
-        400x400 pixels.
-      </DialogDescription>
-
-      <div className="flex flex-col items-center justify-center gap-4 py-4">
+      <div className="flex flex-col items-center justify-center gap-4 p-4">
         {isCropping && previewUrl ? (
           <ImageCropper
             imageUrl={previewUrl}
@@ -143,7 +139,9 @@ export function ChangeBusinessProfilePictureForm({
         )}
       </div>
 
-      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between justify-center">
+      <Separator />
+
+      <DialogFooter className="flex flex-col sm:flex-row justify-end pt-4">
       {/* <Button variant="outline" onClick={onClose} disabled={isPending} className="lg:w-fit lg:mx-auto lg:px-7">
           Cancel
         </Button> */}
@@ -151,7 +149,7 @@ export function ChangeBusinessProfilePictureForm({
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || isPending}
-            className="bg-nixerly-blue mx-auto"
+            className="bg-nixerly-blue"
           >
             {isPending ? (
               <>

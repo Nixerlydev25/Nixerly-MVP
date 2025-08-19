@@ -86,14 +86,14 @@ export function ImageCropper({
           src={imageUrl}
           onLoad={onImageLoad}
           alt="Crop me"
-          className="max-h-[400px] w-auto"
+          className="h-[400px] w-full"
         />
       </ReactCrop>
-      <div className="flex gap-4">
+      <div className="flex gap-4 justify-end">
         <Button variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button onClick={handleCropComplete} className="bg-blue-600 hover:bg-blue-700">
+        <Button onClick={handleCropComplete} className="bg-nixerly-blue">
           Apply Crop
         </Button>
       </div>

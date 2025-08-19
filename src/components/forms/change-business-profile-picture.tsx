@@ -28,7 +28,7 @@ export function ChangeBusinessProfilePictureForm({
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Validate file types
-    const validFiles = acceptedFiles.filter(file => 
+    const validFiles = acceptedFiles.filter(file =>
       file.type.startsWith('image/')
     );
 
@@ -143,15 +143,15 @@ export function ChangeBusinessProfilePictureForm({
         )}
       </div>
 
-      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between">
-        <Button variant="outline" onClick={onClose} disabled={isPending}>
+      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between justify-center">
+      {/* <Button variant="outline" onClick={onClose} disabled={isPending} className="lg:w-fit lg:mx-auto lg:px-7">
           Cancel
-        </Button>
+        </Button> */}
         {!isCropping && (
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || isPending}
-            className="bg-nixerly-blue"
+            className="bg-nixerly-blue mx-auto"
           >
             {isPending ? (
               <>

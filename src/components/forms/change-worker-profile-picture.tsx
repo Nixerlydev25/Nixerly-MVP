@@ -131,17 +131,16 @@ export function ChangeWorkerProfilePictureForm({
           </>
         )}
       </div>
-<Separator/>
-
+      <Separator />
       <DialogFooter className="flex flex-col sm:flex-row sm:justify-between mt-4">
-        <Button variant="outline" onClick={onClose} disabled={isPending}>
+        {/* <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
-        </Button>
+        </Button> */}
         {!isCropping && selectedFile && (
           <Button
             onClick={handleUpload}
             disabled={isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-nixerly-blue"
           >
             {isPending ? (
               <>

@@ -194,7 +194,7 @@ export default function FeaturesSection() {
                 <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
                   <Image src={feature.icon || "/placeholder.svg"} alt={feature.title} width={54} height={54} />
                 </div>
-                <CardTitle className="text-xl font-semibold text-nixerly-darkgray">{feature.title}</CardTitle>
+                <CardTitle className="text-xl font-semibold text-nixerly-darkgray px-6">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-nixerly-darkgray leading-relaxed">{feature.description}</p>
@@ -229,7 +229,7 @@ export default function FeaturesSection() {
                       <div className="mb-4 relative flex h-16 w-16 items-center justify-center">
                         <Image src={feature.icon || "/placeholder.svg"} alt={feature.title} width={54} height={54} />
                       </div>
-                      <CardTitle className="text-xl font-semibold text-nixerly-darkgray">{feature.title}</CardTitle>
+                      <CardTitle className="text-xl font-semibold text-nixerly-darkgray px-4">{feature.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-nixerly-darkgray leading-relaxed">{feature.description}</p>

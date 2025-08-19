@@ -15,7 +15,8 @@ import { UpgradePro } from "./upgrade-pro";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function DashboardSidebar() {
+// Base sidebar component with shared logic
+function BaseSidebar({ className = "" }: { className?: string }) {
   const { user, isLoading } = useUser();
   const pathname = usePathname();
   const { isOpen, close } = useSidebarStore();
@@ -87,71 +88,90 @@ export function DashboardSidebar() {
   const links = isBusinessProfile ? businessLinks : workerLinks;
 
   return (
+    <aside className={cn("w-64 bg-[#F8F8FC] min-h-screen flex flex-col overflow-hidden", className)}>
+      <div className="p-4 flex items-center justify-between">
+        <Link href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED} className="flex items-center gap-2">
+          <Hammer className="h-8 w-8 text-blue-600" />
+          <span className="text-lg font-bold text-blue-600">Nixerly</span>
+        </Link>
+        <button
+          onClick={close}
+          className="lg:hidden p-2 hover:bg-gray-200 rounded-md transition-colors"
+        >
+          <X className="h-5 w-5 text-gray-600" />
+        </button>
+      </div>
+      <div className="p-6">
+        <nav className="space-y-1">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={handleLinkClick}
+                className={cn(
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                  isActive
+                    ? "bg-[#1E64D31A] text-nixerly-blue"
+                    : "hover:bg-[#1E64D31A] text-muted-foreground"
+                )}
+              >
+                <span
+                  className={cn(
+                    "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
+                    isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-[#1E64D31A]"
+                  )}
+                >
+                  <Image
+                    src={link.image}
+                    alt={link.label}
+                    width={20}  
+                    height={20}
+                    className={isActive ? "filter invert brightness-0" : ""}
+                  />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm">{link.label}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+      <div className="mt-auto">
+        {/* <UpgradePro /> */}
+      </div>
+    </aside>
+  );
+}
+
+// Mobile sidebar with animation
+export function MobileSidebar() {
+  const { isOpen } = useSidebarStore();
+
+  return (
     <AnimatePresence mode="wait">
       {isOpen && (
-        <motion.aside
+        <motion.div
           initial={{ x: -256, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -256, opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed lg:relative z-50 w-64 bg-[#F8F8FC] min-h-screen flex flex-col overflow-hidden shadow-lg lg:shadow-none"
+          className="lg:hidden fixed left-0 top-0 z-50"
         >
-          <div className="p-4 flex items-center justify-between">
-            <Link href={isBusinessProfile ? ROUTES.BUSINESS_FEED : ROUTES.WORKER_FEED} className="flex items-center gap-2">
-              <Hammer className="h-8 w-8 text-blue-600" />
-              <span className="text-lg font-bold text-blue-600">Nixerly</span>
-            </Link>
-            <button
-              onClick={close}
-              className="lg:hidden p-2 hover:bg-gray-200 rounded-md transition-colors"
-            >
-              <X className="h-5 w-5 text-gray-600" />
-            </button>
-          </div>
-          <div className="p-6">
-            <nav className="space-y-1">
-              {links.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleLinkClick}
-                    className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
-                      isActive
-                        ? "bg-[#1E64D31A] text-nixerly-blue"
-                        : "hover:bg-[#1E64D31A] text-muted-foreground"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "h-8 w-8 flex items-center justify-center rounded-md transition-colors",
-                        isActive ? "bg-nixerly-blue text-white border-nixerly-blue" : "bg-[#1E64D31A]"
-                      )}
-                    >
-                      <Image
-                        src={link.image}
-                        alt={link.label}
-                        width={20}  
-                        height={20}
-                        className={isActive ? "filter invert brightness-0" : ""}
-                      />
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{link.label}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-          {/* Upgrade Pro Card at the bottom */}
-          <div className="mt-auto">
-            {/* <UpgradePro /> */}
-          </div>
-        </motion.aside>
+          <BaseSidebar className="shadow-lg" />
+        </motion.div>
       )}
     </AnimatePresence>
   );
-} 
+}
+
+// Desktop sidebar (always visible)
+export function DesktopSidebar() {
+  return (
+    <div className="hidden lg:block fixed left-0 top-0 h-screen">
+      <BaseSidebar />
+    </div>
+  );
+}

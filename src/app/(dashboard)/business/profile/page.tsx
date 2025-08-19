@@ -200,7 +200,7 @@ export default function BusinessProfilePage() {
                     ))}
                   <div
                     onClick={() =>
-                      openModal(ModalType.IMAGE_CAROUSEL, {                                                                                 
+                      openModal(ModalType.IMAGE_CAROUSEL, {
                         images: businessProfileData.businessProfile.assets,
                         startIndex: 0,
                       })
@@ -374,7 +374,7 @@ export default function BusinessProfilePage() {
                 <p className="text-lg text-muted-foreground ">
                   {businessProfileData?.role
                     ? businessProfileData.role.charAt(0) +
-                      businessProfileData.role.slice(1).toLowerCase()
+                    businessProfileData.role.slice(1).toLowerCase()
                     : ""}
                 </p>
               </div>
@@ -737,42 +737,10 @@ export default function BusinessProfilePage() {
         {/* Profile Card */}
         <div className="relative bg-nixerly-blue overflow-hidden rounded-xl border custom-gradient-right">
           {/* Overlay if any */}
-          <div className="absolute top-4 right-4">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border border-nixerly-bussinessborder rounded-full"
-                    onClick={() =>
-                      openModal(
-                        ModalType.EDIT_BUSINESS_PROFILE,
-                        businessProfileData?.businessProfile as unknown as {
-                          [key: string]: unknown;
-                        }
-                      )
-                    }
-                  >
-                    <Image
-                      src="/editPara.svg"
-                      alt="image"
-                      width={16}
-                      height={16}
-                    />
-                    Edit Profile
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Edit your business profile details</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
           <div className="relative px-4 py-12 lg:px-8 lg:py-10">
             <div className="flex gap-6 flex-row md:items-center md:justify-between">
               {/* Left side - Profile info */}
-              <div className="flex  gap-3 lg:gap-6 flex-row md:items-center md:gap-8">
+              <div className="flex justify-between w-full gap-3 lg:gap-6 flex-row md:gap-8">
                 {/* Profile Picture */}
                 <div className="relative z-40 h-24 w-24 overflow-visible mt-3 lg:mt-0 md:h-32 md:w-32">
                   <img
@@ -786,7 +754,7 @@ export default function BusinessProfilePage() {
                     className="h-full w-full object-cover rounded-2xl  lg:rounded-full"
                   />
                   <TooltipProvider>
-                    <Tooltip>                                                                                                                                                                                                                                                                                                                                                  
+                    <Tooltip>
                       <TooltipTrigger asChild>
                         <button
                           onClick={() =>
@@ -818,20 +786,20 @@ export default function BusinessProfilePage() {
                     {businessProfileData?.businessProfile.companyName}
                   </h2>
                   <div className="flex flex-col flex-wrapr text-sm font-normal leading-5 tracking-wide">
-                  <span className=" text-[10px] lg:text-sm mb-1.5 font-normal leading-5">
+                    <span className=" text-[10px] lg:text-sm mb-1.5 font-normal leading-5">
                       <span>
                         {businessProfileData?.businessProfile.industry}
                       </span>
                     </span>
                     <span className="flex items-center gap-1">
                       <span className="text-[10px] lg:text-sm flex gap-2 font-normal leading-5">
-                        <Image  src="/locationWhite.svg" alt="location" width={16} height={16}/>
+                        <Image src="/locationWhite.svg" alt="location" width={16} height={16} />
                         {businessProfileData?.businessProfile.city},{" "}
                         {businessProfileData?.businessProfile.state},{" "}
                         {businessProfileData?.businessProfile.country}
                       </span>
                     </span>
-                   
+
                     {/* <span className="flex items-center gap-1">
                       <span>Est. {businessProfileData?.businessProfile.yearFounded}</span>
                     </span> */}
@@ -839,6 +807,38 @@ export default function BusinessProfilePage() {
                 </div>
 
                 {/* Right side - Edit Button */}
+                <div className="">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border border-nixerly-bussinessborder rounded-full"
+                          onClick={() =>
+                            openModal(
+                              ModalType.EDIT_BUSINESS_PROFILE,
+                              businessProfileData?.businessProfile as unknown as {
+                                [key: string]: unknown;
+                              }
+                            )
+                          }
+                        >
+                          <Image
+                            src="/editPara.svg"
+                            alt="image"
+                            width={16}
+                            height={16}
+                          />
+                          Edit Profile
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Edit your business profile details</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
             </div>
           </div>

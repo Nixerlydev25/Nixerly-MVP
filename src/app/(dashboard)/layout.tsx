@@ -1,40 +1,20 @@
-"use client";
-
-import { DashboardSidebar } from "@/components/common/dashboard-sidebar";
+import { MobileSidebar, DesktopSidebar } from "@/components/common/dashboard-sidebar";
 import { DashboardHeader } from "@/components/common/dashboard-header";
 import { SidebarBackdrop } from "@/components/common/sidebar-backdrop";
-import { useSidebarStore } from "@/store/sidebar.store";
-import { useEffect } from "react";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isOpen, setOpen } = useSidebarStore();
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setOpen(true);
-      } else {
-        setOpen(false);
-      }
-    };
-
-    handleResize(); // Set initial state
-    window.addEventListener('resize', handleResize);
-    
-    return () => window.removeEventListener('resize', handleResize);
-  }, [setOpen]);
-
   return (
     <div className="min-h-screen flex mt-0 lg:mt-3">
       <SidebarBackdrop />
-      <DashboardSidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-0">
+      <MobileSidebar />
+      <DesktopSidebar />
+      <div className="flex-1 lg:ml-64 transition-all duration-300">
         <DashboardHeader />
-        <main className="bg-white border-l min-h-[calc(100vh-4rem)] px-2">{children}</main>
+        <main className="bg-white lg:border-l min-h-[calc(100vh-4rem)] px-2 lg:px-6">{children}</main>
       </div>
     </div>
   );

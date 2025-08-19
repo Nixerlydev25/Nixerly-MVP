@@ -1,11 +1,12 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useModalStore } from "@/store/modal.store"
 import type { WorkerProfile } from "@/types/worker.types"
 import { ModalType } from "@/types/model"
 import { ChangeWorkerProfilePictureForm } from "../forms/change-worker-profile-picture"
 import { Separator } from "../ui/separator"
+import { CameraIcon } from "lucide-react"
 
 export function ChangeWorkerProfilePictureModal() {
   const { activeModal, modalData, closeModal } = useModalStore()
@@ -22,10 +23,19 @@ export function ChangeWorkerProfilePictureModal() {
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader className="p-4">
-          <DialogTitle>Change Profile Picture</DialogTitle>
+        <DialogHeader className="p-4 flex flex-row">
+          <div className="flex items-center h-12 w-16 justify-center border border-gray-300 rounded-full">
+            <CameraIcon className="w-5 h-5" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <DialogTitle className="text-nixerly-blue">Change Profile Picture</DialogTitle>
+            <DialogDescription className="w-11/12">
+              Upload a new profile picture. The image should be square and at least
+              400x400 pixels.
+            </DialogDescription>
+          </div>
         </DialogHeader>
-        <Separator/>
+        <Separator />
         <div>
           <ChangeWorkerProfilePictureForm
             currentProfilePicture={profile?.profilePicture || ""}

@@ -89,12 +89,7 @@ export function ChangeWorkerProfilePictureForm({
 
   return (
     <>
-      <DialogDescription className="p-4">
-        Upload a new profile picture. The image should be square and at least
-        400x400 pixels.
-      </DialogDescription>
-
-      <div className="flex flex-col items-center justify-center gap-4 py-4">
+      <div className="flex flex-col items-center justify-center gap-4 p-4">
         {isCropping && previewUrl ? (
           <ImageCropper
             imageUrl={previewUrl}
@@ -132,7 +127,7 @@ export function ChangeWorkerProfilePictureForm({
         )}
       </div>
       <Separator />
-      <DialogFooter className="flex flex-col sm:flex-row sm:justify-between mt-4">
+      <DialogFooter className="flex flex-col sm:flex-row justify-end mt-4">
         {/* <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
         </Button> */}

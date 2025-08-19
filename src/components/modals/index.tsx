@@ -22,6 +22,7 @@ import { ModalType } from "@/types/model";
 import ContactModal from "./contact-modal";
 import { EditPortfolioModal } from "./edit-portfolio-modal";
 import { EditBusinessOwnerModal } from './edit-business-owner-modal';
+import { ChangeBusinessProfilePictureModal } from "./change-business-profile-picture-modal";
 
 const modalComponents = {
   [ModalType.EDIT_PROFILE]: EditProfileModal,
@@ -44,6 +45,8 @@ const modalComponents = {
   [ModalType.CONTACT_MODAL]: ContactModal,
   [ModalType.EDIT_PORTFOLIO]: EditPortfolioModal,
   [ModalType.EDIT_BUSINESS_OWNER]: EditBusinessOwnerModal,
+  [ModalType.CHANGE_BUSINESS_PROFILE_PICTURE]: ChangeBusinessProfilePictureModal
+
 } as const;
 
 export function Modals() {

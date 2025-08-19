@@ -720,8 +720,6 @@ export default function BusinessProfilePage() {
 
   return (
     <div className="container mx-auto px-0 lg:px-4 py-8">
-      <ChangeBusinessProfilePictureModal />
-
       {/* Profile Banner - Full Width at Top */}
       <div className="mx-auto pb-10">
         {/* Header */}

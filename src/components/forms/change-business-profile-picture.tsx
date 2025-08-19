@@ -101,7 +101,7 @@ export function ChangeBusinessProfilePictureForm({
         {isCropping && previewUrl ? (
           <ImageCropper
             imageUrl={previewUrl}
-            onCropComplete={handleCropComplete}
+            onComplete={handleCropComplete}
             onCancel={() => {
               removeImage();
               setIsCropping(false);

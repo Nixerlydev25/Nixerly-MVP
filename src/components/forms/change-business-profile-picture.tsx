@@ -139,9 +139,9 @@ export function ChangeBusinessProfilePictureForm({
         )}
       </div>
 
-      <Separator />
+      {/* <Separator /> */}
 
-      <DialogFooter className="flex flex-col sm:flex-row justify-end pt-4">
+      <DialogFooter className="flex justify-end items-end pb-4">
       {/* <Button variant="outline" onClick={onClose} disabled={isPending} className="lg:w-fit lg:mx-auto lg:px-7">
           Cancel
         </Button> */}
@@ -149,7 +149,7 @@ export function ChangeBusinessProfilePictureForm({
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || isPending}
-            className="bg-nixerly-blue"
+            className="bg-nixerly-blue w-fit justify-end"
           >
             {isPending ? (
               <>

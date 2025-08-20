@@ -27,7 +27,7 @@ export function ChangeBusinessProfilePictureModal() {
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="p-4 flex flex-row">
-          <div className="flex items-center h-12 w-16 justify-center border border-gray-300 rounded-full">
+          <div className="flex items-center h-12 w-12 sm:w-16 justify-center border border-gray-300 rounded-full">
             <CameraIcon className="w-5 h-5"/>
           </div>
           <div className="flex flex-col gap-2">

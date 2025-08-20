@@ -79,7 +79,7 @@ export default function BusinessProfilePage() {
           <Image src="/flag.svg" alt="flag.svg" width={14} height={14} />
         </Button>
         <div className="flex gap-1.5 lg:gap-3 flex-row items-center px-2 lg:px-10 py-8 lg:py-4 text-white">
-          <div className="relative h-24 w-24 overflow-hidden rounded-xl shadow-sm md:h-32 md:w-32 mt-0 lg:mt-6 z-30">
+          <div className="relative h-24 w-24 overflow-hidden rounded-full shadow-sm md:h-32 md:w-32 mt-0 lg:mt-6 z-30">
             {businessProfile?.profilePicture?.url ? (
               <Image
                 src={businessProfile.profilePicture.url}

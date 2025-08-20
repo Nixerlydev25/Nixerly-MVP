@@ -749,7 +749,7 @@ export default function BusinessProfilePage() {
                     alt={businessProfileData?.businessProfile.companyName || ""}
                     width={128}
                     height={128}
-                    className="h-full w-full object-cover rounded-2xl  lg:rounded-full"
+                    className="h-full w-full object-cover rounded-full  lg:rounded-full"
                   />
                   <TooltipProvider>
                     <Tooltip>

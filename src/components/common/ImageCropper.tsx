@@ -107,7 +107,7 @@ export function ImageCropper({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative w-[400px] h-[400px] rounded-full overflow-hidden">
+      <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden">
         <Cropper
           image={imageUrl}
           crop={crop}

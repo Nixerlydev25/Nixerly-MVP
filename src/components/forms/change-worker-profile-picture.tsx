@@ -102,7 +102,7 @@ export function ChangeWorkerProfilePictureForm({
           />
         ) : (
           <>
-            <div className="relative h-40 w-40 overflow-hidden rounded-full border-2 border-gray-200">
+            <div className="relative h-40 w-40">
               <Image
                 src={previewUrl || currentProfilePicture || "/placeholder.svg"}
                 alt="Profile preview"
@@ -126,8 +126,8 @@ export function ChangeWorkerProfilePictureForm({
           </>
         )}
       </div>
-      <Separator />
-      <DialogFooter className="flex flex-col sm:flex-row justify-end mt-4">
+
+      <DialogFooter className="flex flex-col sm:flex-row justify-end pb-4">
         {/* <Button variant="outline" onClick={onClose} disabled={isPending}>
           Cancel
         </Button> */}
@@ -136,7 +136,7 @@ export function ChangeWorkerProfilePictureForm({
             onClick={handleUpload}
             disabled={isPending}
             className="bg-nixerly-blue"
-          >
+        >
             {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

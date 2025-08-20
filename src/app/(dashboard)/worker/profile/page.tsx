@@ -834,7 +834,7 @@ export default function FreelancerProfileSelfView() {
                 alt={fullName}
                 width={128}
                 height={128}
-                className="h-full w-full object-cover rounded-xl lg:rounded-full transition-transform hover:scale-105"
+                className="h-full w-full object-cover rounded-full transition-transform hover:scale-105"
               />
               <TooltipProvider>
                 <Tooltip>

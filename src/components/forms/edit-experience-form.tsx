@@ -15,10 +15,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Trash2, Briefcase } from 'lucide-react';
-import { DatePicker } from '@/components/ui/date-picker';
+import { Plus, Trash2, Briefcase, CalendarIcon } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { LocationSearch, LocationDetails } from '@/components/location-search';
 import { Separator } from '../ui/separator';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 const experienceSchema = z
   .object({
@@ -292,13 +295,33 @@ export function EditExperienceForm({
                         <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                           <FormLabel>Start Date</FormLabel>
                           <FormControl>
-                            <div className="flex items-center border rounded-md">
-                              <DatePicker
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                className="py-2.5 pl-2 w-full border-0 focus:ring-0"
-                              />
-                            </div>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant={'outline'}
+                                  className={cn(
+                                    'w-full justify-start text-left font-normal',
+                                    !field.value && 'text-muted-foreground'
+                                  )}
+                                >
+                                  <CalendarIcon />
+                                  {field.value ? (
+                                    format(field.value, 'PPP')
+                                  ) : (
+                                    <span>Pick a start date</span>
+                                  )}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  initialFocus
+                                  captionLayout="dropdown"
+                                />
+                              </PopoverContent>
+                            </Popover>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -313,13 +336,33 @@ export function EditExperienceForm({
                           <FormItem className="space-y-2 flex-1 min-w-[calc(50%-8px)]">
                             <FormLabel>End Date</FormLabel>
                             <FormControl>
-                              <div className="flex items-center border rounded-md">
-                                <DatePicker
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  className="py-2.5 pl-2 w-full border-0 focus:ring-0"
-                                />
-                              </div>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={'outline'}
+                                    className={cn(
+                                      'w-full justify-start text-left font-normal',
+                                      !field.value && 'text-muted-foreground'
+                                    )}
+                                  >
+                                    <CalendarIcon />
+                                    {field.value ? (
+                                      format(field.value, 'PPP')
+                                    ) : (
+                                      <span>Pick an end date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    initialFocus
+                                    captionLayout="dropdown"
+                                  />
+                                </PopoverContent>
+                              </Popover>
                             </FormControl>
                             <FormMessage />
                           </FormItem>

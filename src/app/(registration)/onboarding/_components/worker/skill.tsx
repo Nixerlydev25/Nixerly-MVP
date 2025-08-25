@@ -153,7 +153,9 @@ export const SkillsInfo = () => {
                         <>
                           <CommandEmpty>No skills found.</CommandEmpty>
                           <CommandGroup className="max-h-[200px] overflow-auto border-t">
-                            {onboardingOptions.skills.map((skill) => (
+                            {[...onboardingOptions.skills]
+                              .sort((a, b) => a.label.localeCompare(b.label))
+                              .map((skill) => (
                               <CommandItem
                                 key={skill.value}
                                 value={skill.value}
@@ -226,7 +228,7 @@ export const SkillsInfo = () => {
                     <Input
                       type="number"
                       min={14}
-                      placeholder="32"
+                      placeholder="20"
                       {...field}
                       onChange={(e) => {
                         field.onChange(Number(e.target.value));

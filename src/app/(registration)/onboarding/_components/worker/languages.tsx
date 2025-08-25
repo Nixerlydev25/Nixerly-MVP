@@ -6,14 +6,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
+  // FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useOnboardingNavigation } from "@/hook/onboarding/useOnboardingNavigation";
 import { WorkerOnboardingSchema } from "@/schema/onboarding/worker-onboarding.schema";
 import { OnboardingStepWorkerProfileB } from "@/types/onboarding";
-import { ChevronRight, Info, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useUpdateWorkerProfile } from "@/hook/user/user.hooks";
 import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema";
 import {
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCreateLanguage } from "@/hook/langauge/language.hook";
-import { ProgressIndicator } from "../progress-indicator"
+import { ProgressIndicator } from "../progress-indicator";
 
 export const LanguagesInfo = () => {
   const { goToNextStep } = useOnboardingNavigation();
@@ -71,7 +71,7 @@ export const LanguagesInfo = () => {
     if (currentLanguages.length < 4) {
       setValue("languages", [
         ...currentLanguages,
-        { name: "", proficiency: "BASIC" },
+        { name: "ENGLISH", proficiency: "BASIC" }, // Set a default valid language
       ]);
     }
   };
@@ -86,17 +86,27 @@ export const LanguagesInfo = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <ProgressIndicator currentStep={3} totalSteps={4} hasStartedFilling={Boolean(formData.languages && formData.languages.length > 0)} />
+      <ProgressIndicator
+        currentStep={3}
+        totalSteps={4}
+        hasStartedFilling={Boolean(
+          formData.languages && formData.languages.length > 0
+        )}
+      />
       <Card className="shadow-nixerly-card border border-gray-300 bg-white text-nixerly-darkgray animate-fade-in py-0 gap-0">
-      <div className="flex gap-3 lg:gap-5 border-b border-gray-300 px-6 py-4">
-      <div className="flex items-center justify-center h-10 w-11  md:w-14 md:h-14 border border-gray-300 rounded-full">
+        <div className="flex gap-3 lg:gap-5 border-b border-gray-300 px-6 py-4">
+          <div className="flex items-center justify-center h-10 w-11  md:w-14 md:h-14 border border-gray-300 rounded-full">
             <span className="text-lg sm:text-base font-medium">03</span>
           </div>
-        <div>
-        <h2 className="text-sm lg:text-lg font-bold my-1 text-nixerly-blue">All Languages</h2>
-        <p className="text-xs lg:text-base font-medium">Please Provide The Following Information To Get Started</p>
+          <div>
+            <h2 className="text-sm lg:text-lg font-bold my-1 text-nixerly-blue">
+              All Languages
+            </h2>
+            <p className="text-xs lg:text-base font-medium">
+              Please Provide The Following Information To Get Started
+            </p>
+          </div>
         </div>
-      </div>
         <div className="space-y-8 p-6">
           <FormField
             control={control}
@@ -104,16 +114,21 @@ export const LanguagesInfo = () => {
             render={({ field }) => (
               <FormItem className="w-full">
                 <div className="flex items-center gap-2 mb-4">
-                  <FormLabel className="text-lg text-nixerly-darkgray font-medium">Add a language</FormLabel>
-                  <Image 
-                    src="/info.svg" 
-                    alt="info" 
-                    width={14} 
-                    height={14} 
-                    style={{ cursor: 'pointer' }}
+                  <FormLabel className="text-lg text-nixerly-darkgray font-medium">
+                    Add a language
+                  </FormLabel>
+                  <Image
+                    src="/info.svg"
+                    alt="info"
+                    width={14}
+                    height={14}
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                       if (!field.value || field.value.length === 0) {
-                        setError("languages", { type: "manual", message: "Please add at least one language." });
+                        setError("languages", {
+                          type: "manual",
+                          message: "Please add at least one language.",
+                        });
                       }
                     }}
                   />
@@ -136,9 +151,8 @@ export const LanguagesInfo = () => {
                       </div>
                     )} */}
 
-
-                         {/* Add More Languages Button */}
-                         {field.value.length < 4 && (
+                    {/* Add More Languages Button */}
+                    {field.value.length < 4 && (
                       <Button
                         type="button"
                         variant="light"
@@ -153,10 +167,15 @@ export const LanguagesInfo = () => {
                     {/* Language Entries */}
                     {field.value?.map((language, index) => {
                       // Filter out languages already selected in other rows
-                      const selectedLanguages = field.value.map((l, i) => (i !== index ? l.name : null)).filter(Boolean)
-                      const availableLanguages = onboardingOptions.languages.filter(
-                        (lang) => !selectedLanguages.includes(lang.value) || lang.value === language.name,
-                      )
+                      const selectedLanguages = field.value
+                        .map((l, i) => (i !== index ? l.name : null))
+                        .filter(Boolean);
+                      const availableLanguages =
+                        onboardingOptions.languages.filter(
+                          (lang) =>
+                            !selectedLanguages.includes(lang.value) ||
+                            lang.value === language.name
+                        );
 
                       return (
                         <div key={index} className="space-y-2">
@@ -165,12 +184,12 @@ export const LanguagesInfo = () => {
                               <Select
                                 value={language.name}
                                 onValueChange={(value) => {
-                                  const newLanguages = [...field.value]
+                                  const newLanguages = [...field.value];
                                   newLanguages[index] = {
                                     ...newLanguages[index],
                                     name: value,
-                                  }
-                                  field.onChange(newLanguages)
+                                  };
+                                  field.onChange(newLanguages);
                                 }}
                               >
                                 <SelectTrigger className="w-full">
@@ -178,7 +197,10 @@ export const LanguagesInfo = () => {
                                 </SelectTrigger>
                                 <SelectContent>
                                   {availableLanguages.map((lang) => (
-                                    <SelectItem key={lang.value} value={lang.value}>
+                                    <SelectItem
+                                      key={lang.value}
+                                      value={lang.value.toUpperCase()}
+                                    >
                                       {lang.label}
                                     </SelectItem>
                                   ))}
@@ -189,23 +211,28 @@ export const LanguagesInfo = () => {
                               <Select
                                 value={language.proficiency}
                                 onValueChange={(value) => {
-                                  const newLanguages = [...field.value]
+                                  const newLanguages = [...field.value];
                                   newLanguages[index] = {
                                     ...newLanguages[index],
                                     proficiency: value,
-                                  }
-                                  field.onChange(newLanguages)
+                                  };
+                                  field.onChange(newLanguages);
                                 }}
                               >
                                 <SelectTrigger className="w-full">
                                   <SelectValue placeholder="Fluent" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {onboardingOptions.proficiencyLevels.map((level) => (
-                                    <SelectItem key={level.value} value={level.value}>
-                                      {level.label}
-                                    </SelectItem>
-                                  ))}
+                                  {onboardingOptions.proficiencyLevels.map(
+                                    (level) => (
+                                      <SelectItem
+                                        key={level.value}
+                                        value={level.value}
+                                      >
+                                        {level.label}
+                                      </SelectItem>
+                                    )
+                                  )}
                                 </SelectContent>
                               </Select>
                             </div>
@@ -219,14 +246,16 @@ export const LanguagesInfo = () => {
                               <X className="h-4 w-4" />
                             </Button>
                           </div>
-                          {errors?.languages && errors.languages[index] && "name" in errors.languages[index] && (
-                            <p className="text-nixerly-coral mt-1 text-sm">Required</p>
-                          )}
+                          {errors?.languages &&
+                            errors.languages[index] &&
+                            "name" in errors.languages[index] && (
+                              <p className="text-nixerly-coral mt-1 text-sm">
+                                Required
+                              </p>
+                            )}
                         </div>
-                      )
+                      );
                     })}
-
-               
                   </div>
                 </FormControl>
 
@@ -238,17 +267,17 @@ export const LanguagesInfo = () => {
             )}
           />
         </div>
-          <div className="flex justify-end pt-8 p-6 border-t border-gray-300">
-            <Button
-              type="button"
-              onClick={handleContinue}
-              disabled={isPending}
-              className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white rounded-full px-8 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
-            >
-              {isPending ? "Saving..." : "Next"}
-            </Button>
-          </div>
-    </Card>
+        <div className="flex justify-end pt-8 p-6 border-t border-gray-300">
+          <Button
+            type="button"
+            onClick={handleContinue}
+            disabled={isPending}
+            className="bg-nixerly-blue hover:bg-nixerly-darkblue text-white rounded-full px-8 py-3 h-12 text-base font-medium shadow-nixerly-button transition-all duration-200"
+          >
+            {isPending ? "Saving..." : "Next"}
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

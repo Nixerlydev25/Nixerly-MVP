@@ -25,14 +25,21 @@ import { onboardingOptions } from "@/schema/onboarding/worker-onboarding.schema"
 import { Separator } from "../ui/separator";
 
 const LanguageSchema = z.object({
-  name: z.string({ required_error: "Required" }).min(1, "Required"),
-  proficiency: z.string({ required_error: "Required" }).min(1, "Required"),
+  name: z.string({ required_error: "Language is required" }).min(1, "Language is required"),
+  proficiency: z.string({ required_error: "Proficiency is required" }).min(1, "Proficiency is required"),
 });
 
 const formSchema = z.object({
   languages: z
     .array(LanguageSchema)
-    .min(1, "At least one language is required"),
+    .min(1, "At least one language is required")
+    .refine(
+      (languages) => languages.every(lang => lang.name && lang.proficiency),
+      {
+        message: "All language entries must be complete",
+        path: ["languages"]
+      }
+    ),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -68,6 +75,16 @@ export function EditLanguagesForm({
   const languages = form.watch("languages") || [];
 
   const handleAddLanguage = () => {
+    // Check if current languages are complete before adding new one
+    const currentLanguages = form.getValues("languages");
+    const hasIncomplete = currentLanguages.some(lang => !lang.name || !lang.proficiency);
+    
+    if (hasIncomplete) {
+      // Trigger validation to show errors for incomplete entries
+      form.trigger("languages");
+      return;
+    }
+    
     if (languages.length < 4) {
       form.setValue("languages", [
         ...languages,
@@ -82,9 +99,24 @@ export function EditLanguagesForm({
     form.setValue("languages", newLanguages);
   };
 
+  const handleSubmit = (data: FormValues) => {
+    // Check if there are any incomplete entries
+    const hasIncomplete = data.languages.some(lang => !lang.name || !lang.proficiency);
+    
+    if (hasIncomplete) {
+      // Don't submit if there are incomplete entries
+      form.trigger("languages");
+      return;
+    }
+    
+    // Filter out any empty entries and submit
+    const validLanguages = data.languages.filter(lang => lang.name && lang.proficiency);
+    onSubmit({ languages: validLanguages });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full rounded-2xl">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col h-full rounded-2xl">
         <div className="flex-none p-4">
           <div className="items-center">
             <h3 className="text-lg font-medium mb-2">Languages</h3>
@@ -213,7 +245,20 @@ export function EditLanguagesForm({
             type="button"
             variant="outline"
             className="px-6 rounded-full"
-            onClick={onCancel}
+            onClick={() => {
+              // Check if there are incomplete entries
+              const currentLanguages = form.getValues("languages");
+              const hasIncomplete = currentLanguages.some(lang => !lang.name || !lang.proficiency);
+              
+              if (hasIncomplete) {
+                // Show validation errors
+                form.trigger("languages");
+                return;
+              }
+              
+              // Only allow cancel if no incomplete entries
+              onCancel?.();
+            }}
           >
             Cancel
           </Button>

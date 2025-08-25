@@ -16,16 +16,20 @@ import { usePortfolios } from "@/hook/worker/portfolio.hook";
 import { Portfolio } from "@/types/worker.types";
 import { useState, useRef } from "react";
 import { PortfolioImageUpload } from "../common/portfolio-image-upload";
-import { Trash2, X, Plus, Globe, LinkIcon } from "lucide-react";
+import { Trash2, X, Plus, Globe, LinkIcon, CalendarIcon } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const portfolioSchema = z.object({
   portfolios: z.array(
     z.object({
       title: z.string().min(1, "Portfolio title is required"),
       description: z.string().min(1, "Description is required"),
-      startDate: z.string().min(1, "Start date is required"),
-      endDate: z.string().optional().nullable(),
+      startDate: z.date({ required_error: "Start date is required" }),
+      endDate: z.date().optional().nullable(),
       employerName: z.string().min(1, "Employer name is required"),
       employerWebsite: z.string().url().optional().or(z.literal("")),
       projectUrl: z.string().url().optional().or(z.literal("")),
@@ -82,6 +86,15 @@ export function EditPortfolioForm({
       // Only create new portfolios if there are any in the form
       if (values.portfolios.length > 0) {
         setIsUploading(true);
+        // Convert dates to ISO strings before sending to API
+        const portfoliosWithStringDates = values.portfolios.map((portfolio) => ({
+          ...portfolio,
+          startDate: portfolio.startDate.toISOString().split("T")[0],
+          endDate: portfolio.endDate
+            ? portfolio.endDate.toISOString().split("T")[0]
+            : null,
+        }));
+        
         // Prepare progress setter
         const progressSetter = (portfolioIndex: number, fileName: string, percent: number) => {
           setUploadProgress((prev) => ({
@@ -103,7 +116,7 @@ export function EditPortfolioForm({
             });
           }, 0);
         };
-        await createPortfolios(values.portfolios, selectedFiles, progressSetter);
+        await createPortfolios(portfoliosWithStringDates, selectedFiles, progressSetter);
       }
       onSuccess();
     } catch (error) {
@@ -148,7 +161,7 @@ export function EditPortfolioForm({
     append({
       title: "",
       description: "",
-      startDate: "",
+      startDate: new Date(),
       endDate: null,
       employerName: "",
       employerWebsite: "",
@@ -310,7 +323,33 @@ export function EditPortfolioForm({
                       <FormItem>
                         <FormLabel>Start Date</FormLabel>
                         <FormControl>
-                          <Input type="date" {...field} />
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full justify-start text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                <CalendarIcon />
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <span>Pick a start date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                initialFocus
+                                captionLayout="dropdown"
+                              />
+                            </PopoverContent>
+                          </Popover>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -324,11 +363,33 @@ export function EditPortfolioForm({
                       <FormItem>
                         <FormLabel>End Date</FormLabel>
                         <FormControl>
-                          <Input
-                            type="date"
-                            {...field}
-                            value={field.value || ""}
-                          />
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full justify-start text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                <CalendarIcon />
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <span>Pick an end date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value || undefined}
+                                onSelect={field.onChange}
+                                initialFocus
+                                captionLayout="dropdown"
+                              />
+                            </PopoverContent>
+                          </Popover>
                         </FormControl>
                         <FormMessage />
                       </FormItem>

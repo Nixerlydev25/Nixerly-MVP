@@ -105,7 +105,9 @@ export function EditSkillsForm({
                       <>
                         <CommandEmpty>No skills found.</CommandEmpty>
                         <CommandGroup className="max-h-[200px] overflow-auto border-t">
-                          {onboardingOptions.skills.map((skill) => (
+                          {onboardingOptions.skills
+                            .sort((a, b) => a.label.localeCompare(b.label))
+                            .map((skill) => (
                             <CommandItem
                               key={skill.value}
                               value={skill.value}
